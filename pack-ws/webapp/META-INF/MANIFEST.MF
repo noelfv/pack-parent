@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Class-Path: com.everis.web.jar ldap-1.0.jar com.everis.core.jar com.ev
+ eris.util.jar log4j-1.2.17.jar commons-lang3-3.1.jar commons-io-2.0.1
+ .jar hibernate-core-3.6.7.Final.jar antlr-2.7.6.jar commons-collectio
+ ns-3.1.jar dom4j-1.6.1.jar hibernate-commons-annotations-3.2.0.Final.
+ jar slf4j-api-1.7.7.jar hibernate-jpa-2.0-api-1.0.1.Final.jar jta-1.1
+ .jar hibernate-ehcache-3.6.7.Final.jar ehcache-core-2.4.3.jar hiberna
+ te-entitymanager-3.6.7.Final.jar javassist-3.12.0.GA.jar spring-conte
+ xt-3.1.1.RELEASE.jar spring-aop-3.1.1.RELEASE.jar aopalliance-1.0.jar
+  spring-asm-3.1.1.RELEASE.jar spring-beans-3.1.1.RELEASE.jar spring-c
+ ore-3.1.1.RELEASE.jar commons-logging-1.1.1.jar spring-expression-3.1
+ .1.RELEASE.jar spring-jdbc-3.1.1.RELEASE.jar spring-tx-3.1.1.RELEASE.
+ jar spring-orm-3.1.1.RELEASE.jar cglib-nodep-2.2.2.jar spring-web-3.1
+ .1.RELEASE.jar flexjson-3.2.jar slf4j-log4j12-1.7.7.jar tiles-core-2.
+ 2.2.jar tiles-api-2.2.2.jar commons-digester-2.0.jar commons-beanutil
+ s-1.8.0.jar tiles-servlet-2.2.2.jar tiles-jsp-2.2.2.jar tiles-templat
+ e-2.2.2.jar jstl-1.2.jar struts2-core-2.3.8.jar xwork-core-2.3.8.jar 
+ ognl-3.0.6.jar asm-3.3.jar asm-commons-3.3.jar asm-tree-3.3.jar freem
+ arker-2.3.19.jar commons-fileupload-1.2.2.jar struts2-spring-plugin-2
+ .3.8.jar struts2-tiles-plugin-2.3.8.jar struts2-convention-plugin-2.3
+ .8.jar com.everis.mail.jar mail-1.4.7.jar activation-1.1.jar ojdbc6-1
+ 1.2.0.3.jar
+

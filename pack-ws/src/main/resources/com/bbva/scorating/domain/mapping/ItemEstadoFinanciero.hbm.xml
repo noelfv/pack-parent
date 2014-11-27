@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.bbva.scorating.domain.ItemEstadoFinanciero" table="ITEMESTADOFINANCIERO" schema="REPQIS">
+        <id name="idItemEstadoFinanciero" type="long">
+            <column name="ID" precision="9" scale="0" />
+            <generator class="sequence">
+                <param name="sequence">SQ_ITEMESTADOFINANCIERO</param>
+            </generator>
+        </id>
+        <property name="idEstadoFinanciero" type="java.lang.Long">
+            <column name="IDESTADOFINANCIERO" precision="9" scale="0" not-null="true" />
+        </property>
+<!--         <many-to-one name="estadoFinanciero" class="com.bbva.scorating.domain.EstadoFinanciero" fetch="select"> -->
+<!--             <column name="IDESTADOFINANCIERO" precision="9" scale="0" /> -->
+<!--         </many-to-one> -->
+<!--         <many-to-one name="cuentaContable" class="com.bbva.scorating.domain.CuentaContable" fetch="select" insert="false" update="false"> -->
+<!--             <column name="IDCUENTACONTABLE" precision="9" scale="0" /> -->
+<!--         </many-to-one>         -->
+        <property name="codigoCuentaContable" type="string">
+            <column name="CODIGOCUENTACONTABLE" length="25" not-null="true" />
+        </property>
+        <property name="descripcionCuentaContable" type="string">
+            <column name="DESCRIPCIONCUENTACONTABLE" length="100" />
+        </property>
+        <property name="periodo1" type="string">
+            <column name="PERIODO1" length="25" />
+        </property>
+        <property name="periodo2" type="string">
+            <column name="PERIODO2" length="25" />
+        </property>
+        <property name="periodo3" type="string">
+            <column name="PERIODO3" length="25" />
+        </property>
+        <property name="periodo4" type="string">
+            <column name="PERIODO4" length="25" />
+        </property>
+    </class>
+</hibernate-mapping>
