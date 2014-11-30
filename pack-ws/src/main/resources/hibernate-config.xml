@@ -11,6 +11,6 @@
 		<property name="format_sql">true</property>
 		<property name="hibernate.default_schema">CONELE</property>
 		
-		<mapping resource="com/bbva/scorating/domain/mapping/Parametro.hbm.xml"/>
+		<mapping resource="com/bbva/packws/domain/mapping/Solicitud.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>
