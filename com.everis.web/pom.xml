@@ -13,7 +13,7 @@
 	<properties>
 		<flexjson.version>3.2</flexjson.version>
 		<slf4j.log4j12.version>1.7.7</slf4j.log4j12.version>
-		<org.springframework.version>3.1.1.RELEASE</org.springframework.version>
+		<org.springframework.version>3.2.0.RELEASE</org.springframework.version>
 		<tiles.version>2.2.2</tiles.version>
 		<jstl.version>1.2</jstl.version>
 		<struts2.core.version>2.3.8</struts2.core.version>
@@ -77,26 +77,6 @@
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.struts</groupId>
-			<artifactId>struts2-core</artifactId>
-			<version>${struts2.core.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.struts</groupId>
-			<artifactId>struts2-spring-plugin</artifactId>
-			<version>${struts2.core.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.struts</groupId>
-			<artifactId>struts2-tiles-plugin</artifactId>
-			<version>${struts2.core.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.struts</groupId>
-			<artifactId>struts2-convention-plugin</artifactId>
-			<version>${struts2.core.version}</version>
 		</dependency>
 	</dependencies>
 

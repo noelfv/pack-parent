@@ -13,7 +13,7 @@
 	<properties>
 		<hibernate.version>3.6.7.Final</hibernate.version>
 		<slf4j.log4j12.version>1.7.7</slf4j.log4j12.version>
-		<org.springframework.version>3.1.1.RELEASE</org.springframework.version>
+		<org.springframework.version>3.2.0.RELEASE</org.springframework.version>
 	</properties>
 
 	<dependencies>
