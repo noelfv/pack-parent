@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.bbva.packws.domain.Solicitud" table="V_SOLICITUD">
+        <id name="solicitud" type="long">
+            <column name="SOLICITUD" precision="10" scale="0" />
+        </id>
+        <property name="codigoProducto" type="string">
+            <column name="CODIGO_PRODUCTO" length="2" />
+        </property>
+        <property name="codigoSubProducto" type="string">
+            <column name="CODIGO_SUBPRODUCTO" length="4" />
+        </property>
+        <property name="estado" type="string">
+            <column name="ESTADO" length="1" not-null="true" />
+        </property>
+        <property name="fechaAlta" type="string">
+            <column name="FECHA_ALTA" length="10" />
+        </property>
+        <property name="importe" type="long">
+            <column name="IMPORTE" precision="13" scale="2" />
+        </property>
+        <property name="divisa" type="string">
+            <column name="DIVISA" length="3" />
+        </property>
+        <property name="tipoDOI" type="string">
+            <column name="TIPO_DOI" length="1" />
+        </property>
+        <property name="numDOI" type="string">
+            <column name="NUM_DOI" length="11" />
+        </property>
+        <property name="codigoCliente" type="string">
+            <column name="CODIGO_CLIENTE" length="8" />
+        </property>
+        <property name="contrato" type="string">
+            <column name="CONTRATO" length="20" />
+        </property>
+         <property name="plazo" type="long">
+            <column name="PLAZO" precision="3" scale="0" />
+        </property>
+        <property name="oficina" type="string">
+            <column name="OFICINA" length="4" />
+        </property>
+        <property name="oficinaCodigo" type="string">
+            <column name="OFICINA_CODIGO" length="4" />
+        </property>
+         <property name="ejecutivo" type="string">
+            <column name="EJECUTIVO" length="8" />
+        </property>
+        <property name="ejecutivoCodigo" type="string">
+            <column name="EJECUTIVO_CODIGO" length="8" />
+        </property>
+        <property name="tasa" type="long">
+            <column name="TASA" precision="3" scale="2" />
+        </property>
+        
+       
+<!--         <list name="opciones" table="PERFILACCION" cascade="all"  fetch="join"> -->
+<!--         	<key> -->
+<!--                 <column name="IDPERFIL" precision="10" scale="0" /> -->
+<!--             </key> -->
+<!--             <list-index column="idx" /> -->
+<!--             <one-to-many class="com.bbva.scorating.domain.PerfilAccion" /> -->
+<!--         </list> -->
+         
+    </class>
+    
+    <!-- 
+	<query name="listar">
+	    <![CDATA[
+	        SELECT p FROM Parametro p
+	        	JOIN FETCH p.parametro pp
+	        	JOIN FETCH p.parametroTipo pt
+	        WHERE (:idPadre <> -1 OR pp.id = :idPadre)
+	          AND (:idTipo <> -1 OR p.tipo = :idTipo)
+	          AND (:idEstado <> "-1" OR p.estado = :idEstado)
+			  AND (p.nombre LIKE :nombre)
+			ORDER BY p.id
+	    ]]>
+    </query>
+     -->
+</hibernate-mapping>
