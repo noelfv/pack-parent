@@ -6,6 +6,6 @@ import com.bbva.packws.domain.Solicitud;
 
 public interface SolicitudService {
 	
-	public List<Solicitud> consultarSolicitudes(Solicitud parametro);
+	public List<Solicitud> consultarSolicitudes(Solicitud parametro, Solicitud ultimoRegistro, int nroRegistro);
 
 }

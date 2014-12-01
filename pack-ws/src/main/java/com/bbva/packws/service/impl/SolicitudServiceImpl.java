@@ -16,8 +16,8 @@ public class SolicitudServiceImpl implements SolicitudService {
 	@Resource(name = "solicitudDAO")
 	private SolicitudDAO solicitudDAO;
 
-	public List<Solicitud> consultarSolicitudes(Solicitud parametro) {
-		return solicitudDAO.consultarSolicitudes(parametro);
+	public List<Solicitud> consultarSolicitudes(Solicitud parametro, Solicitud ultimoRegistro, int nroRegistro) {
+		return solicitudDAO.consultarSolicitudes(parametro, ultimoRegistro, nroRegistro);
 	}
 
 }
