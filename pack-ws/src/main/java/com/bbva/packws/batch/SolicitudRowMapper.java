@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.bbva.packws.webservice.solicitud.Solicitud;
+import com.bbva.packws.domain.Solicitud;
 
 public class SolicitudRowMapper implements RowMapper<Solicitud> {
 	 
@@ -25,7 +25,7 @@ public class SolicitudRowMapper implements RowMapper<Solicitud> {
 			solicitud.setNumDOI(rs.getString("numDOI"));
 			solicitud.setCodigoCliente(rs.getString("codigoCliente"));
 			solicitud.setContrato(rs.getString("contrato"));
-			solicitud.setPlazo(rs.getString("plazo"));
+			solicitud.setPlazo(rs.getLong("plazo"));
 			solicitud.setOficina(rs.getString("oficina"));
 			solicitud.setEjecutivo(rs.getString("ejecutivo"));
 			solicitud.setTasa(rs.getDouble("tasa"));

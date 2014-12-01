@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 import com.bbva.packws.dao.SolicitudDAO;
 import com.bbva.packws.domain.Solicitud;
 import com.everis.core.dao.impl.HibernateDAO;
 
+@Repository("solicitudDAO")
 public class SolicitudDAOImpl extends HibernateDAO<Solicitud> implements SolicitudDAO {
 
 	@SuppressWarnings("unchecked")
@@ -22,8 +24,12 @@ public class SolicitudDAOImpl extends HibernateDAO<Solicitud> implements Solicit
 		
 		criterioSolicitud.add(Restrictions.eq("tipoDOI", parametro.getTipoDOI()));
 		criterioSolicitud.add(Restrictions.eq("numDOI", parametro.getNumDOI()));
-		criterioSolicitud.add(Restrictions.eq("codigoProducto", parametro.getCodigoProducto()));
-		criterioSolicitud.add(Restrictions.eq("estado", parametro.getEstado()));
+		if(parametro.getCodigoProducto() != null) {
+			criterioSolicitud.add(Restrictions.eq("codigoProducto", parametro.getCodigoProducto()));
+		}
+		if(parametro.getEstado() != null) {
+			criterioSolicitud.add(Restrictions.eq("estado", parametro.getEstado()));
+		}
 		
 		criterioSolicitud.setMaxResults(nroRegistro);
 		

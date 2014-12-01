@@ -37,7 +37,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="numDOI" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="codigoCliente" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="contrato" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="plazo" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="plazo" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="oficina" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="ejecutivo" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="tasa" type="{http://www.w3.org/2001/XMLSchema}double"/>
@@ -92,7 +92,7 @@ public class Solicitud {
     @XmlElement(required = true)
     protected String contrato;
     @XmlElement(required = true)
-    protected String plazo;
+    protected long plazo;
     @XmlElement(required = true)
     protected String oficina;
     @XmlElement(required = true)
@@ -363,7 +363,7 @@ public class Solicitud {
      *     {@link String }
      *     
      */
-    public String getPlazo() {
+    public long getPlazo() {
         return plazo;
     }
 
@@ -375,7 +375,7 @@ public class Solicitud {
      *     {@link String }
      *     
      */
-    public void setPlazo(String value) {
+    public void setPlazo(long value) {
         this.plazo = value;
     }
 

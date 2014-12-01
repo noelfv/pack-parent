@@ -55,6 +55,9 @@ public class ListarSolicitudResponse {
      *     
      */
     public HeaderResponse getHeader() {
+    	if(header == null) {
+    		header = new HeaderResponse();
+    	}
         return header;
     }
 
@@ -79,6 +82,9 @@ public class ListarSolicitudResponse {
      *     
      */
     public ListarSolicitudBodyResponse getBody() {
+    	if(body == null) {
+    		body = new ListarSolicitudBodyResponse();
+    	}
         return body;
     }
 

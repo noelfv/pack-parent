@@ -4,18 +4,24 @@
      xmlns:aop="http://www.springframework.org/schema/aop"
      xmlns:tx="http://www.springframework.org/schema/tx"
      xmlns:context="http://www.springframework.org/schema/context"
+	 xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	 xmlns:jaxws="http://cxf.apache.org/jaxws"
+	 xmlns:batch="http://www.springframework.org/schema/batch" 
      xsi:schemaLocation="
-     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		 http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+	  	 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+	  	 http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
 	<tx:annotation-driven />
     <context:annotation-config />
-    <context:component-scan base-package="com.bbva.scorating" />
+    <context:component-scan base-package="com.bbva.packws" />
     
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="jdbc/APP_REPQIS" />
+		<property name="jndiName" value="jdbc/APP_CONELE" />
 		<property name="resourceRef" value="true" />
 		<property name="lookupOnStartup" value="false" />
 		<property name="cache" value="true" />
@@ -34,14 +40,24 @@
     </bean>
 	
 	<bean id="sessionFilter" class="com.everis.web.filter.SessionFilter" />
-
-    <bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-        <property name="contextPath" value="com.bbva.scorating.ws.client" />
-    </bean>
- 
-    <bean id="estadoFinancieroWS" class="com.bbva.scorating.ws.client.service.EstadoFinancieroWS">
-        <property name="marshaller" ref="marshaller"/>
-        <property name="unmarshaller" ref="marshaller"/>
-        <property name="defaultUri" value="http://localhost:7081/scoratingWS/EstadoFinancieroServiceWSImpl?wsdl"/>
-    </bean>
+	
+	<jaxws:endpoint id="solicitudSOAPImplEndPoint" implementor="#solicitudSOAPImpl" address="/Solicitud" />
+	
+    <!-- Begin: Batch Context -->
+	    <bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+			<property name="transactionManager" ref="transactionManagerBatch" />
+		</bean>
+	 
+		<bean id="transactionManagerBatch" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+	 
+		<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+			<property name="jobRepository" ref="jobRepository" />
+		</bean>
+	 
+		<bean class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+			<property name="jobRegistry" ref="jobRegistry" />
+		</bean>
+	 
+		<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+    <!-- End: Batch Context -->
 </beans>

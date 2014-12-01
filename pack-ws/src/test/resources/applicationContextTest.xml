@@ -12,13 +12,13 @@
 
 	<tx:annotation-driven />
     <context:annotation-config />
-    <context:component-scan base-package="com.bbva.scorating" />
+    <context:component-scan base-package="com.bbva.packws" />
     
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
-		<property name="username" value="APP_REPQIS" />
-		<property name="password" value="APP_REPQIS" />
+		<property name="username" value="APP_CONELE" />
+		<property name="password" value="APP_CONELE" />
 	</bean>
 	
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
@@ -33,14 +33,4 @@
     </bean>
 	
 	<bean id="sessionFilter" class="com.everis.web.filter.SessionFilter" />
-
-    <bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-        <property name="contextPath" value="com.bbva.scorating.ws.client" />
-    </bean>
- 
-    <bean id="estadoFinancieroWS" class="com.bbva.scorating.ws.client.service.EstadoFinancieroWS">
-        <property name="marshaller" ref="marshaller"/>
-        <property name="unmarshaller" ref="marshaller"/>
-        <property name="defaultUri" value="http://localhost:8085/scoratingWS/EstadoFinancieroServiceWSImpl?wsdl"/>
-    </bean>
 </beans>

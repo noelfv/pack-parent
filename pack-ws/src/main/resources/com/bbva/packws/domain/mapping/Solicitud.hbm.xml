@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="com.bbva.packws.domain.Solicitud" table="V_SOLICITUD">
-        <id name="solicitud" type="long">
+        <id name="solicitud" type="string">
             <column name="SOLICITUD" precision="10" scale="0" />
         </id>
         <property name="codigoProducto" type="string">
@@ -18,7 +18,7 @@
         <property name="fechaAlta" type="string">
             <column name="FECHA_ALTA" length="10" />
         </property>
-        <property name="importe" type="long">
+        <property name="importe" type="double">
             <column name="IMPORTE" precision="13" scale="2" />
         </property>
         <property name="divisa" type="string">
@@ -51,33 +51,8 @@
         <property name="ejecutivoCodigo" type="string">
             <column name="EJECUTIVO_CODIGO" length="8" />
         </property>
-        <property name="tasa" type="long">
+        <property name="tasa" type="double">
             <column name="TASA" precision="3" scale="2" />
-        </property>
-        
-       
-<!--         <list name="opciones" table="PERFILACCION" cascade="all"  fetch="join"> -->
-<!--         	<key> -->
-<!--                 <column name="IDPERFIL" precision="10" scale="0" /> -->
-<!--             </key> -->
-<!--             <list-index column="idx" /> -->
-<!--             <one-to-many class="com.bbva.scorating.domain.PerfilAccion" /> -->
-<!--         </list> -->
-         
+        </property> 
     </class>
-    
-    <!-- 
-	<query name="listar">
-	    <![CDATA[
-	        SELECT p FROM Parametro p
-	        	JOIN FETCH p.parametro pp
-	        	JOIN FETCH p.parametroTipo pt
-	        WHERE (:idPadre <> -1 OR pp.id = :idPadre)
-	          AND (:idTipo <> -1 OR p.tipo = :idTipo)
-	          AND (:idEstado <> "-1" OR p.estado = :idEstado)
-			  AND (p.nombre LIKE :nombre)
-			ORDER BY p.id
-	    ]]>
-    </query>
-     -->
 </hibernate-mapping>

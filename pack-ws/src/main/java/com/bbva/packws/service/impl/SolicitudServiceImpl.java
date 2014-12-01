@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bbva.packws.dao.SolicitudDAO;
 import com.bbva.packws.domain.Solicitud;
@@ -16,6 +17,7 @@ public class SolicitudServiceImpl implements SolicitudService {
 	@Resource(name = "solicitudDAO")
 	private SolicitudDAO solicitudDAO;
 
+	@Transactional(readOnly = true)
 	public List<Solicitud> consultarSolicitudes(Solicitud parametro, Solicitud ultimoRegistro, int nroRegistro) {
 		return solicitudDAO.consultarSolicitudes(parametro, ultimoRegistro, nroRegistro);
 	}

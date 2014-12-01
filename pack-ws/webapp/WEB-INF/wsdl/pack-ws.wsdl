@@ -85,7 +85,7 @@
 					<xsd:element name="numDOI" type="xsd:string"></xsd:element>
 					<xsd:element name="codigoCliente" type="xsd:string"></xsd:element>
 					<xsd:element name="contrato" type="xsd:string"></xsd:element>
-					<xsd:element name="plazo" type="xsd:string"></xsd:element>
+					<xsd:element name="plazo" type="xsd:long"></xsd:element>
 					<xsd:element name="oficina" type="xsd:string"></xsd:element>
 					<xsd:element name="ejecutivo" type="xsd:string"></xsd:element>
 					<xsd:element name="tasa" type="xsd:double"></xsd:element>
