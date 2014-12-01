@@ -1,5 +1,3 @@
-<%@taglib prefix="s" uri="/struts-tags"%>
-<s:set name="rol" value="#session.__current_user__.idRol"/>
 <div id="head">
 	<div class="panelHead">
 		<div class="panelUser">
