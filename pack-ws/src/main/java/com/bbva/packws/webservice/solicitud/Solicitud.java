@@ -80,7 +80,7 @@ public class Solicitud {
     @XmlElement(required = true)
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar fechaAlta;
-    protected double importe;
+    protected Double importe;
     @XmlElement(required = true)
     protected String divisa;
     @XmlElement(required = true)
@@ -92,12 +92,12 @@ public class Solicitud {
     @XmlElement(required = true)
     protected String contrato;
     @XmlElement(required = true)
-    protected long plazo;
+    protected Long plazo;
     @XmlElement(required = true)
     protected String oficina;
     @XmlElement(required = true)
     protected String ejecutivo;
-    protected double tasa;
+    protected Double tasa;
 
     /**
      * Gets the value of the solicitud property.
@@ -223,7 +223,7 @@ public class Solicitud {
      * Gets the value of the importe property.
      * 
      */
-    public double getImporte() {
+    public Double getImporte() {
         return importe;
     }
 
@@ -231,7 +231,7 @@ public class Solicitud {
      * Sets the value of the importe property.
      * 
      */
-    public void setImporte(double value) {
+    public void setImporte(Double value) {
         this.importe = value;
     }
 
@@ -363,7 +363,7 @@ public class Solicitud {
      *     {@link String }
      *     
      */
-    public long getPlazo() {
+    public Long getPlazo() {
         return plazo;
     }
 
@@ -375,7 +375,7 @@ public class Solicitud {
      *     {@link String }
      *     
      */
-    public void setPlazo(long value) {
+    public void setPlazo(Long value) {
         this.plazo = value;
     }
 
@@ -431,7 +431,7 @@ public class Solicitud {
      * Gets the value of the tasa property.
      * 
      */
-    public double getTasa() {
+    public Double getTasa() {
         return tasa;
     }
 
@@ -439,7 +439,7 @@ public class Solicitud {
      * Sets the value of the tasa property.
      * 
      */
-    public void setTasa(double value) {
+    public void setTasa(Double value) {
         this.tasa = value;
     }
 
