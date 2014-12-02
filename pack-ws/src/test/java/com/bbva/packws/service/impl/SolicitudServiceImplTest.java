@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bbva.packws.domain.Solicitud;
+import com.bbva.packws.domain.SolicitudCONELE;
 import com.bbva.packws.service.SolicitudService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,7 +27,7 @@ public class SolicitudServiceImplTest {
 
 	@Test
 	public void consultarSolicitudes() {
-		Solicitud parametro = new Solicitud();
+		Solicitud parametro = new SolicitudCONELE();
 		
 		List<Solicitud> list = solicitudService.consultarSolicitudes("","",new String[]{""},new String[]{""},parametro,1);
 		Assert.assertNotNull(list);
@@ -34,8 +35,6 @@ public class SolicitudServiceImplTest {
 	}
 	
 	private static final Logger LOG = Logger.getLogger(SolicitudServiceImplTest.class);
-
-
 	
 	@Before
 	  public void setUp() {

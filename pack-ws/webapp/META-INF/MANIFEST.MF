@@ -24,5 +24,6 @@ Class-Path: com.everis.web.jar ldap-1.0.jar com.everis.core.jar com.ev
  .jar cxf-rt-ws-policy-2.7.8.jar neethi-3.0.2.jar spring-batch-core-2.
  2.0.RELEASE.jar spring-batch-infrastructure-2.2.0.RELEASE.jar spring-
  retry-1.0.2.RELEASE.jar xstream-1.3.jar xpp3_min-1.1.4c.jar jettison-
- 1.1.jar quartz-1.8.6.jar ojdbc6-11.2.0.3.jar
+ 1.1.jar spring-context-support-3.2.0.RELEASE.jar quartz-1.8.6.jar ojd
+ bc6-11.2.0.3.jar
 

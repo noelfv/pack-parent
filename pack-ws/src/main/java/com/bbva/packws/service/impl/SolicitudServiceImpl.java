@@ -2,7 +2,6 @@ package com.bbva.packws.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -22,20 +21,11 @@ public class SolicitudServiceImpl implements SolicitudService {
 
 	@Transactional(readOnly = true)
 	public List<Solicitud> consultarSolicitudes(String tipoDOI, String numDOI,String[] codigoProducto,String[] estado, Solicitud ultimoRegistro, int nroRegistro) {
-		List<Solicitud> listaConele = new ArrayList<Solicitud>();
-		List<Solicitud> listaIice = new ArrayList<Solicitud>();
-		listaConele = solicitudDAO.consultarSolicitudes(tipoDOI,numDOI, codigoProducto,estado, ultimoRegistro, 10);
-		listaIice = solicitudDAO.consultarSolicitudesIice(tipoDOI,numDOI, codigoProducto,estado, ultimoRegistro, 10);
+		List<Solicitud> listaSolicitud = new ArrayList<Solicitud>();
+		listaSolicitud = solicitudDAO.consultarSolicitudes(tipoDOI,numDOI, codigoProducto,estado, ultimoRegistro, 10);
 		
-		listaConele.addAll(listaIice);
-		Collections.sort(listaConele,new Comparator<Solicitud>() {
-			@Override
-			public int compare(Solicitud o1, Solicitud o2) {
-				return o1.getSolicitud().compareTo(o2.getSolicitud());
-
-			}
-		});
-		return listaConele;
+		Collections.sort(listaSolicitud);
+		return listaSolicitud;
 	}
 
 }

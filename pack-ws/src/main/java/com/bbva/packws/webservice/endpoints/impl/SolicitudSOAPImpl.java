@@ -3,34 +3,32 @@ package com.bbva.packws.webservice.endpoints.impl;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.jws.WebService;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 
-import org.springframework.stereotype.Component;
-
 import com.bbva.packws.domain.Solicitud;
 import com.bbva.packws.service.SolicitudService;
+import com.bbva.packws.webservice.solicitud.ListarSolicitudBodyRequest;
 import com.bbva.packws.webservice.solicitud.ListarSolicitudRequest;
 import com.bbva.packws.webservice.solicitud.ListarSolicitudResponse;
+import com.everis.web.listener.WebServletContextListener;
 
-@Component("solicitudSOAPImpl")
 @WebService(serviceName = "pack-ws", portName = "pack-wsSOAP", endpointInterface = "com.bbva.packws.webservice.endpoints.SolicitudSOAP", targetNamespace = "http://www.bbva.com.pe/pack-ws/", wsdlLocation = "WEB-INF/wsdl/pack-ws.wsdl")
 public class SolicitudSOAPImpl {
 
-	@Resource(name = "solicitudService")
-	private SolicitudService solicitudService;
-	
     public ListarSolicitudResponse listarSolicitud(ListarSolicitudRequest parameters) {
-		Solicitud solicitud = new Solicitud();
-		solicitud.setTipoDOI(parameters.getBody().getTipoDocumento());
-		solicitud.setNumDOI(parameters.getBody().getNroDocumento());
-		
+    	SolicitudService solicitudService = (SolicitudService) WebServletContextListener.getBean("solicitudService"); 
 		Solicitud ultimaPagina = null;
+		ListarSolicitudBodyRequest req = parameters.getBody();
 		
 		ListarSolicitudResponse response = new ListarSolicitudResponse();
-		List<Solicitud> listaSolicitud = solicitudService.consultarSolicitudes(solicitud, ultimaPagina, 10);
+		List<Solicitud> listaSolicitud = solicitudService.consultarSolicitudes(req.getTipoDocumento()
+				, req.getNroDocumento()
+				, req.getCodigoProducto().toArray(new String[]{})
+				, req.getEstadoSolicitud().toArray(new String[]{})
+				, ultimaPagina, 10);
+		
 		com.bbva.packws.webservice.solicitud.Solicitud sws;
 		GregorianCalendar calendar;
 		

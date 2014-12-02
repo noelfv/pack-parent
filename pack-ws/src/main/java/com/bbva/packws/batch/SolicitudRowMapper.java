@@ -6,13 +6,14 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.bbva.packws.domain.Solicitud;
+import com.bbva.packws.domain.SolicitudCONELE;
 
 public class SolicitudRowMapper implements RowMapper<Solicitud> {
 	 
 	@Override
 	public Solicitud mapRow(ResultSet rs, int rowNum) throws SQLException {
  
-		Solicitud solicitud = new Solicitud();
+		Solicitud solicitud = new SolicitudCONELE();
  
 		solicitud.setSolicitud(rs.getString("SOLICITUD"));
 		solicitud.setCodigoProducto(rs.getString("CODIGO_PRODUCTO"));

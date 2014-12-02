@@ -6,12 +6,6 @@
 	<display-name>PackBBVA</display-name>
 	<description>PackBBVA</description>
 
-	<!-- Filtro de Seguridad -->
-	<filter>
-		<filter-name>sessionFilter</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-
 	<servlet>
 		<servlet-name>Log4JInitServlet</servlet-name>
 		<servlet-class>com.everis.web.servlet.Log4jServlet</servlet-class>
@@ -32,6 +26,9 @@
 	</listener>
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.everis.web.listener.WebServletContextListener</listener-class>
 	</listener>
 		
 	<welcome-file-list>

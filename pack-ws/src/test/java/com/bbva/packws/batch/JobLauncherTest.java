@@ -2,19 +2,10 @@ package com.bbva.packws.batch;
 
 import java.util.Properties;
 
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.configuration.JobRegistry;
-import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -24,11 +15,8 @@ public class JobLauncherTest {
 	
 	private static final Logger LOG = Logger.getLogger(JobLauncherTest.class);
 	
-	@Resource(name = "jobLauncher")
-	private JobLauncher jobLauncher;
-
-	@Resource(name = "jobRegistry")	
-	private JobRegistry jobRegistry;
+	// @Resource(name = "solicitudTask")
+	// private SolicitudTask solicitudTask;
 	
 	@Before
 	public void setUp() {
@@ -56,19 +44,9 @@ public class JobLauncherTest {
 	    LOG.error("Logger -> Init");
 	}
 	
-	@Test
-	public void test() { 
-		try {
-	 
-			JobParameters param = new JobParametersBuilder().toJobParameters(); // .addString("age", "20").toJobParameters();
-			Job job = jobRegistry.getJob("jobSolicitud");
-			JobExecution execution = jobLauncher.run(job, param);
-			System.out.println("Exit Status : " + execution.getStatus());
-			System.out.println("Exit Status : " + execution.getAllFailureExceptions());
-	 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println("Done");
-	}
+//	@Test
+//	public void test() { 
+//		solicitudTask.generarArchivo();
+//		System.out.println("Done");
+//	}
 }

@@ -1,169 +1,59 @@
 package com.bbva.packws.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
-import com.everis.enums.FormatoFecha;
-import com.everis.util.FechaUtil;
+public interface Solicitud extends Comparable<Solicitud> {
 
-public class Solicitud implements Serializable {
+	String getSolicitud();
+	void setSolicitud(String solicitud);
 
-	private static final long serialVersionUID = 1L;
-	private String solicitud;
-	private String codigoProducto;
-	private String codigoSubProducto;
-	private String estado;
-	private Date fechaAlta;
-	private Double importe;
-	private String divisa;
-	private String tipoDOI;
-	private String numDOI;
-	private String codigoCliente;
-	private String contrato;
-	private Long plazo;
-	private String oficina;
-	private String oficinaCodigo;
-	private String ejecutivo;
-	private String ejecutivoCodigo;
-	private Double tasa;
+	String getCodigoProducto();
+	void setCodigoProducto(String codigoProducto);
 
-	public String getSolicitud() {
-		return solicitud;
-	}
+	String getCodigoSubProducto();
+	void setCodigoSubProducto(String codigoSubProducto);
 
-	public void setSolicitud(String solicitud) {
-		this.solicitud = solicitud;
-	}
+	String getEstado();
+	void setEstado(String estado);
 
-	public String getCodigoProducto() {
-		return codigoProducto;
-	}
+	Date getFechaAlta();
+	void setFechaAlta(Date fechaAlta);
 
-	public void setCodigoProducto(String codigoProducto) {
-		this.codigoProducto = codigoProducto;
-	}
+	Double getImporte();
+	void setImporte(Double importe);
 
-	public String getCodigoSubProducto() {
-		return codigoSubProducto;
-	}
+	String getDivisa();
+	void setDivisa(String divisa);
 
-	public void setCodigoSubProducto(String codigoSubProducto) {
-		this.codigoSubProducto = codigoSubProducto;
-	}
+	String getTipoDOI();
+	void setTipoDOI(String tipoDOI);
 
-	public String getEstado() {
-		return estado;
-	}
+	String getNumDOI();
+	void setNumDOI(String numDOI);
 
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
+	String getCodigoCliente();
+	void setCodigoCliente(String codigoCliente);
 
-	public Date getFechaAlta() {
-		return fechaAlta;
-	}
+	String getContrato();
+	void setContrato(String contrato);
 
-	public void setFechaAlta(Date fechaAlta) {
-		this.fechaAlta = fechaAlta;
-	}
+	Long getPlazo();
+	void setPlazo(Long plazo);
 
-	public Double getImporte() {
-		return importe;
-	}
+	String getOficina();
+	void setOficina(String oficina);
 
-	public void setImporte(Double importe) {
-		this.importe = importe;
-	}
+	String getOficinaCodigo();
+	void setOficinaCodigo(String oficinaCodigo);
 
-	public String getDivisa() {
-		return divisa;
-	}
+	String getEjecutivo();
+	void setEjecutivo(String ejecutivo);
 
-	public void setDivisa(String divisa) {
-		this.divisa = divisa;
-	}
+	String getEjecutivoCodigo();
+	void setEjecutivoCodigo(String ejecutivoCodigo);
 
-	public String getTipoDOI() {
-		return tipoDOI;
-	}
+	Double getTasa();
+	void setTasa(Double tasa);
 
-	public void setTipoDOI(String tipoDOI) {
-		this.tipoDOI = tipoDOI;
-	}
-
-	public String getNumDOI() {
-		return numDOI;
-	}
-
-	public void setNumDOI(String numDOI) {
-		this.numDOI = numDOI;
-	}
-
-	public String getCodigoCliente() {
-		return codigoCliente;
-	}
-
-	public void setCodigoCliente(String codigoCliente) {
-		this.codigoCliente = codigoCliente;
-	}
-
-	public String getContrato() {
-		return contrato;
-	}
-
-	public void setContrato(String contrato) {
-		this.contrato = contrato;
-	}
-
-	public Long getPlazo() {
-		return plazo;
-	}
-
-	public void setPlazo(Long plazo) {
-		this.plazo = plazo;
-	}
-
-	public String getOficina() {
-		return oficina;
-	}
-
-	public void setOficina(String oficina) {
-		this.oficina = oficina;
-	}
-
-	public String getOficinaCodigo() {
-		return oficinaCodigo;
-	}
-
-	public void setOficinaCodigo(String oficinaCodigo) {
-		this.oficinaCodigo = oficinaCodigo;
-	}
-
-	public String getEjecutivo() {
-		return ejecutivo;
-	}
-
-	public void setEjecutivo(String ejecutivo) {
-		this.ejecutivo = ejecutivo;
-	}
-
-	public String getEjecutivoCodigo() {
-		return ejecutivoCodigo;
-	}
-
-	public void setEjecutivoCodigo(String ejecutivoCodigo) {
-		this.ejecutivoCodigo = ejecutivoCodigo;
-	}
-
-	public Double getTasa() {
-		return tasa;
-	}
-
-	public void setTasa(Double tasa) {
-		this.tasa = tasa;
-	}
-	
-	public String getFechaAltaConFormato() {
-		return FechaUtil.formatFecha(fechaAlta, FormatoFecha.YYYYMMDD);
-	}
+	String getFechaAltaConFormato();
 }
