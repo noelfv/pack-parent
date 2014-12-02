@@ -28,7 +28,7 @@ public class SolicitudServiceImplTest {
 	public void consultarSolicitudes() {
 		Solicitud parametro = new Solicitud();
 		
-		List<Solicitud> list = solicitudService.consultarSolicitudes(parametro);
+		List<Solicitud> list = solicitudService.consultarSolicitudes(parametro,parametro,1);
 		Assert.assertNotNull(list);
 		Assert.assertTrue(!list.isEmpty());
 	}
@@ -40,7 +40,7 @@ public class SolicitudServiceImplTest {
 	@Before
 	  public void setUp() {
 	      String rootCategory = "INFO,stdout,LOGFILE";
-	      String fileLog = "/pr/scorating/online/pe/web/log";
+	      String fileLog = "/pr/packws/online/pe/web/log";
 	      String sizeLog = "1024kb";
 	      String maxFilesLog = "20";
 	  

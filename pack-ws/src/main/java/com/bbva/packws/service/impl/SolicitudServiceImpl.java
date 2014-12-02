@@ -1,5 +1,6 @@
 package com.bbva.packws.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -19,7 +20,14 @@ public class SolicitudServiceImpl implements SolicitudService {
 
 	@Transactional(readOnly = true)
 	public List<Solicitud> consultarSolicitudes(Solicitud parametro, Solicitud ultimoRegistro, int nroRegistro) {
-		return solicitudDAO.consultarSolicitudes(parametro, ultimoRegistro, nroRegistro);
+		List<Solicitud> listaConele = new ArrayList<Solicitud>();
+		List<Solicitud> listaIice = new ArrayList<Solicitud>();
+		listaConele = solicitudDAO.consultarSolicitudes(parametro, ultimoRegistro, 10);
+		listaIice = solicitudDAO.consultarSolicitudes(parametro, ultimoRegistro, 10);
+		
+		listaConele.addAll(listaIice);
+		
+		return listaConele;
 	}
 
 }

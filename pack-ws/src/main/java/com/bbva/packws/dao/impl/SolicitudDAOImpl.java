@@ -36,4 +36,27 @@ public class SolicitudDAOImpl extends HibernateDAO<Solicitud> implements Solicit
 		return (List<Solicitud>) criterioSolicitud.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Solicitud> consultarSolicitudesIice(Solicitud parametro,Solicitud ultimoRegistro, int nroRegistro) {
+	Criteria criterioSolicitud = super.getCriteria(Solicitud.class);
+		
+		if(ultimoRegistro != null) {
+			criterioSolicitud.add(Restrictions.gt("solicitud", ultimoRegistro.getSolicitud()) );
+		}
+		
+		criterioSolicitud.add(Restrictions.eq("tipoDOI", parametro.getTipoDOI()));
+		criterioSolicitud.add(Restrictions.eq("numDOI", parametro.getNumDOI()));
+		if(parametro.getCodigoProducto() != null) {
+			criterioSolicitud.add(Restrictions.eq("codigoProducto", parametro.getCodigoProducto()));
+		}
+		if(parametro.getEstado() != null) {
+			criterioSolicitud.add(Restrictions.eq("estado", parametro.getEstado()));
+		}
+		
+		criterioSolicitud.setMaxResults(nroRegistro);
+		
+		return (List<Solicitud>) criterioSolicitud.list();
+	}
+
 }
