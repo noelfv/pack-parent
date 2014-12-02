@@ -78,17 +78,17 @@
 					<xsd:element name="codigoProducto" type="xsd:string"></xsd:element>
 					<xsd:element name="codigoSubProducto" type="xsd:string"></xsd:element>
 					<xsd:element name="estado" type="xsd:string"></xsd:element>
-					<xsd:element name="fechaAlta" type="xsd:date"></xsd:element>
+					<xsd:element name="fechaAlta" type="xsd:date" maxOccurs="1" minOccurs="0"></xsd:element>
 					<xsd:element name="importe" type="xsd:double"></xsd:element>
 					<xsd:element name="divisa" type="xsd:string"></xsd:element>
 					<xsd:element name="tipoDOI" type="xsd:string"></xsd:element>
 					<xsd:element name="numDOI" type="xsd:string"></xsd:element>
 					<xsd:element name="codigoCliente" type="xsd:string"></xsd:element>
 					<xsd:element name="contrato" type="xsd:string"></xsd:element>
-					<xsd:element name="plazo" type="xsd:long"></xsd:element>
+					<xsd:element name="plazo" type="xsd:long" maxOccurs="1" minOccurs="0"></xsd:element>
 					<xsd:element name="oficina" type="xsd:string"></xsd:element>
 					<xsd:element name="ejecutivo" type="xsd:string"></xsd:element>
-					<xsd:element name="tasa" type="xsd:double"></xsd:element>
+					<xsd:element name="tasa" type="xsd:double" maxOccurs="1" minOccurs="0"></xsd:element>
 				</xsd:sequence>
 			</xsd:complexType>
 		</xsd:schema>

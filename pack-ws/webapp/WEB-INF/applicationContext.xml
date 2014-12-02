@@ -43,6 +43,26 @@
 	
 	<jaxws:endpoint id="solicitudSOAPImplEndPoint" implementor="#solicitudSOAPImpl" address="/Solicitud" />
 	
+	<!-- Begin: Scheduler -->
+		<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+			<property name="jobFactory">
+				<bean class="org.springframework.scheduling.quartz.SpringBeanJobFactory"/>
+	        </property>
+			<property name="dataSource" ref="dataSource"  />
+			<property name="transactionManager" ref="transactionManager" />
+		    <property name="overwriteExistingJobs" value="true" /> 
+	        <property name="configLocation" value="classpath:quartz.properties" />
+			<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+			<property name="waitForJobsToCompleteOnShutdown" value="false" />
+			<property name="autoStartup" value="true" />
+			<property name="quartzProperties">
+				<props>
+					<prop key="org.quartz.jobStore.selectWithLockSQL">SELECT * FROM {0}LOCKS UPDLOCK WHERE LOCK_NAME = ?</prop>
+				</props>
+			</property>
+		</bean>
+	<!-- End: Scheduler -->
+	
     <!-- Begin: Batch Context -->
 	    <bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
 			<property name="transactionManager" ref="transactionManagerBatch" />
@@ -59,5 +79,56 @@
 		</bean>
 	 
 		<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+		
+		<bean id="jobExplorer"
+			class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+			<property name="dataSource" ref="dataSource"/>
+			<property name="lobHandler" ref="lobHandler"/>
+		</bean>
+		
+		<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"/>
     <!-- End: Batch Context -->
+    
+    <!-- Begin: Job -->
+	    <bean id="itemReader"
+			class="org.springframework.batch.item.database.JdbcCursorItemReader"
+			scope="step">
+			<property name="dataSource" ref="dataSource" />
+			<property name="sql"
+				value="select SOLICITUD, CODIGO_PRODUCTO, CODIGO_SUBPRODUCTO, ESTADO, FECHA_ALTA, IMPORTE, DIVISA, TIPO_DOI, NUM_DOI, CODIGO_CLIENTE, CONTRATO, PLAZO, OFICINA, EJECUTIVO, TASA from CONELE.V_SOLICITUD" />
+			<property name="rowMapper">
+				<bean class="com.bbva.packws.batch.SolicitudRowMapper" />
+			</property>
+		</bean>
+		
+		<bean id="itemWriter"
+			class="org.springframework.batch.item.file.FlatFileItemWriter">
+			<property name="resource" value="file:target/outputs/fixedwidth-beanwrapperextractor.txt"/>
+			<property name="lineAggregator">
+				<bean class="org.springframework.batch.item.file.transform.FormatterLineAggregator">
+					<property name="fieldExtractor">
+						<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+							<property name="names" value="codigoSubProducto, estado, fechaAlta" />
+						</bean>
+					</property>
+					<property name="format" value="%-9s%-3sf%-30s" />
+				</bean>
+			</property>
+		</bean>
+		
+		<job id="jobSolicitud" xmlns="http://www.springframework.org/schema/batch">
+			<step id="step1">
+				<tasklet>
+					<chunk reader="itemReader" writer="itemWriter" commit-interval="100" />
+				</tasklet>
+			</step>
+		</job>
+		<!-- 
+		<bean id="fixedLengthLineTokenizer"
+		      class="org.springframework.batch.io.file.transform.FixedLengthTokenizer">
+		    <property name="names" value="ISIN,Quantity,Price,Customer" />
+		    <property name="columns" value="1-12, 13-15, 16-20, 21-29" />
+		</bean>
+		 -->
+    <!-- End: Job -->
 </beans>

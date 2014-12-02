@@ -3,6 +3,9 @@ package com.bbva.packws.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.everis.enums.FormatoFecha;
+import com.everis.util.FechaUtil;
+
 public class Solicitud implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -158,5 +161,9 @@ public class Solicitud implements Serializable {
 
 	public void setTasa(Double tasa) {
 		this.tasa = tasa;
+	}
+	
+	public String getFechaAltaConFormato() {
+		return FechaUtil.formatFecha(fechaAlta, FormatoFecha.YYYYMMDD);
 	}
 }

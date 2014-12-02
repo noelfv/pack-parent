@@ -17,9 +17,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
- * <p>Java class for Solicitud complex type.
+ * <p>Clase Java para Solicitud complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
  * &lt;complexType name="Solicitud">
@@ -30,17 +30,17 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="codigoProducto" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="codigoSubProducto" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="estado" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="fechaAlta" type="{http://www.w3.org/2001/XMLSchema}date"/>
+ *         &lt;element name="fechaAlta" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/>
  *         &lt;element name="importe" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *         &lt;element name="divisa" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="tipoDOI" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="numDOI" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="codigoCliente" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="contrato" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="plazo" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="plazo" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
  *         &lt;element name="oficina" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="ejecutivo" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="tasa" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="tasa" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -77,7 +77,6 @@ public class Solicitud {
     protected String codigoSubProducto;
     @XmlElement(required = true)
     protected String estado;
-    @XmlElement(required = true)
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar fechaAlta;
     protected Double importe;
@@ -91,7 +90,6 @@ public class Solicitud {
     protected String codigoCliente;
     @XmlElement(required = true)
     protected String contrato;
-    @XmlElement(required = true)
     protected Long plazo;
     @XmlElement(required = true)
     protected String oficina;
@@ -100,7 +98,7 @@ public class Solicitud {
     protected Double tasa;
 
     /**
-     * Gets the value of the solicitud property.
+     * Obtiene el valor de la propiedad solicitud.
      * 
      * @return
      *     possible object is
@@ -112,7 +110,7 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the solicitud property.
+     * Define el valor de la propiedad solicitud.
      * 
      * @param value
      *     allowed object is
@@ -124,7 +122,7 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the codigoProducto property.
+     * Obtiene el valor de la propiedad codigoProducto.
      * 
      * @return
      *     possible object is
@@ -136,7 +134,7 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the codigoProducto property.
+     * Define el valor de la propiedad codigoProducto.
      * 
      * @param value
      *     allowed object is
@@ -148,7 +146,7 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the codigoSubProducto property.
+     * Obtiene el valor de la propiedad codigoSubProducto.
      * 
      * @return
      *     possible object is
@@ -160,7 +158,7 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the codigoSubProducto property.
+     * Define el valor de la propiedad codigoSubProducto.
      * 
      * @param value
      *     allowed object is
@@ -172,7 +170,7 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the estado property.
+     * Obtiene el valor de la propiedad estado.
      * 
      * @return
      *     possible object is
@@ -184,7 +182,7 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the estado property.
+     * Define el valor de la propiedad estado.
      * 
      * @param value
      *     allowed object is
@@ -196,7 +194,7 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the fechaAlta property.
+     * Obtiene el valor de la propiedad fechaAlta.
      * 
      * @return
      *     possible object is
@@ -208,7 +206,7 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the fechaAlta property.
+     * Define el valor de la propiedad fechaAlta.
      * 
      * @param value
      *     allowed object is
@@ -220,7 +218,7 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the importe property.
+     * Obtiene el valor de la propiedad importe.
      * 
      */
     public Double getImporte() {
@@ -228,7 +226,7 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the importe property.
+     * Define el valor de la propiedad importe.
      * 
      */
     public void setImporte(Double value) {
@@ -236,7 +234,7 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the divisa property.
+     * Obtiene el valor de la propiedad divisa.
      * 
      * @return
      *     possible object is
@@ -248,7 +246,7 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the divisa property.
+     * Define el valor de la propiedad divisa.
      * 
      * @param value
      *     allowed object is
@@ -260,7 +258,7 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the tipoDOI property.
+     * Obtiene el valor de la propiedad tipoDOI.
      * 
      * @return
      *     possible object is
@@ -272,7 +270,7 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the tipoDOI property.
+     * Define el valor de la propiedad tipoDOI.
      * 
      * @param value
      *     allowed object is
@@ -284,7 +282,7 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the numDOI property.
+     * Obtiene el valor de la propiedad numDOI.
      * 
      * @return
      *     possible object is
@@ -296,7 +294,7 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the numDOI property.
+     * Define el valor de la propiedad numDOI.
      * 
      * @param value
      *     allowed object is
@@ -308,7 +306,7 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the codigoCliente property.
+     * Obtiene el valor de la propiedad codigoCliente.
      * 
      * @return
      *     possible object is
@@ -320,7 +318,7 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the codigoCliente property.
+     * Define el valor de la propiedad codigoCliente.
      * 
      * @param value
      *     allowed object is
@@ -332,7 +330,7 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the contrato property.
+     * Obtiene el valor de la propiedad contrato.
      * 
      * @return
      *     possible object is
@@ -344,7 +342,7 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the contrato property.
+     * Define el valor de la propiedad contrato.
      * 
      * @param value
      *     allowed object is
@@ -356,11 +354,11 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the plazo property.
+     * Obtiene el valor de la propiedad plazo.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Long }
      *     
      */
     public Long getPlazo() {
@@ -368,11 +366,11 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the plazo property.
+     * Define el valor de la propiedad plazo.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Long }
      *     
      */
     public void setPlazo(Long value) {
@@ -380,7 +378,7 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the oficina property.
+     * Obtiene el valor de la propiedad oficina.
      * 
      * @return
      *     possible object is
@@ -392,7 +390,7 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the oficina property.
+     * Define el valor de la propiedad oficina.
      * 
      * @param value
      *     allowed object is
@@ -404,7 +402,7 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the ejecutivo property.
+     * Obtiene el valor de la propiedad ejecutivo.
      * 
      * @return
      *     possible object is
@@ -416,7 +414,7 @@ public class Solicitud {
     }
 
     /**
-     * Sets the value of the ejecutivo property.
+     * Define el valor de la propiedad ejecutivo.
      * 
      * @param value
      *     allowed object is
@@ -428,16 +426,24 @@ public class Solicitud {
     }
 
     /**
-     * Gets the value of the tasa property.
+     * Obtiene el valor de la propiedad tasa.
      * 
+     * @return
+     *     possible object is
+     *     {@link Double }
+     *     
      */
     public Double getTasa() {
         return tasa;
     }
 
     /**
-     * Sets the value of the tasa property.
+     * Define el valor de la propiedad tasa.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Double }
+     *     
      */
     public void setTasa(Double value) {
         this.tasa = value;

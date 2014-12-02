@@ -9,28 +9,27 @@ import com.bbva.packws.domain.Solicitud;
 
 public class SolicitudRowMapper implements RowMapper<Solicitud> {
 	 
-		@Override
-		public Solicitud mapRow(ResultSet rs, int rowNum) throws SQLException {
-	 
-			Solicitud solicitud = new Solicitud();
-	 
-			solicitud.setSolicitud(rs.getString("solicitud"));
-			solicitud.setCodigoProducto(rs.getString("codigoProducto"));
-			solicitud.setCodigoSubProducto(rs.getString("codigoSubProducto"));
-			solicitud.setEstado(rs.getString("estado"));
-			solicitud.setFechaAlta(null);
-			solicitud.setImporte(rs.getDouble("importe"));
-			solicitud.setDivisa(rs.getString("divisa"));
-			solicitud.setTipoDOI(rs.getString("tipoDOI"));
-			solicitud.setNumDOI(rs.getString("numDOI"));
-			solicitud.setCodigoCliente(rs.getString("codigoCliente"));
-			solicitud.setContrato(rs.getString("contrato"));
-			solicitud.setPlazo(rs.getLong("plazo"));
-			solicitud.setOficina(rs.getString("oficina"));
-			solicitud.setEjecutivo(rs.getString("ejecutivo"));
-			solicitud.setTasa(rs.getDouble("tasa"));
-			
-			return solicitud;
-		}
-
+	@Override
+	public Solicitud mapRow(ResultSet rs, int rowNum) throws SQLException {
+ 
+		Solicitud solicitud = new Solicitud();
+ 
+		solicitud.setSolicitud(rs.getString("SOLICITUD"));
+		solicitud.setCodigoProducto(rs.getString("CODIGO_PRODUCTO"));
+		solicitud.setCodigoSubProducto(rs.getString("CODIGO_SUBPRODUCTO"));
+		solicitud.setEstado(rs.getString("ESTADO"));
+		solicitud.setFechaAlta(rs.getDate("FECHA_ALTA"));
+		solicitud.setImporte(rs.getDouble("IMPORTE"));
+		solicitud.setDivisa(rs.getString("DIVISA"));
+		solicitud.setTipoDOI(rs.getString("TIPO_DOI"));
+		solicitud.setNumDOI(rs.getString("NUM_DOI"));
+		solicitud.setCodigoCliente(rs.getString("CODIGO_CLIENTE"));
+		solicitud.setContrato(rs.getString("CONTRATO"));
+		solicitud.setPlazo(rs.getLong("PLAZO"));
+		solicitud.setOficina(rs.getString("OFICINA"));
+		solicitud.setEjecutivo(rs.getString("EJECUTIVO"));
+		solicitud.setTasa(rs.getDouble("TASA"));
+		
+		return solicitud;
+	}
 }
