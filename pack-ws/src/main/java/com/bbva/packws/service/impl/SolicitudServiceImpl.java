@@ -1,6 +1,8 @@
 package com.bbva.packws.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -26,7 +28,13 @@ public class SolicitudServiceImpl implements SolicitudService {
 		listaIice = solicitudDAO.consultarSolicitudes(parametro, ultimoRegistro, 10);
 		
 		listaConele.addAll(listaIice);
-		
+		Collections.sort(listaConele,new Comparator<Solicitud>() {
+			@Override
+			public int compare(Solicitud o1, Solicitud o2) {
+				return o1.getSolicitud().compareTo(o2.getSolicitud());
+
+			}
+		});
 		return listaConele;
 	}
 
