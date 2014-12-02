@@ -28,7 +28,7 @@ public class SolicitudServiceImplTest {
 	public void consultarSolicitudes() {
 		Solicitud parametro = new Solicitud();
 		
-		List<Solicitud> list = solicitudService.consultarSolicitudes(parametro,parametro,1);
+		List<Solicitud> list = solicitudService.consultarSolicitudes("","",new String[]{""},new String[]{""},parametro,1);
 		Assert.assertNotNull(list);
 		Assert.assertTrue(!list.isEmpty());
 	}

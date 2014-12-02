@@ -21,11 +21,11 @@ public class SolicitudServiceImpl implements SolicitudService {
 	private SolicitudDAO solicitudDAO;
 
 	@Transactional(readOnly = true)
-	public List<Solicitud> consultarSolicitudes(Solicitud parametro, Solicitud ultimoRegistro, int nroRegistro) {
+	public List<Solicitud> consultarSolicitudes(String tipoDOI, String numDOI,String[] codigoProducto,String[] estado, Solicitud ultimoRegistro, int nroRegistro) {
 		List<Solicitud> listaConele = new ArrayList<Solicitud>();
 		List<Solicitud> listaIice = new ArrayList<Solicitud>();
-		listaConele = solicitudDAO.consultarSolicitudes(parametro, ultimoRegistro, 10);
-		listaIice = solicitudDAO.consultarSolicitudes(parametro, ultimoRegistro, 10);
+		listaConele = solicitudDAO.consultarSolicitudes(tipoDOI,numDOI, codigoProducto,estado, ultimoRegistro, 10);
+		listaIice = solicitudDAO.consultarSolicitudesIice(tipoDOI,numDOI, codigoProducto,estado, ultimoRegistro, 10);
 		
 		listaConele.addAll(listaIice);
 		Collections.sort(listaConele,new Comparator<Solicitud>() {

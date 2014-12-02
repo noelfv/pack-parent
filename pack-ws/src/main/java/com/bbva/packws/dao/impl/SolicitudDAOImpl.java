@@ -15,20 +15,20 @@ public class SolicitudDAOImpl extends HibernateDAO<Solicitud> implements Solicit
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Solicitud> consultarSolicitudes(Solicitud parametro, Solicitud ultimoRegistro, int nroRegistro) {
+	public List<Solicitud> consultarSolicitudes(String tipoDOI, String numDOI,String[] codigoProducto,String[] estado, Solicitud ultimoRegistro, int nroRegistro){
 		Criteria criterioSolicitud = super.getCriteria(Solicitud.class);
 		
 		if(ultimoRegistro != null) {
 			criterioSolicitud.add(Restrictions.gt("solicitud", ultimoRegistro.getSolicitud()) );
 		}
 		
-		criterioSolicitud.add(Restrictions.eq("tipoDOI", parametro.getTipoDOI()));
-		criterioSolicitud.add(Restrictions.eq("numDOI", parametro.getNumDOI()));
-		if(parametro.getCodigoProducto() != null) {
-			criterioSolicitud.add(Restrictions.eq("codigoProducto", parametro.getCodigoProducto()));
+		criterioSolicitud.add(Restrictions.eq("tipoDOI", tipoDOI));
+		criterioSolicitud.add(Restrictions.eq("numDOI", numDOI));
+		if(codigoProducto != null) {
+			criterioSolicitud.add(Restrictions.in("codigoProducto", codigoProducto));
 		}
-		if(parametro.getEstado() != null) {
-			criterioSolicitud.add(Restrictions.eq("estado", parametro.getEstado()));
+		if(estado != null) {
+			criterioSolicitud.add(Restrictions.in("estado", estado));
 		}
 		
 		criterioSolicitud.setMaxResults(nroRegistro);
@@ -38,20 +38,20 @@ public class SolicitudDAOImpl extends HibernateDAO<Solicitud> implements Solicit
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Solicitud> consultarSolicitudesIice(Solicitud parametro,Solicitud ultimoRegistro, int nroRegistro) {
+	public List<Solicitud> consultarSolicitudesIice(String tipoDOI, String numDOI,String[] codigoProducto,String[] estado, Solicitud ultimoRegistro, int nroRegistro){
 	Criteria criterioSolicitud = super.getCriteria(Solicitud.class);
 		
 		if(ultimoRegistro != null) {
 			criterioSolicitud.add(Restrictions.gt("solicitud", ultimoRegistro.getSolicitud()) );
 		}
 		
-		criterioSolicitud.add(Restrictions.eq("tipoDOI", parametro.getTipoDOI()));
-		criterioSolicitud.add(Restrictions.eq("numDOI", parametro.getNumDOI()));
-		if(parametro.getCodigoProducto() != null) {
-			criterioSolicitud.add(Restrictions.eq("codigoProducto", parametro.getCodigoProducto()));
+		criterioSolicitud.add(Restrictions.eq("tipoDOI", tipoDOI));
+		criterioSolicitud.add(Restrictions.eq("numDOI", numDOI));
+		if(codigoProducto != null) {
+			criterioSolicitud.add(Restrictions.in("codigoProducto", codigoProducto));
 		}
-		if(parametro.getEstado() != null) {
-			criterioSolicitud.add(Restrictions.eq("estado", parametro.getEstado()));
+		if(estado != null) {
+			criterioSolicitud.add(Restrictions.in("estado", estado));
 		}
 		
 		criterioSolicitud.setMaxResults(nroRegistro);
