@@ -204,6 +204,11 @@ public class SolicitudCONELE implements Serializable, Solicitud {
 
 	@Override
 	public int compareTo(Solicitud o) {
-		return this.getSolicitud().compareTo(o.getSolicitud());
+		int i = this.getSolicitud().compareTo(o.getSolicitud());
+		if(i!=0){
+			return i;
+		}else{
+			return this.getFechaAlta().compareTo(o.getFechaAlta());
+		}
 	}
 }
