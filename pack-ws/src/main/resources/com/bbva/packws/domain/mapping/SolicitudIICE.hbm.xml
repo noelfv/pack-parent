@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.bbva.packws.domain.SolicitudIICE" table="V_SOLICITUD">
+    <class name="com.bbva.packws.domain.SolicitudIICE" table="V_SOLICITUD_IICE">
         <id name="solicitud" type="string">
             <column name="SOLICITUD" precision="10" scale="0" />
         </id>
@@ -15,8 +15,8 @@
         <property name="estado" type="string">
             <column name="ESTADO" length="1" not-null="true" />
         </property>
-        <property name="fechaAlta" type="string">
-            <column name="FECHA_ALTA" length="10" />
+        <property name="fechaAlta" type="date">
+            <column name="FECHA_ALTA" />
         </property>
         <property name="importe" type="double">
             <column name="IMPORTE" precision="13" scale="2" />
