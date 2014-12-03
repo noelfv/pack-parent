@@ -21,7 +21,7 @@
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
-		<sonar.jdbc.url>jdbc:postgresql://localhost/sonar</sonar.jdbc.url>
+		<sonar.jdbc.url>jdbc:h2:tcp://localhost:9092/sonar</sonar.jdbc.url>
 	</properties>
 
 	<build>
