@@ -98,10 +98,10 @@ public class PackWsSOAPImpl implements PackWs{
 			if(param != null) {
 				nroRegistros = Integer.parseInt(param.getNombre());
 			} else {
-				throw new BussinesWebServiceException("No se pudo obtener el nro. de registros por petición");
+				throw new BussinesWebServiceException("No se pudo obtener el nro. de registros por peticion");
 			}
 		} catch(NumberFormatException e) {
-			throw new BussinesWebServiceException("No se pudo obtener el nro. de registros por petición", e);
+			throw new BussinesWebServiceException("No se pudo obtener el nro. de registros por peticion", e);
 		}
 		
 		if(request == null) {
