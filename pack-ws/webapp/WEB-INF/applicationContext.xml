@@ -4,20 +4,6 @@
      xmlns:aop="http://www.springframework.org/schema/aop"
      xmlns:tx="http://www.springframework.org/schema/tx"
      xmlns:context="http://www.springframework.org/schema/context"
-	 xmlns:batch="http://www.springframework.org/schema/batch" 
-     xsi:schemaLocation="
-	     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-	     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-	     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-	  	 http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
-
-<!-- 
-<beans xmlns="http://www.springframework.org/schema/beans"
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xmlns:aop="http://www.springframework.org/schema/aop"
-     xmlns:tx="http://www.springframework.org/schema/tx"
-     xmlns:context="http://www.springframework.org/schema/context"
 	 xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	 xmlns:jaxws="http://cxf.apache.org/jaxws"
 	 xmlns:batch="http://www.springframework.org/schema/batch" 
@@ -28,6 +14,20 @@
 	     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		 http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 	  	 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+	  	 http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+<!-- 
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:aop="http://www.springframework.org/schema/aop"
+     xmlns:tx="http://www.springframework.org/schema/tx"
+     xmlns:context="http://www.springframework.org/schema/context"
+	 xmlns:batch="http://www.springframework.org/schema/batch" 
+     xsi:schemaLocation="
+	     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 	  	 http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
  -->
@@ -55,10 +55,10 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 	
-	<!-- 
+	<!-- Habilitar para pruebas en Tomcat -->
 	<bean id="solicitudSOAPImpl" class="com.bbva.packws.webservice.endpoints.impl.SolicitudSOAPImpl" />
 	<jaxws:endpoint id="solicitudSOAPImplEndPoint" implementor="#solicitudSOAPImpl" address="/Solicitud" />
-	 -->
+	<!-- Habilitar para pruebas en Tomcat -->
 	 
 	<!-- Begin: Scheduler -->
 		<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
@@ -79,27 +79,30 @@
 			</property>
 			<property name="triggers">
 				<list>
-					<ref bean="cronTrigger" />
+					<ref bean="cronTriggerGenerarArchivo" />
+					<ref bean="cronTriggerDepurarArchivo" />
 				</list>
 			</property>
 		</bean>
 	<!-- End: Scheduler -->
 	
 	<!-- Begin: Task Scheduler -->
-		<bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
-			<property name="jobClass" value="com.bbva.packws.batch.task.SolicitudTask" />
-			<property name="jobDataAsMap">
-				<map>
-					<entry key="jobLauncher" value="jobLauncher"/>
-					<entry key="jobRegistry" value="jobRegistry"/>
-				</map>
-			</property>
+		<bean id="jobGenerarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
+			<property name="jobClass" value="com.bbva.packws.batch.job.GenerarArchivoJob" />
 		</bean>
-		
-		<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-			<property name="jobDetail" ref="jobDetail" />
+		<bean id="cronTriggerGenerarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
+			<property name="jobDetail" ref="jobGenerarArchivo" />
 			<property name="cronExpression" value="0 35 12 ? * * *" />
 		</bean>
+		
+		<bean id="jobDepurarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
+			<property name="jobClass" value="com.bbva.packws.batch.job.DepurarArchivoJob" />
+		</bean>				
+		<bean id="cronTriggerDepurarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
+			<property name="jobDetail" ref="jobDepurarArchivo" />
+			<property name="cronExpression" value="0 35 12 ? * * *" />
+		</bean>
+		
 	<!-- End: Task Scheduler -->
 	
     <!-- Begin: Batch Context -->
