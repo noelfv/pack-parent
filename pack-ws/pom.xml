@@ -37,7 +37,8 @@
 			<groupId>com.everis</groupId>
 			<artifactId>com.everis.mail</artifactId>
 			<version>1.0-SNAPSHOT</version>
-		</dependency>  
+		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -48,6 +49,7 @@
 			<artifactId>cxf-rt-transports-http</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
+		 -->
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
 			<artifactId>spring-batch-core</artifactId>

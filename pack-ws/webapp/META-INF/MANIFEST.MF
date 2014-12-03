@@ -14,16 +14,9 @@ Class-Path: com.everis.web.jar ldap-1.0.jar com.everis.core.jar com.ev
   slf4j-log4j12-1.7.7.jar tiles-core-2.2.2.jar tiles-api-2.2.2.jar com
  mons-digester-2.0.jar commons-beanutils-1.8.0.jar tiles-servlet-2.2.2
  .jar tiles-jsp-2.2.2.jar tiles-template-2.2.2.jar jstl-1.2.jar com.ev
- eris.mail.jar mail-1.4.7.jar activation-1.1.jar cxf-rt-frontend-jaxws
- -2.7.8.jar xml-resolver-1.2.jar asm-3.3.1.jar cxf-api-2.7.8.jar woods
- tox-core-asl-4.2.0.jar stax2-api-3.1.1.jar xmlschema-core-2.0.3.jar g
- eronimo-javamail_1.4_spec-1.7.1.jar wsdl4j-1.6.3.jar cxf-rt-core-2.7.
- 8.jar jaxb-impl-2.2.6.jar cxf-rt-bindings-soap-2.7.8.jar cxf-rt-datab
- inding-jaxb-2.7.8.jar cxf-rt-bindings-xml-2.7.8.jar cxf-rt-frontend-s
- imple-2.7.8.jar cxf-rt-transports-http-2.7.8.jar cxf-rt-ws-addr-2.7.8
- .jar cxf-rt-ws-policy-2.7.8.jar neethi-3.0.2.jar spring-batch-core-2.
- 2.0.RELEASE.jar spring-batch-infrastructure-2.2.0.RELEASE.jar spring-
- retry-1.0.2.RELEASE.jar xstream-1.3.jar xpp3_min-1.1.4c.jar jettison-
- 1.1.jar spring-context-support-3.2.0.RELEASE.jar quartz-1.8.6.jar ojd
- bc6-11.2.0.3.jar
+ eris.mail.jar mail-1.4.7.jar activation-1.1.jar spring-batch-core-2.2
+ .0.RELEASE.jar spring-batch-infrastructure-2.2.0.RELEASE.jar spring-r
+ etry-1.0.2.RELEASE.jar xstream-1.3.jar xpp3_min-1.1.4c.jar jettison-1
+ .1.jar spring-context-support-3.2.0.RELEASE.jar quartz-1.8.6.jar ojdb
+ c6-11.2.0.3.jar
 

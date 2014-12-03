@@ -4,6 +4,20 @@
      xmlns:aop="http://www.springframework.org/schema/aop"
      xmlns:tx="http://www.springframework.org/schema/tx"
      xmlns:context="http://www.springframework.org/schema/context"
+	 xmlns:batch="http://www.springframework.org/schema/batch" 
+     xsi:schemaLocation="
+	     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  	 http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+<!-- 
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:aop="http://www.springframework.org/schema/aop"
+     xmlns:tx="http://www.springframework.org/schema/tx"
+     xmlns:context="http://www.springframework.org/schema/context"
 	 xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	 xmlns:jaxws="http://cxf.apache.org/jaxws"
 	 xmlns:batch="http://www.springframework.org/schema/batch" 
@@ -15,6 +29,8 @@
 		 http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 	  	 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 	  	 http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+ -->
 
 	<tx:annotation-driven />
     <context:annotation-config />
@@ -39,9 +55,11 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 	
+	<!-- 
 	<bean id="solicitudSOAPImpl" class="com.bbva.packws.webservice.endpoints.impl.SolicitudSOAPImpl" />
 	<jaxws:endpoint id="solicitudSOAPImplEndPoint" implementor="#solicitudSOAPImpl" address="/Solicitud" />
-	
+	 -->
+	 
 	<!-- Begin: Scheduler -->
 		<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 			<property name="jobFactory">
