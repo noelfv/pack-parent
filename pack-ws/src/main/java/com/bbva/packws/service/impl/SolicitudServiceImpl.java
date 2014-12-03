@@ -22,7 +22,7 @@ public class SolicitudServiceImpl implements SolicitudService {
 	@Transactional(readOnly = true)
 	public List<Solicitud> consultarSolicitudes(String tipoDOI, String numDOI,String[] codigoProducto,String[] estado, Solicitud ultimoRegistro, int nroRegistro) {
 		List<Solicitud> listaSolicitud = new ArrayList<Solicitud>();
-		listaSolicitud = solicitudDAO.consultarSolicitudes(tipoDOI,numDOI, codigoProducto,estado, ultimoRegistro, 10);
+		listaSolicitud = solicitudDAO.consultarSolicitudes(tipoDOI,numDOI, codigoProducto,estado, ultimoRegistro, nroRegistro);
 		
 		Collections.sort(listaSolicitud);
 		return listaSolicitud;
