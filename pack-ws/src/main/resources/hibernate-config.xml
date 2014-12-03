@@ -13,5 +13,7 @@
 		
 		<mapping resource="com/bbva/packws/domain/mapping/SolicitudCONELE.hbm.xml"/>
 		<mapping resource="com/bbva/packws/domain/mapping/SolicitudIICE.hbm.xml"/>
+		<mapping resource="com/bbva/packws/domain/mapping/Parametro.hbm.xml"/>
+		<mapping resource="com/bbva/packws/domain/mapping/ParametroConfiguracion.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>
