@@ -54,5 +54,17 @@
         <property name="tasa" type="double">
             <column name="TASA" precision="3" scale="2" />
         </property> 
+        <property name="estadoPack" type="string">
+            <column name="ESTADO_PACK" length="8" />
+        </property>
+        <property name="tipoDocumentoPack" type="string">
+            <column name="TIPODOCUMENTO_PACK" length="8" />
+        </property>
+        <property name="productoPack" type="string">
+            <column name="PRODUCTO_PACK" length="8" />
+        </property>
+        <property name="subProductoPack" type="string">
+            <column name="SUBPRODUCTO_PACK" length="8" />
+        </property>
     </class>
 </hibernate-mapping>
