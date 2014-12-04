@@ -56,8 +56,8 @@
     </bean>
 	
 	<!-- Habilitar para pruebas en Tomcat -->
-	<bean id="solicitudSOAPImpl" class="com.bbva.packws.webservice.endpoints.impl.SolicitudSOAPImpl" />
-	<jaxws:endpoint id="solicitudSOAPImplEndPoint" implementor="#solicitudSOAPImpl" address="/Solicitud" />
+	<bean id="packWsSOAPImpl" class="com.bbva.packws.webservice.endpoints.impl.PackWsSOAPImpl" />
+	<jaxws:endpoint id="packWsSOAPImplEndPoint" implementor="#packWsSOAPImpl" address="/pack-ws" />
 	<!-- Habilitar para pruebas en Tomcat -->
 	 
 	<!-- Begin: Scheduler -->
@@ -92,7 +92,7 @@
 		</bean>
 		<bean id="cronTriggerGenerarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
 			<property name="jobDetail" ref="jobGenerarArchivo" />
-			<property name="cronExpression" value="0 35 12 ? * * *" />
+			<property name="cronExpression" value="0 02 13 ? * * *" />
 		</bean>
 		
 		<bean id="jobDepurarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
@@ -135,12 +135,23 @@
     
     <!-- Begin: Job -->
     	<!-- TODO: Cambiar si el volumen de data es demasiado -->
-	    <bean id="itemReader"
+	    <bean id="itemReaderCONELE"
 			class="org.springframework.batch.item.database.JdbcCursorItemReader"
 			scope="step">
 			<property name="dataSource" ref="dataSource" />
 			<property name="sql"
-				value="select SOLICITUD, CODIGO_PRODUCTO, CODIGO_SUBPRODUCTO, ESTADO, FECHA_ALTA, IMPORTE, DIVISA, TIPO_DOI, NUM_DOI, CODIGO_CLIENTE, CONTRATO, PLAZO, OFICINA, EJECUTIVO, TASA from CONELE.V_SOLICITUD" />
+				value="select * from CONELE.V_SOLICITUD" />
+			<property name="rowMapper">
+				<bean class="com.bbva.packws.batch.SolicitudRowMapper" />
+			</property>
+		</bean>
+		
+		<bean id="itemReaderIICE"
+			class="org.springframework.batch.item.database.JdbcCursorItemReader"
+			scope="step">
+			<property name="dataSource" ref="dataSource" />
+			<property name="sql"
+				value="select * from CONELE.V_SOLICITUD_IICE" />
 			<property name="rowMapper">
 				<bean class="com.bbva.packws.batch.SolicitudRowMapper" />
 			</property>
@@ -149,6 +160,7 @@
 		<bean id="itemWriter"
 			class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
 			<property name="resource" value="#{jobParameters[outputFileName]}"/>
+			<property name="appendAllowed" value="true"/>
 			<property name="lineAggregator">
 				<bean class="org.springframework.batch.item.file.transform.FormatterLineAggregator">
 					<property name="fieldExtractor">
@@ -162,11 +174,23 @@
 		</bean>
 		
 		<job id="jobSolicitud" xmlns="http://www.springframework.org/schema/batch">
-			<step id="step1">
+			<step id="step1" next="decision">
 				<tasklet>
-					<chunk reader="itemReader" writer="itemWriter" commit-interval="100" />
+					<chunk reader="itemReaderCONELE" writer="itemWriter" commit-interval="100" />
+				</tasklet>
+			</step>
+			
+			<decision id="decision" decider="decider">
+		    	<next on="COMPLETED" to="step2" />
+		    </decision>
+			
+			<step id="step2">
+				<tasklet>
+					<chunk reader="itemReaderIICE" writer="itemWriter" commit-interval="100" />
 				</tasklet>
 			</step>
 		</job>
+		
+		<bean id="decider" class="com.bbva.packws.batch.SolicitudDecider"/>
     <!-- End: Job -->
 </beans>

@@ -16,6 +16,22 @@
 	  	 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 	  	 http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
+<!-- 
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:aop="http://www.springframework.org/schema/aop"
+     xmlns:tx="http://www.springframework.org/schema/tx"
+     xmlns:context="http://www.springframework.org/schema/context"
+	 xmlns:batch="http://www.springframework.org/schema/batch" 
+     xsi:schemaLocation="
+	     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  	 http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+ -->
+
 	<tx:annotation-driven />
     <context:annotation-config />
     <context:component-scan base-package="com.bbva.packws" />
@@ -38,9 +54,11 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 	
-	<bean id="solicitudSOAPImpl" class="com.bbva.packws.webservice.endpoints.impl.SolicitudSOAPImpl" />
-	<jaxws:endpoint id="solicitudSOAPImplEndPoint" implementor="#solicitudSOAPImpl" address="/Solicitud" />
-	
+	<!-- Habilitar para pruebas en Tomcat -->
+	<bean id="packWsSOAPImpl" class="com.bbva.packws.webservice.endpoints.impl.PackWsSOAPImpl" />
+	<jaxws:endpoint id="packWsSOAPImplEndPoint" implementor="#packWsSOAPImpl" address="/pack-ws" />
+	<!-- Habilitar para pruebas en Tomcat -->
+	 
 	<!-- Begin: Scheduler -->
 		<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 			<property name="jobFactory">
@@ -60,27 +78,30 @@
 			</property>
 			<property name="triggers">
 				<list>
-					<ref bean="cronTrigger" />
+					<ref bean="cronTriggerGenerarArchivo" />
+					<ref bean="cronTriggerDepurarArchivo" />
 				</list>
 			</property>
 		</bean>
 	<!-- End: Scheduler -->
 	
 	<!-- Begin: Task Scheduler -->
-		<bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
-			<property name="jobClass" value="com.bbva.packws.batch.task.SolicitudTask" />
-			<property name="jobDataAsMap">
-				<map>
-					<entry key="jobLauncher" value="jobLauncher"/>
-					<entry key="jobRegistry" value="jobRegistry"/>
-				</map>
-			</property>
+		<bean id="jobGenerarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
+			<property name="jobClass" value="com.bbva.packws.batch.job.GenerarArchivoJob" />
+		</bean>
+		<bean id="cronTriggerGenerarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
+			<property name="jobDetail" ref="jobGenerarArchivo" />
+			<property name="cronExpression" value="0 26 12 ? * * *" />
 		</bean>
 		
-		<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-			<property name="jobDetail" ref="jobDetail" />
+		<bean id="jobDepurarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
+			<property name="jobClass" value="com.bbva.packws.batch.job.DepurarArchivoJob" />
+		</bean>				
+		<bean id="cronTriggerDepurarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
+			<property name="jobDetail" ref="jobDepurarArchivo" />
 			<property name="cronExpression" value="0 35 12 ? * * *" />
 		</bean>
+		
 	<!-- End: Task Scheduler -->
 	
     <!-- Begin: Batch Context -->
@@ -113,12 +134,23 @@
     
     <!-- Begin: Job -->
     	<!-- TODO: Cambiar si el volumen de data es demasiado -->
-	    <bean id="itemReader"
+	    <bean id="itemReaderCONELE"
 			class="org.springframework.batch.item.database.JdbcCursorItemReader"
 			scope="step">
 			<property name="dataSource" ref="dataSource" />
 			<property name="sql"
-				value="select SOLICITUD, CODIGO_PRODUCTO, CODIGO_SUBPRODUCTO, ESTADO, FECHA_ALTA, IMPORTE, DIVISA, TIPO_DOI, NUM_DOI, CODIGO_CLIENTE, CONTRATO, PLAZO, OFICINA, EJECUTIVO, TASA from CONELE.V_SOLICITUD" />
+				value="select * from CONELE.V_SOLICITUD" />
+			<property name="rowMapper">
+				<bean class="com.bbva.packws.batch.SolicitudRowMapper" />
+			</property>
+		</bean>
+		
+		<bean id="itemReaderIICE"
+			class="org.springframework.batch.item.database.JdbcCursorItemReader"
+			scope="step">
+			<property name="dataSource" ref="dataSource" />
+			<property name="sql"
+				value="select * from CONELE.V_SOLICITUD_IICE" />
 			<property name="rowMapper">
 				<bean class="com.bbva.packws.batch.SolicitudRowMapper" />
 			</property>
@@ -140,11 +172,23 @@
 		</bean>
 		
 		<job id="jobSolicitud" xmlns="http://www.springframework.org/schema/batch">
-			<step id="step1">
+			<step id="step1" next="decision">
 				<tasklet>
-					<chunk reader="itemReader" writer="itemWriter" commit-interval="100" />
+					<chunk reader="itemReaderCONELE" writer="itemWriter" commit-interval="100" />
+				</tasklet>
+			</step>
+			
+			<decision id="decision" decider="decider">
+		    	<next on="COMPLETED" to="step2" />
+		    </decision>
+			
+			<step id="step2">
+				<tasklet>
+					<chunk reader="itemReaderIICE" writer="itemWriter" commit-interval="100" />
 				</tasklet>
 			</step>
 		</job>
+		
+		<bean id="decider" class="com.bbva.packws.batch.SolicitudDecider"/>
     <!-- End: Job -->
 </beans>

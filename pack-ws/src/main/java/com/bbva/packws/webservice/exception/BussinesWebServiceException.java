@@ -11,6 +11,7 @@ public class BussinesWebServiceException extends Exception {
 	public BussinesWebServiceException(String detailMessage, Throwable ex) {
 		super(ex);
 		this.detailMessage = detailMessage;
+		this.codigoRetorno = CodigoRetorno.ERROR_ACCESO;
 	}
 
 	public BussinesWebServiceException(String detailMessage) {

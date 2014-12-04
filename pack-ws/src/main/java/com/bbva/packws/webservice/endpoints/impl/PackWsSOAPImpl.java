@@ -96,7 +96,7 @@ public class PackWsSOAPImpl implements PackWs{
 		
 		try {
 			if(param != null) {
-				nroRegistros = Integer.parseInt(param.getNombre());
+				nroRegistros = Integer.parseInt(param.getValor());
 			} else {
 				throw new BussinesWebServiceException("No se pudo obtener el nro. de registros por peticion");
 			}
@@ -143,6 +143,11 @@ public class PackWsSOAPImpl implements PackWs{
     		response.getHeader().setCodigoRetorno(CodigoRetorno.CON_RESULTADO.getCodigo());
     		response.getHeader().setUltimoRegistro(body.getSolicitudes().get(body.getSolicitudes().size() - 1));
     	} catch (BussinesWebServiceException e) {
+    		if(e.getCodigoRetorno() == null) {
+    			e.setCodigoRetorno(CodigoRetorno.ERROR_ACCESO);
+    			e.setDetailMessage("No especificado");
+    		}
+    		
     		response.getHeader().setCodigoRetorno(e.getCodigoRetorno().getCodigo());
     		response.getHeader().getErrores().add(e.getCodigoRetorno().getDescripcion());
     		response.getHeader().getErrores().add(e.getDetailMessage());

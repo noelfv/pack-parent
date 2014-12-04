@@ -19,7 +19,7 @@ import com.everis.enums.FormatoFecha;
  */
 public class FechaUtil {
 
-	private static final Logger log = Logger.getLogger(FechaUtil.class);
+	private static final Logger LOG = Logger.getLogger(FechaUtil.class);
 	private static final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
 	private static final String TIME12HOURS_PATTERN = "(1[012]|[1-9]):[0-5][0-9](\\s)?(?i)(am|pm)";
 	private static final String TIME24HOURS_PATTERN = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
@@ -62,15 +62,24 @@ public class FechaUtil {
 	 * @return {@link String}, Devuelve la fecha en el formato especificado.<br/>Si fecha es {@code null} devuelve "". 
 	 */
 	public static String formatFecha(Date fecha, FormatoFecha formato) {
+		return FechaUtil.formatFecha(FechaUtil.getAhora(), formato.toString());
+	}
+
+	/**
+	 * @param fecha {@link Date}
+	 * @param formato {@link String}
+	 * @return {@link String}, Devuelve la fecha en el formato especificado.<br/>Si fecha es {@code null} devuelve "". 
+	 */
+	public static String formatFecha(Date fecha, String formato) {
 		String result = "";
 		if (fecha != null) {
-			SimpleDateFormat dateFormat = new SimpleDateFormat(formato.toString());
+			SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
 			result = dateFormat.format(fecha);
 		}
 
 		return result;
 	}
-
+	
 	/**
 	 * @param fecha {@link Date}
 	 * @return {@link String}, Devuelve la fecha en el formato dd/MM/yyyy.<br/>Si fecha es {@code null} devuelve "".
@@ -82,12 +91,12 @@ public class FechaUtil {
 	/**
 	 * Convierte un {@code String} en {@code Date}, segun el formato especificado
 	 * @param fecha {@link String}
-	 * @param formato {@link FormatoFecha}
+	 * @param formato {@link String}
 	 * @return {@link Date}, Si no se puede convertir a {@code Date} devuelve {@code null} 
 	 */
-	public static Date parseFecha(String fecha, FormatoFecha formato) {
+	public static Date parseFecha(String fecha, String formato) {
 		Date result = null;
-		SimpleDateFormat format = new SimpleDateFormat(formato.toString());
+		SimpleDateFormat format = new SimpleDateFormat(formato);
 
 		try {
 			if (fecha != null) {
@@ -96,10 +105,20 @@ public class FechaUtil {
 				}
 			}
 		} catch (Exception e) {
-			log.error("FechaUtil.parseFecha", e);
+			LOG.error("FechaUtil.parseFecha", e);
 		}
 
 		return result;
+	}
+	
+	/**
+	 * Convierte un {@code String} en {@code Date}, segun el formato especificado
+	 * @param fecha {@link String}
+	 * @param formato {@link FormatoFecha}
+	 * @return {@link Date}, Si no se puede convertir a {@code Date} devuelve {@code null} 
+	 */
+	public static Date parseFecha(String fecha, FormatoFecha formato) {
+		return FechaUtil.parseFecha(fecha, formato.toString());
 	}
 
 	/**

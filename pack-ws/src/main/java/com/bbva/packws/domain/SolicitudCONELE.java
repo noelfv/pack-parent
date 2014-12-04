@@ -30,7 +30,7 @@ public class SolicitudCONELE implements Serializable, Solicitud {
 	private String tipoDocumentoPack;
 	private String productoPack;
 	private String subProductoPack;
-
+	
 	@Override
 	public String getSolicitud() {
 		return solicitud;
@@ -208,14 +208,10 @@ public class SolicitudCONELE implements Serializable, Solicitud {
 
 	@Override
 	public int compareTo(Solicitud o) {
-		int i = this.getSolicitud().compareTo(o.getSolicitud());
-		if(i!=0){
-			return i;
-		}else{
-			return this.getFechaAlta().compareTo(o.getFechaAlta());
-		}
+		return this.getSolicitud().compareTo(o.getSolicitud());
 	}
 
+	
 	@Override
 	public String getEstadoPack() {
 		return estadoPack;
@@ -255,5 +251,5 @@ public class SolicitudCONELE implements Serializable, Solicitud {
 	public void setSubProductoPack(String subProductoPack) {
 		this.subProductoPack = subProductoPack;
 	}
-	
+
 }
