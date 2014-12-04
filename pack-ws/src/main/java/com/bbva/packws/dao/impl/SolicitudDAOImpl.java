@@ -24,15 +24,15 @@ public class SolicitudDAOImpl extends HibernateDAO<Solicitud> implements Solicit
 			criterioSolicitud.add(Restrictions.gt("solicitud", ultimoRegistro.getSolicitud()) );
 		}
 		
-		criterioSolicitud.add(Restrictions.eq("tipoDOI", tipoDOI));
+		criterioSolicitud.add(Restrictions.eq("tipoDocumentoPack", tipoDOI));
 		criterioSolicitud.add(Restrictions.eq("numDOI", numDOI));
 		if(codigoProducto != null && codigoProducto.length > 0) {
 			criterioSolicitud.add(Restrictions.in("codigoProducto", codigoProducto));
 		}
 		if(estado != null && estado.length > 0) {
-			criterioSolicitud.add(Restrictions.in("estado", estado));
+			criterioSolicitud.add(Restrictions.in("estadoPack", estado));
 		}
-		
+		criterioSolicitud.setFirstResult(0);
 		criterioSolicitud.setMaxResults(nroRegistro);
 		
 		return criterioSolicitud.list();

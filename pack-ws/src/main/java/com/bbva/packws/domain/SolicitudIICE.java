@@ -208,7 +208,15 @@ public class SolicitudIICE implements Serializable, Solicitud {
 	
 	@Override
 	public int compareTo(Solicitud o) {
-		return this.getSolicitud().compareTo(o.getSolicitud());
+		int i = 0;
+		Long original = Long.parseLong(this.getSolicitud());
+		Long parametro = Long.parseLong(o.getSolicitud());
+		i= original.compareTo(parametro);
+		if(i!=0){
+		return i;}
+		else{
+			return this.getFechaAlta().compareTo(o.getFechaAlta());
+		}
 	}
 	
 	@Override
