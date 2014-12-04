@@ -26,6 +26,10 @@ public class SolicitudIICE implements Serializable, Solicitud {
 	private String ejecutivo;
 	private String ejecutivoCodigo;
 	private Double tasa;
+	private String estadoPack;
+	private String tipoDocumentoPack;
+	private String productoPack;
+	private String subProductoPack;
 
 	@Override
 	public String getSolicitud() {
@@ -206,4 +210,45 @@ public class SolicitudIICE implements Serializable, Solicitud {
 	public int compareTo(Solicitud o) {
 		return this.getSolicitud().compareTo(o.getSolicitud());
 	}
+	
+	@Override
+	public String getEstadoPack() {
+		return estadoPack;
+	}
+
+	@Override
+	public void setEstadoPack(String estadoPack) {
+		this.estadoPack = estadoPack;
+	}
+
+	@Override
+	public String getTipoDocumentoPack() {
+		return tipoDocumentoPack;
+	}
+
+	@Override
+	public void setTipoDocumentoPack(String tipoDocumentoPack) {
+		this.tipoDocumentoPack = tipoDocumentoPack;
+	}
+
+	@Override
+	public String getProductoPack() {
+		return productoPack;
+	}
+
+	@Override
+	public void setProductoPack(String productoPack) {
+		this.productoPack = productoPack;
+	}
+
+	@Override
+	public String getSubProductoPack() {
+		return subProductoPack;
+	}
+
+	@Override
+	public void setSubProductoPack(String subProductoPack) {
+		this.subProductoPack = subProductoPack;
+	}
+	
 }

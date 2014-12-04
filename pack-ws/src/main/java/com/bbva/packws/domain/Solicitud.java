@@ -56,4 +56,16 @@ public interface Solicitud extends Comparable<Solicitud> {
 	void setTasa(Double tasa);
 
 	String getFechaAltaConFormato();
+	
+	String getEstadoPack();
+	void setEstadoPack(String estadoPack);
+	
+	String getTipoDocumentoPack();
+	void setTipoDocumentoPack(String tipoDocumentoPack);
+	
+	String getProductoPack();
+	void setProductoPack(String productoPack);
+	
+	String getSubProductoPack();
+	void setSubProductoPack(String subProductoPack);
 }
