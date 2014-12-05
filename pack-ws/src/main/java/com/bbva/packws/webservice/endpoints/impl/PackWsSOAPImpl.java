@@ -6,12 +6,15 @@ import java.util.List;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 
+import org.apache.log4j.Logger;
+
 import com.bbva.packws.domain.ParametroConfiguracion;
 import com.bbva.packws.domain.Solicitud;
 import com.bbva.packws.domain.SolicitudCONELE;
 import com.bbva.packws.enums.Configuracion;
 import com.bbva.packws.service.ParametroConfiguracionService;
 import com.bbva.packws.service.SolicitudService;
+import com.bbva.packws.util.Constantes;
 import com.bbva.packws.webservice.endpoints.PackWs;
 import com.bbva.packws.webservice.enums.CodigoRetorno;
 import com.bbva.packws.webservice.exception.BussinesWebServiceException;
@@ -21,26 +24,26 @@ import com.bbva.packws.webservice.solicitud.ListarSolicitudRequest;
 import com.bbva.packws.webservice.solicitud.ListarSolicitudResponse;
 import com.everis.web.listener.WebServletContextListener;
 
-
-
 @javax.jws.WebService (endpointInterface="com.bbva.packws.webservice.endpoints.PackWs", targetNamespace="http://www.bbva.com.pe/pack-ws/", serviceName="pack-ws", portName="pack-wsSOAP")
 public class PackWsSOAPImpl implements PackWs{
 
+	private static final Logger LOG = Logger.getLogger(PackWsSOAPImpl.class);
+	
 	private Solicitud crearSolicitud(com.bbva.packws.webservice.solicitud.Solicitud sws) {
 		Solicitud s = null;
 		
 		if(sws != null) {
 			s = new SolicitudCONELE();
 			s.setSolicitud(sws.getSolicitud());
-			s.setCodigoProducto(sws.getCodigoProducto());
-			s.setCodigoSubProducto(sws.getCodigoSubProducto());
-			s.setEstado(sws.getEstado());
+			s.setProductoPack(sws.getCodigoProducto());
+			s.setSubProductoPack(sws.getCodigoSubProducto());
+			s.setEstadoPack(sws.getEstado());
 			if(sws.getFechaAlta() != null) {
 				s.setFechaAlta(sws.getFechaAlta().toGregorianCalendar().getTime());
 			}
 			s.setImporte(sws.getImporte());
 			s.setDivisa(sws.getDivisa());
-			s.setTipoDOI(sws.getTipoDOI());
+			s.setTipoDocumentoPack(sws.getTipoDOI());
 			s.setNumDOI(sws.getNumDOI());
 			s.setCodigoCliente(sws.getCodigoCliente());
 			s.setContrato(sws.getContrato());
@@ -58,9 +61,9 @@ public class PackWsSOAPImpl implements PackWs{
 		com.bbva.packws.webservice.solicitud.Solicitud sws = new com.bbva.packws.webservice.solicitud.Solicitud();
 		
 		sws.setSolicitud(s.getSolicitud());
-		sws.setCodigoProducto(s.getCodigoProducto());
-		sws.setCodigoSubProducto(s.getCodigoSubProducto());
-		sws.setEstado(s.getEstado());
+		sws.setCodigoProducto(s.getProductoPack());
+		sws.setCodigoSubProducto(s.getSubProductoPack());
+		sws.setEstado(s.getEstadoPack());
 		try {
 			if(s.getFechaAlta() != null) {
 				calendar = new GregorianCalendar();
@@ -68,11 +71,11 @@ public class PackWsSOAPImpl implements PackWs{
 				sws.setFechaAlta(DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar));
 			}
 		} catch (DatatypeConfigurationException e) {
-			e.printStackTrace();
+			LOG.error("DatatypeConfigurationException", e);
 		}
 		sws.setImporte(s.getImporte());
 		sws.setDivisa(s.getDivisa());
-		sws.setTipoDOI(s.getTipoDOI());
+		sws.setTipoDOI(s.getTipoDocumentoPack());
 		sws.setNumDOI(s.getNumDOI());
 		sws.setCodigoCliente(s.getCodigoCliente());
 		sws.setContrato(s.getContrato());
@@ -91,12 +94,14 @@ public class PackWsSOAPImpl implements PackWs{
 		Solicitud ultimaPagina = crearSolicitud(parameters.getHeader().getUltimaPagina());
 		ListarSolicitudBodyRequest request = parameters.getBody();
 		ListarSolicitudBodyResponse response = new ListarSolicitudBodyResponse();
-		ParametroConfiguracion param = parametroConfiguracionService.obtenerParametro(Configuracion.PB_NRO_REGISTRO.getKey());
+		ParametroConfiguracion param[] = new ParametroConfiguracion[2];  
+		param[0] = parametroConfiguracionService.obtenerParametro(Configuracion.PB_NRO_REGISTRO.getKey());
+		param[1] = parametroConfiguracionService.obtenerParametro(Configuracion.PB_APAGAR_APLICACION_PLD.getKey());
 		Integer nroRegistros = 0;
 		
 		try {
-			if(param != null) {
-				nroRegistros = Integer.parseInt(param.getValor());
+			if(param[0] != null) {
+				nroRegistros = Integer.parseInt(param[0].getValor());
 			} else {
 				throw new BussinesWebServiceException("No se pudo obtener el nro. de registros por peticion");
 			}
@@ -121,7 +126,8 @@ public class PackWsSOAPImpl implements PackWs{
 				, request.getCodigoProducto().toArray(new String[]{})
 				, request.getEstadoSolicitud().toArray(new String[]{})
 				, ultimaPagina
-				, nroRegistros);
+				, nroRegistros
+				, Constantes.HABILITAR_IICE.equalsIgnoreCase(param[1].getValor()));
 		
 		if(listaSolicitud.isEmpty()) {
 			throw new BussinesWebServiceException(CodigoRetorno.SIN_RESULTADO, "No se encontraron registros con los parametros ingresados");

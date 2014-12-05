@@ -8,6 +8,7 @@ import org.springframework.batch.core.job.flow.JobExecutionDecider;
 import com.bbva.packws.domain.ParametroConfiguracion;
 import com.bbva.packws.enums.Configuracion;
 import com.bbva.packws.service.ParametroConfiguracionService;
+import com.bbva.packws.util.Constantes;
 import com.everis.web.listener.WebServletContextListener;
 
 public class SolicitudDecider implements JobExecutionDecider {
@@ -18,7 +19,7 @@ public class SolicitudDecider implements JobExecutionDecider {
 		ParametroConfiguracion param = parametroConfiguracionService.obtenerParametro(Configuracion.PB_APAGAR_APLICACION_PLD.getKey());
 		FlowExecutionStatus status = FlowExecutionStatus.COMPLETED;
 		
-		if ("SI".equalsIgnoreCase(param.getValor())) {
+		if (Constantes.HABILITAR_IICE.equalsIgnoreCase(param.getValor())) {
 			status = FlowExecutionStatus.FAILED;
         }
 		

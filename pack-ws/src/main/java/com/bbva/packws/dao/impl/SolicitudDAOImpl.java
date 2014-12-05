@@ -26,12 +26,15 @@ public class SolicitudDAOImpl extends HibernateDAO<Solicitud> implements Solicit
 		
 		criterioSolicitud.add(Restrictions.eq("tipoDocumentoPack", tipoDOI));
 		criterioSolicitud.add(Restrictions.eq("numDOI", numDOI));
+		
 		if(codigoProducto != null && codigoProducto.length > 0) {
-			criterioSolicitud.add(Restrictions.in("codigoProducto", codigoProducto));
+			criterioSolicitud.add(Restrictions.in("productoPack", codigoProducto));
 		}
+		
 		if(estado != null && estado.length > 0) {
 			criterioSolicitud.add(Restrictions.in("estadoPack", estado));
 		}
+		
 		criterioSolicitud.setFirstResult(0);
 		criterioSolicitud.setMaxResults(nroRegistro);
 		
@@ -39,11 +42,14 @@ public class SolicitudDAOImpl extends HibernateDAO<Solicitud> implements Solicit
 	}
 	
 	@Override
-	public List<Solicitud> consultarSolicitudes(String tipoDOI, String numDOI, String[] codigoProducto, String[] estado, Solicitud ultimoRegistro, int nroRegistro){
+	public List<Solicitud> consultarSolicitudes(String tipoDOI, String numDOI, String[] codigoProducto, String[] estado, Solicitud ultimoRegistro, int nroRegistro, boolean iiceActivo){
 		List<Solicitud> listaSolicitud = new ArrayList<Solicitud>();
 		
 		listaSolicitud.addAll(ejecutarConsultaSolicitudes(SolicitudCONELE.class, tipoDOI, numDOI, codigoProducto, estado, ultimoRegistro, nroRegistro));
-		listaSolicitud.addAll(ejecutarConsultaSolicitudes(SolicitudIICE.class, tipoDOI, numDOI, codigoProducto, estado, ultimoRegistro, nroRegistro));
+		
+		if(iiceActivo) {
+			listaSolicitud.addAll(ejecutarConsultaSolicitudes(SolicitudIICE.class, tipoDOI, numDOI, codigoProducto, estado, ultimoRegistro, nroRegistro));
+		}
 		
 		return listaSolicitud;
 	}
