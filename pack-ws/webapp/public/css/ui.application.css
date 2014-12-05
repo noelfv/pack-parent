@@ -188,9 +188,8 @@ table td {
 
 .panelMenu .title {
 	vertical-align: bottom;
-	font-size: 16px;
+	font-family: "BBVA Web Medium";
 	margin-left: 15px;
-	font-weight: bold;
 }
 
 
@@ -205,6 +204,26 @@ table td {
 
 #menu .ui-widget-header {
 	font-weight: normal;
+}
+
+#body .ui-accordion-header {
+	margin-bottom: 0px;
+}
+
+#body .ui-widget-header {
+	background: none repeat scroll 0 0 #f0f2ef;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px 5px 0 0;
+    height: 48px;
+    line-height: 46px;
+    padding: 0 9px 0 19px;
+    position: relative;
+    z-index: 1;
+    color: black;
+}
+
+#body .ui-widget-content {
+	border: 1px solid #dcdcdc;
 }
 
 .ui-widget-panel {

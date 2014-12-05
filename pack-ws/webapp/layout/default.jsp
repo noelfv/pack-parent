@@ -14,25 +14,7 @@
 		<tiles:insertAttribute name="head" />
 		<tiles:insertAttribute name="menu" />
 		<div id="body">
-			<s:if test="hasActionErrors()">					   
-				<div class="ui-widget ui-state-error ui-corner-all" style="padding: 5px; margin: 5px;">
-				  <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
-				  <strong style="font-size: 12px;">Error :</strong> 
-				  <s:actionerror/>	  
-				</div>	     							
-			</s:if>
-			<s:if test="hasActionMessages()">
-				<div id="hasActionMessages" class="ui-widget ui-state-highlight ui-corner-all" style="padding: 5px; margin: 5px;">
-				  <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> 
-				  <strong style="font-size: 12px;">Error :</strong> 
-				  <s:actionmessage/>
-				</div>
-			</s:if>
-			<div class="ui-widget">
-				<div class="ui-widget-panel ui-widget-content">
-				<tiles:insertAttribute name="body" />
-				</div>
-			</div>
+			<tiles:insertAttribute name="body" />
 		</div>
 		<div id="panelMensaje"></div>
 		<tiles:insertAttribute name="foot" />

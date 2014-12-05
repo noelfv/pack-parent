@@ -29,7 +29,7 @@ public class SolicitudServiceImplTest {
 	public void consultarSolicitudes() {
 		Solicitud parametro = new SolicitudCONELE();
 		
-		List<Solicitud> list = solicitudService.consultarSolicitudes("","",new String[]{""},new String[]{""},parametro,1);
+		List<Solicitud> list = solicitudService.consultarSolicitudes("","", new String[]{""}, new String[]{""}, parametro, 1, true);
 		Assert.assertNotNull(list);
 		Assert.assertTrue(!list.isEmpty());
 	}

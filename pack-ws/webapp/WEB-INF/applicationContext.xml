@@ -7,6 +7,7 @@
 	 xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	 xmlns:jaxws="http://cxf.apache.org/jaxws"
 	 xmlns:batch="http://www.springframework.org/schema/batch" 
+     xmlns:mvc="http://www.springframework.org/schema/mvc"
      xsi:schemaLocation="
 	     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -14,7 +15,8 @@
 	     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		 http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 	  	 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-	  	 http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+	  	 http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+	  	 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 <!-- 
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -35,6 +37,7 @@
 	<tx:annotation-driven />
     <context:annotation-config />
     <context:component-scan base-package="com.bbva.packws" />
+    <mvc:annotation-driven />
     
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="jdbc/APP_CONELE" />
@@ -139,8 +142,7 @@
 			class="org.springframework.batch.item.database.JdbcCursorItemReader"
 			scope="step">
 			<property name="dataSource" ref="dataSource" />
-			<property name="sql"
-				value="select * from CONELE.V_SOLICITUD" />
+			<property name="sql" value="select * from CONELE.V_SOLICITUD" />
 			<property name="rowMapper">
 				<bean class="com.bbva.packws.batch.SolicitudRowMapper" />
 			</property>
@@ -150,8 +152,7 @@
 			class="org.springframework.batch.item.database.JdbcCursorItemReader"
 			scope="step">
 			<property name="dataSource" ref="dataSource" />
-			<property name="sql"
-				value="select * from CONELE.V_SOLICITUD_IICE" />
+			<property name="sql" value="select * from CONELE.V_SOLICITUD_IICE" />
 			<property name="rowMapper">
 				<bean class="com.bbva.packws.batch.SolicitudRowMapper" />
 			</property>
@@ -189,8 +190,18 @@
 					<chunk reader="itemReaderIICE" writer="itemWriter" commit-interval="100" />
 				</tasklet>
 			</step>
+			
+			<listeners>
+				<listener ref="monitoringJobListener"/>
+			</listeners>
 		</job>
 		
 		<bean id="decider" class="com.bbva.packws.batch.SolicitudDecider"/>
+		<bean id="monitoringJobListener" class="com.bbva.packws.batch.monitoring.MonitoringExecutionListener">
+			<property name="monitoringNotifier" ref="monitoringNotifier"/>
+		</bean>
+		<bean id="monitoringNotifier" class="com.bbva.packws.batch.monitoring.impl.BatchMonitoringNotifierImpl">
+			<property name="notificacionService" ref="notificacionService"/>
+		</bean>
     <!-- End: Job -->
 </beans>

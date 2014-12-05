@@ -33,9 +33,11 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/common/browser.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/common/application.js"></script>
 	
+	<!-- 
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.alerts.js"></script>
 	<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
-		
+	 -->
+	 	
 	<script type="text/javascript">
 		var useFunctionLoading = null,
 			obtenerContexto = function(_url) {

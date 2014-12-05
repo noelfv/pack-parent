@@ -5,10 +5,28 @@
 	id="WebApp_ID" version="3.0">
 	<display-name>PackBBVA</display-name>
 	<description>PackBBVA</description>
-
+	
+	<servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>Log4JInitServlet</servlet-name>
 		<servlet-class>com.everis.web.servlet.Log4jServlet</servlet-class>
+		<init-param>
+        	<param-name>app</param-name>
+        	<param-value>pack-ws</param-value>
+        </init-param>
+		<init-param>
+        	<param-name>log4jService</param-name>
+        	<param-value>log4jService</param-value>
+        </init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
