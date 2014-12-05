@@ -24,7 +24,7 @@ public abstract class AbstractSpringControllerImpl implements AbstractController
 	
 	public String getMensaje(String key) throws FileNotFoundException, IOException {
 		Properties properties = new Properties();
-		InputStream is = this.getClass().getResourceAsStream("/mensajes.properties");
+		InputStream is = this.getClass().getResourceAsStream("/messages.properties");
 		properties.load(is);
 		return properties.getProperty(key);
 	}
@@ -100,4 +100,6 @@ public abstract class AbstractSpringControllerImpl implements AbstractController
 		baseModel.setTipoResultado(Resultado.ERROR_SISTEMA);
 		return this.renderModelJson(baseModel);
 	}
+	
+	public void render(String rendered) throws IOException { }
 }

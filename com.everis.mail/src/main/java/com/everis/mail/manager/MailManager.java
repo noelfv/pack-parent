@@ -67,8 +67,4 @@ public class MailManager {
 		MailThread mailThread = new MailThread(this);
 		mailThread.start();
 	}
-	
-	public void send(Message message) {
-		
-	}
 }

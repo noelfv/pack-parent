@@ -37,7 +37,5 @@ public class MailThread extends Thread {
 		if(manager.getHandler() != null) {
 			manager.getHandler().end();
 		}
-		
-		super.run();
 	}
 }

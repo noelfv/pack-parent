@@ -41,4 +41,34 @@ public final class TrazaUtil {
 		
 		return trace.toString();
 	}
+	
+	/**
+	 * Transoforma la excepcion a formato text
+	 * 
+	 * @param e Excepcion lanzada
+	 * @return {@link String}, Excepcion en una cadena
+	 */
+	public static String mostrarMensajeText(Exception e) {
+		StackTraceElement[] stackTraceElement = null;
+		StringBuilder trace = new StringBuilder();
+
+		try {
+			trace.append("Error: \n");
+			trace.append(e.getMessage());
+			trace.append("\nTraza:\n");
+			stackTraceElement = e.getStackTrace();
+
+			if (stackTraceElement != null && stackTraceElement.length > 0) {
+				for (StackTraceElement elem: stackTraceElement) {
+					trace.append(elem);
+					trace.append("\n");
+				}
+			}
+		} catch (Exception ex) {
+			trace = new StringBuilder(e.getMessage());
+			logger.error(e);
+		}
+		
+		return trace.toString();
+	}
 }
