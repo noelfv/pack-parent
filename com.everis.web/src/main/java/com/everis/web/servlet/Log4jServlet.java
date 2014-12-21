@@ -35,7 +35,7 @@ public class Log4jServlet extends HttpServlet {
 	
     private void reloadLog4J() {
         String rootCategory = "INFO,stdout,LOGFILE";
-        String fileName = "/pr/scorating/online/pe/web/log";
+        String fileName = "/pr/" +  app.toLowerCase() + "/online/pe/web/log/log_" +  app.toLowerCase() + ".log";
         String maxFileSize = "1024kb";
         String maxBackupIndex = "20";
 
@@ -44,9 +44,24 @@ public class Log4jServlet extends HttpServlet {
     			log4jService = (Log4jService) WebServletContextListener.getBean(log4jServiceName);
     			if(log4jService != null) {
     	            rootCategory = log4jService.obtener(Log4jService.rootCategory);
+    	            if(rootCategory == null || rootCategory.isEmpty()) {
+    	            	rootCategory = "INFO,stdout,LOGFILE";
+    	            }
+    	            
     	            fileName = log4jService.obtener(Log4jService.file);
+    	            if(fileName == null || fileName.isEmpty()) {
+    	            	fileName = "/pr/" +  app.toLowerCase() + "/online/pe/web/log/log_" +  app.toLowerCase() + ".log";
+    	            }
+    	            
     	            maxFileSize = log4jService.obtener(Log4jService.maxFileSize);
-    	            maxBackupIndex = log4jService.obtener(Log4jService.maxBackupIndex);	
+    	            if(maxFileSize == null || maxFileSize.isEmpty()) {
+    	            	maxFileSize = "1024kb";
+    	            }
+    	            
+    	            maxBackupIndex = log4jService.obtener(Log4jService.maxBackupIndex);
+    	            if(maxBackupIndex == null || maxBackupIndex.isEmpty()) {
+    	            	maxBackupIndex = "20";
+    	            }
     			}	
     		}
         } catch (Exception e) {

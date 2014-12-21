@@ -23,14 +23,16 @@ public class MailThread extends Thread {
 			manager.getHandler().init();
 		}
 		
-		for(Message m : manager.getMessages()) {
-			try {
+		Message ms = null;
+		try {
+			for(Message m : manager.getMessages()) {
+				ms = m;
 				manager.getFilterChainMail().send(m);
-			} catch (MailException e) {
-				logger.error("No se pudo enviar", e);
-				if(manager.getHandler() != null) {
-					manager.getHandler().error(e, m);
-				}
+			}
+		} catch (MailException e) {
+			logger.error("No se pudo enviar", e);
+			if(manager.getHandler() != null) {
+				manager.getHandler().error(e, ms);
 			}
 		}
 		

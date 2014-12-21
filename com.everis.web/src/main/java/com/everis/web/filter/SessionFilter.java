@@ -20,9 +20,9 @@ import com.grupobbva.bc.per.tele.seguridad.ServiciosSeguridadBbva;
 public class SessionFilter implements Filter {
 
 	private static final Logger LOG = Logger.getLogger(SessionFilter.class);
-	private static String NOT_AUTHORIZED = "iniciosesion.html";
-	private static String SIGN_IN = "iniciosesion.html";
-	private static String SIGN_OUT = "cerrarsesion.html";
+	private static String NOT_AUTHORIZED;
+	private static String SIGN_IN;
+	private static String SIGN_OUT;
 
 	public void destroy() {
 	}
@@ -31,17 +31,10 @@ public class SessionFilter implements Filter {
 		SIGN_IN = config.getInitParameter("SIGN_IN");
 		SIGN_OUT = config.getInitParameter("SIGN_OUT");
 		NOT_AUTHORIZED = config.getInitParameter("NOT_AUTHORIZED");
-		
-		if(SIGN_IN == null) {
-			SIGN_IN = "iniciosesion.html";
-		}
-		
-		if(SIGN_OUT == null) {
-			SIGN_OUT = "cerrarsesion.html";
-		}
 	}
 	
 	public String loadUser(HttpServletRequest request) {
+		AbstractUser currentUser = new AbstractUser();
 		String result = request.getRequestURI();
 		ServiciosSeguridadBbva ssBbva = null;
         IILDPeUsuario user = null;
@@ -51,26 +44,30 @@ public class SessionFilter implements Filter {
             ssBbva = new ServiciosSeguridadBbva(request);
             if (ssBbva != null) {
                 ssBbva.obtener_ID();
-                codigoUsuario = ssBbva.getUsuario().toUpperCase();
             }
             
-            try {
-                user = IILDPeUsuario.recuperarUsuario(codigoUsuario);
-            } catch (Exception ex) {
-                LOG.debug("Error al recuperar el ID del usuario", ex);
-            }
-
-            AbstractUser currentUser = new AbstractUser();
-            if (user == null) {
-            	currentUser.setNombreCompleto("Anonimo");
+            if(ssBbva.getUsuario() != null) {
+                codigoUsuario = ssBbva.getUsuario().toUpperCase();
+            
+	            try {
+	                user = IILDPeUsuario.recuperarUsuario(codigoUsuario);
+	            } catch (Exception ex) {
+	                LOG.debug("Error al recuperar el ID del usuario", ex);
+	            }
+	
+	            if (user == null) {
+	            	currentUser.setNombreCompleto("Anonimo");
+	            } else {
+	            	currentUser.setCodigoRegistro(codigoUsuario);
+	                currentUser.setNombreCompleto(user.getNombreCompleto());
+	                currentUser.setCodigoCargo(user.getCargo().getCodigo());
+	                currentUser.setIdRol(-1L);
+	            }
             } else {
-            	currentUser.setCodigoRegistro(codigoUsuario);
-                currentUser.setNombreCompleto(user.getNombreCompleto());
-                currentUser.setCodigoCargo(user.getCargo().getCodigo());
-                currentUser.setIdRol(-1L);
+            	currentUser.setNombreCompleto("Anonimo");
             }
-
-            request.getSession().setAttribute(Session.CURRENT_USER, user);
+            
+            request.getSession().setAttribute(Session.CURRENT_USER, currentUser);
         } catch (Exception e) {
             LOG.error("Error al inciar la sesion", e);
             result = NOT_AUTHORIZED;
@@ -82,20 +79,26 @@ public class SessionFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		String url = request.getRequestURI();
-
+		String tmp[] = request.getRequestURL().toString().split(request.getContextPath());
+		String path = tmp[0] + request.getContextPath() + "/";
+		
 		if (url.indexOf(NOT_AUTHORIZED) != -1 && (url.substring(url.length() - NOT_AUTHORIZED.length(), url.length()).equalsIgnoreCase(NOT_AUTHORIZED) || url.indexOf(";jsessionid=") > -1)) {
 			chain.doFilter(req, resp);
-		} else if (url.indexOf(SIGN_IN) != -1 && (url.substring(url.length() - SIGN_IN.length(), url.length()).equalsIgnoreCase(SIGN_IN) || url.indexOf(";jsessionid=") > -1)) {
+		} else if (SIGN_IN != null && url.indexOf(SIGN_IN) != -1 && (url.substring(url.length() - SIGN_IN.length(), url.length()).equalsIgnoreCase(SIGN_IN) || url.indexOf(";jsessionid=") > -1)) {
 			chain.doFilter(req, resp);
-		} else if (url.indexOf(SIGN_OUT) != -1 && url.substring(url.length() - SIGN_OUT.length(), url.length()).equalsIgnoreCase(SIGN_OUT)) {
+		} else if (SIGN_OUT != null && url.indexOf(SIGN_OUT) != -1 && url.substring(url.length() - SIGN_OUT.length(), url.length()).equalsIgnoreCase(SIGN_OUT)) {
 			request.getSession().invalidate();
+			LOG.error("Forward [" + path + SIGN_OUT + "]");
 			request.getRequestDispatcher(SIGN_OUT).forward(req, resp);
 		} else {
 			if (request.getSession().getAttribute(Session.CURRENT_USER) != null) {
 				chain.doFilter(req, resp);
 			} else {
 				if(NOT_AUTHORIZED.equalsIgnoreCase(loadUser(request))) {
+					LOG.error("Forward [" + path + NOT_AUTHORIZED + "]");
 					request.getRequestDispatcher(NOT_AUTHORIZED).forward(req, resp);
+				} else {
+					chain.doFilter(req, resp);
 				}
 			}
 		}

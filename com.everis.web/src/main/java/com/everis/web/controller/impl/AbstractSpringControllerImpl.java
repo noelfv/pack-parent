@@ -30,19 +30,7 @@ public abstract class AbstractSpringControllerImpl implements AbstractController
 	}
 	
 	public String renderModelJson(Object object) {
-		String json = "";
-		try {
-			json =  new JSONSerializer().deepSerialize(object);
-		} catch(Exception e) {
-			LOG.error("GenericController:renderModelJson", e);
-			StringBuilder sb = new StringBuilder();
-			sb.append("{\"mensaje\": \"");
-			sb.append(TrazaUtil.mostrarMensajeHTML(e));
-			sb.append("\", \"tipoResultado\": \"ERROR_SISTEMA\"}");
-			json = sb.toString();
-		}
-		LOG.info(json);
-		return json;
+		return renderModelJsonDeepExclude(object, new String[]{"*.class"});
 	}
 
 	public String renderModelJsonDeepExclude(Object object, String[] exclude) {
@@ -78,6 +66,7 @@ public abstract class AbstractSpringControllerImpl implements AbstractController
 	}
 
 	public String renderErrorSistema(Exception ex) {
+		LOG.error("renderErrorSistema", ex);
 		BaseModel baseModel = new BaseModel();
 		baseModel.setMensaje(TrazaUtil.mostrarMensajeHTML(ex));
 		baseModel.setTipoResultado(Resultado.ERROR_SISTEMA);
@@ -89,6 +78,7 @@ public abstract class AbstractSpringControllerImpl implements AbstractController
 		
 		StringBuilder sb = new StringBuilder();
 		for(ObjectError e: ex) {
+			LOG.error("renderErrorSistema [ObjectName:" + e.getObjectName() + ", DefaultMessage:" + e.getDefaultMessage() + "]");
 			sb.append("ObjectName: ");
 			sb.append(e.getObjectName());
 			sb.append(" - DefaultMessage: ");

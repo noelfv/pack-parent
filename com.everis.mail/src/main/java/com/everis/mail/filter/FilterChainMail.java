@@ -19,10 +19,20 @@ public class FilterChainMail {
 	
 	public void send(Message message) throws MailException {
 		for(FilterMail filter : filters) {
-			filter.send(message);
+			filter.sendBefore(message);
 		}
 		
 		target.setMessage(message);
-		target.send();
+		try {
+			target.send();
+		} catch(Exception e) {
+			for(FilterMail filter : filters) {
+				filter.sendError(message, e);
+			}
+		}
+		
+		for(FilterMail filter : filters) {
+			filter.sendAfter(message);
+		}
 	}
 }

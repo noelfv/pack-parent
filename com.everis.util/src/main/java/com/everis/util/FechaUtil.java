@@ -62,7 +62,7 @@ public class FechaUtil {
 	 * @return {@link String}, Devuelve la fecha en el formato especificado.<br/>Si fecha es {@code null} devuelve "". 
 	 */
 	public static String formatFecha(Date fecha, FormatoFecha formato) {
-		return FechaUtil.formatFecha(FechaUtil.getAhora(), formato.toString());
+		return FechaUtil.formatFecha(fecha, formato.toString());
 	}
 
 	/**
