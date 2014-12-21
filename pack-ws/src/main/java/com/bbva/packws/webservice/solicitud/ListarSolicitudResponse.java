@@ -39,9 +39,9 @@ import javax.xml.bind.annotation.XmlType;
 public class ListarSolicitudResponse {
 
     @XmlElement(required = true)
-    protected HeaderResponse header;
+    private HeaderResponse header;
     @XmlElement(required = true)
-    protected ListarSolicitudBodyResponse body;
+    private ListarSolicitudBodyResponse body;
 
     /**
      * Gets the value of the header property.

@@ -5,5 +5,5 @@ import java.io.IOException;
 
 public interface AbstractController {
 
-	abstract void render(String rendered) throws IOException;
+	void render(String rendered) throws IOException;
 }

@@ -43,10 +43,10 @@ import javax.xml.bind.annotation.XmlType;
 public class HeaderResponse {
 
     @XmlElement(required = true)
-    protected String codigoRetorno;
+    private String codigoRetorno;
     @XmlElement(required = true)
-    protected Solicitud ultimoRegistro;
-    protected List<String> errores;
+    private Solicitud ultimoRegistro;
+    private List<String> errores;
 
     /**
      * Gets the value of the codigoRetorno property.

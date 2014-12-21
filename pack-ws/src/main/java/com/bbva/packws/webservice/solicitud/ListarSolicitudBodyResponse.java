@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class ListarSolicitudBodyResponse {
 
-    protected List<Solicitud> solicitudes;
+	private List<Solicitud> solicitudes;
 
     /**
      * Gets the value of the solicitudes property.

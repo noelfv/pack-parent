@@ -99,10 +99,8 @@ public class FechaUtil {
 		SimpleDateFormat format = new SimpleDateFormat(formato);
 
 		try {
-			if (fecha != null) {
-				if (fecha.length() > 0) {
-					result = format.parse(fecha);
-				}
+			if (fecha != null && fecha.length() > 0) {
+				result = format.parse(fecha);
 			}
 		} catch (Exception e) {
 			LOG.error("FechaUtil.parseFecha", e);
@@ -266,8 +264,7 @@ public class FechaUtil {
 
 		if (calendarFirst.getTime().getTime() < calendarEnd.getTime().getTime()) {
 			return 1;
-		} else if (calendarFirst.getTime().getTime() == calendarEnd.getTime()
-				.getTime()) {
+		} else if (calendarFirst.getTime().getTime() == calendarEnd.getTime().getTime()) {
 			return 0;
 		} else {
 			return -1;

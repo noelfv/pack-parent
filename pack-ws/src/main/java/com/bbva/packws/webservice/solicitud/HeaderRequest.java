@@ -39,8 +39,8 @@ import javax.xml.bind.annotation.XmlType;
 public class HeaderRequest {
 
     @XmlElement(required = true)
-    protected String codigoRegistro;
-    protected Solicitud ultimaPagina;
+    private String codigoRegistro;
+    private Solicitud ultimaPagina;
 
     /**
      * Gets the value of the codigoRegistro property.

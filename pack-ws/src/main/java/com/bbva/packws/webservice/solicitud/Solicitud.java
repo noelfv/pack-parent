@@ -67,32 +67,32 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class Solicitud {
 
     @XmlElement(required = true)
-    protected String solicitud;
+    private String solicitud;
     @XmlElement(required = true)
-    protected String codigoProducto;
+    private String codigoProducto;
     @XmlElement(required = true)
-    protected String codigoSubProducto;
+    private String codigoSubProducto;
     @XmlElement(required = true)
-    protected String estado;
+    private String estado;
     @XmlSchemaType(name = "date")
-    protected XMLGregorianCalendar fechaAlta;
-    protected Double importe;
+    private XMLGregorianCalendar fechaAlta;
+    private Double importe;
     @XmlElement(required = true)
-    protected String divisa;
+    private String divisa;
     @XmlElement(required = true)
-    protected String tipoDOI;
+    private String tipoDOI;
     @XmlElement(required = true)
-    protected String numDOI;
+    private String numDOI;
     @XmlElement(required = true)
-    protected String codigoCliente;
+    private String codigoCliente;
     @XmlElement(required = true)
-    protected String contrato;
-    protected Long plazo;
+    private String contrato;
+    private Long plazo;
     @XmlElement(required = true)
-    protected String oficina;
+    private String oficina;
     @XmlElement(required = true)
-    protected String ejecutivo;
-    protected Double tasa;
+    private String ejecutivo;
+    private Double tasa;
 
     /**
      * Gets the value of the solicitud property.

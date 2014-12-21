@@ -20,42 +20,28 @@ public class SolicitudDAOImpl extends HibernateDAO<Solicitud> implements Solicit
     private Criteria builderCriteria(Class<?> clazz, String tipoDOI, String numDOI, String[] codigoProducto, String[] estado, Solicitud ultimoRegistro, int nroRegistro) {
         Criteria criterioSolicitud = super.getCriteria(clazz);
 
-        if(ultimoRegistro != null) {
-            /* if(ultimoRegistro.getFechaAlta() != null) {
-                criterioSolicitud.add(Restrictions.disjunction()
-                    .add(Restrictions.isNull("fechaAlta"))
-                    .add(Restrictions.gt("fechaAlta", ultimoRegistro.getFechaAlta()))
-                );
+        if(ultimoRegistro != null && ultimoRegistro.getSolicitud() != null) {
+            String idsSolicitudTemp[] = ultimoRegistro.getSolicitud().split("-");
+            String idSolicitud = "";
+
+            if(clazz.getSimpleName().equalsIgnoreCase("SolicitudCONELE")) {
+                idSolicitud = idsSolicitudTemp[0].split(":")[1];
             } else {
-                criterioSolicitud.add(Restrictions.isNull("fechaAlta"));
-            }*/
-            if(ultimoRegistro.getSolicitud() != null) {
-                String idsSolicitudTemp[] = ultimoRegistro.getSolicitud().split("-");
-                String idSolicitud = "";
-
-                if(clazz.getSimpleName().equalsIgnoreCase("SolicitudCONELE")) {
-                    idSolicitud = idsSolicitudTemp[0].split(":")[1];
-                } else {
-                    idSolicitud = idsSolicitudTemp[1].split(":")[1];
-                }
-
-                criterioSolicitud.add(Restrictions.gt("solicitud", idSolicitud));
+                idSolicitud = idsSolicitudTemp[1].split(":")[1];
             }
+
+            criterioSolicitud.add(Restrictions.gt("solicitud", idSolicitud));
         }
 
         criterioSolicitud.add(Restrictions.eq("tipoDocumentoPack", tipoDOI));
         criterioSolicitud.add(Restrictions.eq("numDOI", numDOI));
 
-        if(codigoProducto != null && codigoProducto.length > 0) {
-            if(!(codigoProducto.length == 1 && codigoProducto[0].trim().length() == 0)) {
-                criterioSolicitud.add(Restrictions.in("productoPack", codigoProducto));
-            }
+        if(codigoProducto != null && codigoProducto.length > 0 && (!(codigoProducto.length == 1 && codigoProducto[0].trim().length() == 0))) {
+            criterioSolicitud.add(Restrictions.in("productoPack", codigoProducto));
         }
 
-        if(estado != null && estado.length > 0) {
-            if(!(estado.length == 1 && estado[0].trim().length() == 0)) {
-                criterioSolicitud.add(Restrictions.in("estadoPack", estado));
-            }
+        if(estado != null && estado.length > 0 && (!(estado.length == 1 && estado[0].trim().length() == 0))) {
+            criterioSolicitud.add(Restrictions.in("estadoPack", estado));
         }
 
         return criterioSolicitud;

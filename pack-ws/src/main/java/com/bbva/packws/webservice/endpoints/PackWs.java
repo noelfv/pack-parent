@@ -32,7 +32,7 @@ public interface PackWs {
      */
     @WebMethod(action = "http://www.bbva.com.pe/pack-ws/listarSolicitud")
     @WebResult(name = "listarSolicitudResponse", targetNamespace = "http://www.bbva.com.pe/pack-ws/", partName = "parameters")
-    public ListarSolicitudResponse listarSolicitud(
+    ListarSolicitudResponse listarSolicitud(
         @WebParam(name = "listarSolicitudRequest", targetNamespace = "http://www.bbva.com.pe/pack-ws/", partName = "parameters")
         ListarSolicitudRequest parameters);
 

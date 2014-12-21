@@ -1,6 +1,5 @@
 package com.everis.web.controller.impl;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -22,7 +21,7 @@ public abstract class AbstractSpringControllerImpl implements AbstractController
 	private static final long serialVersionUID = 1L;
 	private Logger LOG = Logger.getLogger(AbstractSpringControllerImpl.class);
 	
-	public String getMensaje(String key) throws FileNotFoundException, IOException {
+	public String getMensaje(String key) throws IOException {
 		Properties properties = new Properties();
 		InputStream is = this.getClass().getResourceAsStream("/messages.properties");
 		properties.load(is);

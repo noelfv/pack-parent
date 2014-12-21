@@ -45,11 +45,11 @@ import javax.xml.bind.annotation.XmlType;
 public class ListarSolicitudBodyRequest {
 
     @XmlElement(required = true)
-    protected String tipoDocumento;
+    private String tipoDocumento;
     @XmlElement(required = true)
-    protected String nroDocumento;
-    protected List<String> codigoProducto;
-    protected List<String> estadoSolicitud;
+    private String nroDocumento;
+    private List<String> codigoProducto;
+    private List<String> estadoSolicitud;
 
     /**
      * Gets the value of the tipoDocumento property.

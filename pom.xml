@@ -5,7 +5,7 @@
 	<artifactId>com.everis.parent</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Librerias Genericas</name>
+	<name>Pack BBVA - Monitor de Procesos por Lotes</name>
 
 	<modules>
 		<module>com.everis.core</module>
