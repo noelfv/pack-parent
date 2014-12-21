@@ -26,7 +26,7 @@
 	outline: 0;
 	line-height: 1.3;
 	text-decoration: none;
-	font-size: 100%;
+	/* font-size: 100%; */
 	list-style: none;
 }
 .ui-helper-clearfix:before,
@@ -822,7 +822,8 @@ body .ui-tooltip {
 .ui-widget-header .ui-state-default {
 	border: 1px solid #3475c5;
 	background: #094fa4 url(images/ui-bg_glass_20_094fa4_1x400.png) 50% 50% repeat-x;
-	font-weight: bold;
+	/* font-weight: bold;
+	font-family: "BBVA Web Medium"; */
 	color: #ffffff;
 }
 .ui-state-default a,
@@ -839,7 +840,8 @@ body .ui-tooltip {
 .ui-widget-header .ui-state-focus {
 	border: 1px solid #3475c5;
 	background: #3475c5 url(images/ui-bg_glass_40_3475c5_1x400.png) 50% 50% repeat-x;
-	font-weight: bold;
+	/* font-weight: bold;
+	font-family: "BBVA Web Medium"; */
 	color: #ffffff;
 }
 .ui-state-hover a,
@@ -854,7 +856,8 @@ body .ui-tooltip {
 .ui-widget-header .ui-state-active {
 	border: 1px solid #2361ad;
 	background: #3475c5 url(images/ui-bg_glass_40_3475c5_1x400.png) 50% 50% repeat-x;
-	font-weight: bold;
+	/* font-weight: bold;
+	font-family: "BBVA Web Medium"; */
 	color: #fff;
 }
 .ui-state-active a,

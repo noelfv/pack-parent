@@ -20,7 +20,9 @@ public class BatchMonitoringNotifierImpl implements BatchMonitoringNotifier {
 	@Override
 	public void notify(JobExecution jobExecution) {
 		LOG.error("BatchMonitoringNotifierImpl: " + jobExecution.getExitStatus().getExitCode());
-		notificacionService.notificarPorCorreo(jobExecution);
+        if(!jobExecution.getExitStatus().getExitCode().equalsIgnoreCase("COMPLETED")) {
+            notificacionService.notificarPorCorreo(jobExecution);
+        }
 	}
 
 }

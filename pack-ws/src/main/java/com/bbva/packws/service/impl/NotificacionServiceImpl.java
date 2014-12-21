@@ -45,13 +45,18 @@ public class NotificacionServiceImpl implements NotificacionService {
 		header.setHost(params[0].getValor());
 		header.setPort(params[1].getValor());
 		header.setUserFrom(params[2].getValor());
-		header.setPasswordFrom(params[3].getValor());
+        header.setEmailFrom(params[2].getValor());
+		if(params[3] != null) {
+			header.setPasswordFrom(params[3].getValor());
+		} else {
+			header.setPasswordFrom("");
+		}
 		header.setListTO(params[4].getValor());
-		header.setSubject("Pack BBVA - Proceso de generación de archivo");
+		header.setSubject("Pack BBVA - Proceso de generacion de archivo");
 		
 		MessageBody body = new MessageBody();
 		StringBuilder sb = new StringBuilder();
-		sb.append("Ocurrio un error al ejecutar el proceso de generación del archivo<br><br>");
+		sb.append("Ocurrio un error al ejecutar el proceso de generacion del archivo<br><br>");
 		for(Throwable e : jobExecution.getFailureExceptions()) {
 			sb.append(TrazaUtil.mostrarMensajeHTML(new Exception(e)));
 			sb.append("<br>");

@@ -7,5 +7,6 @@ import com.bbva.packws.domain.Solicitud;
 public interface SolicitudDAO {
 	
 	List<Solicitud> consultarSolicitudes(String tipoDOI, String numDOI, String[] codigoProducto, String[] estado, Solicitud ultimoRegistro, int nroRegistro, boolean iiceActivo);
+    int contarSolicitudes(String tipoDOI, String numDOI, String[] codigoProducto, String[] estado, boolean iiceActivo);
 
 }

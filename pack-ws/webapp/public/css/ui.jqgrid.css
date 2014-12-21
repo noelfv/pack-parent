@@ -762,16 +762,14 @@ tr.ui-search-toolbar select {
 }
 
 .ui-jqgrid tr.ui-state-hover {
-	border: 1px solid #fad42e !important;
-	background: #fbec88 url(../theme/bbva/images/ui-bg_glass_55_fbec88_1x400.png) 50% 50% repeat-x !important;
+	/* border: 1px solid #fad42e !important; */
+	background: #e0f6fc !important;
 	color: #363636;
-	!
-	important
 }
 
 .ui-jqgrid tr.ui-state-highlight {
-	border: 1px solid #ffde2e !important;
-	background: #f3b220 url(../img/ui-bg_glass_50_f3b220_1x400.png) 50% 50% repeat-x !important;
+	/* border: 1px solid #ffde2e !important; */
+	background: #094FA4 !important; /* #009EE5 */
 	font-weight: normal !important;
-	color: #000 !important;
+	color: #FFF !important; 
 }

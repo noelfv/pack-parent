@@ -192,7 +192,6 @@ table td {
 	margin-left: 15px;
 }
 
-
 #menu,
 #menu .ui-widget-header {
     height: 49px;
@@ -201,13 +200,25 @@ table td {
     border-radius: 5px;
 }
 
-
 #menu .ui-widget-header {
 	font-weight: normal;
 }
 
 #body .ui-accordion-header {
 	margin-bottom: 0px;
+}
+
+b,
+.ui-datepicker-buttonpane .ui-priority-primary,
+.ui-timepicker-div .ui-widget-header,
+.ui-dialog .ui-dialog-title {
+	font-family: "BBVA Web Medium";
+	font-weight: normal;
+}
+
+.ui-datepicker .ui-widget-header,
+.ui-dialog .ui-widget-header {
+	background: linear-gradient(#0079c1, #00529b) repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 #body .ui-widget-header {
@@ -222,8 +233,38 @@ table td {
     color: black;
 }
 
-#body .ui-widget-content {
+#layout .ui-widget-overlay {
+	background: #3475c5;
+	opacity: .3;
+	filter: Alpha(Opacity=30);
+}
+
+#layout .ui-widget-content {
 	border: 1px solid #dcdcdc;
+}
+
+#layout .ui-widget-header {
+	font-weight: normal;
+	font-family: "BBVA Web Medium";
+}
+
+#layout .ui-accordion .ui-accordion-header {
+	cursor: default;
+}
+
+.ui-datepicker .ui-state-default,
+.ui-dialog .ui-button,
+#layout .ui-button {
+	background: linear-gradient(to bottom, #0079C1 0px, #00559D 100%) repeat scroll 0% 0% transparent;
+	border: 1px solid #00559D;
+	color: #FFF;
+}
+
+.ui-datepicker .ui-state-hover,
+.ui-dialog button.ui-state-hover,
+#layout button.ui-state-hover{
+	background: #094fa4;
+	background: linear-gradient(to bottom,#006ec1 0,#094fa4 100%);
 }
 
 .ui-widget-panel {
@@ -241,6 +282,7 @@ table td {
 	font-weight: normal;
 }
 
+.ui-jqgrid-htable th.ui-th-column-header,
 .ui-jqgrid-htable th.ui-th-column {
 	background-color: #f8f8f5;
 	background-image: none;
@@ -337,17 +379,6 @@ a:hover.fg-button-img {
 	border-radius:0 5px 5px 0;
 }
 
-#tblRiesgo td,
-#tblRiesgo th {
-	padding: 3px;
-}
-
-/*
-th #f8f8f5
-color #616161
-border #e5e5e5
-*/
-
 /* Rev */
 input.ui-text-clean {
 	height: 17px;
@@ -363,136 +394,32 @@ input.ui-text-clean {
 
 input[type="text"], 
 input.ui-text {
-    /*border-radius: 5px;
-    border: 1px solid #2361AD;
-    padding-right: 4px;
-    text-align: right;*/
-    border:1px solid #E8E8E6;
-    border-radius:2px;
-    -moz-border-radius:2px;
-    -webkit-border-radius:2px;
-    box-shadow:inset 0 2px 3px 0 rgba(0,0,0,0.16);
-    -moz-box-shadow:inset 0 2px 3px 0 rgba(0,0,0,0.16);
-    -webkit-box-shadow:inset 0 2px 3px 0 rgba(0,0,0,0.16);
-    color:#434A58;font:12px Arial,sans-serif;
-    padding:.583em .755em .5em .755em;
-    height:auto;margin:0;width:100%;
-    -moz-box-sizing:border-box;
-    box-sizing:border-box;
-}
-
-select.sel{
-	border: 1px solid #CCC;
-	border-radius: 5px;
-	box-shadow: inset 1px 1px 3px #BBB;
-	outline:none;
-	color:#71777f;
-	font-size:12px;
-	font-family:Arial;
-	height: 21px;
-}
-
-.etiquetagris{
-	padding-left:0px;
-	padding-right:5px;
-	font-family:Arial, sans-serif;
-	font-size:12px;
-	color:#71777f;	
-	font-weight: bold;
-}
-
-.ui-icon-disk{
-	background: url("../theme/bbva/images/ui-icon-bbva-disk.png") !important;
-}
-
-.ui-icon-pdf{
-	background: url("../img/pdf.png") !important;
-}
-
-.ui-icon-xls{
-	background: url("../img/excel.png") !important;
-}
-
-.button{
-	background:#0079c1;
-	/*background:-moz-linear-gradient(top,#0079c1 0,#00529b 100%);
-	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#0079c1),color-stop(100%,#00529b));
-	background:-webkit-linear-gradient(top,#0079c1 0,#00529b 100%);
-	background:-o-linear-gradient(top,#0079c1 0,#00529b 100%);
-	background:-ms-linear-gradient(top,#0079c1 0,#00529b 100%);
-	background:linear-gradient(to bottom,#0079c1 0,#00529b 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#0079c1,endColorstr=#00529b,GradientType=0);*/
-	box-shadow:0 0 5px rgba(0,0,0,0.5) inset;
-	border:1px solid #00559d;
-	color:#FFF;
-	cursor:pointer;
-	vertical-align:middle;
-	border-radius:6px;
-	font-size:14px;
-	line-height:32px;
-	padding:3px 15px;
-}
-
-table .cabecera_tabla{
-	height:48px;
-	-webkit-border-radius: 5px 5px 0 0;
-	-moz-border-radius: 5px 5px 0 0;
-	-ms-border-radius: 5px 5px 0 0;
-	-o-border-radius: 5px 5px 0 0;
-	border-radius: 5px 5px 0 0;
-	position: relative;
-	background: #f0f2ef;
-	border: 1px solid #dcdcdc;	
-	padding:0px 9px 0px 19px;
-	z-index:1;
-}
-
-table .cabecera_tabla .titulo_tabla{
-	font-size: 18px;
-	line-height: 48px;
-	color: #333;
-/* 	font-family: BBVA Web Book,sans-serif; */
-	float: left;
-	text-shadow: 1px 1px 0 #fff;
-}
-
-table .cabecera_tabla .ref{
-	font-size: 15px;
-	line-height: 48px;
-	color: #333;
-/* 	font-family: BBVA Web Book,sans-serif; */
-	float: right;
-	text-shadow: 1px 1px 0 #fff;
-}
-
-table .tr_cabecera td{padding:0px;margin:0px;}
-
-
-input.ui-text-highlight,
-table.ui-table-movil td.ui-cell input.ui-text-highlight {
-	border: 1px solid #fcd113;
-	box-shadow: 0 0 5px #fcd113;
-	-webkit-box-shadow: 0 0 5px #fbec88;
-}
-
-table.ui-table-movil td.ui-cell input.ui-text-highlight {
-	background: none !important;
-}
-table.ui-table-movil td.ui-cell input.ui-text-highlight-warning {
-	background: #fbec88 url('../theme/bbva/images/ui-bg_glass_55_fbec88_1x400.png') 50% 50% repeat-x;
-    border: 1px solid #fcd113;
+    border: 1px solid #E8E8E6;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    box-shadow: inset 0 2px 3px 0 rgba(0,0,0,0.16);
+    -moz-box-shadow: inset 0 2px 3px 0 rgba(0,0,0,0.16);
+    -webkit-box-shadow: inset 0 2px 3px 0 rgba(0,0,0,0.16);
+    color: #434A58;
+    font: 12px Arial,sans-serif;
+    padding: .583em .755em .5em .755em;
+    height: auto;
+    margin: 0;
+    width: 100%;
+    /*
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    */
 }
 
 input.ui-text {
-	/*height: 17px;
-	line-height: 17px;*/
 	height: 20px;
 	line-height: 20px;
 	vertical-align: middle;
 	padding: 0px;
 	padding-left: 4px;
-/* 	text-align: left !important; */ /*se comento */
-	font-size: 12px; /* se agrego*/
+	font-size: 12px;
 }
 
 input.ui-text-date {
@@ -520,3 +447,17 @@ input.ui-text-conflicto {
 	box-shadow: 0 0 5px #cd0a0a;
 	-webkit-box-shadow: 0 0 5px #cd0a0a;	
 }
+
+.ui-icon-disk {
+	background: url("../theme/bbva/images/ui-icon-bbva-disk.png") !important;
+}
+
+.ui-icon-pdf {
+	background: url("../img/pdf.png") !important;
+}
+
+.ui-icon-xls {
+	background: url("../img/excel.png") !important;
+}
+
+

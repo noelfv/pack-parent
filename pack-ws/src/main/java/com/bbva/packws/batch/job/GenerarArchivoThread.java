@@ -8,17 +8,29 @@ import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteExcep
 import org.springframework.batch.core.repository.JobRestartException;
 
 import com.bbva.packws.service.SchedulerService;
+import com.everis.core.enums.Estado;
 import com.everis.web.listener.WebServletContextListener;
 
 public class GenerarArchivoThread extends Thread {
 
 	private static final Logger LOG = Logger.getLogger(GenerarArchivoThread.class);
-	
+	private GenerarArchivoHandler handler;
+		
+	public GenerarArchivoThread(GenerarArchivoHandler handler) {
+		super();
+		this.handler = handler;
+	}
+
 	@Override
 	public void run() {
 		SchedulerService schedulerService = (SchedulerService) WebServletContextListener.getBean("schedulerService");
 		try {
-			schedulerService.executeJob();
+			handler.setEstado(Estado.ACTIVO);
+			Long id = 0L;
+			schedulerService.executeJob(id);
+			Thread.sleep(20000);
+			handler.setEstado(Estado.INACTIVO);
+			handler.setId(id);
 		} catch (JobExecutionAlreadyRunningException e) {
 			LOG.error("JobExecutionAlreadyRunningException", e);
 		} catch (JobRestartException e) {
@@ -29,6 +41,8 @@ public class GenerarArchivoThread extends Thread {
 			LOG.error("JobParametersInvalidException", e);
 		} catch (NoSuchJobException e) {
 			LOG.error("NoSuchJobException", e);
+		} catch (InterruptedException e) {
+			LOG.error("InterruptedException", e);
 		}
 	}
 

@@ -17,6 +17,14 @@
 			<tiles:insertAttribute name="body" />
 		</div>
 		<div id="panelMensaje"></div>
+		<div id="jqLoad" style="display:none;text-align:center;">
+		    <table style="padding: 5px;">
+		        <tr>
+		            <td align="right" valign="middle"><img src="<%=request.getContextPath()%>/public/img/loading.gif" /></td>
+		            <td align="left" valign="middle" style="font-weight: bold;">&nbsp;Procesando ...</td>
+		        </tr>
+		    </table>
+		</div>
 		<tiles:insertAttribute name="foot" />
 	</div>
 </body>

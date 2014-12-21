@@ -5,7 +5,6 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/theme/bbva/jquery-ui-1.10.1.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/jquery-ui-timepicker-addon.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/jquery.handsontable.full.css"/>
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/jquery.alerts.css"/>
 
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/ui.application.css"/>
 	<!--[if ie 7]><link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/ui.application.7ie.css"/><![endif]-->
@@ -32,11 +31,6 @@
 	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/common/browser.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/common/application.js"></script>
-	
-	<!-- 
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.alerts.js"></script>
-	<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
-	 -->
 	 	
 	<script type="text/javascript">
 		var useFunctionLoading = null,

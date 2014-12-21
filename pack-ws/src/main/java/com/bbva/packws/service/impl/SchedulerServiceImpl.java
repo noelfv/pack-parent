@@ -52,43 +52,26 @@ public class SchedulerServiceImpl implements SchedulerService {
 	private JobRegistry jobRegistry;
 	
 	@Override
-	public boolean rescheduler() {
-		boolean result = true;
+	public boolean reschedulerTriggerGenerarArchivo(String time) {
+		boolean result = false;
 		JobDetail jobDetail;
 		JobDetail newJob;
 		
 		try {
-			ParametroConfiguracion paramConfig[] = new ParametroConfiguracion[2];
-			paramConfig[0] = parametroConfiguracionService.obtenerParametro(Configuracion.PB_HORA_JOB_DEPURAR_ARCHIVO.getKey());
-			paramConfig[1] = parametroConfiguracionService.obtenerParametro(Configuracion.PB_HORA_JOB_GENERAR_ARCHIVO.getKey());
-
 			if (cronTriggerGenerarArchivo != null) {
 				jobDetail = cronTriggerGenerarArchivo.getJobDetail();
 				newJob = (JobDetail) jobDetail.clone();
 				scheduler.deleteJob(jobDetail.getName(), jobDetail.getGroup());
-
+	
 				cronTriggerGenerarArchivo.setJobDetail(newJob);
-				cronTriggerGenerarArchivo.setCronExpression(paramConfig[1].getValor());
+				cronTriggerGenerarArchivo.setCronExpression(time);
 				cronTriggerGenerarArchivo.afterPropertiesSet();
 				scheduler.scheduleJob(newJob, cronTriggerGenerarArchivo);
 
-				LOG.error("Generar archivo, reprogramado a las: " + paramConfig[1].getValor());
+				LOG.error("Generar archivo, reprogramado a las: " + time);
+				result = true;
 			}
-			
-			if (cronTriggerDepurarArchivo != null) {
-				jobDetail = cronTriggerDepurarArchivo.getJobDetail();
-				newJob = (JobDetail) jobDetail.clone();
-				scheduler.deleteJob(jobDetail.getName(), jobDetail.getGroup());
-
-				cronTriggerDepurarArchivo.setJobDetail(newJob);
-				cronTriggerDepurarArchivo.setCronExpression(paramConfig[0].getValor());
-				cronTriggerDepurarArchivo.afterPropertiesSet();
-				scheduler.scheduleJob(newJob, cronTriggerDepurarArchivo);
-
-				LOG.error("Generar archivo, reprogramado a las: " + paramConfig[0].getValor());
-			}
-		} catch (Exception e) {
-			result = false;
+		} catch(Exception e) {
 			LOG.error("", e);
 		}
 		
@@ -96,11 +79,48 @@ public class SchedulerServiceImpl implements SchedulerService {
 	}
 
 	@Override
-	public void executeJob() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException, NoSuchJobException {
-		ParametroConfiguracion paramConfig[] = new ParametroConfiguracion[3];
+	public boolean reschedulerTriggerDepurarArchivo(String time) {
+		boolean result = false;
+		JobDetail jobDetail;
+		JobDetail newJob;
+		
+		try {
+			if (cronTriggerDepurarArchivo != null) {
+				jobDetail = cronTriggerDepurarArchivo.getJobDetail();
+				newJob = (JobDetail) jobDetail.clone();
+				scheduler.deleteJob(jobDetail.getName(), jobDetail.getGroup());
+
+				cronTriggerDepurarArchivo.setJobDetail(newJob);
+				cronTriggerDepurarArchivo.setCronExpression(time);
+				cronTriggerDepurarArchivo.afterPropertiesSet();
+				scheduler.scheduleJob(newJob, cronTriggerDepurarArchivo);
+
+				LOG.error("Depurar archivo, reprogramado a las: " + time);
+				result = true;
+			}
+		} catch(Exception e) {
+			LOG.error("", e);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public void executeJob(Long outId) throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException, NoSuchJobException {
+		ParametroConfiguracion paramConfig[] = new ParametroConfiguracion[4];
 		paramConfig[0] = parametroConfiguracionService.obtenerParametro(Configuracion.PB_RUTA_ARCHIVO.getKey());
 		paramConfig[1] = parametroConfiguracionService.obtenerParametro(Configuracion.PB_NOMBRE_ARCHIVO.getKey());
 		paramConfig[2] = parametroConfiguracionService.obtenerParametro(Configuracion.PB_FORMATO_FECHA_SUFIJO.getKey());
+		paramConfig[3] = parametroConfiguracionService.obtenerParametro(Configuracion.PB_MESES_ANTERIORES.getKey());
+		
+		Long mesesAnteriores = 0L;
+		if(paramConfig[3] != null) {
+			try {
+				mesesAnteriores = Long.valueOf(paramConfig[3].getValor());
+			} catch(NumberFormatException e) {
+				mesesAnteriores = -2L;
+			}
+		}
 		
 		File directorio = new File(paramConfig[0].getValor());
 		boolean creado = false;
@@ -125,13 +145,18 @@ public class SchedulerServiceImpl implements SchedulerService {
 					
 		String filename = sb.toString();
 		
-		JobParameters param = new JobParametersBuilder().addString("outputFileName", filename).toJobParameters();
+		JobParameters param = new JobParametersBuilder()
+			.addString("outputFileName", filename)
+			.addLong("tiempoEspera", mesesAnteriores)
+			.toJobParameters();
 		Job job = jobRegistry.getJob("jobSolicitud");
 		JobExecution execution = jobLauncher.run(job, param);
+		outId = execution.getId();
+		LOG.error("Id Proceso: [" + outId + "]");
 		LOG.error("Archivo: [" + filename + "]");
-		LOG.error("Estado del proceso: " + execution.getStatus());
+		LOG.error("Estado del Proceso: " + execution.getStatus());
 		if(!execution.getAllFailureExceptions().isEmpty()) {
-			LOG.error("Estado del proceso: " + execution.getAllFailureExceptions());
+			LOG.error("Estado del Proceso: " + execution.getAllFailureExceptions());
 		}
 	}
 

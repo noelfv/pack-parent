@@ -1,32 +1,7 @@
-var TITULO_APLICACION = "Scorating",
+var TITULO_APLICACION = "Pack BBVA",
 
-ingresarSoloNumero = function(evento) {
-	var keynum = 0;
-	var keychar = 0;
-
-	// firefox tab, flechas
-	if (evento.which == 0) return true;
-	if(window.event) // IE
-	{
-		keynum = evento.keyCode;
-	}
-	else if(evento.which) // Netscape/Firefox/Opera
-	{
-	  	keynum = evento.which;
-	}
-
-	if (keynum == 8) return true;
-	
-	keychar = String.fromCharCode(keynum);
-	patron = /\d/; // Solo acepta numeros
-	
-	return patron.test(keychar);  
-},
-
-busquedaRapida = function (e, boton) {
-	var key=e.keyCode || e.which;
-	if (key==13){ $("#"+boton).click(); return true; } else { return false; }
-	//if (key==13){ return true; } else { return false; }
+formatterDate = function(cellvalue, options, rowObject) {
+	return cellvalue == null ? "UNKNOWN" : DateUtil.toString(DateUtil.longToDate(cellvalue), DateUtil.DDMMYYYYHHmmss);
 },
 
 formatterSpace = function(cellvalue, options, rowObject) {
@@ -519,6 +494,7 @@ guid = function() {
 DateUtil = {
 	yyyymmdd: 'yyyyMMdd',
 	DDMMYYYY: 'dd/MM/yyyy',
+	DDMMYYYYHHmmss: 'dd/MM/yyyy HH:mm:ss',
 	MMDDYYYY: 'MM/dd/yyyy',
 	YYYYMMDD: 'yyyy/dd/MM',
 	parse: function(val, format) {
@@ -541,7 +517,7 @@ DateUtil = {
 			mm = parseInt(val.substring(4,6), 10);
 			dd = parseInt(val.substring(6,8), 10);
 		}
-			
+		
 		return new Date(yy, mm - 1, dd, 0, 0, 0);
 	},
 	compareTo: function(val1, val2, format) {
@@ -563,7 +539,7 @@ DateUtil = {
 		return this.addDays(date, -1);
 	},
 	toString: function(date, format) {
-		var dd = '01', mm = '01', yy = '1900', val = "01/01/1900";
+		var dd = '01', mm = '01', yy = '1900', hh = "00", nn = "00", ss = "", val = "01/01/1900";
 		
 		if(format == this.DDMMYYYY) {
 			dd = date.getDate();
@@ -573,9 +549,28 @@ DateUtil = {
 			val  = (dd < 10 ? '0' : '') + dd + "/";
 			val += (mm < 10 ? '0' : '') + mm + "/";
 			val += yy;
-		}
+		} else if(format == this.DDMMYYYYHHmmss) {
+			dd = date.getDate();
+			mm = date.getMonth() + 1;
+			yy = date.getFullYear();
+			hh = date.getHours();
+			nn = date.getMinutes();
+			ss = date.getSeconds();
+			
+			val  = (dd < 10 ? '0' : '') + dd + "/";
+			val += (mm < 10 ? '0' : '') + mm + "/";
+			val += yy;
+			val += " ";
+			val += (hh < 10 ? '0' : '') + hh + ":";
+			val += (nn < 10 ? '0' : '') + nn + ":";
+			val += (ss < 10 ? '0' : '') + ss;
+		}		
+		// getMilliseconds() 	Returns the milliseconds (from 0-999)
 		
 		return val;
+	},
+	longToDate: function(milliseconds) {
+		return new Date(milliseconds);
 	}
 },
 
@@ -620,6 +615,13 @@ $(document).ready(function() {
 	
 	$.ajaxSettings.traditional = true;
 	$.ajaxSetup({
+		type: "post", 
+		dataType: 'json',
+	    accepts: {
+	        xml: 'text/xml',
+	        text: 'text/plain',
+	        json: 'application/json'
+	    },
 		cache: false,
 		error: function(request, status, error) {
 			if(request.status == 408) {

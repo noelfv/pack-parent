@@ -1,66 +1,76 @@
 package com.bbva.packws.service.impl;
 
-import java.util.List;
-import java.util.Properties;
-
 import javax.annotation.Resource;
+import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+import com.bbva.packws.GenericTest;
+import com.bbva.packws.domain.Solicitud;
+import com.bbva.packws.service.SolicitudService;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.bbva.packws.domain.Solicitud;
-import com.bbva.packws.domain.SolicitudCONELE;
-import com.bbva.packws.service.SolicitudService;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContextTest.xml"})
-public class SolicitudServiceImplTest {
+public class SolicitudServiceImplTest extends GenericTest {
 	
-	@Resource(name = "solicitudDAO")
+	@Resource(name = "solicitudService")
 	private SolicitudService solicitudService;
 
 	@Test
-	public void consultarSolicitudes() {
-		Solicitud parametro = new SolicitudCONELE();
-		
-		List<Solicitud> list = solicitudService.consultarSolicitudes("","", new String[]{""}, new String[]{""}, parametro, 1, true);
-		Assert.assertNotNull(list);
-		Assert.assertTrue(!list.isEmpty());
+	public void consultarSolicitudesUnificadoSinProductosinEstado1() {
+		Solicitud ultimoRegistro = null;
+        Integer totalRegistros = 0;
+        // String tipoDOI, String numDOI,String[] codigoProducto,String[] estado, Solicitud ultimoRegistro, int nroRegistro, boolean iiceActivo
+		List<Solicitud> list = solicitudService.consultarSolicitudes("L","41841858", new String[]{}, new String[]{}, ultimoRegistro, 2, true);
+		Assert.assertNotNull("Lista invalida", list);
+		Assert.assertTrue("Lista con valores", !list.isEmpty());
+        Assert.assertTrue("No cumple con el resultado esperado", list.size() == 2);
+        prettyPrinter(list);
+        LOGGER.info("Total de registros: " + totalRegistros);
 	}
-	
-	private static final Logger LOG = Logger.getLogger(SolicitudServiceImplTest.class);
-	
-	@Before
-	  public void setUp() {
-	      String rootCategory = "INFO,stdout,LOGFILE";
-	      String fileLog = "/pr/packws/online/pe/web/log";
-	      String sizeLog = "1024kb";
-	      String maxFilesLog = "20";
-	  
-	      Properties prop = new Properties();
-	      prop.setProperty("log4j.rootCategory", rootCategory);
-	      prop.setProperty("log4j.appender.LOGFILE", "org.apache.log4j.RollingFileAppender");
-	      prop.setProperty("log4j.appender.LOGFILE.file", fileLog + "/log_pagcom.log");
-	      prop.setProperty("log4j.appender.LOGFILE.MaxFileSize", sizeLog);
-	      prop.setProperty("log4j.appender.LOGFILE.MaxBackupIndex", maxFilesLog);
-	      prop.setProperty("log4j.appender.LOGFILE.append", "true");
-	      prop.setProperty("log4j.appender.LOGFILE.layout", "org.apache.log4j.PatternLayout");
-	      prop.setProperty("log4j.appender.LOGFILE.layout.ConversionPattern", "[%d{yyyy-MM-dd HH:mm:ss}] - [%5p] (%C{1}.%M:%L) - %m%n");
-	      prop.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
-	      prop.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
-	      prop.setProperty("log4j.appender.stdout.layout.ConversionPattern", "[%d{HH:mm:ss}]%p - %C{1}.%M(%L) %m%n");
-	      prop.setProperty("log4j.logger.org.hibernate.SQL", "DEBUG");
-	      prop.setProperty("log4j.logger.org.hibernate.TYPE", "TRACE");
-	  
-	      PropertyConfigurator.configure(prop);
-	      LOG.error("Logger -> Init");
-	  } 
 
+    @Test
+    public void consultarSolicitudesUnificadoSinProductoSinEstado2() {
+        Solicitud ultimoRegistro = null;
+        Integer totalRegistros = 0;
+        // String tipoDOI, String numDOI,String[] codigoProducto,String[] estado, Solicitud ultimoRegistro, int nroRegistro, boolean iiceActivo
+        List<Solicitud> list = solicitudService.consultarSolicitudes("L","41841858", new String[]{""}, new String[]{""}, ultimoRegistro, 2, true);
+        Assert.assertNotNull("Lista invalida", list);
+        Assert.assertTrue("Lista con valores", !list.isEmpty());
+        Assert.assertTrue("No cumple con el resultado esperado", list.size() == 2);
+        prettyPrinter(list);
+        LOGGER.info("Total de registros: " + totalRegistros);
+    }
 
+    @Test
+    public void consultarSolicitudesUnificadoConProductoSinEstado1() {
+        Solicitud ultimoRegistro = null;
+        Integer totalRegistros = 0;
+        // String tipoDOI, String numDOI,String[] codigoProducto,String[] estado, Solicitud ultimoRegistro, int nroRegistro, boolean iiceActivo
+        List<Solicitud> list = solicitudService.consultarSolicitudes("L","41841858", new String[]{"96"}, new String[]{""}, ultimoRegistro, 2, true);
+        Assert.assertNotNull("Lista invalida", list);
+        Assert.assertTrue("Lista con valores", !list.isEmpty());
+        Assert.assertTrue("No cumple con el resultado esperado", list.size() == 2);
+        prettyPrinter(list);
+        LOGGER.info("Total de registros: " + totalRegistros);
+    }
+
+    @Test
+    public void consultarSolicitudesUnificadoPLDSinProductoSinEstado1() {
+        Solicitud ultimoRegistro = null;
+        // String tipoDOI, String numDOI,String[] codigoProducto,String[] estado, Solicitud ultimoRegistro, int nroRegistro, boolean iiceActivo
+        List<Solicitud> list = solicitudService.consultarSolicitudes("L","41841858", new String[]{"   "}, new String[]{"    "}, ultimoRegistro, 33, false);
+        Integer totalRegistros = solicitudService.contarSolicitudes("L","41841858", new String[]{"   "}, new String[]{"    "}, false);
+        Assert.assertNotNull("Lista invalida", list);
+        Assert.assertTrue("Lista con valores", !list.isEmpty());
+        Assert.assertTrue("No cumple con el resultado esperado", list.size() == 33);
+        // prettyPrinter(list);
+
+        printer(list);
+
+        LOGGER.info("Total de registros: " + totalRegistros);
+    }
 }

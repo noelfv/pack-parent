@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:aop="http://www.springframework.org/schema/aop"
+     xmlns:tx="http://www.springframework.org/schema/tx"
+     xmlns:context="http://www.springframework.org/schema/context"
+	 xmlns:batch="http://www.springframework.org/schema/batch" 
+     xsi:schemaLocation="
+	     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	  	 http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+	<tx:annotation-driven />
+    <context:annotation-config />
+    <context:component-scan base-package="com.bbva.packws,com.bbva.quartz,com.bbva.batch" />
+    
+    ${cfg.use}
+    
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="jdbc/${jndi.env}" />
+		<property name="resourceRef" value="true" />
+		<property name="lookupOnStartup" value="false" />
+		<property name="cache" value="true" />
+		<property name="proxyInterface" value="javax.sql.DataSource" />
+	</bean>
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration" />
+        <property name="configLocation" value="classpath:hibernate-config.xml" />
+    </bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+	 
+	<!-- Begin: Scheduler -->
+		<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+			<property name="jobFactory">
+				<bean class="org.springframework.scheduling.quartz.SpringBeanJobFactory"/>
+	        </property>
+			<property name="dataSource" ref="dataSource"  />
+			<property name="transactionManager" ref="transactionManager" />
+		    <property name="overwriteExistingJobs" value="true" /> 
+	        <property name="configLocation" value="classpath:quartz.properties" />
+			<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+			<property name="waitForJobsToCompleteOnShutdown" value="false" />
+			<property name="autoStartup" value="true" />
+			<property name="quartzProperties">
+				<props>
+					<prop key="org.quartz.jobStore.selectWithLockSQL">SELECT * FROM {0}LOCKS UPDLOCK WHERE LOCK_NAME = ?</prop>
+				</props>
+			</property>
+			<property name="triggers">
+				<list>
+					<ref bean="cronTriggerGenerarArchivo" />
+					<ref bean="cronTriggerDepurarArchivo" />
+				</list>
+			</property>
+		</bean>
+	<!-- End: Scheduler -->
+	
+	<!-- Begin: Task Scheduler -->
+		<bean id="jobGenerarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
+			<property name="jobClass" value="com.bbva.packws.batch.job.GenerarArchivoJob" />
+		</bean>
+		<bean id="cronTriggerGenerarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
+			<property name="jobDetail" ref="jobGenerarArchivo" />
+			<property name="cronExpression" value="0 0 1 ? * * *" />
+		</bean>
+		
+		<bean id="jobDepurarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
+			<property name="jobClass" value="com.bbva.packws.batch.job.DepurarArchivoJob" />
+		</bean>				
+		<bean id="cronTriggerDepurarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
+			<property name="jobDetail" ref="jobDepurarArchivo" />
+			<property name="cronExpression" value="0 0 1 ? * * *" />
+		</bean>		
+	<!-- End: Task Scheduler -->
+	
+    <!-- Begin: Batch Context -->
+	    <bean id="jobRepository" class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+			<property name="transactionManager" ref="transactionManagerBatch" />
+			<property name="dataSource" ref="dataSource" />
+			<property name="databaseType" value="oracle" />
+		</bean>
+	 
+		<bean id="transactionManagerBatch" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+	 
+		<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+			<property name="jobRepository" ref="jobRepository" />
+		</bean>
+	 
+		<bean class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+			<property name="jobRegistry" ref="jobRegistry" />
+		</bean>
+	 
+		<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+		
+		<bean id="jobExplorer"
+			class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+			<property name="dataSource" ref="dataSource"/>
+			<property name="lobHandler" ref="lobHandler"/>
+		</bean>
+		
+		<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"/>
+    <!-- End: Batch Context -->
+    
+    <!-- Begin: Job -->
+    	<!-- TODO: Cambiar si el volumen de data es demasiado -->
+	    <bean id="itemReaderCONELE"
+			class="org.springframework.batch.item.database.JdbcCursorItemReader"
+			scope="step">
+			<property name="dataSource" ref="dataSource" />
+			<property name="sql" value="select * from CONELE.V_SOLICITUD where trunc(fecha_alta) >= trunc(add_months(sysdate, #{jobParameters[tiempoEspera]}))" />
+			<property name="rowMapper">
+				<bean class="com.bbva.packws.batch.SolicitudRowMapper" />
+			</property>
+		</bean>
+		
+		<bean id="itemReaderIICE"
+			class="org.springframework.batch.item.database.JdbcCursorItemReader"
+			scope="step">
+			<property name="dataSource" ref="dataSource" />
+			<property name="sql" value="select * from CONELE.V_SOLICITUD_IICE where trunc(fecha_alta) >= trunc(add_months(sysdate, #{jobParameters[tiempoEspera]}))" />
+			<property name="rowMapper">
+				<bean class="com.bbva.packws.batch.SolicitudRowMapper" />
+			</property>
+		</bean>
+		
+		<bean id="itemWriter"
+			class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+			<property name="resource" value="#{jobParameters[outputFileName]}"/>
+			<property name="appendAllowed" value="true"/>
+			<property name="lineAggregator">
+				<bean class="org.springframework.batch.item.file.transform.FormatterLineAggregator">
+					<property name="fieldExtractor">
+						<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+							<property name="names" value="solicitud, codigoProducto, codigoSubProducto, estado, fechaAltaConFormato, importeConFormatoHOST, divisa, tipoDOI, numDOI, codigoCliente, contrato, plazo, oficina, ejecutivo, tasaConFormatoHOST" />
+						</bean>
+					</property>
+					<property name="format" value="%-10s%-2s%-4s%-1s%-10s%-15s%-3s%-1s%-11s%-8s%-23s%-3s%-4s%-8s%-5s" />
+				</bean>
+			</property>
+		</bean>
+		
+		<job id="jobSolicitud" xmlns="http://www.springframework.org/schema/batch">
+			<step id="step1" next="decision">
+				<tasklet>
+					<chunk reader="itemReaderCONELE" writer="itemWriter" commit-interval="100" />
+				</tasklet>
+			</step>
+			
+			<decision id="decision" decider="decider">
+		    	<next on="COMPLETED" to="step2" />
+		    	<next on="FAILED" to="step3" />
+			</decision>
+
+			<step id="step2">
+				<tasklet>
+					<chunk reader="itemReaderIICE" writer="itemWriter" commit-interval="100" />
+				</tasklet>
+			</step>
+
+			<step id="step3">
+				<tasklet ref="abortarTasklet"/>
+			</step>
+
+			<listeners>
+				<listener ref="monitoringJobListener"/>
+			</listeners>
+		</job>
+
+		<bean id="abortarTasklet" class="com.bbva.packws.batch.tasklet.AbortarTasklet"/>
+		<bean id="decider" class="com.bbva.packws.batch.SolicitudDecider"/>
+		<bean id="monitoringJobListener" class="com.bbva.packws.batch.monitoring.MonitoringExecutionListener">
+			<property name="monitoringNotifier" ref="monitoringNotifier"/>
+		</bean>
+		<bean id="monitoringNotifier" class="com.bbva.packws.batch.monitoring.impl.BatchMonitoringNotifierImpl">
+			<property name="notificacionService" ref="notificacionService"/>
+		</bean>
+
+
+    <!-- End: Job -->
+</beans>

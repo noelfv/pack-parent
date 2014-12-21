@@ -20,8 +20,9 @@ public class GenerarArchivoJob extends QuartzJobBean {
 	@Override
 	protected void executeInternal(JobExecutionContext arg) throws JobExecutionException {
 		SchedulerService schedulerService = (SchedulerService) WebServletContextListener.getBean("schedulerService");
+		Long id = 0L;
 		try {
-			schedulerService.executeJob();
+			schedulerService.executeJob(id);
 		} catch (JobExecutionAlreadyRunningException e) {
 			LOG.error("JobExecutionAlreadyRunningException", e);
 		} catch (JobRestartException e) {
@@ -33,6 +34,6 @@ public class GenerarArchivoJob extends QuartzJobBean {
 		} catch (NoSuchJobException e) {
 			LOG.error("NoSuchJobException", e);
 		}
-		LOG.info("Proceso terminado");
+		LOG.info("Proceso [" + id + "] Terminado");
 	}
 }

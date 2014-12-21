@@ -1,12 +1,11 @@
 package com.bbva.packws.webservice.endpoints.impl;
 
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
-
-import org.apache.log4j.Logger;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.bbva.packws.domain.ParametroConfiguracion;
 import com.bbva.packws.domain.Solicitud;
@@ -23,6 +22,7 @@ import com.bbva.packws.webservice.solicitud.ListarSolicitudBodyResponse;
 import com.bbva.packws.webservice.solicitud.ListarSolicitudRequest;
 import com.bbva.packws.webservice.solicitud.ListarSolicitudResponse;
 import com.everis.web.listener.WebServletContextListener;
+import org.apache.log4j.Logger;
 
 @javax.jws.WebService (endpointInterface="com.bbva.packws.webservice.endpoints.PackWs", targetNamespace="http://www.bbva.com.pe/pack-ws/", serviceName="pack-ws", portName="pack-wsSOAP")
 public class PackWsSOAPImpl implements PackWs{
@@ -87,7 +87,7 @@ public class PackWsSOAPImpl implements PackWs{
 		return sws;
 	}
 	
-	private ListarSolicitudBodyResponse crearBodyResponse(ListarSolicitudRequest parameters) throws BussinesWebServiceException {
+	private ListarSolicitudBodyResponse crearBodyResponse(ListarSolicitudRequest parameters, com.bbva.packws.webservice.solicitud.Solicitud solicitud) throws BussinesWebServiceException {
 		SolicitudService solicitudService = (SolicitudService) WebServletContextListener.getBean("solicitudService");
 		ParametroConfiguracionService parametroConfiguracionService = (ParametroConfiguracionService) WebServletContextListener.getBean("parametroConfiguracionService");
 		
@@ -120,7 +120,12 @@ public class PackWsSOAPImpl implements PackWs{
 		if(request.getNroDocumento().trim().length() == 0) {
 			throw new BussinesWebServiceException("No ingreso el nro. de documento");
 		}
-		
+
+        Integer totalRegistros = solicitudService.contarSolicitudes(request.getTipoDocumento()
+                , request.getNroDocumento()
+                , request.getCodigoProducto().toArray(new String[]{})
+                , request.getEstadoSolicitud().toArray(new String[]{})
+                , Constantes.HABILITAR_IICE.equalsIgnoreCase(param[1].getValor()));
 		List<Solicitud> listaSolicitud = solicitudService.consultarSolicitudes(request.getTipoDocumento()
 				, request.getNroDocumento()
 				, request.getCodigoProducto().toArray(new String[]{})
@@ -128,26 +133,58 @@ public class PackWsSOAPImpl implements PackWs{
 				, ultimaPagina
 				, nroRegistros
 				, Constantes.HABILITAR_IICE.equalsIgnoreCase(param[1].getValor()));
-		
+
 		if(listaSolicitud.isEmpty()) {
 			throw new BussinesWebServiceException(CodigoRetorno.SIN_RESULTADO, "No se encontraron registros con los parametros ingresados");
 		}
-		
-		for(Solicitud s : listaSolicitud) {			
+
+        Map<String, Solicitud> mapSolicitud = new HashMap<String, Solicitud>();
+        mapSolicitud.put("SolicitudCONELE", null);
+        mapSolicitud.put("SolicitudIICE", null);
+
+        LOG.info("Total de Registro: " + totalRegistros);
+		for(Solicitud s : listaSolicitud) {
+            mapSolicitud.put(s.getClass().getSimpleName(), s);
 			response.getSolicitudes().add(crearSolicitudWS(s));
+
+            LOG.info("Fecha: " + s.getFechaAltaConFormato() + ", Solicitud: " + s.getSolicitud() + ", ClassName: " + s.getClass().getSimpleName());
 		}
-		
+
+        if(response.getSolicitudes().size() < nroRegistros || totalRegistros == nroRegistros) {
+            solicitud = null;
+        } else {
+            com.bbva.packws.webservice.solicitud.Solicitud solicitudTemp = response.getSolicitudes().get(response.getSolicitudes().size() - 1);
+            String idsSolicitudTemp[] = ultimaPagina != null ? ultimaPagina.getSolicitud().split("-") : new String[]{"CONELE:0", "IICE:0"};
+            String idSolicitudCONELE = "";
+            String idSolicitudIICE = "";
+            if(mapSolicitud.get("SolicitudCONELE") != null) {
+                idSolicitudCONELE = "CONELE:" + mapSolicitud.get("SolicitudCONELE").getSolicitud();
+            } else {
+                idSolicitudCONELE = idsSolicitudTemp[0];
+            }
+            if(mapSolicitud.get("SolicitudIICE") != null) {
+                idSolicitudIICE = "IICE:" + mapSolicitud.get("SolicitudIICE").getSolicitud();
+            } else {
+                idSolicitudIICE = idsSolicitudTemp[1];
+            }
+            solicitud.setSolicitud(idSolicitudCONELE + "-" + idSolicitudIICE);
+            solicitud.setFechaAlta(solicitudTemp.getFechaAlta());
+            solicitud.setTipoDOI(solicitudTemp.getTipoDOI());
+            solicitud.setNumDOI(solicitudTemp.getNumDOI());
+        }
+
 		return response;
 	}
 	
     public ListarSolicitudResponse listarSolicitud(ListarSolicitudRequest parameters) {
     	ListarSolicitudResponse response = new ListarSolicitudResponse();
 		ListarSolicitudBodyResponse body;
+        com.bbva.packws.webservice.solicitud.Solicitud solicitud = new com.bbva.packws.webservice.solicitud.Solicitud();
     	try {
-    		body = crearBodyResponse(parameters);
+    		body = crearBodyResponse(parameters, solicitud);
     		response.setBody(body);
     		response.getHeader().setCodigoRetorno(CodigoRetorno.CON_RESULTADO.getCodigo());
-    		response.getHeader().setUltimoRegistro(body.getSolicitudes().get(body.getSolicitudes().size() - 1));
+    		response.getHeader().setUltimoRegistro(solicitud);
     	} catch (BussinesWebServiceException e) {
     		if(e.getCodigoRetorno() == null) {
     			e.setCodigoRetorno(CodigoRetorno.ERROR_ACCESO);

@@ -21,7 +21,13 @@ public class JobInstanceDAOImpl extends HibernateDAO<JobInstance> implements Job
 		SQLQuery query = getSession().createSQLQuery("SELECT MAX(JOB_INSTANCE_ID) JOB_INSTANCE_ID FROM CONELE.BATCH_JOB_INSTANCE");
 		query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 		Map<String, Object> o = (HashMap<String, Object>) query.uniqueResult();
-		return ((BigDecimal) o.get("JOB_INSTANCE_ID")).longValue();
+		BigDecimal jobInstanceID = o.get("JOB_INSTANCE_ID") == null ? null : (BigDecimal) o.get("JOB_INSTANCE_ID");
+		Long lJobInstanceID = null;
+		if(jobInstanceID != null) {
+			lJobInstanceID = jobInstanceID.longValue();
+		}
+
+		return lJobInstanceID;
 	}
 
 }
