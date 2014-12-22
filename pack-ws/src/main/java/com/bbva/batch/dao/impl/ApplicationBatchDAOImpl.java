@@ -8,9 +8,9 @@ import com.everis.core.dao.impl.HibernateDAO;
 
 public class ApplicationBatchDAOImpl extends HibernateDAO<ApplicationBatch> implements ApplicationBatchDAO {
 
-	@Override
-	public List<ApplicationBatch> listar() {
-		return null;
-	}
+    @Override
+    public List<ApplicationBatch> listar() {
+        return null;
+    }
 
 }

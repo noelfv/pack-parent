@@ -2,7 +2,6 @@ package com.bbva.batch.items.impl;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.PagingQueryProvider;

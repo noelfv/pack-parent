@@ -14,13 +14,13 @@ import com.bbva.quartz.service.TriggerService;
 @Service("triggerService")
 public class TriggerServiceImpl implements TriggerService {
 
-	@Resource(name="triggerDAO")
-	private TriggerDAO triggerDAO;
+    @Resource(name = "triggerDAO")
+    private TriggerDAO triggerDAO;
 
-	@Transactional(readOnly = true)
-	@Override
-	public List<Trigger> listar() {
-		return triggerDAO.listar();
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public List<Trigger> listar() {
+        return triggerDAO.listar();
+    }
 
 }

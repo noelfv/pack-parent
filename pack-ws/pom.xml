@@ -15,8 +15,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
-		<sonar.host.url>http://localhost:9000</sonar.host.url>
-		<sonar.jdbc.url>jdbc:h2:tcp://localhost:9092/sonar</sonar.jdbc.url>
+		<sonar.host.url>http://192.168.96.2:9000</sonar.host.url>
+		<sonar.jdbc.url>jdbc:h2:tcp://192.168.96.2:9092/sonar</sonar.jdbc.url>
 		<javax.servlet.version>3.0.1</javax.servlet.version>
 		<org.springframework.version>3.2.0.RELEASE</org.springframework.version>
 		<spring.ws.core.version>2.1.0.RELEASE</spring.ws.core.version>

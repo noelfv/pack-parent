@@ -6,5 +6,5 @@ import com.bbva.quartz.domain.Trigger;
 
 public interface TriggerDAO {
 
-	List<Trigger> listar();
+    List<Trigger> listar();
 }

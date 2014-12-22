@@ -4,39 +4,39 @@ import com.bbva.packws.webservice.enums.CodigoRetorno;
 
 public class BussinesWebServiceException extends Exception {
 
-	private static final long serialVersionUID = 1L;
-	private CodigoRetorno codigoRetorno;
-	private String detailMessage;
-	
-	public BussinesWebServiceException(String detailMessage, Throwable ex) {
-		super(ex);
-		this.detailMessage = detailMessage;
-		this.codigoRetorno = CodigoRetorno.ERROR_ACCESO;
-	}
+    private static final long serialVersionUID = 1L;
+    private CodigoRetorno codigoRetorno;
+    private String detailMessage;
 
-	public BussinesWebServiceException(String detailMessage) {
-		this.detailMessage = detailMessage;
-		this.codigoRetorno = CodigoRetorno.ERROR_ACCESO;
-	}
+    public BussinesWebServiceException(String detailMessage, Throwable ex) {
+        super(ex);
+        this.detailMessage = detailMessage;
+        this.codigoRetorno = CodigoRetorno.ERROR_ACCESO;
+    }
 
-	public BussinesWebServiceException(CodigoRetorno codigoRetorno, String detailMessage) {
-		this.detailMessage = detailMessage;
-		this.codigoRetorno = codigoRetorno;
-	}
-	
-	public String getDetailMessage() {
-		return detailMessage;
-	}
+    public BussinesWebServiceException(String detailMessage) {
+        this.detailMessage = detailMessage;
+        this.codigoRetorno = CodigoRetorno.ERROR_ACCESO;
+    }
 
-	public void setDetailMessage(String detailMessage) {
-		this.detailMessage = detailMessage;
-	}
+    public BussinesWebServiceException(CodigoRetorno codigoRetorno, String detailMessage) {
+        this.detailMessage = detailMessage;
+        this.codigoRetorno = codigoRetorno;
+    }
 
-	public CodigoRetorno getCodigoRetorno() {
-		return codigoRetorno;
-	}
+    public String getDetailMessage() {
+        return detailMessage;
+    }
 
-	public void setCodigoRetorno(CodigoRetorno codigoRetorno) {
-		this.codigoRetorno = codigoRetorno;
-	}
+    public void setDetailMessage(String detailMessage) {
+        this.detailMessage = detailMessage;
+    }
+
+    public CodigoRetorno getCodigoRetorno() {
+        return codigoRetorno;
+    }
+
+    public void setCodigoRetorno(CodigoRetorno codigoRetorno) {
+        this.codigoRetorno = codigoRetorno;
+    }
 }

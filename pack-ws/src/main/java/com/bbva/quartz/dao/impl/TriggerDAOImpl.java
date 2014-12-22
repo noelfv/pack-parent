@@ -14,14 +14,14 @@ import com.everis.core.dao.impl.HibernateDAO;
 @Repository("triggerDAO")
 public class TriggerDAOImpl extends HibernateDAO<Trigger> implements Serializable, TriggerDAO {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Trigger> listar() {
-		Criteria criterioTrigger = super.getCriteria(Trigger.class);
-		criterioTrigger.addOrder(Order.asc("triggerGroup"));
-		criterioTrigger.addOrder(Order.asc("triggerName"));
-		return (List<Trigger>) criterioTrigger.list();
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Trigger> listar() {
+        Criteria criterioTrigger = super.getCriteria(Trigger.class);
+        criterioTrigger.addOrder(Order.asc("triggerGroup"));
+        criterioTrigger.addOrder(Order.asc("triggerName"));
+        return (List<Trigger>) criterioTrigger.list();
+    }
 }

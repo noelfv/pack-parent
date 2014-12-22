@@ -6,5 +6,5 @@ import com.bbva.quartz.domain.Trigger;
 
 public interface TriggerService {
 
-	List<Trigger> listar();
+    List<Trigger> listar();
 }
