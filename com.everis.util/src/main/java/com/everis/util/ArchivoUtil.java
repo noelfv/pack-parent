@@ -24,7 +24,11 @@ public class ArchivoUtil {
 	private static final Logger logger = Logger.getLogger(ArchivoUtil.class);
 	private static final int BUFFER_SIZE = 1024;
 	
-	private static void cerrar(Closeable recurso, File archivo) {
+	public ArchivoUtil() {
+        super();
+    }
+
+    private static void cerrar(Closeable recurso, File archivo) {
 		if (recurso != null) {
 			try {
 				recurso.close();

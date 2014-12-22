@@ -41,7 +41,7 @@ public class Log4jServlet extends HttpServlet {
 
     	try {
     		if(log4jServiceName != null) {
-    			log4jService = (Log4jService) WebServletContextListener.getBean(log4jServiceName);
+    			log4jService = WebServletContextListener.getBean(log4jServiceName);
     			if(log4jService != null) {
     	            rootCategory = log4jService.obtener(Log4jService.rootCategory);
     	            if(rootCategory == null || rootCategory.isEmpty()) {

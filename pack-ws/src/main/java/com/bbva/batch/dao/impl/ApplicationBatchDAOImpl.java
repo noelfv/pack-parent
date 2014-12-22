@@ -6,12 +6,10 @@ import com.bbva.batch.dao.ApplicationBatchDAO;
 import com.bbva.batch.domain.ApplicationBatch;
 import com.everis.core.dao.impl.HibernateDAO;
 
-
 public class ApplicationBatchDAOImpl extends HibernateDAO<ApplicationBatch> implements ApplicationBatchDAO {
 
 	@Override
 	public List<ApplicationBatch> listar() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

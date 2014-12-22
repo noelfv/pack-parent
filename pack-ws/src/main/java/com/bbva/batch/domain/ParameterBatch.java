@@ -4,78 +4,118 @@ import java.util.Date;
 
 public class ParameterBatch extends EntityBatch {
 
-	private static final long serialVersionUID = 1L;
-	private String name;
-	private String type;
-	private Long order;
-	private String typeValue;
-	private String stringVal;
-	private Long longVal;
-	private Double doubleVal;
-	private Date dateVal;
+    private static final long serialVersionUID = 1L;
+    private String name;
+    private String type;
+    private Long order;
+    private String typeValue;
+    private String stringVal;
+    private Long longVal;
+    private Double doubleVal;
+    private Date dateVal;
 
-	public String getName() {
-		return name;
-	}
+    public ParameterBatch(String name, String type, Long order,
+            String typeValue, String stringVal) {
+        super();
+        this.name = name;
+        this.type = type;
+        this.order = order;
+        this.typeValue = typeValue;
+        this.stringVal = stringVal;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public ParameterBatch(String name, String type, Long order,
+            String typeValue, Long longVal) {
+        super();
+        this.name = name;
+        this.type = type;
+        this.order = order;
+        this.typeValue = typeValue;
+        this.longVal = longVal;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public ParameterBatch(String name, String type, Long order,
+            String typeValue, Double doubleVal) {
+        super();
+        this.name = name;
+        this.type = type;
+        this.order = order;
+        this.typeValue = typeValue;
+        this.doubleVal = doubleVal;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public ParameterBatch(String name, String type, Long order,
+            String typeValue, Date dateVal) {
+        super();
+        this.name = name;
+        this.type = type;
+        this.order = order;
+        this.typeValue = typeValue;
+        this.dateVal = dateVal;
+    }
 
-	public Long getOrder() {
-		return order;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setOrder(Long order) {
-		this.order = order;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getTypeValue() {
-		return typeValue;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setTypeValue(String typeValue) {
-		this.typeValue = typeValue;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getStringVal() {
-		return stringVal;
-	}
+    public Long getOrder() {
+        return order;
+    }
 
-	public void setStringVal(String stringVal) {
-		this.stringVal = stringVal;
-	}
+    public void setOrder(Long order) {
+        this.order = order;
+    }
 
-	public Long getLongVal() {
-		return longVal;
-	}
+    public String getTypeValue() {
+        return typeValue;
+    }
 
-	public void setLongVal(Long longVal) {
-		this.longVal = longVal;
-	}
+    public void setTypeValue(String typeValue) {
+        this.typeValue = typeValue;
+    }
 
-	public Double getDoubleVal() {
-		return doubleVal;
-	}
+    public String getStringVal() {
+        return stringVal;
+    }
 
-	public void setDoubleVal(Double doubleVal) {
-		this.doubleVal = doubleVal;
-	}
+    public void setStringVal(String stringVal) {
+        this.stringVal = stringVal;
+    }
 
-	public Date getDateVal() {
-		return dateVal;
-	}
+    public Long getLongVal() {
+        return longVal;
+    }
 
-	public void setDateVal(Date dateVal) {
-		this.dateVal = dateVal;
-	}
+    public void setLongVal(Long longVal) {
+        this.longVal = longVal;
+    }
+
+    public Double getDoubleVal() {
+        return doubleVal;
+    }
+
+    public void setDoubleVal(Double doubleVal) {
+        this.doubleVal = doubleVal;
+    }
+
+    public Date getDateVal() {
+        return dateVal;
+    }
+
+    public void setDateVal(Date dateVal) {
+        this.dateVal = dateVal;
+    }
 
 }

@@ -1,20 +1,22 @@
 package com.bbva.packws.service.impl;
 
-import javax.annotation.Resource;
 import java.util.List;
 
-import com.bbva.packws.GenericTest;
-import com.bbva.packws.domain.Solicitud;
-import com.bbva.packws.service.SolicitudService;
+import javax.annotation.Resource;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.AbstractJUnit4Test;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunnerJNDI;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+import com.bbva.packws.domain.Solicitud;
+import com.bbva.packws.service.SolicitudService;
+
+@RunWith(SpringJUnit4ClassRunnerJNDI.class)
 @ContextConfiguration(locations = {"classpath:applicationContextTest.xml"})
-public class SolicitudServiceImplTest extends GenericTest {
+public class SolicitudServiceImplTest extends AbstractJUnit4Test {
 	
 	@Resource(name = "solicitudService")
 	private SolicitudService solicitudService;

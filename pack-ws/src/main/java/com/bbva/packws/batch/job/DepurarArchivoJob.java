@@ -21,7 +21,7 @@ public class DepurarArchivoJob extends QuartzJobBean {
 	@Override
 	protected void executeInternal(JobExecutionContext arg) throws JobExecutionException {
 		try {
-			ParametroConfiguracionService parametroConfiguracionService = (ParametroConfiguracionService) WebServletContextListener.getBean("parametroConfiguracionService");
+			ParametroConfiguracionService parametroConfiguracionService = WebServletContextListener.getBean("parametroConfiguracionService");
 			ParametroConfiguracion paramConfig[] = new ParametroConfiguracion[4];
 			paramConfig[0] = parametroConfiguracionService.obtenerParametro(Configuracion.PB_RUTA_ARCHIVO.getKey());
 			paramConfig[1] = parametroConfiguracionService.obtenerParametro(Configuracion.PB_NOMBRE_ARCHIVO.getKey());

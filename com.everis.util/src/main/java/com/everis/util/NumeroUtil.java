@@ -23,7 +23,11 @@ public class NumeroUtil {
 	public static final BigDecimal ONE_NEGATIVE = new BigDecimal(-1);
 	public static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
 	
-	/**
+	public NumeroUtil() {
+        super();
+    }
+
+    /**
 	 * Retorna un numero dado en el formato indicado
 	 * @param valor {@link Number}
 	 * @param formato {@link FormatoNumero}

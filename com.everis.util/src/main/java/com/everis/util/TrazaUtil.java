@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
  * Clase para formatear las excepciones generadas
  */
 public final class TrazaUtil {
-	private static final Logger logger = Logger.getLogger(TrazaUtil.class);
+	private static final Logger LOG = Logger.getLogger(TrazaUtil.class);
 
 	private TrazaUtil() {}
 	
@@ -36,7 +36,7 @@ public final class TrazaUtil {
 			}
 		} catch (Exception ex) {
 			trace = new StringBuilder(e.getMessage());
-			logger.error(e);
+			LOG.error(e);
 		}
 		
 		return trace.toString();
@@ -66,7 +66,7 @@ public final class TrazaUtil {
 			}
 		} catch (Exception ex) {
 			trace = new StringBuilder(e.getMessage());
-			logger.error(e);
+			LOG.error(e);
 		}
 		
 		return trace.toString();

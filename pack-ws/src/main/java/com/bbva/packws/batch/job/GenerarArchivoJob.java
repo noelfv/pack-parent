@@ -19,7 +19,7 @@ public class GenerarArchivoJob extends QuartzJobBean {
 	
 	@Override
 	protected void executeInternal(JobExecutionContext arg) throws JobExecutionException {
-		SchedulerService schedulerService = (SchedulerService) WebServletContextListener.getBean("schedulerService");
+		SchedulerService schedulerService = WebServletContextListener.getBean("schedulerService");
 		Long id = 0L;
 		try {
 			schedulerService.executeJob(id);

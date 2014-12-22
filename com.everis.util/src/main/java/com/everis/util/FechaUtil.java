@@ -25,6 +25,10 @@ public class FechaUtil {
 	private static final String TIME24HOURS_PATTERN = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
 	private static final String DATE_PATTERN = "(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((19|20)\\d\\d)";
 
+	public FechaUtil() {
+        super();
+    }
+	
 	/**
 	 * @return {@link Date}, fecha actual del sistema.
 	 */

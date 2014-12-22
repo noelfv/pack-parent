@@ -88,8 +88,8 @@ public class PackWsSOAPImpl implements PackWs{
 	}
 	
 	private ListarSolicitudBodyResponse crearBodyResponse(ListarSolicitudRequest parameters, com.bbva.packws.webservice.solicitud.Solicitud solicitud) throws BussinesWebServiceException {
-		SolicitudService solicitudService = (SolicitudService) WebServletContextListener.getBean("solicitudService");
-		ParametroConfiguracionService parametroConfiguracionService = (ParametroConfiguracionService) WebServletContextListener.getBean("parametroConfiguracionService");
+		SolicitudService solicitudService = WebServletContextListener.getBean("solicitudService");
+		ParametroConfiguracionService parametroConfiguracionService = WebServletContextListener.getBean("parametroConfiguracionService");
 		
 		Solicitud ultimaPagina = crearSolicitud(parameters.getHeader().getUltimaPagina());
 		ListarSolicitudBodyRequest request = parameters.getBody();

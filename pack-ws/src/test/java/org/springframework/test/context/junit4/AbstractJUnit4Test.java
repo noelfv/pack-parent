@@ -1,4 +1,4 @@
-package com.bbva.packws;
+package org.springframework.test.context.junit4;
 
 import java.util.Collection;
 import java.util.Properties;
@@ -10,7 +10,7 @@ import org.junit.Before;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class GenericTest {
+public class AbstractJUnit4Test {
 	
 	protected Logger LOGGER = null;
 	
@@ -33,7 +33,7 @@ public class GenericTest {
 		// prop.setProperty("log4j.logger.org.hibernate.type", "TRACE");
 		
 		PropertyConfigurator.configure(prop);
-		LOGGER = Logger.getLogger(GenericTest.class);
+		LOGGER = Logger.getLogger(AbstractJUnit4Test.class);
 		LOGGER.error("Logger -> Init");
 	}
 	

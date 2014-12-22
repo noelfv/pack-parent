@@ -23,7 +23,7 @@ public class GenerarArchivoThread extends Thread {
 
 	@Override
 	public void run() {
-		SchedulerService schedulerService = (SchedulerService) WebServletContextListener.getBean("schedulerService");
+		SchedulerService schedulerService = WebServletContextListener.getBean("schedulerService");
 		try {
 			handler.setEstado(Estado.ACTIVO);
 			Long id = 0L;
