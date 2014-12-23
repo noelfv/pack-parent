@@ -5,8 +5,7 @@ public enum DataType {
     STRING("String"),
     LONG("LONG"),
     DATE("Date"),
-    DOUBLE("Double"),
-    HASH_MAP("HashMap");
+    DOUBLE("Double");
     
     private String name;
 

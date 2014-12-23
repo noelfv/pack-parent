@@ -10,6 +10,7 @@ public enum ParameterType {
     PARAM_GROUP("GROUP", String.class),
     PARAM_SORT("SORT", String.class),
     PARAM_PAGE_SIZE("PAGE_SIZE", Long.class),
+    
     PARAM_FORMAT("FORMAT", String.class),
     PARAM_RESOURCE("RESOURCE", String.class);
     
