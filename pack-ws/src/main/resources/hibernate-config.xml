@@ -16,5 +16,9 @@
 		<mapping resource="com/bbva/packws/domain/mapping/Parametro.hbm.xml"/>
 		<mapping resource="com/bbva/packws/domain/mapping/ParametroConfiguracion.hbm.xml"/>
 		<mapping resource="com/bbva/quartz/domain/mapping/Trigger.hbm.xml"/>
+		<mapping resource="com/bbva/batch/domain/mapping/ApplicationBatch.hbm.xml"/>
+		<mapping resource="com/bbva/batch/domain/mapping/JobBatch.hbm.xml"/>
+		<mapping resource="com/bbva/batch/domain/mapping/StepBatch.hbm.xml"/>
+		<mapping resource="com/bbva/batch/domain/mapping/ParameterBatch.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>

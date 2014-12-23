@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.item.ChunkOrientedTasklet;
@@ -35,6 +36,8 @@ import com.bbva.batch.util.ParamUtil;
 @Component("stepFactory")
 public class StepFactoryImpl implements StepFactory {
 
+    private static final Logger LOG = Logger.getLogger(StepFactoryImpl.class);
+    
     @Resource(name = "jobRepository")
     private JobRepository jobRepository;
     
@@ -74,6 +77,7 @@ public class StepFactoryImpl implements StepFactory {
             step.setTransactionManager(transactionManager);
             step.setTasklet(createTasklet(readerType, writeType, params));
         } catch(Exception e) {
+            LOG.error("Error al crear el paso: [" + stepBatch.getName() + "]", e);
             step = null;
         }
         

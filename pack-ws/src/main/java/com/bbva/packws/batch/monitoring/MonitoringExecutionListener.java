@@ -1,18 +1,27 @@
 package com.bbva.packws.batch.monitoring;
 
+import javax.annotation.Resource;
+
 import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.annotation.AfterJob;
+import org.springframework.batch.core.JobExecutionListener;
+import org.springframework.stereotype.Component;
 
-public class MonitoringExecutionListener {
+@Component("monitoringExecutionListener")
+public class MonitoringExecutionListener implements JobExecutionListener {
 
-	private BatchMonitoringNotifier monitoringNotifier;
+    @Resource(name="batchMonitoringNotifier")
+    private BatchMonitoringNotifier monitoringNotifier;
 
-	@AfterJob
-	public void executeAfterJob(JobExecution jobExecution) {
-		monitoringNotifier.notify(jobExecution);
-	}
+    public void setMonitoringNotifier(BatchMonitoringNotifier monitoringNotifier) {
+        this.monitoringNotifier = monitoringNotifier;
+    }
 
-	public void setMonitoringNotifier(BatchMonitoringNotifier monitoringNotifier) {
-		this.monitoringNotifier = monitoringNotifier;
-	}
+    @Override
+    public void beforeJob(JobExecution jobExecution) {
+    }
+
+    @Override
+    public void afterJob(JobExecution jobExecution) {
+        monitoringNotifier.notify(jobExecution);
+    }
 }

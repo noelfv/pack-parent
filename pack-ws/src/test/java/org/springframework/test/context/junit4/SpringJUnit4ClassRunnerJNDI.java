@@ -21,7 +21,7 @@ public class SpringJUnit4ClassRunnerJNDI extends SpringJUnit4ClassRunner {
 				@SuppressWarnings("resource")
 				ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContextTestDS.xml");
 				SimpleNamingContextBuilder builder = new SimpleNamingContextBuilder();
-				builder.bind("java:/comp/env/jdbc/APP_CONELE", applicationContext.getBean("dataSourceCONELE"));
+				builder.bind("java:/jdbc/APP_CONELE", applicationContext.getBean("dataSourceCONELE"));
 				builder.activate();
 
 				isJNDIactive = true;

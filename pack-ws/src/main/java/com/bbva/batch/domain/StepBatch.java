@@ -6,9 +6,11 @@ public class StepBatch extends EntityBatch {
 
     private static final long serialVersionUID = 1L;
     private String name;
+    private String order;
     private String type;
     private String reader;
     private String writer;
+    private JobBatch job;
     private List<ParameterBatch> parameters;
 
     public String getName() {
@@ -17,6 +19,14 @@ public class StepBatch extends EntityBatch {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
     }
 
     public String getType() {
@@ -41,6 +51,14 @@ public class StepBatch extends EntityBatch {
 
     public void setWriter(String writer) {
         this.writer = writer;
+    }
+
+    public JobBatch getJob() {
+        return job;
+    }
+
+    public void setJob(JobBatch job) {
+        this.job = job;
     }
 
     public List<ParameterBatch> getParameters() {

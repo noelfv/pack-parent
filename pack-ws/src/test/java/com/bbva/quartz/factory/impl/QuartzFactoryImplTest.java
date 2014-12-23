@@ -5,7 +5,6 @@ import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.batch.core.Step;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4Test;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunnerJNDI;
@@ -21,8 +20,8 @@ public class QuartzFactoryImplTest extends AbstractJUnit4Test {
     @Resource(name="quartzFactory")
     private QuartzFactory quartzFactory;
     
-    @Resource(name="stepD1")
-    private Step step;
+//    @Resource(name="stepD1")
+//    private Step step;
     
     @Test
     public void createJob() {
@@ -30,7 +29,7 @@ public class QuartzFactoryImplTest extends AbstractJUnit4Test {
         app.setName("demo");
         app.setJndi("jdbc/APP_CONELE");
         
-        LOGGER.error(step.getName());
+//        LOGGER.error(step.getName());
         
 //        SimpleJob job = new SimpleJob();
 //        TaskletStep step1 = new TaskletStep(); 

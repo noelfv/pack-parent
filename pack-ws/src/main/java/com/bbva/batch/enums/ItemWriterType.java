@@ -7,13 +7,13 @@ public enum ItemWriterType {
     WRITER_XML("WRITER_XML"),
     WRITER_TABLE("WRITER_TABLE");
     
-    private String name;
+    private String nameWriter;
     
-    ItemWriterType(String name) {
-        this.name = name;
+    ItemWriterType(String nameWriter) {
+        this.nameWriter = nameWriter;
     }
     
     public String getName() {
-        return this.name;
+        return this.nameWriter;
     }
 }

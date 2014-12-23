@@ -7,13 +7,13 @@ public enum ItemReaderType {
     READER_XML("READER_XML"),
     READER_TABLE("READER_TABLE");
     
-    private String name;
+    private String nameReader;
     
-    ItemReaderType(String name) {
-        this.name = name;
+    ItemReaderType(String nameReader) {
+        this.nameReader = nameReader;
     }
     
     public String getName() {
-        return this.name;
+        return this.nameReader;
     }
 }

@@ -111,6 +111,7 @@
     
     <!-- Begin: Job -->
     	<!-- TODO: Cambiar si el volumen de data es demasiado -->
+    	<!-- 
 	    <bean id="itemReaderCONELE"
 			class="org.springframework.batch.item.database.JdbcCursorItemReader"
 			scope="step">
@@ -182,7 +183,7 @@
 		<bean id="monitoringNotifier" class="com.bbva.packws.batch.monitoring.impl.BatchMonitoringNotifierImpl">
 			<property name="notificacionService" ref="notificacionService"/>
 		</bean>
-
+        -->
 
     <!-- End: Job -->
 </beans>

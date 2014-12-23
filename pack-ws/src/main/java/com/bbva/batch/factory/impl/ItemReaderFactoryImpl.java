@@ -1,5 +1,7 @@
 package com.bbva.batch.factory.impl;
 
+import javax.sql.DataSource;
+
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.PagingQueryProvider;
@@ -12,29 +14,40 @@ import com.bbva.batch.enums.ParameterType;
 import com.bbva.batch.factory.ItemReaderFactory;
 import com.bbva.batch.util.ItemBatchRowMapper;
 import com.bbva.batch.util.ParamUtil;
-import com.everis.util.DBUtil;
+import com.everis.util.DBUtilSpring;
 
 @Component("itemReaderFactory")
 public class ItemReaderFactoryImpl implements ItemReaderFactory {
 
     private JdbcPagingItemReader<ItemBatch> createJdbcPagingItemReader(ParamUtil params) throws Exception {
+        DataSource dataSource = DBUtilSpring.getInstance().getDataSource(params.getParamAsString(ParameterType.PARAM_JNDI));
         JdbcPagingItemReader<ItemBatch> reader = new JdbcPagingItemReader<ItemBatch>();
         
         SqlPagingQueryProviderFactoryBean queryProviderFactory = new SqlPagingQueryProviderFactoryBean();
         queryProviderFactory.setDatabaseType("oracle");
-        queryProviderFactory.setDataSource(DBUtil.getInstance().getDataSource(params.getParamAsString(ParameterType.PARAM_JNDI)));
+        queryProviderFactory.setDataSource(dataSource);
         queryProviderFactory.setSelectClause(params.getParamAsString(ParameterType.PARAM_SELECT));
         queryProviderFactory.setFromClause(params.getParamAsString(ParameterType.PARAM_FROM));
         queryProviderFactory.setWhereClause(params.getParamAsString(ParameterType.PARAM_WHERE));
-        queryProviderFactory.setGroupClause(params.getParamAsString(ParameterType.PARAM_GROUP));
-        queryProviderFactory.setSortKey(params.getParamAsString(ParameterType.PARAM_SORT));
+        
+        String groupClause = params.getParamAsString(ParameterType.PARAM_GROUP);
+        if(groupClause != null) {
+            queryProviderFactory.setGroupClause(groupClause);
+        }
+        
+        String sortKey = params.getParamAsString(ParameterType.PARAM_SORT);
+        if(sortKey != null) {
+            queryProviderFactory.setSortKey(sortKey);
+        }
         
         PagingQueryProvider queryProvider;
         queryProvider = (PagingQueryProvider) queryProviderFactory.getObject();
         
+        reader.setDataSource(dataSource);
         reader.setQueryProvider(queryProvider);
         reader.setPageSize(params.getParamAsLong(ParameterType.PARAM_PAGE_SIZE).intValue());
         reader.setRowMapper(new ItemBatchRowMapper());
+        reader.afterPropertiesSet();
         return reader;
     }
     

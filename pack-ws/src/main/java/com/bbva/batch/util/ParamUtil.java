@@ -27,7 +27,7 @@ public class ParamUtil {
         ParameterType type;
         
         for(ParameterBatch p : paramsBatch) {
-            type = ParameterType.valueOf("PARAM_" + p.getName());
+            type = ParameterType.valueOf("PARAM_" + p.getType());
             if(DataType.STRING.getName().equalsIgnoreCase(type.getDataType())) {
                 params.put(type, p.getStringVal());
             } else if(DataType.LONG.getName().equalsIgnoreCase(type.getDataType())) {

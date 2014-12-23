@@ -3,17 +3,19 @@ package com.bbva.batch.enums;
 public enum DataType {
     
     STRING("String"),
-    LONG("LONG"),
+    INTEGER("Integer"),
+    LONG("Long"),
     DATE("Date"),
-    DOUBLE("Double");
+    DOUBLE("Double"),
+    BIGDECIMAL("BigDecimal");
     
-    private String name;
+    private String nameType;
 
-    DataType(String name) {
-        this.name = name;
+    DataType(String nameType) {
+        this.nameType = nameType;
     }
 
     public String getName() {
-        return name;
+        return nameType;
     }
 }

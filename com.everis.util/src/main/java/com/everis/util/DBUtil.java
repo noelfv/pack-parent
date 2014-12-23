@@ -13,23 +13,23 @@ public class DBUtil {
 
     private static final Logger LOG = Logger.getLogger(DBUtil.class);
     private static DBUtil instance = new DBUtil();
-    private Map<String, DataSource> dataSources; 
-    
+    private Map<String, DataSource> dataSources;
+
     public DBUtil() {
         super();
         dataSources = new HashMap<String, DataSource>();
     }
 
-    public static DBUtil getInstance() {          
+    public static DBUtil getInstance() {
         return instance;
     }
-    
+
     public DataSource getDataSource(String jndiName) {
         DataSource dataSource = null;
-        
-        if(!dataSources.containsKey(jndiName)) {
+
+        if (!dataSources.containsKey(jndiName)) {
             InitialContext context = null;
-            
+
             try {
                 context = new InitialContext();
                 dataSource = (DataSource) context.lookup(jndiName);
@@ -41,12 +41,12 @@ public class DBUtil {
                     LOG.error("Error:", e1);
                 }
             }
-            
+
             dataSources.put(jndiName, dataSource);
         } else {
             dataSource = dataSources.get(jndiName);
         }
-        
+
         return dataSource;
     }
 }

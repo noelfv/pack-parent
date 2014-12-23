@@ -6,19 +6,25 @@ import com.bbva.batch.domain.ItemBatch;
 
 public class ItemBatchFieldExtractor implements FieldExtractor<ItemBatch> {
 
-    private String[] names;
+    private String fields;
     
     @Override
     public Object[] extract(ItemBatch param) {
-        // TODO Auto-generated method stub
-        return null;
+        String[] names = fields.split(",");
+        Object[] o = new Object[names.length];
+        
+        for(int i = 0; i < names.length; i++) {
+            o[i] = param.getObject(names[i]);
+        }
+        
+        return o;
     }
 
-    public String[] getNames() {
-        return names;
+    public String fields() {
+        return fields;
     }
 
-    public void setNames(String[] names) {
-        this.names = names;
+    public void setFields(String fields) {
+        this.fields = fields;
     }
 }

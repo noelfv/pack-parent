@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"><hibernate-mapping>
+	<class name="com.bbva.batch.domain.ApplicationBatch" table="MNTR_APLICACION">
+		<id name="id" type="long">
+			<column name="ID" />
+			<generator class="increment" />
+		</id>
+		<version name="version" type="long">
+			<column name="VERSION" />
+		</version>
+		<property name="name" type="string" length="30">
+			<column name="NOMBRE" />
+		</property>
+		<property name="jndi" type="string" length="30">
+			<column name="JNDI" />
+		</property>
+	</class>
+</hibernate-mapping>
