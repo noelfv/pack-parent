@@ -1,17 +1,14 @@
 package com.bbva.batch.tasklet;
 
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 
-import com.bbva.batch.service.JobBatchService;
-
 public class StoreProcedureTasklet implements Tasklet {
 
-    private static final Logger LOG = Logger.getLogger(StoreProcedureTasklet.class);
-    private JobBatchService jobBatchService;
+//    private static final Logger LOG = Logger.getLogger(StoreProcedureTasklet.class);
+//    private JobBatchService jobBatchService;
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
@@ -64,8 +61,8 @@ public class StoreProcedureTasklet implements Tasklet {
         return result;
     }
 
-    public void setJobBatchService(JobBatchService jobBatchService) {
-        this.jobBatchService = jobBatchService;
-    }
+//    public void setJobBatchService(JobBatchService jobBatchService) {
+//        this.jobBatchService = jobBatchService;
+//    }
 
 }

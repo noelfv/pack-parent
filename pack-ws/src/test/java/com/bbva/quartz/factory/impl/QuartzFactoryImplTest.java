@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.job.SimpleJob;
-import org.springframework.batch.core.step.tasklet.TaskletStep;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4Test;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunnerJNDI;
@@ -34,8 +32,8 @@ public class QuartzFactoryImplTest extends AbstractJUnit4Test {
         
         LOGGER.error(step.getName());
         
-        SimpleJob job = new SimpleJob();
-        TaskletStep step1 = new TaskletStep(); 
+//        SimpleJob job = new SimpleJob();
+//        TaskletStep step1 = new TaskletStep(); 
         
 //        RepeatTemplate repeatTemplate=new TaskExecutorRepeatTemplate();
 //        repeatTemplate.setCompletionPolicy(new SimpleCompletionPolicy(5));
