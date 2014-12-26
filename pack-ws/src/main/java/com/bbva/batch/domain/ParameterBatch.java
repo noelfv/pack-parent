@@ -13,6 +13,7 @@ public class ParameterBatch extends EntityBatch {
     private Long longVal;
     private Double doubleVal;
     private Date dateVal;
+    private StepBatch step;
 
     public ParameterBatch(String name, String type, Long order,
             String typeValue, String stringVal) {
@@ -116,6 +117,14 @@ public class ParameterBatch extends EntityBatch {
 
     public void setDateVal(Date dateVal) {
         this.dateVal = dateVal;
+    }
+
+    public StepBatch getStep() {
+        return step;
+    }
+
+    public void setStep(StepBatch step) {
+        this.step = step;
     }
 
 }
