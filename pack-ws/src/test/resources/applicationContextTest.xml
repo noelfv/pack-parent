@@ -14,19 +14,12 @@
 
 	<tx:annotation-driven />
 	<context:annotation-config />
-	<context:component-scan base-package="com.bbva.packws,com.bbva.quartz,com.bbva.batch" />
+	<context:component-scan
+		base-package="com.bbva.packws,com.bbva.quartz,com.bbva.batch" />
 
-	<!-- <bean id="nameMatchMethodPointcutAdvisor" -->
-	<!-- class="org.springframework.aop.support.RegexpMethodPointcutAdvisor"> -->
-	<!-- <property name="patterns"> -->
-	<!-- <list> -->
-	<!-- <value>.*domain.*</value> -->
-	<!-- <value>.*hibernate.*</value> -->
-	<!-- </list> -->
-	<!-- </property> -->
-	<!-- <property name="advice" ref="beforeMonitorInterceptor" /> -->
-	<!-- </bean> -->
-	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+	<aop:aspectj-autoproxy />
+	<bean id="fetchProfileInterceptor" class="com.bbva.batch.aop.FetchProfileInterceptor" />
+
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">

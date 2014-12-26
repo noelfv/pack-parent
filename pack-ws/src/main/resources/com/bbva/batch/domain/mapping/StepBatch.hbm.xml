@@ -30,5 +30,13 @@
 			fetch="select">
 			<column name="ID_TRABAJO" precision="10" scale="0" />
 		</many-to-one>
+		<list name="parameters" table="MNTR_PARAMETRO" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="ID_PASO" precision="10" scale="0" />
+			</key>
+			<list-index column="ID" />
+			<one-to-many class="com.bbva.batch.domain.ParameterBatch" />
+		</list>
 	</class>
 </hibernate-mapping>

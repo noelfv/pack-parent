@@ -60,6 +60,14 @@ public class AbstractJUnit4Test {
         }
     }
 
+    public void printer(Object o, String[] exclude) {
+        try {
+            LOGGER.info(new JSONSerializer().exclude(exclude).deepSerialize(o));
+        } catch (Exception e) {
+            LOGGER.error("", e);
+        }
+    }
+    
     public void printer(Collection<?> o, String[] exclude) {
         try {
             for (Object iO : o) {

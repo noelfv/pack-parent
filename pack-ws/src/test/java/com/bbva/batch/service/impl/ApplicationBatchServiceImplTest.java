@@ -22,20 +22,43 @@ public class ApplicationBatchServiceImplTest extends AbstractJUnit4Test {
     private ApplicationBatchService applicationBatchService;
 
     @Test
-    public void listar() {
+    public void listar1() {
         List<ApplicationBatch> applicationBatchs = applicationBatchService.listar();
-        
-        try {
-            printer(applicationBatchs, new String[]{"*.class", "jobs", "jobs.application"});
-            // prettyPrinter(applicationBatchs.get(0).getJobs());
-        } catch(Exception e) {
-            LOGGER.error("No printer", e);
-            Assert.fail("No printer");
-        }
+
         Assert.assertTrue(applicationBatchs.size() >= 0);
+        try {
+            String exclude[] = new String[]{"*.class", "jobs.application", "jobs.steps"};
+            
+            printer(applicationBatchService.obtener(1L, true), exclude);
+            printer(applicationBatchs, exclude);
+            printer(applicationBatchService.obtener(1L), exclude);
+            
+        } catch(Exception e) {
+            LOGGER.info("No printer", e);
+            return;
+        }
+
+        Assert.fail();
     }
 
     @Test
+    public void listar2() {
+        List<ApplicationBatch> applicationBatchs = applicationBatchService.listar(true);
+
+        Assert.assertTrue(applicationBatchs.size() >= 0);
+        try {
+            String exclude[] = new String[]{"*.class", "jobs.application", "jobs.steps"};
+            
+            printer(applicationBatchService.obtener(1L, true), exclude);
+            printer(applicationBatchs, exclude);
+            printer(applicationBatchService.obtener(1L), exclude);
+        } catch(Exception e) {
+            LOGGER.info("No printer", e);
+            Assert.fail();
+        }
+    }
+    
+    // @Test
     public void actualizar() {
         ApplicationBatch application = new ApplicationBatch();
         application.setId(1L);

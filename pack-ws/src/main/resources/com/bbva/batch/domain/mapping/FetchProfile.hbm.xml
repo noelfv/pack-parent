@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<fetch-profile name="fetchProfile">
+		<fetch entity="com.bbva.batch.domain.ApplicationBatch" association="jobs" style="join" />
+		<fetch entity="com.bbva.batch.domain.JobBatch" association="steps" style="join" />
+		<fetch entity="com.bbva.batch.domain.StepBatch" association="parameters" style="join" />
+	</fetch-profile>
+</hibernate-mapping>

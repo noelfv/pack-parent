@@ -7,5 +7,5 @@ import com.everis.core.dao.IHibernateDAO;
 
 public interface ParameterBatchDAO extends IHibernateDAO<ParameterBatch> {
 
-    List<ParameterBatch> listar(Long idStepBatch);
+    List<ParameterBatch> listar(Long idStepBatch, boolean lazy);
 }

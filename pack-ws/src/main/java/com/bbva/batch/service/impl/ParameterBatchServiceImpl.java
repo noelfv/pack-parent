@@ -17,9 +17,13 @@ public class ParameterBatchServiceImpl implements ParameterBatchService {
     @Resource(name = "parameterBatchDAO")
     private ParameterBatchDAO parameterBatchDAO;
 
-    @Transactional(readOnly = true)
     public List<ParameterBatch> listar(Long idStepBatch) {
-        return parameterBatchDAO.listar(idStepBatch);
+        return listar(idStepBatch, false);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<ParameterBatch> listar(Long idStepBatch, boolean lazy) {
+        return parameterBatchDAO.listar(idStepBatch, lazy);
     }
 
     @Transactional

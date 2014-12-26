@@ -7,6 +7,6 @@ import com.everis.core.dao.IHibernateDAO;
 
 public interface JobBatchDAO extends IHibernateDAO<JobBatch> {
 
-    List<JobBatch> listar(Long idApplicationBatch);
-    JobBatch obtener(Long idJobBatch);
+    List<JobBatch> listar(Long idApplicationBatch, boolean lazy);
+    JobBatch obtener(Long idJobBatch, boolean lazy);
 }

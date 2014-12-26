@@ -17,12 +17,26 @@ public class ApplicationBatchServiceImpl implements ApplicationBatchService {
     @Resource(name = "applicationBatchDAO")
     private ApplicationBatchDAO applicationBatchDAO;
 
-    @Transactional(readOnly = true)
     public List<ApplicationBatch> listar() {
-        return applicationBatchDAO.listar();
+        return listar(false);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<ApplicationBatch> listar(boolean lazy) {
+        return applicationBatchDAO.listar(lazy);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
+	public ApplicationBatch obtener(Long idApplication) {
+		return obtener(idApplication, false);
+	}
+
+    @Transactional(readOnly = true)
+	public ApplicationBatch obtener(Long idApplication, boolean lazy) {
+		return applicationBatchDAO.obtener(idApplication, lazy);
+	}
+
+	@Transactional
     public void insertar(ApplicationBatch o) {
         applicationBatchDAO.save(o);
     }

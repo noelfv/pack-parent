@@ -17,11 +17,15 @@ public class StepBatchServiceImpl implements StepBatchService {
     @Resource(name = "stepBatchDAO")
     private StepBatchDAO stepBatchDAO;
 
-    @Transactional(readOnly = true)
     public List<StepBatch> listar(Long idJobBatch) {
-        return stepBatchDAO.listar(idJobBatch);
+        return listar(idJobBatch, false);
     }
 
+    @Transactional(readOnly = true)
+    public List<StepBatch> listar(Long idJobBatch, boolean lazy) {
+        return stepBatchDAO.listar(idJobBatch, lazy);
+    }
+    
     @Transactional
     public void insertar(StepBatch o) {
         stepBatchDAO.save(o);

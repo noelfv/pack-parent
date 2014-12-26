@@ -12,7 +12,7 @@ import com.everis.core.dao.impl.HibernateDAO;
 public class StepBatchDAOImpl extends HibernateDAO<StepBatch> implements StepBatchDAO {
 
     @Override
-    public List<StepBatch> listar(Long idJobBatch) {
+    public List<StepBatch> listar(Long idJobBatch, boolean lazy) {
         // TODO Auto-generated method stub
         return null;
     }

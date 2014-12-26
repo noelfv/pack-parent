@@ -52,7 +52,7 @@ public class QuartzFactoryImplTest extends AbstractJUnit4Test {
         
         quartzFactory.createJob(jobBatch);
         try {
-            Thread.sleep(240000);
+            Thread.sleep(120000);
         } catch (InterruptedException e) {
             Assert.fail("Error");
         }

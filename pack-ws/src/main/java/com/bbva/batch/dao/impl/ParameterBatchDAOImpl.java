@@ -12,7 +12,7 @@ import com.everis.core.dao.impl.HibernateDAO;
 public class ParameterBatchDAOImpl extends HibernateDAO<ParameterBatch> implements ParameterBatchDAO {
 
     @Override
-    public List<ParameterBatch> listar(Long idStepBatch) {
+    public List<ParameterBatch> listar(Long idStepBatch, boolean lazy) {
         return null;
     }
 

@@ -17,16 +17,24 @@ public class JobBatchServiceImpl implements JobBatchService {
     @Resource(name = "jobBatchDAO")
     private JobBatchDAO jobBatchDAO;
 
-    @Transactional(readOnly = true)
     public List<JobBatch> listar(Long idApplicationBatch) {
-        return jobBatchDAO.listar(idApplicationBatch);
+        return listar(idApplicationBatch, false);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<JobBatch> listar(Long idApplicationBatch, boolean lazy) {
+        return jobBatchDAO.listar(idApplicationBatch, lazy);
+    }
+
+    public JobBatch obtener(Long idJobBatch) {
+        return obtener(idJobBatch,false);
     }
 
     @Transactional(readOnly = true)
-    public JobBatch obtener(Long idJobBatch) {
-        return jobBatchDAO.obtener(idJobBatch);
+    public JobBatch obtener(Long idJobBatch, boolean lazy) {
+        return jobBatchDAO.obtener(idJobBatch, lazy);
     }
-
+    
     @Transactional
     public void insertar(JobBatch o) {
         jobBatchDAO.save(o);

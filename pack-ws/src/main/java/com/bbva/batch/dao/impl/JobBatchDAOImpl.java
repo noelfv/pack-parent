@@ -16,7 +16,7 @@ public class JobBatchDAOImpl extends HibernateDAO<JobBatch> implements JobBatchD
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<JobBatch> listar(Long idApplicationBatch) {
+    public List<JobBatch> listar(Long idApplicationBatch, boolean lazy) {
         Criteria criteria = super.getCriteria(JobBatch.class);
         criteria.add(Restrictions.eq("application.id", idApplicationBatch));
         criteria.addOrder(Order.asc("id"));
@@ -24,7 +24,7 @@ public class JobBatchDAOImpl extends HibernateDAO<JobBatch> implements JobBatchD
     }
 
     @Override
-    public JobBatch obtener(Long idJobBatch) {
+    public JobBatch obtener(Long idJobBatch, boolean lazy) {
         Criteria criteria = super.getCriteria(JobBatch.class);
         criteria.add(Restrictions.eq("id", idJobBatch));
         return (JobBatch) criteria.uniqueResult();
