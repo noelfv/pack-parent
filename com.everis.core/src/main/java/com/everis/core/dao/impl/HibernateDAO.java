@@ -3,7 +3,9 @@ package com.everis.core.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -70,7 +72,9 @@ public class HibernateDAO<T> extends HibernateDaoSupport implements IHibernateDA
 	 */
 	@Override
 	public Criteria getCriteria(Class<?> clazz) {
-		return super.getSession().createCriteria(clazz);
+		Criteria criteria = super.getSession().createCriteria(clazz);
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		return criteria;
 	}
 
 	/* (non-Javadoc)
@@ -78,6 +82,18 @@ public class HibernateDAO<T> extends HibernateDaoSupport implements IHibernateDA
 	 */
 	@Override
 	public Criteria getCriteria(Class<?> clazz, String alias) {
-		return super.getSession().createCriteria(clazz, alias);
+		Criteria criteria = super.getSession().createCriteria(clazz, alias);
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+		return criteria;
 	}
+
+	/* (non-Javadoc)
+	 * @see com.everis.core.dao.impl.IHibernateDAO#getCurrentSession()
+	 */
+	@Override
+	public Session getCurrentSession() {
+		return super.getSession();
+	}
+	
+	
 }

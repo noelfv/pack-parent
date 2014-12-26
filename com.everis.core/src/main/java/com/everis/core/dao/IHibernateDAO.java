@@ -3,6 +3,7 @@ package com.everis.core.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 public interface IHibernateDAO<T> {
@@ -57,4 +58,9 @@ public interface IHibernateDAO<T> {
 	 */
 	Criteria getCriteria(Class<?> clazz, String alias);
 
+	/**
+	 * Retorna la sesion actual
+	 * @return Session
+	 */
+	Session getCurrentSession();
 }
