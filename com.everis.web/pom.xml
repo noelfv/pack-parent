@@ -122,8 +122,8 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-		<profiles>
+
+	<profiles>
 		<profile>
 			<id>devTomcat</id>
 			<dependencies>
