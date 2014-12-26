@@ -12,7 +12,7 @@ public class ExecuteJob extends QuartzJobBean {
     
     @Override
     protected void executeInternal(JobExecutionContext arg) throws JobExecutionException {
-        LOG.info("ExecuteJob:executeInternal");
+        LOG.info("ExecuteJob:executeInternal: [Group:" + arg.getJobDetail().getGroup() + "][Name:" + arg.getJobDetail().getName() + "]");
     }
 
     public Long getJobBatch() {
