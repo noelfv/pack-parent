@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.bbva.batch.domain.ParameterBatch" table="MNTR_PARAMETRO">
+		<id name="id" type="long">
+			<column name="ID" />
+			<generator class="increment" />
+		</id>
+		<version name="version" type="long">
+			<column name="VERSION" />
+		</version>
+		<property name="name" type="string">
+			<column name="NOMBRE" />
+		</property>
+		<property name="order" type="long">
+			<column name="ORDEN" />
+		</property>
+		<property name="type" type="string" length="30">
+			<column name="TIPO" />
+		</property>
+		<property name="typeValue" type="string" length="30">
+			<column name="TIPO_ATRIBUTO" />
+		</property>
+		<property name="stringVal" type="string" length="2000">
+			<column name="CADENA" />
+		</property>
+		<property name="longVal" type="long">
+			<column name="ENTERO" precision="10" scale="0" />
+		</property>
+		<property name="doubleVal" type="double">
+			<column name="FLOTANTE" precision="25" scale="8" />
+		</property>
+		<property name="dateVal" type="date">
+			<column name="FECHA" />
+		</property>
+		<many-to-one name="step" class="com.bbva.batch.domain.StepBatch"
+			fetch="select">
+			<column name="ID_PASO" precision="10" scale="0" />
+		</many-to-one>
+	</class>
+</hibernate-mapping>

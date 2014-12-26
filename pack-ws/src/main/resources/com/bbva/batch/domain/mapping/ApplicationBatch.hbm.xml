@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC
     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"><hibernate-mapping>
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
 	<class name="com.bbva.batch.domain.ApplicationBatch" table="MNTR_APLICACION">
 		<id name="id" type="long">
 			<column name="ID" />
@@ -16,5 +17,13 @@
 		<property name="jndi" type="string" length="30">
 			<column name="JNDI" />
 		</property>
+		<list name="jobs" table="MNTR_TRABAJO" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="ID_APLICACION" precision="10" scale="0" />
+			</key>
+			<list-index column="ID" />
+			<one-to-many class="com.bbva.batch.domain.JobBatch" />
+		</list>
 	</class>
 </hibernate-mapping>
