@@ -7,13 +7,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4Test;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunnerJNDI;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bbva.batch.domain.ApplicationBatch;
 import com.bbva.batch.domain.JobBatch;
 import com.bbva.quartz.factory.QuartzFactory;
 
-@RunWith(SpringJUnit4ClassRunnerJNDI.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContextTest.xml"})
 public class QuartzFactoryImplTest extends AbstractJUnit4Test {
 
