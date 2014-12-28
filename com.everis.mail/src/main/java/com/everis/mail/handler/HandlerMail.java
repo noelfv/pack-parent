@@ -5,7 +5,9 @@ import com.everis.mail.Message;
 
 public interface HandlerMail {
 
-	void init();
-	void error(MailException exception, Message message);
-	void end();
+    void init();
+
+    void error(MailException exception, Message message);
+
+    void end();
 }

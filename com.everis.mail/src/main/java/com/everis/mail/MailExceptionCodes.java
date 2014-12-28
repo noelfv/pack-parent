@@ -2,23 +2,23 @@ package com.everis.mail;
 
 public enum MailExceptionCodes {
 
-	INVALID_ADDRESS("MAIL:001", "Direccion invalida"),
-	INVALID_PARAMETER("MAIL:002", "Parametro invalido"),
-	NOT_SEND("MAIL:003", "No se pudo enviar el correo");
-		
-	private String code;
-	private String description;
+    INVALID_ADDRESS("MAIL:001", "Direccion invalida"),
+    INVALID_PARAMETER("MAIL:002", "Parametro invalido"),
+    NOT_SEND("MAIL:003", "No se pudo enviar el correo");
 
-	MailExceptionCodes(String code, String description) {
-		this.code = code;
-		this.description = description;
-	}
-	
-	public String getCode() {
-		return code;
-	}
+    private String code;
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}	
+    MailExceptionCodes(String code, String description) {
+        this.code = code;
+        this.description = description;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }
