@@ -29,7 +29,7 @@ public abstract class AbstractSpringControllerImpl implements AbstractController
     }
 
     public String renderModelJson(Object object) {
-        return renderModelJsonDeepExclude(object, new String[] { "*.class" });
+        return renderModelJsonDeepExclude(object, new String[]{"*.class"});
     }
 
     public String renderModelJsonDeepExclude(Object object, String[] exclude) {

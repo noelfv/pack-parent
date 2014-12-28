@@ -21,53 +21,53 @@ import com.everis.util.TrazaUtil;
 import com.everis.web.listener.WebServletContextListener;
 
 public class Log4jServlet extends HttpServlet {
-	
-	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger(Log4jServlet.class);
-	private static final String METHOD_TEST = "test";
-	private static final String METHOD_RELOAD = "reloadLog4J";
-	private static final String METHOD_DOWNLOAD = "download";
-	private static final String METHOD_LIST_FILES = "listFiles";
-	
-	private Log4jService log4jService;
-	private String log4jServiceName = "log4jService";
+
+    private static final long serialVersionUID = 1L;
+    private static final Logger LOG = Logger.getLogger(Log4jServlet.class);
+    private static final String METHOD_TEST = "test";
+    private static final String METHOD_RELOAD = "reloadLog4J";
+    private static final String METHOD_DOWNLOAD = "download";
+    private static final String METHOD_LIST_FILES = "listFiles";
+
+    private Log4jService log4jService;
+    private String log4jServiceName = "log4jService";
     private String app = "core";
-	
+
     private void reloadLog4J() {
         String rootCategory = "INFO,stdout,LOGFILE";
-        String fileName = "/pr/" +  app.toLowerCase() + "/online/pe/web/log/log_" +  app.toLowerCase() + ".log";
+        String fileName = "/pr/" + app.toLowerCase() + "/online/pe/web/log/log_" + app.toLowerCase() + ".log";
         String maxFileSize = "1024kb";
         String maxBackupIndex = "20";
 
-    	try {
-    		if(log4jServiceName != null) {
-    			log4jService = WebServletContextListener.getBean(log4jServiceName);
-    			if(log4jService != null) {
-    	            rootCategory = log4jService.obtener(Log4jService.rootCategory);
-    	            if(rootCategory == null || rootCategory.isEmpty()) {
-    	            	rootCategory = "INFO,stdout,LOGFILE";
-    	            }
-    	            
-    	            fileName = log4jService.obtener(Log4jService.file);
-    	            if(fileName == null || fileName.isEmpty()) {
-    	            	fileName = "/pr/" +  app.toLowerCase() + "/online/pe/web/log/log_" +  app.toLowerCase() + ".log";
-    	            }
-    	            
-    	            maxFileSize = log4jService.obtener(Log4jService.maxFileSize);
-    	            if(maxFileSize == null || maxFileSize.isEmpty()) {
-    	            	maxFileSize = "1024kb";
-    	            }
-    	            
-    	            maxBackupIndex = log4jService.obtener(Log4jService.maxBackupIndex);
-    	            if(maxBackupIndex == null || maxBackupIndex.isEmpty()) {
-    	            	maxBackupIndex = "20";
-    	            }
-    			}	
-    		}
+        try {
+            if (log4jServiceName != null) {
+                log4jService = WebServletContextListener.getBean(log4jServiceName);
+                if (log4jService != null) {
+                    rootCategory = log4jService.obtener(Log4jService.rootCategory);
+                    if (rootCategory == null || rootCategory.isEmpty()) {
+                        rootCategory = "INFO,stdout,LOGFILE";
+                    }
+
+                    fileName = log4jService.obtener(Log4jService.file);
+                    if (fileName == null || fileName.isEmpty()) {
+                        fileName = "/pr/" + app.toLowerCase() + "/online/pe/web/log/log_" + app.toLowerCase() + ".log";
+                    }
+
+                    maxFileSize = log4jService.obtener(Log4jService.maxFileSize);
+                    if (maxFileSize == null || maxFileSize.isEmpty()) {
+                        maxFileSize = "1024kb";
+                    }
+
+                    maxBackupIndex = log4jService.obtener(Log4jService.maxBackupIndex);
+                    if (maxBackupIndex == null || maxBackupIndex.isEmpty()) {
+                        maxBackupIndex = "20";
+                    }
+                }
+            }
         } catch (Exception e) {
-            LOG.error("Error:",e);
+            LOG.error("Error:", e);
             rootCategory = "INFO,stdout,LOGFILE";
-            fileName = "/pr/" +  app.toLowerCase() + "/online/pe/web/log/log_" +  app.toLowerCase() + ".log";
+            fileName = "/pr/" + app.toLowerCase() + "/online/pe/web/log/log_" + app.toLowerCase() + ".log";
             maxFileSize = "1024kb";
             maxBackupIndex = "20";
         }
@@ -91,52 +91,52 @@ public class Log4jServlet extends HttpServlet {
         LOG.error("Logger -> Init");
     }
 
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		
-		log4jServiceName = config.getInitParameter("log4jService");
-		app = config.getInitParameter("app") == null ? "everis" : config.getInitParameter("app");
-		
-		reloadLog4J();
-	}
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		service(request, response);
-	}
+        log4jServiceName = config.getInitParameter("log4jService");
+        app = config.getInitParameter("app") == null ? "everis" : config.getInitParameter("app");
 
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String method = request.getParameter("method");
-		response.setContentType("text/plain");
-		PrintWriter out = response.getWriter();
+        reloadLog4J();
+    }
 
-        if(METHOD_TEST.equalsIgnoreCase(method)) {
-        	if(log4jService != null) {
-        		log4jService.test(out);
-        	}
-        } else if(METHOD_RELOAD.equalsIgnoreCase(method)) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        service(request, response);
+    }
+
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String method = request.getParameter("method");
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+
+        if (METHOD_TEST.equalsIgnoreCase(method)) {
+            if (log4jService != null) {
+                log4jService.test(out);
+            }
+        } else if (METHOD_RELOAD.equalsIgnoreCase(method)) {
             reloadLog4J();
             out.write("Actualizado");
-        } else if(METHOD_DOWNLOAD.equalsIgnoreCase(method)) {
-        	try {
-				String linea;
-				File file = new File(request.getParameter("file"));
-				FileReader fr = new FileReader(file);
-				BufferedReader br = new BufferedReader(fr);
+        } else if (METHOD_DOWNLOAD.equalsIgnoreCase(method)) {
+            try {
+                String linea;
+                File file = new File(request.getParameter("file"));
+                FileReader fr = new FileReader(file);
+                BufferedReader br = new BufferedReader(fr);
 
-				while((linea = br.readLine()) != null) {
-					out.write(linea);
-					out.write("\n");
-				}
+                while ((linea = br.readLine()) != null) {
+                    out.write(linea);
+                    out.write("\n");
+                }
 
-				br.close();
-			} catch(Exception e) {
-				out.write(TrazaUtil.mostrarMensajeText(e));
-			}
-        } else if(METHOD_LIST_FILES.equalsIgnoreCase(method)) {
-        	out.write("Por implementar");
+                br.close();
+            } catch (Exception e) {
+                out.write(TrazaUtil.mostrarMensajeText(e));
+            }
+        } else if (METHOD_LIST_FILES.equalsIgnoreCase(method)) {
+            out.write("Por implementar");
         }
-		
-		out.close();
-	}
+
+        out.close();
+    }
 }
