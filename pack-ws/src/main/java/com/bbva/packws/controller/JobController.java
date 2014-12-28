@@ -1,5 +1,7 @@
 package com.bbva.packws.controller;
 
+import javax.annotation.Resource;
+
 import com.bbva.batch.service.JobInstanceService;
 import com.bbva.packws.batch.job.GenerarArchivoHandler;
 import com.bbva.packws.batch.job.GenerarArchivoThread;
@@ -18,18 +20,21 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import javax.annotation.Resource;
-
-@Controller("schedulerController")
+@Controller("jobController")
 @Scope("prototype")
 @SessionAttributes({"handler"})
-@RequestMapping(value = "scheduler")
-public class SchedulerController extends AbstractSpringControllerImpl {
+@RequestMapping(value = "job")
+public class JobController extends AbstractSpringControllerImpl {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(SchedulerController.class);
+    private static final Logger LOG = Logger.getLogger(JobController.class);
     private static final String OPERACION_INICIAR = "iniciarJob";
     private static final String OPERACION_LISTAR = "listarJob";
 
@@ -55,8 +60,8 @@ public class SchedulerController extends AbstractSpringControllerImpl {
 
     @RequestMapping(value = "index")
     public String index(ModelMap model) {
-        model.addAttribute("schedulerClass", "ui-state-active-bbva");
-        model.addAttribute("jobClass", "");
+        model.addAttribute("schedulerClass", "");
+        model.addAttribute("jobClass", "ui-state-active-bbva");
         return "index/index";
     }
 

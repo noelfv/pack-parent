@@ -4,10 +4,20 @@ import java.util.List;
 
 public class ApplicationBatch extends EntityBatch {
 
-	private static final long serialVersionUID = 1L;
-	private String name;
+    private static final long serialVersionUID = 1L;
+    private String name;
     private String jndi;
     private List<JobBatch> jobs;
+
+    public ApplicationBatch() {
+        super();
+    }
+
+    public ApplicationBatch(String name, String jndi) {
+        super();
+        this.name = name;
+        this.jndi = jndi;
+    }
 
     public String getName() {
         return name;
@@ -22,14 +32,14 @@ public class ApplicationBatch extends EntityBatch {
     }
 
     public String getJndi() {
-		return jndi;
-	}
+        return jndi;
+    }
 
-	public void setJndi(String jndi) {
-		this.jndi = jndi;
-	}
+    public void setJndi(String jndi) {
+        this.jndi = jndi;
+    }
 
-	public void setJobs(List<JobBatch> jobs) {
+    public void setJobs(List<JobBatch> jobs) {
         this.jobs = jobs;
     }
 }

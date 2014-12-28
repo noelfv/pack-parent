@@ -15,9 +15,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * <p>Java class for Solicitud complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="Solicitud">
  *   &lt;complexContent>
@@ -43,26 +43,24 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Solicitud", propOrder = {
-    "solicitud",
-    "codigoProducto",
-    "codigoSubProducto",
-    "estado",
-    "fechaAlta",
-    "importe",
-    "divisa",
-    "tipoDOI",
-    "numDOI",
-    "codigoCliente",
-    "contrato",
-    "plazo",
-    "oficina",
-    "ejecutivo",
-    "tasa"
+        "solicitud",
+        "codigoProducto",
+        "codigoSubProducto",
+        "estado",
+        "fechaAlta",
+        "importe",
+        "divisa",
+        "tipoDOI",
+        "numDOI",
+        "codigoCliente",
+        "contrato",
+        "plazo",
+        "oficina",
+        "ejecutivo",
+        "tasa"
 })
 public class Solicitud {
 
@@ -96,11 +94,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the solicitud property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getSolicitud() {
         return solicitud;
@@ -108,11 +104,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the solicitud property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setSolicitud(String value) {
         this.solicitud = value;
@@ -120,11 +114,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the codigoProducto property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getCodigoProducto() {
         return codigoProducto;
@@ -132,11 +124,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the codigoProducto property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setCodigoProducto(String value) {
         this.codigoProducto = value;
@@ -144,11 +134,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the codigoSubProducto property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getCodigoSubProducto() {
         return codigoSubProducto;
@@ -156,11 +144,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the codigoSubProducto property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setCodigoSubProducto(String value) {
         this.codigoSubProducto = value;
@@ -168,11 +154,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the estado property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getEstado() {
         return estado;
@@ -180,11 +164,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the estado property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setEstado(String value) {
         this.estado = value;
@@ -192,11 +174,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the fechaAlta property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
+     *
+     * @return possible object is
+     * {@link XMLGregorianCalendar }
      */
     public XMLGregorianCalendar getFechaAlta() {
         return fechaAlta;
@@ -204,11 +184,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the fechaAlta property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link XMLGregorianCalendar }
      */
     public void setFechaAlta(XMLGregorianCalendar value) {
         this.fechaAlta = value;
@@ -216,7 +194,6 @@ public class Solicitud {
 
     /**
      * Gets the value of the importe property.
-     * 
      */
     public Double getImporte() {
         return importe;
@@ -224,7 +201,6 @@ public class Solicitud {
 
     /**
      * Sets the value of the importe property.
-     * 
      */
     public void setImporte(Double value) {
         this.importe = value;
@@ -232,11 +208,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the divisa property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getDivisa() {
         return divisa;
@@ -244,11 +218,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the divisa property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setDivisa(String value) {
         this.divisa = value;
@@ -256,11 +228,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the tipoDOI property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getTipoDOI() {
         return tipoDOI;
@@ -268,11 +238,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the tipoDOI property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setTipoDOI(String value) {
         this.tipoDOI = value;
@@ -280,11 +248,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the numDOI property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getNumDOI() {
         return numDOI;
@@ -292,11 +258,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the numDOI property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setNumDOI(String value) {
         this.numDOI = value;
@@ -304,11 +268,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the codigoCliente property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getCodigoCliente() {
         return codigoCliente;
@@ -316,11 +278,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the codigoCliente property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setCodigoCliente(String value) {
         this.codigoCliente = value;
@@ -328,11 +288,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the contrato property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getContrato() {
         return contrato;
@@ -340,11 +298,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the contrato property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setContrato(String value) {
         this.contrato = value;
@@ -352,11 +308,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the plazo property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
+     *
+     * @return possible object is
+     * {@link Long }
      */
     public Long getPlazo() {
         return plazo;
@@ -364,11 +318,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the plazo property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Long }
      */
     public void setPlazo(Long value) {
         this.plazo = value;
@@ -376,11 +328,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the oficina property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getOficina() {
         return oficina;
@@ -388,11 +338,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the oficina property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setOficina(String value) {
         this.oficina = value;
@@ -400,11 +348,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the ejecutivo property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getEjecutivo() {
         return ejecutivo;
@@ -412,11 +358,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the ejecutivo property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setEjecutivo(String value) {
         this.ejecutivo = value;
@@ -424,11 +368,9 @@ public class Solicitud {
 
     /**
      * Gets the value of the tasa property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Double }
-     *     
+     *
+     * @return possible object is
+     * {@link Double }
      */
     public Double getTasa() {
         return tasa;
@@ -436,11 +378,9 @@ public class Solicitud {
 
     /**
      * Sets the value of the tasa property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Double }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Double }
      */
     public void setTasa(Double value) {
         this.tasa = value;

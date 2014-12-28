@@ -8,6 +8,16 @@ public class EntityBatch implements Serializable {
     private Long id;
     private Long version;
 
+    public EntityBatch() {
+        super();
+    }
+
+    public EntityBatch(Long id, Long version) {
+        super();
+        this.id = id;
+        this.version = version;
+    }
+
     public Long getId() {
         return id;
     }

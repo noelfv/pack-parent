@@ -20,7 +20,7 @@ public class ParameterBatchServiceImpl implements ParameterBatchService {
     public List<ParameterBatch> listar(Long idStepBatch) {
         return listar(idStepBatch, false);
     }
-    
+
     @Transactional(readOnly = true)
     public List<ParameterBatch> listar(Long idStepBatch, boolean lazy) {
         return parameterBatchDAO.listar(idStepBatch, lazy);

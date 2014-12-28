@@ -10,13 +10,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * <p>
+ * <p/>
  * Java class for ListarSolicitudResponse complex type.
- * 
- * <p>
+ * <p/>
+ * <p/>
  * The following schema fragment specifies the expected content contained within
  * this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="ListarSolicitudResponse">
  *   &lt;complexContent>
@@ -29,11 +29,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ListarSolicitudResponse", propOrder = { "header", "body" })
+@XmlType(name = "ListarSolicitudResponse", propOrder = {"header", "body"})
 public class ListarSolicitudResponse {
 
     @XmlElement(required = true)
@@ -43,9 +41,8 @@ public class ListarSolicitudResponse {
 
     /**
      * Gets the value of the header property.
-     * 
+     *
      * @return possible object is {@link HeaderResponse }
-     * 
      */
     public HeaderResponse getHeader() {
         if (header == null) {
@@ -56,10 +53,8 @@ public class ListarSolicitudResponse {
 
     /**
      * Sets the value of the header property.
-     * 
-     * @param value
-     *            allowed object is {@link HeaderResponse }
-     * 
+     *
+     * @param value allowed object is {@link HeaderResponse }
      */
     public void setHeader(HeaderResponse value) {
         this.header = value;
@@ -67,9 +62,8 @@ public class ListarSolicitudResponse {
 
     /**
      * Gets the value of the body property.
-     * 
+     *
      * @return possible object is {@link ListarSolicitudBodyResponse }
-     * 
      */
     public ListarSolicitudBodyResponse getBody() {
         if (body == null) {
@@ -80,10 +74,8 @@ public class ListarSolicitudResponse {
 
     /**
      * Sets the value of the body property.
-     * 
-     * @param value
-     *            allowed object is {@link ListarSolicitudBodyResponse }
-     * 
+     *
+     * @param value allowed object is {@link ListarSolicitudBodyResponse }
      */
     public void setBody(ListarSolicitudBodyResponse value) {
         this.body = value;

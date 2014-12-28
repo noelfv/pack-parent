@@ -14,7 +14,7 @@ public class BatchMonitoringNotifierImpl implements BatchMonitoringNotifier {
 
     private static final Logger LOG = Logger.getLogger(BatchMonitoringNotifierImpl.class);
 
-    @Resource(name="notificacionService")
+    @Resource(name = "notificacionService")
     private NotificacionService notificacionService;
 
     @Override

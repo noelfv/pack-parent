@@ -8,7 +8,9 @@ import org.springframework.batch.core.repository.JobRestartException;
 
 public interface SchedulerService {
 
-	boolean reschedulerTriggerGenerarArchivo(String time);
-	boolean reschedulerTriggerDepurarArchivo(String time);
-	void executeJob(Long outId) throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException, NoSuchJobException;
+    boolean reschedulerTriggerGenerarArchivo(String time);
+
+    boolean reschedulerTriggerDepurarArchivo(String time);
+
+    void executeJob(Long outId) throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException, NoSuchJobException;
 }

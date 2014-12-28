@@ -13,15 +13,15 @@ import com.bbva.batch.service.JobInstanceService;
 @Service("jobInstanceService")
 public class JobInstanceServiceImpl implements Serializable, JobInstanceService {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Resource(name = "jobInstanceDAO")
-	private JobInstanceDAO jobInstanceDAO;
+    private static final long serialVersionUID = 1L;
 
-	@Transactional(readOnly = true)
-	@Override
-	public Long obtenerUltimaInstancia() {
-		return jobInstanceDAO.obtenerUltimaInstancia();
-	}
+    @Resource(name = "jobInstanceDAO")
+    private JobInstanceDAO jobInstanceDAO;
+
+    @Transactional(readOnly = true)
+    @Override
+    public Long obtenerUltimaInstancia() {
+        return jobInstanceDAO.obtenerUltimaInstancia();
+    }
 
 }

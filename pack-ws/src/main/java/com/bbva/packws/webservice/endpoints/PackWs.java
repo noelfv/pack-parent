@@ -19,21 +19,19 @@ import com.bbva.packws.webservice.solicitud.ObjectFactory;
 @WebService(name = "pack-ws", targetNamespace = "http://www.bbva.com.pe/pack-ws/")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 @XmlSeeAlso({
-    ObjectFactory.class
+        ObjectFactory.class
 })
 public interface PackWs {
 
 
     /**
-     * 
      * @param parameters
-     * @return
-     *     returns com.bbva.packws.webservice.ListarSolicitudResponse
+     * @return returns com.bbva.packws.webservice.ListarSolicitudResponse
      */
     @WebMethod(action = "http://www.bbva.com.pe/pack-ws/listarSolicitud")
     @WebResult(name = "listarSolicitudResponse", targetNamespace = "http://www.bbva.com.pe/pack-ws/", partName = "parameters")
     ListarSolicitudResponse listarSolicitud(
-        @WebParam(name = "listarSolicitudRequest", targetNamespace = "http://www.bbva.com.pe/pack-ws/", partName = "parameters")
-        ListarSolicitudRequest parameters);
+            @WebParam(name = "listarSolicitudRequest", targetNamespace = "http://www.bbva.com.pe/pack-ws/", partName = "parameters")
+            ListarSolicitudRequest parameters);
 
 }

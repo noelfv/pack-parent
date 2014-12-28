@@ -4,5 +4,5 @@ import com.bbva.packws.domain.ParametroConfiguracion;
 
 public interface ParametroConfiguracionService {
 
-	 ParametroConfiguracion obtenerParametro(String nombre);
+    ParametroConfiguracion obtenerParametro(String nombre);
 }

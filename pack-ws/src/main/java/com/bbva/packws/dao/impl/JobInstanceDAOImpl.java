@@ -15,19 +15,19 @@ import com.everis.core.dao.impl.HibernateDAO;
 @Repository("jobInstanceDAO")
 public class JobInstanceDAOImpl extends HibernateDAO<JobInstance> implements JobInstanceDAO {
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public Long obtenerUltimaInstancia() {
-		SQLQuery query = getSession().createSQLQuery("SELECT MAX(JOB_INSTANCE_ID) JOB_INSTANCE_ID FROM CONELE.BATCH_JOB_INSTANCE");
-		query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-		Map<String, Object> o = (HashMap<String, Object>) query.uniqueResult();
-		BigDecimal jobInstanceID = o.get("JOB_INSTANCE_ID") == null ? null : (BigDecimal) o.get("JOB_INSTANCE_ID");
-		Long lJobInstanceID = null;
-		if(jobInstanceID != null) {
-			lJobInstanceID = jobInstanceID.longValue();
-		}
+    @SuppressWarnings("unchecked")
+    @Override
+    public Long obtenerUltimaInstancia() {
+        SQLQuery query = getSession().createSQLQuery("SELECT MAX(JOB_INSTANCE_ID) JOB_INSTANCE_ID FROM CONELE.BATCH_JOB_INSTANCE");
+        query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+        Map<String, Object> o = (HashMap<String, Object>) query.uniqueResult();
+        BigDecimal jobInstanceID = o.get("JOB_INSTANCE_ID") == null ? null : (BigDecimal) o.get("JOB_INSTANCE_ID");
+        Long lJobInstanceID = null;
+        if (jobInstanceID != null) {
+            lJobInstanceID = jobInstanceID.longValue();
+        }
 
-		return lJobInstanceID;
-	}
+        return lJobInstanceID;
+    }
 
 }

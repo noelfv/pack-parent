@@ -37,64 +37,64 @@ import com.bbva.batch.util.ParamUtil;
 public class StepFactoryImpl implements StepFactory {
 
     private static final Logger LOG = Logger.getLogger(StepFactoryImpl.class);
-    
+
     @Resource(name = "jobRepository")
     private JobRepository jobRepository;
-    
+
     @Resource(name = "transactionManagerBatch")
     private PlatformTransactionManager transactionManager;
-    
-    @Resource(name="itemReaderFactory")
+
+    @Resource(name = "itemReaderFactory")
     private ItemReaderFactory itemReaderFactory;
-    
-    @Resource(name="itemWriterFactory")
+
+    @Resource(name = "itemWriterFactory")
     private ItemWriterFactory itemWriterFactory;
-    
+
     private Tasklet createTasklet(ItemReaderType readerType, ItemWriterType writeType, ParamUtil params) throws Exception {
         ItemReader<ItemBatch> itemReader = itemReaderFactory.create(readerType, params);
         ItemWriter<ItemBatch> itemWriter = itemWriterFactory.create(writeType, params);
         ItemProcessor<ItemBatch, ItemBatch> itemProcessor = new ItemBatchProcessor();
-        
-        RepeatTemplate repeatTemplate=new TaskExecutorRepeatTemplate();
+
+        RepeatTemplate repeatTemplate = new TaskExecutorRepeatTemplate();
         repeatTemplate.setCompletionPolicy(new SimpleCompletionPolicy(5));
-        
+
         SimpleChunkProvider<ItemBatch> chunkProvider = new SimpleChunkProvider<ItemBatch>(itemReader, repeatTemplate);
         SimpleChunkProcessor<ItemBatch, ItemBatch> chunkProcessor = new SimpleChunkProcessor<ItemBatch, ItemBatch>(itemProcessor, itemWriter);
-        
+
         Tasklet tasklet = new ChunkOrientedTasklet<ItemBatch>(chunkProvider, chunkProcessor);
         return tasklet;
     }
-    
+
     public Step createStep(StepBatch stepBatch) {
-        TaskletStep step = new TaskletStep(stepBatch.getName()+ "Step");
-        
+        TaskletStep step = new TaskletStep(stepBatch.getName() + "Step");
+
         try {
             ItemReaderType readerType = ItemReaderType.valueOf(stepBatch.getReader());
             ItemWriterType writeType = ItemWriterType.valueOf(stepBatch.getWriter());
             ParamUtil params = new ParamUtil(stepBatch.getParameters());
-            
+
             step.setJobRepository(jobRepository);
             step.setTransactionManager(transactionManager);
             step.setTasklet(createTasklet(readerType, writeType, params));
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOG.error("Error al crear el paso: [" + stepBatch.getName() + "]", e);
             step = null;
         }
-        
+
         return step;
     }
-    
+
     public List<Step> createSteps(JobBatch jobBatch) {
         List<Step> steps = new ArrayList<Step>();
         Step step = null;
-        
-        for(StepBatch s : jobBatch.getSteps()) {
+
+        for (StepBatch s : jobBatch.getSteps()) {
             step = createStep(s);
-            if(step != null) {
+            if (step != null) {
                 steps.add(step);
             }
         }
-        
+
         return steps;
     }
 }

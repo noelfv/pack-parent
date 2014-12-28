@@ -13,6 +13,20 @@ public class StepBatch extends EntityBatch {
     private JobBatch job;
     private List<ParameterBatch> parameters;
 
+    public StepBatch() {
+        super();
+    }
+
+    public StepBatch(String name, String order, String type, String reader, String writer, JobBatch job) {
+        super();
+        this.name = name;
+        this.order = order;
+        this.type = type;
+        this.reader = reader;
+        this.writer = writer;
+        this.job = job;
+    }
+
     public String getName() {
         return name;
     }

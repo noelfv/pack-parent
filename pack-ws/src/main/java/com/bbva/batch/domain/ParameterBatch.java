@@ -16,7 +16,7 @@ public class ParameterBatch extends EntityBatch {
     private StepBatch step;
 
     public ParameterBatch(String name, String type, Long order,
-            String typeValue, String stringVal) {
+                          String typeValue, String stringVal) {
         super();
         this.name = name;
         this.type = type;
@@ -26,7 +26,7 @@ public class ParameterBatch extends EntityBatch {
     }
 
     public ParameterBatch(String name, String type, Long order,
-            String typeValue, Long longVal) {
+                          String typeValue, Long longVal) {
         super();
         this.name = name;
         this.type = type;
@@ -36,7 +36,7 @@ public class ParameterBatch extends EntityBatch {
     }
 
     public ParameterBatch(String name, String type, Long order,
-            String typeValue, Double doubleVal) {
+                          String typeValue, Double doubleVal) {
         super();
         this.name = name;
         this.type = type;
@@ -46,7 +46,7 @@ public class ParameterBatch extends EntityBatch {
     }
 
     public ParameterBatch(String name, String type, Long order,
-            String typeValue, Date dateVal) {
+                          String typeValue, Date dateVal) {
         super();
         this.name = name;
         this.type = type;

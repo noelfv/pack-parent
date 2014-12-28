@@ -14,15 +14,15 @@ import com.bbva.packws.service.ParametroConfiguracionService;
 @Service("parametroConfiguracionService")
 public class ParametroConfiguracionServiceImpl implements Serializable, ParametroConfiguracionService {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Resource(name = "parametroConfiguracionDAO")
-	private ParametroConfiguracionDAO parametroConfiguracionDAO;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	@Transactional(readOnly = true)
-	public ParametroConfiguracion obtenerParametro(String nombre) {
-		return parametroConfiguracionDAO.obtenerParametro(nombre);
-	}
+    @Resource(name = "parametroConfiguracionDAO")
+    private ParametroConfiguracionDAO parametroConfiguracionDAO;
+
+    @Override
+    @Transactional(readOnly = true)
+    public ParametroConfiguracion obtenerParametro(String nombre) {
+        return parametroConfiguracionDAO.obtenerParametro(nombre);
+    }
 
 }

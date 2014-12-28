@@ -189,7 +189,6 @@ table td {
 .panelMenu .title {
 	vertical-align: bottom;
 	font-family: "BBVA Web Medium";
-	margin-left: 15px;
 }
 
 #menu,
@@ -335,12 +334,23 @@ b,
 	background: url("../img/marca/separador-menu.png") left no-repeat;
 }
 
+div.title-ico {
+	margin-left: 0px;
+	padding-left: 36px;
+	height: inherit !important;
+}
+div.title-ico-procesos {
+	background: url("../img/ajustes32x32_white.png") left no-repeat;	
+}
+div.title-ico-calendario {
+	background: url("../img/calendario32x32_white.png") left no-repeat;	
+}
 a.fg-button-img,
 a.fg-button,
 span.fg-button {
 	float: right !important;
 	margin: 0px;
-	padding: 0em 2.1em 0em .9em;
+	padding: 0em .9em 0em .9em;
 	vertical-align: middle;
 	line-height: 46px;
 	height: 48px;

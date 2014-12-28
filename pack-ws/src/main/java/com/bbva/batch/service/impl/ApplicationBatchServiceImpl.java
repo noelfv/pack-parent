@@ -20,23 +20,23 @@ public class ApplicationBatchServiceImpl implements ApplicationBatchService {
     public List<ApplicationBatch> listar() {
         return listar(false);
     }
-    
+
     @Transactional(readOnly = true)
     public List<ApplicationBatch> listar(boolean lazy) {
         return applicationBatchDAO.listar(lazy);
     }
 
     @Transactional(readOnly = true)
-	public ApplicationBatch obtener(Long idApplication) {
-		return obtener(idApplication, false);
-	}
+    public ApplicationBatch obtener(Long idApplication) {
+        return obtener(idApplication, false);
+    }
 
     @Transactional(readOnly = true)
-	public ApplicationBatch obtener(Long idApplication, boolean lazy) {
-		return applicationBatchDAO.obtener(idApplication, lazy);
-	}
+    public ApplicationBatch obtener(Long idApplication, boolean lazy) {
+        return applicationBatchDAO.obtener(idApplication, lazy);
+    }
 
-	@Transactional
+    @Transactional
     public void insertar(ApplicationBatch o) {
         applicationBatchDAO.save(o);
     }

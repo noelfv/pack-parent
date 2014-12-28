@@ -7,13 +7,15 @@
 						<tr>
 							<td>
 								<div class="menuBar">
-									<img style="padding-left: 12px; padding-right: 12px;" src="<%=request.getContextPath()%>/public/img/ajustes32x32_white.png" align="middle" />
+									<a class="fg-button fg-button-ltr ${requestScope.schedulerClass}" href="<%=request.getContextPath()%>/scheduler/index.html">
+										<div class="title title-ico title-ico-calendario">Programaci&#243;n de procesos</div>
+									</a>
 								</div>
 							</td>
-							<td style="background-image: none;">
-								<div>
-									<span class="title">Procesos</span>
-								</div>
+							<td>
+								<a class="fg-button ${requestScope.jobClass}" href="<%=request.getContextPath()%>/scheduler/index.html">
+										<div class="title title-ico title-ico-procesos">Configuraci&#243;n de trabajos</div>
+									</a>
 							</td>
 						</tr>
 					</table>

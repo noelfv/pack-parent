@@ -2,6 +2,8 @@ package com.bbva.batch.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.bbva.batch.dao.StepBatchDAO;
@@ -11,10 +13,12 @@ import com.everis.core.dao.impl.HibernateDAO;
 @Repository("stepBatchDAO")
 public class StepBatchDAOImpl extends HibernateDAO<StepBatch> implements StepBatchDAO {
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<StepBatch> listar(Long idJobBatch, boolean lazy) {
-        // TODO Auto-generated method stub
-        return null;
+        Criteria criteria = super.getCriteria(StepBatch.class);
+        criteria.add(Restrictions.eq("job", idJobBatch));
+        return (List<StepBatch>) criteria.list();
     }
 
 }

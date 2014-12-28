@@ -20,11 +20,11 @@ public class SolicitudDAOImpl extends HibernateDAO<Solicitud> implements Solicit
     private Criteria builderCriteria(Class<?> clazz, String tipoDOI, String numDOI, String[] codigoProducto, String[] estado, Solicitud ultimoRegistro, int nroRegistro) {
         Criteria criterioSolicitud = super.getCriteria(clazz);
 
-        if(ultimoRegistro != null && ultimoRegistro.getSolicitud() != null) {
+        if (ultimoRegistro != null && ultimoRegistro.getSolicitud() != null) {
             String idsSolicitudTemp[] = ultimoRegistro.getSolicitud().split("-");
             String idSolicitud = "";
 
-            if(clazz.getSimpleName().equalsIgnoreCase("SolicitudCONELE")) {
+            if (clazz.getSimpleName().equalsIgnoreCase("SolicitudCONELE")) {
                 idSolicitud = idsSolicitudTemp[0].split(":")[1];
             } else {
                 idSolicitud = idsSolicitudTemp[1].split(":")[1];
@@ -36,11 +36,11 @@ public class SolicitudDAOImpl extends HibernateDAO<Solicitud> implements Solicit
         criterioSolicitud.add(Restrictions.eq("tipoDocumentoPack", tipoDOI));
         criterioSolicitud.add(Restrictions.eq("numDOI", numDOI));
 
-        if(codigoProducto != null && codigoProducto.length > 0 && (!(codigoProducto.length == 1 && codigoProducto[0].trim().length() == 0))) {
+        if (codigoProducto != null && codigoProducto.length > 0 && (!(codigoProducto.length == 1 && codigoProducto[0].trim().length() == 0))) {
             criterioSolicitud.add(Restrictions.in("productoPack", codigoProducto));
         }
 
-        if(estado != null && estado.length > 0 && (!(estado.length == 1 && estado[0].trim().length() == 0))) {
+        if (estado != null && estado.length > 0 && (!(estado.length == 1 && estado[0].trim().length() == 0))) {
             criterioSolicitud.add(Restrictions.in("estadoPack", estado));
         }
 
@@ -54,34 +54,34 @@ public class SolicitudDAOImpl extends HibernateDAO<Solicitud> implements Solicit
         return ((Number) criterioSolicitud.uniqueResult()).intValue();
     }
 
-	@SuppressWarnings("unchecked")
-	private List<Solicitud> ejecutarConsultaSolicitudes(Class<?> clazz, String tipoDOI, String numDOI, String[] codigoProducto, String[] estado, Solicitud ultimoRegistro, int nroRegistro) {
+    @SuppressWarnings("unchecked")
+    private List<Solicitud> ejecutarConsultaSolicitudes(Class<?> clazz, String tipoDOI, String numDOI, String[] codigoProducto, String[] estado, Solicitud ultimoRegistro, int nroRegistro) {
         Criteria criterioSolicitud = builderCriteria(clazz, tipoDOI, numDOI, codigoProducto, estado, ultimoRegistro, nroRegistro);
-		
-		criterioSolicitud.setFirstResult(0);
-		criterioSolicitud.setMaxResults(nroRegistro);
-		
-		return criterioSolicitud.list();
-	}
-	
-	@Override
-	public List<Solicitud> consultarSolicitudes(String tipoDOI, String numDOI, String[] codigoProducto, String[] estado, Solicitud ultimoRegistro, int nroRegistro, boolean iiceActivo){
-		List<Solicitud> listaSolicitud = new ArrayList<Solicitud>();
 
-		listaSolicitud.addAll(ejecutarConsultaSolicitudes(SolicitudCONELE.class, tipoDOI, numDOI, codigoProducto, estado, ultimoRegistro, nroRegistro));
-		if(!iiceActivo) {
-			listaSolicitud.addAll(ejecutarConsultaSolicitudes(SolicitudIICE.class, tipoDOI, numDOI, codigoProducto, estado, ultimoRegistro, nroRegistro));
-		}
+        criterioSolicitud.setFirstResult(0);
+        criterioSolicitud.setMaxResults(nroRegistro);
 
-		return listaSolicitud;
-	}
+        return criterioSolicitud.list();
+    }
+
+    @Override
+    public List<Solicitud> consultarSolicitudes(String tipoDOI, String numDOI, String[] codigoProducto, String[] estado, Solicitud ultimoRegistro, int nroRegistro, boolean iiceActivo) {
+        List<Solicitud> listaSolicitud = new ArrayList<Solicitud>();
+
+        listaSolicitud.addAll(ejecutarConsultaSolicitudes(SolicitudCONELE.class, tipoDOI, numDOI, codigoProducto, estado, ultimoRegistro, nroRegistro));
+        if (!iiceActivo) {
+            listaSolicitud.addAll(ejecutarConsultaSolicitudes(SolicitudIICE.class, tipoDOI, numDOI, codigoProducto, estado, ultimoRegistro, nroRegistro));
+        }
+
+        return listaSolicitud;
+    }
 
     @Override
     public int contarSolicitudes(String tipoDOI, String numDOI, String[] codigoProducto, String[] estado, boolean iiceActivo) {
         int totalRegistros = 0;
 
         totalRegistros = contarSolicitudes(SolicitudCONELE.class, tipoDOI, numDOI, codigoProducto, estado);
-        if(!iiceActivo) {
+        if (!iiceActivo) {
             totalRegistros += contarSolicitudes(SolicitudIICE.class, tipoDOI, numDOI, codigoProducto, estado);
         }
 

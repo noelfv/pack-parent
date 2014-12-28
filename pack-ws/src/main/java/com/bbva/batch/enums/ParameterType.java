@@ -9,23 +9,23 @@ public enum ParameterType {
     PARAM_GROUP("GROUP", String.class),
     PARAM_SORT("SORT", String.class),
     PARAM_PAGE_SIZE("PAGE_SIZE", Long.class),
-    
+
     PARAM_FORMAT("FORMAT", String.class),
     PARAM_RESOURCE("RESOURCE", String.class),
     PARAM_FIELDS("FIELDS", String.class);
-    
+
     private String nameParam;
     private Class<?> dataType;
-    
+
     ParameterType(String nameParam, Class<?> dataType) {
         this.nameParam = nameParam;
         this.dataType = dataType;
     }
-    
+
     public String getName() {
         return this.nameParam;
     }
-    
+
     public String getDataType() {
         return dataType.getSimpleName();
     }

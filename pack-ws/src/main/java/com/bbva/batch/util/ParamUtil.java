@@ -12,10 +12,10 @@ import com.bbva.batch.enums.DataType;
 import com.bbva.batch.enums.ParameterType;
 
 public class ParamUtil {
-    
+
     private static final Logger LOG = Logger.getLogger(ParamUtil.class);
     private Map<ParameterType, Object> params;
-    
+
     public ParamUtil(List<ParameterBatch> paramsBatch) {
         super();
         this.params = convertParameterBatch(paramsBatch);
@@ -25,20 +25,20 @@ public class ParamUtil {
     private Map<ParameterType, Object> convertParameterBatch(List<ParameterBatch> paramsBatch) {
         Map<ParameterType, Object> params = new HashMap<ParameterType, Object>();
         ParameterType type;
-        
-        for(ParameterBatch p : paramsBatch) {
+
+        for (ParameterBatch p : paramsBatch) {
             type = ParameterType.valueOf("PARAM_" + p.getType());
-            if(DataType.STRING.getName().equalsIgnoreCase(type.getDataType())) {
+            if (DataType.STRING.getName().equalsIgnoreCase(type.getDataType())) {
                 params.put(type, p.getStringVal());
-            } else if(DataType.LONG.getName().equalsIgnoreCase(type.getDataType())) {
+            } else if (DataType.LONG.getName().equalsIgnoreCase(type.getDataType())) {
                 params.put(type, p.getLongVal());
-            } else if(DataType.DOUBLE.getName().equalsIgnoreCase(type.getDataType())) {
+            } else if (DataType.DOUBLE.getName().equalsIgnoreCase(type.getDataType())) {
                 params.put(type, p.getDoubleVal());
-            } else if(DataType.DATE.getName().equalsIgnoreCase(type.getDataType())) {
+            } else if (DataType.DATE.getName().equalsIgnoreCase(type.getDataType())) {
                 params.put(type, p.getDateVal());
             }
         }
-        
+
         return params;
     }
 
@@ -46,14 +46,14 @@ public class ParamUtil {
     public <T> T getParam(ParameterType type) {
         T param = null;
         Object o = params.get(type);
-        
-        if(o != null) {
+
+        if (o != null) {
             param = (T) o;
         }
-        
+
         return param;
     }
-    
+
     public String getParamAsString(ParameterType type) {
         String param = getParam(type);
         return param;

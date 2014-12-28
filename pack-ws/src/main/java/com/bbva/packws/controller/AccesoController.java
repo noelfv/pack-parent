@@ -11,7 +11,8 @@ public class AccesoController {
 
 	@RequestMapping(value="signIn")
 	public String signIn() {
-		return "common/sign-in";
+
+        urn "common/sign-in";
 	}
 	
 	@RequestMapping(value="signOut")

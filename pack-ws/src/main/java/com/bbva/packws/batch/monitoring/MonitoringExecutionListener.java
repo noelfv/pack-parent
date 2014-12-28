@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component("monitoringExecutionListener")
 public class MonitoringExecutionListener implements JobExecutionListener {
 
-    @Resource(name="batchMonitoringNotifier")
+    @Resource(name = "batchMonitoringNotifier")
     private BatchMonitoringNotifier monitoringNotifier;
 
     public void setMonitoringNotifier(BatchMonitoringNotifier monitoringNotifier) {

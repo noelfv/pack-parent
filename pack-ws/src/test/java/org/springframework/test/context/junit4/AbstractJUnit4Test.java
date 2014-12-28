@@ -1,22 +1,20 @@
 package org.springframework.test.context.junit4;
 
-import java.util.Collection;
-import java.util.Properties;
-
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.junit.Before;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import flexjson.JSONSerializer;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+import javax.annotation.PostConstruct;
+import java.util.Collection;
+import java.util.Properties;
 
 public class AbstractJUnit4Test {
 
     protected Logger LOGGER = null;
 
-    @Before
+    @PostConstruct
     public void setUp() {
 
         Properties prop = new Properties();
@@ -60,6 +58,14 @@ public class AbstractJUnit4Test {
         }
     }
 
+    public void printer(Object o, String[] exclude, String message) {
+        try {
+            LOGGER.info(message + " := " + (new JSONSerializer().exclude(exclude).deepSerialize(o)));
+        } catch (Exception e) {
+            LOGGER.error("", e);
+        }
+    }
+
     public void printer(Object o, String[] exclude) {
         try {
             LOGGER.info(new JSONSerializer().exclude(exclude).deepSerialize(o));
@@ -67,7 +73,7 @@ public class AbstractJUnit4Test {
             LOGGER.error("", e);
         }
     }
-    
+
     public void printer(Collection<?> o, String[] exclude) {
         try {
             for (Object iO : o) {

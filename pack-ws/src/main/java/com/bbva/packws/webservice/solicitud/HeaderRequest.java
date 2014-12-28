@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for HeaderRequest complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="HeaderRequest">
  *   &lt;complexContent>
@@ -28,13 +28,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HeaderRequest", propOrder = {
-    "codigoRegistro",
-    "ultimaPagina"
+        "codigoRegistro",
+        "ultimaPagina"
 })
 public class HeaderRequest {
 
@@ -44,11 +42,9 @@ public class HeaderRequest {
 
     /**
      * Gets the value of the codigoRegistro property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getCodigoRegistro() {
         return codigoRegistro;
@@ -56,11 +52,9 @@ public class HeaderRequest {
 
     /**
      * Sets the value of the codigoRegistro property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setCodigoRegistro(String value) {
         this.codigoRegistro = value;
@@ -68,11 +62,9 @@ public class HeaderRequest {
 
     /**
      * Gets the value of the ultimaPagina property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Solicitud }
-     *     
+     *
+     * @return possible object is
+     * {@link Solicitud }
      */
     public Solicitud getUltimaPagina() {
         return ultimaPagina;
@@ -80,11 +72,9 @@ public class HeaderRequest {
 
     /**
      * Sets the value of the ultimaPagina property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Solicitud }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Solicitud }
      */
     public void setUltimaPagina(Solicitud value) {
         this.ultimaPagina = value;

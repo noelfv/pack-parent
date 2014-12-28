@@ -34,7 +34,7 @@ import com.bbva.batch.factory.JobBatchFactory;
 import com.everis.util.DBUtilSpring;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:applicationContextTest.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContextTest.xml"})
 public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
 
     @Resource(name = "dataSource")

@@ -33,11 +33,11 @@ import org.springframework.util.ClassUtils;
  * This class is an item writer that writes data to a file or stream. The writer
  * also provides restart. The location of the output file is defined by a
  * {@link Resource} and must represent a writable file.<br/>
- * 
+ * <p/>
  * Uses buffered writer to improve performance.<br/>
- * 
+ * <p/>
  * The implementation is *not* thread-safe.
- * 
+ *
  * @author Waseem Malik
  * @author Tomas Slanina
  * @author Robert Kasanicky
@@ -45,7 +45,7 @@ import org.springframework.util.ClassUtils;
  * @author Michael Minella
  */
 public class FlatFileItemWriter<T> extends AbstractItemStreamItemWriter<T> implements ResourceAwareItemWriterItemStream<T>,
-InitializingBean {
+        InitializingBean {
 
     private static final boolean DEFAULT_TRANSACTIONAL = true;
 
@@ -89,7 +89,7 @@ InitializingBean {
 
     /**
      * Assert that mandatory properties (lineAggregator) are set.
-     * 
+     *
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
     @Override
@@ -98,12 +98,11 @@ InitializingBean {
         if (append) {
             shouldDeleteIfExists = false;
         }
-        
+
         OutputState outputState = getOutputState();
         try {
             outputState.initializeBufferedWriter();
-        }
-        catch (IOException ioe) {
+        } catch (IOException ioe) {
             throw new ItemStreamException("Failed to initialize writer", ioe);
         }
         if (outputState.lastMarkedByteOffsetPosition == 0 && !outputState.appending) {
@@ -111,8 +110,7 @@ InitializingBean {
                 try {
                     headerCallback.writeHeader(outputState.outputBufferedWriter);
                     outputState.write(lineSeparator);
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     throw new ItemStreamException("Could not write headers.  The file may be corrupt.", e);
                 }
             }
@@ -125,7 +123,7 @@ InitializingBean {
      * be lost if the OS crashes in between a write and a cache flush. Setting
      * to true may result in slower performance for usage patterns involving many
      * frequent writes.
-     * 
+     *
      * @param forceSync the flag value to set
      */
     public void setForceSync(boolean forceSync) {
@@ -135,6 +133,7 @@ InitializingBean {
     /**
      * Public setter for the line separator. Defaults to the System property
      * line.separator.
+     *
      * @param lineSeparator the line separator to set
      */
     public void setLineSeparator(String lineSeparator) {
@@ -144,7 +143,7 @@ InitializingBean {
     /**
      * Public setter for the {@link LineAggregator}. This will be used to
      * translate the item into a line for output.
-     * 
+     *
      * @param lineAggregator the {@link LineAggregator} to set
      */
     public void setLineAggregator(LineAggregator<T> lineAggregator) {
@@ -153,7 +152,7 @@ InitializingBean {
 
     /**
      * Setter for resource. Represents a file that can be written.
-     * 
+     *
      * @param resource
      */
     @Override
@@ -174,7 +173,7 @@ InitializingBean {
      * except on restart. If set to false and {@link #setAppendAllowed(boolean)
      * appendAllowed} is also false then there will be an exception when the
      * stream is opened to prevent existing data being potentially corrupted.
-     * 
+     *
      * @param shouldDeleteIfExists the flag value to set
      */
     public void setShouldDeleteIfExists(boolean shouldDeleteIfExists) {
@@ -187,7 +186,7 @@ InitializingBean {
      * {@link #setShouldDeleteIfExists(boolean) shouldDeleteIfExists} is
      * automatically set to false, so that flag should not be set explicitly.
      * Defaults value is false.
-     * 
+     *
      * @param append the flag value to set
      */
     public void setAppendAllowed(boolean append) {
@@ -198,7 +197,7 @@ InitializingBean {
     /**
      * Flag to indicate that the target file should be deleted if no lines have
      * been written (other than header and footer) on close. Defaults to false.
-     * 
+     *
      * @param shouldDeleteIfEmpty the flag value to set
      */
     public void setShouldDeleteIfEmpty(boolean shouldDeleteIfEmpty) {
@@ -210,7 +209,7 @@ InitializingBean {
      * provided {@link ExecutionContext} during the {@link ItemStream} call to
      * update. Setting this to false means that it will always start at the
      * beginning on a restart.
-     * 
+     *
      * @param saveState
      */
     public void setSaveState(boolean saveState) {
@@ -249,10 +248,10 @@ InitializingBean {
      * input is an array or collection each value will be written to a separate
      * line (recursively calling this method for each value). If no converter is
      * supplied the input object's toString method will be used.<br/>
-     * 
+     *
      * @param items list of items to be written to output stream
      * @throws Exception if the transformer or file output fail,
-     * WriterNotOpenException if the writer has not been initialized.
+     *                   WriterNotOpenException if the writer has not been initialized.
      */
     @Override
     public void write(List<? extends T> items) throws Exception {
@@ -275,8 +274,7 @@ InitializingBean {
         }
         try {
             state.write(lines.toString());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new WriteFailedException("Could not write data.  The file may be corrupt.", e);
         }
         state.linesWritten += lineCount;
@@ -294,17 +292,14 @@ InitializingBean {
                     footerCallback.writeFooter(state.outputBufferedWriter);
                     state.outputBufferedWriter.flush();
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new ItemStreamException("Failed to write footer before closing", e);
-            }
-            finally {
+            } finally {
                 state.close();
                 if (state.linesWritten == 0 && shouldDeleteIfEmpty) {
                     try {
                         resource.getFile().delete();
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         throw new ItemStreamException("Failed to delete empty file on close", e);
                     }
                 }
@@ -316,7 +311,7 @@ InitializingBean {
     /**
      * Initialize the reader. This method may be called multiple times before
      * close is called.
-     * 
+     *
      * @see ItemStream#open(ExecutionContext)
      */
     @Override
@@ -337,8 +332,7 @@ InitializingBean {
         }
         try {
             outputState.initializeBufferedWriter();
-        }
-        catch (IOException ioe) {
+        } catch (IOException ioe) {
             throw new ItemStreamException("Failed to initialize writer", ioe);
         }
         if (outputState.lastMarkedByteOffsetPosition == 0 && !outputState.appending) {
@@ -346,8 +340,7 @@ InitializingBean {
                 try {
                     headerCallback.writeHeader(outputState.outputBufferedWriter);
                     outputState.write(lineSeparator);
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     throw new ItemStreamException("Could not write headers.  The file may be corrupt.", e);
                 }
             }
@@ -370,8 +363,7 @@ InitializingBean {
 
             try {
                 executionContext.putLong(getExecutionContextKey(RESTART_DATA_NAME), state.position());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new ItemStreamException("ItemStream does not return current position properly", e);
             }
 
@@ -385,8 +377,7 @@ InitializingBean {
             File file;
             try {
                 file = resource.getFile();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new ItemStreamException("Could not convert resource to file: [" + resource + "]", e);
             }
             Assert.state(!file.exists() || file.canWrite(), "Resource is not writable: [" + resource + "]");
@@ -402,7 +393,7 @@ InitializingBean {
      * The name of the component which will be used as a stem for keys in the
      * {@link ExecutionContext}. Subclasses should provide a default value, e.g.
      * the short form of the class name.
-     * 
+     *
      * @param name the name for the component
      */
     public void setName(String name) {
@@ -510,11 +501,9 @@ InitializingBean {
                 if (outputBufferedWriter != null) {
                     outputBufferedWriter.close();
                 }
-            }
-            catch (IOException ioe) {
+            } catch (IOException ioe) {
                 throw new ItemStreamException("Unable to close the the ItemWriter", ioe);
-            }
-            finally {
+            } finally {
                 if (!transactional) {
                     closeStream();
                 }
@@ -526,17 +515,14 @@ InitializingBean {
                 if (fileChannel != null) {
                     fileChannel.close();
                 }
-            }
-            catch (IOException ioe) {
+            } catch (IOException ioe) {
                 throw new ItemStreamException("Unable to close the the ItemWriter", ioe);
-            }
-            finally {
+            } finally {
                 try {
                     if (os != null) {
                         os.close();
                     }
-                }
-                catch (IOException ioe) {
+                } catch (IOException ioe) {
                     throw new ItemStreamException("Unable to close the the ItemWriter", ioe);
                 }
             }
@@ -557,7 +543,7 @@ InitializingBean {
 
         /**
          * Truncate the output at the last known good point.
-         * 
+         *
          * @throws IOException
          */
         public void truncate() throws IOException {
@@ -568,6 +554,7 @@ InitializingBean {
         /**
          * Creates the buffered writer for the output file channel based on
          * configuration information.
+         *
          * @throws IOException
          */
         private void initializeBufferedWriter() throws IOException {
@@ -621,8 +608,7 @@ InitializingBean {
 
                     writer.setEncoding(encoding);
                     return writer;
-                }
-                else {
+                } else {
                     Writer writer = new BufferedWriter(Channels.newWriter(fileChannel, encoding)) {
                         @Override
                         public void flush() throws IOException {
@@ -635,8 +621,7 @@ InitializingBean {
 
                     return new BufferedWriter(writer);
                 }
-            }
-            catch (UnsupportedCharsetException ucse) {
+            } catch (UnsupportedCharsetException ucse) {
                 throw new ItemStreamException("Bad encoding configuration for output file " + fileChannel, ucse);
             }
         }
@@ -646,6 +631,7 @@ InitializingBean {
          * is not smaller than the last saved commit point. If it is, then the
          * file has been damaged in some way and whole task must be started over
          * again from the beginning.
+         *
          * @throws IOException if there is an IO problem
          */
         private void checkFileSize() throws IOException {

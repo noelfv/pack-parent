@@ -16,7 +16,7 @@ import com.bbva.batch.domain.JobBatch;
 import com.bbva.batch.service.JobBatchService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:applicationContextTest.xml" })
+@ContextConfiguration(locations = {"classpath:applicationContextTest.xml"})
 public class JobBatchServiceImplTest extends AbstractJUnit4Test {
 
     @Resource(name = "jobBatchService")
@@ -25,7 +25,7 @@ public class JobBatchServiceImplTest extends AbstractJUnit4Test {
     @Test
     public void listar() {
         List<JobBatch> jobBatchs = jobBatchService.listar(1L);
-        
+
         printer(jobBatchs);
         Assert.assertTrue(jobBatchs.size() >= 0);
     }
@@ -37,20 +37,21 @@ public class JobBatchServiceImplTest extends AbstractJUnit4Test {
         application.setVersion(0L);
         application.setName("packBBVA");
         application.setJndi("jdbc/APP_CONELE");
-        
+
         JobBatch jobBatch = new JobBatch();
-        // jobBatch.setId(1L);
+        jobBatch.setId(1L);
+        jobBatch.setVersion(0L);
         jobBatch.setName("job1");
         jobBatch.setCronExpression("0 0 1 ? * * *");
         jobBatch.setApplication(application);
-        
+
         try {
             jobBatchService.actualizar(jobBatch);
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Version conflicto", e);
             Assert.fail("Version conflicto");
         }
-        
+
         prettyPrinter(jobBatch);
     }
 }

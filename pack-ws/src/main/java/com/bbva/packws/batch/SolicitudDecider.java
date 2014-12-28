@@ -13,17 +13,17 @@ import com.everis.web.listener.WebServletContextListener;
 
 public class SolicitudDecider implements JobExecutionDecider {
 
-	@Override
-	public FlowExecutionStatus decide(JobExecution jobExecution, StepExecution stepExecution) {
-		ParametroConfiguracionService parametroConfiguracionService = WebServletContextListener.getBean("parametroConfiguracionService");
-		ParametroConfiguracion param = parametroConfiguracionService.obtenerParametro(Configuracion.PB_APAGAR_APLICACION_PLD.getKey());
-		FlowExecutionStatus status = FlowExecutionStatus.COMPLETED;
-		
-		if (Constantes.HABILITAR_IICE.equalsIgnoreCase(param.getValor())) {
-			status = FlowExecutionStatus.FAILED;
+    @Override
+    public FlowExecutionStatus decide(JobExecution jobExecution, StepExecution stepExecution) {
+        ParametroConfiguracionService parametroConfiguracionService = WebServletContextListener.getBean("parametroConfiguracionService");
+        ParametroConfiguracion param = parametroConfiguracionService.obtenerParametro(Configuracion.PB_APAGAR_APLICACION_PLD.getKey());
+        FlowExecutionStatus status = FlowExecutionStatus.COMPLETED;
+
+        if (Constantes.HABILITAR_IICE.equalsIgnoreCase(param.getValor())) {
+            status = FlowExecutionStatus.FAILED;
         }
-		
-		return status;
-	}
+
+        return status;
+    }
 
 }

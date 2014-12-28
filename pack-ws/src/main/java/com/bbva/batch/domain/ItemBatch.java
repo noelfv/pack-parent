@@ -12,7 +12,7 @@ public class ItemBatch {
 
     private static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     private Map<String, Object> values;
-    
+
     public ItemBatch() {
         values = new HashMap<String, Object>();
     }
@@ -20,7 +20,7 @@ public class ItemBatch {
     public Object getObject(String key) {
         return values.get(key);
     }
-    
+
     public void setObject(String key, Object value) {
         values.put(key, value);
     }
@@ -57,20 +57,20 @@ public class ItemBatch {
         StringBuilder sb = new StringBuilder();
         sb.append("{class:\"" + this.getClass().getName() + "\"");
         Iterator<Entry<String, Object>> element = values.entrySet().iterator();
-        while(element.hasNext()) {
-            if(sb.length() > 1) {
+        while (element.hasNext()) {
+            if (sb.length() > 1) {
                 sb.append(",");
             }
             Entry<String, Object> e = element.next();
             sb.append("\"");
             sb.append(e.getKey());
             sb.append("\":");
-            if(e.getValue() != null) {
-                if(e.getValue() instanceof Date) {
+            if (e.getValue() != null) {
+                if (e.getValue() instanceof Date) {
                     sb.append("\"");
                     sb.append(formatter.format(e.getValue()));
                     sb.append("\"");
-                } else if(e.getValue() instanceof String) {
+                } else if (e.getValue() instanceof String) {
                     sb.append("\"");
                     sb.append(e.getValue());
                     sb.append("\"");
@@ -82,7 +82,7 @@ public class ItemBatch {
             }
         }
         sb.append("}");
-        
+
         return sb.toString();
     }
 }

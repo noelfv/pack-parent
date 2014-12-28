@@ -11,52 +11,52 @@ import com.everis.web.model.BaseModel;
 
 public class SchedulerModel extends BaseModel {
 
-	private List<JobExecution> runningJobInstances;
-	private List<Trigger> triggerInstances;
-	private GenerarArchivoHandler handler;
-	private String cronTrigger;
-	private String time;
-	
-	public List<JobExecution> getRunningJobInstances() {
-		if(runningJobInstances == null) {
-			runningJobInstances = new ArrayList<JobExecution>();
-		}
-		return runningJobInstances;
-	}
+    private List<JobExecution> runningJobInstances;
+    private List<Trigger> triggerInstances;
+    private GenerarArchivoHandler handler;
+    private String cronTrigger;
+    private String time;
 
-	public void setRunningJobInstances(List<JobExecution> runningJobInstances) {
-		this.runningJobInstances = runningJobInstances;
-	}
+    public List<JobExecution> getRunningJobInstances() {
+        if (runningJobInstances == null) {
+            runningJobInstances = new ArrayList<JobExecution>();
+        }
+        return runningJobInstances;
+    }
 
-	public List<Trigger> getTriggerInstances() {
-		return triggerInstances;
-	}
+    public void setRunningJobInstances(List<JobExecution> runningJobInstances) {
+        this.runningJobInstances = runningJobInstances;
+    }
 
-	public void setTriggerInstances(List<Trigger> triggerInstances) {
-		this.triggerInstances = triggerInstances;
-	}
+    public List<Trigger> getTriggerInstances() {
+        return triggerInstances;
+    }
+
+    public void setTriggerInstances(List<Trigger> triggerInstances) {
+        this.triggerInstances = triggerInstances;
+    }
 
     public GenerarArchivoHandler getHandler() {
-		return handler;
-	}
+        return handler;
+    }
 
-	public void setHandler(GenerarArchivoHandler handler) {
-		this.handler = handler;
-	}
+    public void setHandler(GenerarArchivoHandler handler) {
+        this.handler = handler;
+    }
 
-	public String getCronTrigger() {
-		return cronTrigger;
-	}
+    public String getCronTrigger() {
+        return cronTrigger;
+    }
 
-	public void setCronTrigger(String cronTrigger) {
-		this.cronTrigger = cronTrigger;
-	}
+    public void setCronTrigger(String cronTrigger) {
+        this.cronTrigger = cronTrigger;
+    }
 
-	public String getTime() {
-		return time;
-	}
+    public String getTime() {
+        return time;
+    }
 
-	public void setTime(String time) {
-		this.time = time;
-	}
+    public void setTime(String time) {
+        this.time = time;
+    }
 }

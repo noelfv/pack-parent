@@ -11,12 +11,12 @@ import com.everis.core.dao.impl.HibernateDAO;
 @Repository("parametroConfiguracionDAO")
 public class ParametroConfiguracionDAOImpl extends HibernateDAO<ParametroConfiguracion> implements ParametroConfiguracionDAO {
 
-	@Override
-	public ParametroConfiguracion obtenerParametro(String nombre) {
-		Criteria criterioParametro = super.getCriteria(ParametroConfiguracion.class);
-		criterioParametro.add(Restrictions.eq("nombre", nombre));
+    @Override
+    public ParametroConfiguracion obtenerParametro(String nombre) {
+        Criteria criterioParametro = super.getCriteria(ParametroConfiguracion.class);
+        criterioParametro.add(Restrictions.eq("nombre", nombre));
 
-		return (ParametroConfiguracion) criterioParametro.uniqueResult();
-	}
+        return (ParametroConfiguracion) criterioParametro.uniqueResult();
+    }
 
 }

@@ -4,24 +4,24 @@
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-	<session-factory>
-		<property name="dialect">org.hibernate.dialect.Oracle10gDialect</property>
-		<property name="current_session_context_class">thread</property>
-		<property name="show_sql">false</property>
-		<property name="format_sql">true</property>
-		<property name="hibernate.default_schema">CONELE</property>
-		
-		<mapping resource="com/bbva/packws/domain/mapping/SolicitudCONELE.hbm.xml"/>
-		<mapping resource="com/bbva/packws/domain/mapping/SolicitudIICE.hbm.xml"/>
-		<mapping resource="com/bbva/packws/domain/mapping/Parametro.hbm.xml"/>
-		<mapping resource="com/bbva/packws/domain/mapping/ParametroConfiguracion.hbm.xml"/>
-		
-		<mapping resource="com/bbva/quartz/domain/mapping/Trigger.hbm.xml"/>
-		
-		<mapping resource="com/bbva/batch/domain/mapping/FetchProfile.hbm.xml"/>
-		<mapping resource="com/bbva/batch/domain/mapping/ApplicationBatch.hbm.xml"/>
-		<mapping resource="com/bbva/batch/domain/mapping/JobBatch.hbm.xml"/>
-		<mapping resource="com/bbva/batch/domain/mapping/StepBatch.hbm.xml"/>
-		<mapping resource="com/bbva/batch/domain/mapping/ParameterBatch.hbm.xml"/>
-	</session-factory>
+    <session-factory>
+        <property name="dialect">org.hibernate.dialect.Oracle10gDialect</property>
+        <property name="current_session_context_class">thread</property>
+        <property name="show_sql">false</property>
+        <property name="format_sql">true</property>
+        <property name="hibernate.default_schema">CONELE</property>
+
+        <mapping resource="com/bbva/packws/domain/mapping/SolicitudCONELE.hbm.xml"/>
+        <mapping resource="com/bbva/packws/domain/mapping/SolicitudIICE.hbm.xml"/>
+        <mapping resource="com/bbva/packws/domain/mapping/Parametro.hbm.xml"/>
+        <mapping resource="com/bbva/packws/domain/mapping/ParametroConfiguracion.hbm.xml"/>
+
+        <mapping resource="com/bbva/quartz/domain/mapping/Trigger.hbm.xml"/>
+
+        <mapping resource="com/bbva/batch/domain/mapping/FetchProfile.hbm.xml"/>
+        <mapping resource="com/bbva/batch/domain/mapping/ApplicationBatch.hbm.xml"/>
+        <mapping resource="com/bbva/batch/domain/mapping/JobBatch.hbm.xml"/>
+        <mapping resource="com/bbva/batch/domain/mapping/StepBatch.hbm.xml"/>
+        <mapping resource="com/bbva/batch/domain/mapping/ParameterBatch.hbm.xml"/>
+    </session-factory>
 </hibernate-configuration>

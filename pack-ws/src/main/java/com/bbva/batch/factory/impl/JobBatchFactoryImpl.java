@@ -21,29 +21,29 @@ import com.bbva.batch.factory.StepFactory;
 public class JobBatchFactoryImpl implements JobBatchFactory {
 
     private static final Logger LOG = Logger.getLogger(JobBatchFactoryImpl.class);
-    
+
     @Resource(name = "jobRepository")
     private JobRepository jobRepository;
-    
+
     @Resource(name = "stepFactory")
     private StepFactory stepFactory;
-    
+
     @Resource(name = "monitoringExecutionListener")
     private JobExecutionListener monitoringExecutionListener;
-    
+
     @Override
     public SimpleJob createJob(JobBatch jobBatch) {
         SimpleJob job = new SimpleJob(jobBatch.getName());
-        
+
         try {
             job.setJobRepository(jobRepository);
             job.registerJobExecutionListener(monitoringExecutionListener);
             job.setSteps(stepFactory.createSteps(jobBatch));
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOG.error("Error al crear el trabajo: [" + jobBatch.getName() + "]", e);
             job = null;
         }
-        
+
         return job;
     }
 
@@ -51,14 +51,14 @@ public class JobBatchFactoryImpl implements JobBatchFactory {
     public List<SimpleJob> createJobs(ApplicationBatch applicationBatch) {
         List<SimpleJob> jobs = new ArrayList<SimpleJob>();
         SimpleJob job = null;
-        
-        for(JobBatch j : applicationBatch.getJobs()) {
+
+        for (JobBatch j : applicationBatch.getJobs()) {
             job = createJob(j);
-            if(job != null) {
+            if (job != null) {
                 jobs.add(job);
             }
         }
-        
+
         return jobs;
     }
 

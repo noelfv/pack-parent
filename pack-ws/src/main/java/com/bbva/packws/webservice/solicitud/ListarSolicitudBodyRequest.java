@@ -15,9 +15,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for ListarSolicitudBodyRequest complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="ListarSolicitudBodyRequest">
  *   &lt;complexContent>
@@ -32,15 +32,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ListarSolicitudBodyRequest", propOrder = {
-    "tipoDocumento",
-    "nroDocumento",
-    "codigoProducto",
-    "estadoSolicitud"
+        "tipoDocumento",
+        "nroDocumento",
+        "codigoProducto",
+        "estadoSolicitud"
 })
 public class ListarSolicitudBodyRequest {
 
@@ -53,11 +51,9 @@ public class ListarSolicitudBodyRequest {
 
     /**
      * Gets the value of the tipoDocumento property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getTipoDocumento() {
         return tipoDocumento;
@@ -65,11 +61,9 @@ public class ListarSolicitudBodyRequest {
 
     /**
      * Sets the value of the tipoDocumento property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setTipoDocumento(String value) {
         this.tipoDocumento = value;
@@ -77,11 +71,9 @@ public class ListarSolicitudBodyRequest {
 
     /**
      * Gets the value of the nroDocumento property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getNroDocumento() {
         return nroDocumento;
@@ -89,11 +81,9 @@ public class ListarSolicitudBodyRequest {
 
     /**
      * Sets the value of the nroDocumento property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setNroDocumento(String value) {
         this.nroDocumento = value;
@@ -101,25 +91,23 @@ public class ListarSolicitudBodyRequest {
 
     /**
      * Gets the value of the codigoProducto property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the codigoProducto property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getCodigoProducto().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
-     * 
-     * 
      */
     public List<String> getCodigoProducto() {
         if (codigoProducto == null) {
@@ -130,25 +118,23 @@ public class ListarSolicitudBodyRequest {
 
     /**
      * Gets the value of the estadoSolicitud property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the estadoSolicitud property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getEstadoSolicitud().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
-     * 
-     * 
      */
     public List<String> getEstadoSolicitud() {
         if (estadoSolicitud == null) {

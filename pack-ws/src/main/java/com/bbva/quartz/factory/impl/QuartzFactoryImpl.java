@@ -17,23 +17,23 @@ import com.bbva.quartz.factory.QuartzFactory;
 public class QuartzFactoryImpl implements QuartzFactory {
 
     private static final Logger LOG = Logger.getLogger(QuartzFactoryImpl.class);
-    
-    @Resource(name="quartzScheduler")
+
+    @Resource(name = "quartzScheduler")
     private Scheduler scheduler;
-    
+
     @Override
     public void createJob(JobBatch jobBatch) {
         String name = jobBatch.getName() + "Cron";
-        
+
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.putAsString("jobBatch", jobBatch.getId());
-        
+
         JobDetail jobDetail = new JobDetail();
         jobDetail.setGroup(jobBatch.getApplication().getName().toUpperCase());
         jobDetail.setJobClass(ExecuteJob.class);
         jobDetail.setJobDataMap(jobDataMap);
         jobDetail.setName(jobBatch.getName());
-        
+
         try {
             scheduler.deleteJob(jobDetail.getName(), jobDetail.getGroup());
             CronTriggerBean cronTrigger = new CronTriggerBean();
@@ -43,7 +43,7 @@ public class QuartzFactoryImpl implements QuartzFactory {
             cronTrigger.setCronExpression(jobBatch.getCronExpression());
             cronTrigger.afterPropertiesSet();
             scheduler.scheduleJob(jobDetail, cronTrigger);
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOG.error("No se pudo programar la tarea", e);
         }
     }

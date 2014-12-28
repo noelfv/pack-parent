@@ -10,6 +10,17 @@ public class JobBatch extends EntityBatch {
     private ApplicationBatch application;
     private List<StepBatch> steps;
 
+    public JobBatch() {
+        super();
+    }
+
+    public JobBatch(String name, String cronExpression, ApplicationBatch application) {
+        super();
+        this.name = name;
+        this.cronExpression = cronExpression;
+        this.application = application;
+    }
+
     public String getName() {
         return name;
     }

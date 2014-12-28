@@ -1,33 +1,33 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC
-    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="com.bbva.batch.domain.JobBatch" table="MNTR_TRABAJO">
-		<id name="id" type="long">
-			<column name="ID" />
-			<generator class="increment" />
-		</id>
-		<version name="version" type="long">
-			<column name="VERSION" />
-		</version>
-		<property name="name" type="string" length="30">
-			<column name="NOMBRE" />
-		</property>
-		<property name="cronExpression" type="string" length="30">
-			<column name="CRON" />
-		</property>
-		<many-to-one name="application" class="com.bbva.batch.domain.ApplicationBatch"
-			fetch="select">
-			<column name="ID_APLICACION" precision="10" scale="0" />
-		</many-to-one>
-		<list name="steps" table="MNTR_PASO" inverse="true" lazy="true"
-			fetch="select">
-			<key>
-				<column name="ID_TRABAJO" precision="10" scale="0" />
-			</key>
-			<list-index column="ID" />
-			<one-to-many class="com.bbva.batch.domain.StepBatch" />
-		</list>
-	</class>
+    <class name="com.bbva.batch.domain.JobBatch" table="MNTR_TRABAJO">
+        <id name="id" type="long">
+            <column name="ID"/>
+            <generator class="increment"/>
+        </id>
+        <version name="version" type="long">
+            <column name="VERSION"/>
+        </version>
+        <property name="name" type="string" length="30">
+            <column name="NOMBRE"/>
+        </property>
+        <property name="cronExpression" type="string" length="30">
+            <column name="CRON"/>
+        </property>
+        <many-to-one name="application" class="com.bbva.batch.domain.ApplicationBatch"
+                     fetch="select">
+            <column name="ID_APLICACION" precision="10" scale="0"/>
+        </many-to-one>
+        <list name="steps" table="MNTR_PASO" inverse="true" lazy="true"
+              fetch="select">
+            <key>
+                <column name="ID_TRABAJO" precision="10" scale="0"/>
+            </key>
+            <list-index column="ID"/>
+            <one-to-many class="com.bbva.batch.domain.StepBatch"/>
+        </list>
+    </class>
 </hibernate-mapping>

@@ -11,7 +11,10 @@ import com.bbva.batch.domain.JobBatch;
 public interface JobBatchFactory {
 
     FlowJob createFlowJob(JobBatch jobBatch);
+
     List<FlowJob> createFlowJobs(ApplicationBatch applicationBatch);
+
     SimpleJob createJob(JobBatch jobBatch);
+
     List<SimpleJob> createJobs(ApplicationBatch applicationBatch);
 }

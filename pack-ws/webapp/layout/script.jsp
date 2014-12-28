@@ -15,7 +15,6 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery-ui-1.10.1.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.jqGrid.src.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery-ui-autocomplete-extends.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery-ui-sliderAccess.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/ui.multiselect.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.handsontable.full.js"></script>

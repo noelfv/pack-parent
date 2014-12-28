@@ -1,123 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:batch="http://www.springframework.org/schema/batch"
-	xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xsi:schemaLocation="
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
 
-	<tx:annotation-driven />
-	<context:annotation-config />
-	<context:component-scan
-		base-package="com.bbva.packws,com.bbva.quartz,com.bbva.batch" />
+    <tx:annotation-driven/>
+    <context:annotation-config/>
+    <context:component-scan
+            base-package="com.bbva.packws,com.bbva.quartz,com.bbva.batch"/>
 
-	<aop:aspectj-autoproxy />
-	<bean id="fetchProfileInterceptor" class="com.bbva.batch.aop.FetchProfileInterceptor" />
+    <aop:aspectj-autoproxy/>
+    <bean id="fetchProfileInterceptor" class="com.bbva.batch.aop.FetchProfileInterceptor"/>
 
 
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
-		<property name="username" value="CONELE" />
-		<property name="password" value="CONELE" />
-	</bean>
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+        <property name="username" value="CONELE"/>
+        <property name="password" value="CONELE"/>
+    </bean>
 
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration" />
-		<property name="configLocation" value="classpath:hibernate-config.xml" />
-	</bean>
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration"/>
+        <property name="configLocation" value="classpath:hibernate-config.xml"/>
+    </bean>
 
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
-		<property name="dataSource" ref="dataSource" />
-	</bean>
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
-	<!-- Begin: Scheduler -->
-	<bean id="quartzScheduler"
-		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-		<property name="jobFactory">
-			<bean class="org.springframework.scheduling.quartz.SpringBeanJobFactory" />
-		</property>
-		<property name="dataSource" ref="dataSource" />
-		<property name="transactionManager" ref="transactionManager" />
-		<property name="overwriteExistingJobs" value="true" />
-		<property name="configLocation" value="classpath:quartz.properties" />
-		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
-		<property name="waitForJobsToCompleteOnShutdown" value="false" />
-		<property name="autoStartup" value="true" />
-		<property name="quartzProperties">
-			<props>
-				<prop key="org.quartz.jobStore.selectWithLockSQL">SELECT * FROM {0}LOCKS UPDLOCK WHERE LOCK_NAME = ?
-				</prop>
-			</props>
-		</property>
-		<property name="triggers">
-			<list>
-				<ref bean="cronTriggerGenerarArchivo" />
-				<ref bean="cronTriggerDepurarArchivo" />
-			</list>
-		</property>
-	</bean>
-	<!-- End: Scheduler -->
+    <!-- Begin: Scheduler -->
+    <bean id="quartzScheduler"
+          class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobFactory">
+            <bean class="org.springframework.scheduling.quartz.SpringBeanJobFactory"/>
+        </property>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="overwriteExistingJobs" value="true"/>
+        <property name="configLocation" value="classpath:quartz.properties"/>
+        <property name="applicationContextSchedulerContextKey" value="applicationContext"/>
+        <property name="waitForJobsToCompleteOnShutdown" value="false"/>
+        <property name="autoStartup" value="true"/>
+        <property name="quartzProperties">
+            <props>
+                <prop key="org.quartz.jobStore.selectWithLockSQL">SELECT * FROM {0}LOCKS UPDLOCK WHERE LOCK_NAME = ?
+                </prop>
+            </props>
+        </property>
+        <property name="triggers">
+            <list>
+                <ref bean="cronTriggerGenerarArchivo"/>
+                <ref bean="cronTriggerDepurarArchivo"/>
+            </list>
+        </property>
+    </bean>
+    <!-- End: Scheduler -->
 
-	<!-- Begin: Task Scheduler -->
-	<bean id="jobGenerarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
-		<property name="jobClass" value="com.bbva.packws.batch.job.GenerarArchivoJob" />
-	</bean>
-	<bean id="cronTriggerGenerarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
-		<property name="jobDetail" ref="jobGenerarArchivo" />
-		<property name="cronExpression" value="0 0 1 ? * * *" />
-	</bean>
+    <!-- Begin: Task Scheduler -->
+    <bean id="jobGenerarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.bbva.packws.batch.job.GenerarArchivoJob"/>
+    </bean>
+    <bean id="cronTriggerGenerarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="jobGenerarArchivo"/>
+        <property name="cronExpression" value="0 0 1 ? * * *"/>
+    </bean>
 
-	<bean id="jobDepurarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
-		<property name="jobClass" value="com.bbva.packws.batch.job.DepurarArchivoJob" />
-	</bean>
-	<bean id="cronTriggerDepurarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
-		<property name="jobDetail" ref="jobDepurarArchivo" />
-		<property name="cronExpression" value="0 0 1 ? * * *" />
-	</bean>
-	<!-- End: Task Scheduler -->
+    <bean id="jobDepurarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.bbva.packws.batch.job.DepurarArchivoJob"/>
+    </bean>
+    <bean id="cronTriggerDepurarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="jobDepurarArchivo"/>
+        <property name="cronExpression" value="0 0 1 ? * * *"/>
+    </bean>
+    <!-- End: Task Scheduler -->
 
-	<!-- Begin: Batch Context -->
-	<bean id="jobRepository"
-		class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
-		<property name="transactionManager" ref="transactionManagerBatch" />
-		<property name="dataSource" ref="dataSource" />
-		<property name="databaseType" value="oracle" />
-	</bean>
+    <!-- Begin: Batch Context -->
+    <bean id="jobRepository"
+          class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+        <property name="transactionManager" ref="transactionManagerBatch"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="databaseType" value="oracle"/>
+    </bean>
 
-	<bean id="transactionManagerBatch"
-		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+    <bean id="transactionManagerBatch"
+          class="org.springframework.batch.support.transaction.ResourcelessTransactionManager"/>
 
-	<bean id="jobLauncher"
-		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-		<property name="jobRepository" ref="jobRepository" />
-	</bean>
+    <bean id="jobLauncher"
+          class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <property name="jobRepository" ref="jobRepository"/>
+    </bean>
 
-	<bean
-		class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
-		<property name="jobRegistry" ref="jobRegistry" />
-	</bean>
+    <bean
+            class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+        <property name="jobRegistry" ref="jobRegistry"/>
+    </bean>
 
-	<bean id="jobRegistry"
-		class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+    <bean id="jobRegistry"
+          class="org.springframework.batch.core.configuration.support.MapJobRegistry"/>
 
-	<bean id="jobExplorer"
-		class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="lobHandler" ref="lobHandler" />
-	</bean>
+    <bean id="jobExplorer"
+          class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="lobHandler" ref="lobHandler"/>
+    </bean>
 
-	<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
-	<!-- End: Batch Context -->
+    <bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"/>
+    <!-- End: Batch Context -->
 </beans>

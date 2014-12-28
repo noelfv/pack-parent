@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="com.bbva.packws.domain.ParametroConfiguracion" table="TBL_CE_IBM_PARAMETROS_CONF">
-		<id name="id" type="long">
-			<column name="ID" precision="10" scale="0" />
-		</id>
-		<property name="codigoAplicativo" type="long">
-            <column name="CODIGO_APLICATIVO" />
+    <class name="com.bbva.packws.domain.ParametroConfiguracion" table="TBL_CE_IBM_PARAMETROS_CONF">
+        <id name="id" type="long">
+            <column name="ID" precision="10" scale="0"/>
+        </id>
+        <property name="codigoAplicativo" type="long">
+            <column name="CODIGO_APLICATIVO"/>
         </property>
-		<property name="nombre" type="string">
-            <column name="NOMBRE_VARIABLE" />
+        <property name="nombre" type="string">
+            <column name="NOMBRE_VARIABLE"/>
         </property>
         <property name="valor" type="string">
-            <column name="VALOR_VARIABLE" />
-        </property>		
-	</class>
+            <column name="VALOR_VARIABLE"/>
+        </property>
+    </class>
 </hibernate-mapping>

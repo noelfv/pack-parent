@@ -4,5 +4,5 @@ import org.springframework.batch.core.JobExecution;
 
 public interface NotificacionService {
 
-	boolean notificarPorCorreo(JobExecution jobExecution);
+    boolean notificarPorCorreo(JobExecution jobExecution);
 }

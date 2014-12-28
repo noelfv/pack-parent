@@ -20,21 +20,21 @@ public class JobBatchServiceImpl implements JobBatchService {
     public List<JobBatch> listar(Long idApplicationBatch) {
         return listar(idApplicationBatch, false);
     }
-    
+
     @Transactional(readOnly = true)
     public List<JobBatch> listar(Long idApplicationBatch, boolean lazy) {
         return jobBatchDAO.listar(idApplicationBatch, lazy);
     }
 
     public JobBatch obtener(Long idJobBatch) {
-        return obtener(idJobBatch,false);
+        return obtener(idJobBatch, false);
     }
 
     @Transactional(readOnly = true)
     public JobBatch obtener(Long idJobBatch, boolean lazy) {
         return jobBatchDAO.obtener(idJobBatch, lazy);
     }
-    
+
     @Transactional
     public void insertar(JobBatch o) {
         jobBatchDAO.save(o);

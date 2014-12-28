@@ -25,7 +25,7 @@ public class StepBatchServiceImpl implements StepBatchService {
     public List<StepBatch> listar(Long idJobBatch, boolean lazy) {
         return stepBatchDAO.listar(idJobBatch, lazy);
     }
-    
+
     @Transactional
     public void insertar(StepBatch o) {
         stepBatchDAO.save(o);

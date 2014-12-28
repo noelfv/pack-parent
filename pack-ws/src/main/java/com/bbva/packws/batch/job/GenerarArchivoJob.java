@@ -15,25 +15,25 @@ import com.everis.web.listener.WebServletContextListener;
 
 public class GenerarArchivoJob extends QuartzJobBean {
 
-	private static final Logger LOG = Logger.getLogger(GenerarArchivoJob.class);
-	
-	@Override
-	protected void executeInternal(JobExecutionContext arg) throws JobExecutionException {
-		SchedulerService schedulerService = WebServletContextListener.getBean("schedulerService");
-		Long id = 0L;
-		try {
-			schedulerService.executeJob(id);
-		} catch (JobExecutionAlreadyRunningException e) {
-			LOG.error("JobExecutionAlreadyRunningException", e);
-		} catch (JobRestartException e) {
-			LOG.error("JobRestartException", e);
-		} catch (JobInstanceAlreadyCompleteException e) {
-			LOG.error("JobInstanceAlreadyCompleteException", e);
-		} catch (JobParametersInvalidException e) {
-			LOG.error("JobParametersInvalidException", e);
-		} catch (NoSuchJobException e) {
-			LOG.error("NoSuchJobException", e);
-		}
-		LOG.info("Proceso [" + id + "] Terminado");
-	}
+    private static final Logger LOG = Logger.getLogger(GenerarArchivoJob.class);
+
+    @Override
+    protected void executeInternal(JobExecutionContext arg) throws JobExecutionException {
+        SchedulerService schedulerService = WebServletContextListener.getBean("schedulerService");
+        Long id = 0L;
+        try {
+            schedulerService.executeJob(id);
+        } catch (JobExecutionAlreadyRunningException e) {
+            LOG.error("JobExecutionAlreadyRunningException", e);
+        } catch (JobRestartException e) {
+            LOG.error("JobRestartException", e);
+        } catch (JobInstanceAlreadyCompleteException e) {
+            LOG.error("JobInstanceAlreadyCompleteException", e);
+        } catch (JobParametersInvalidException e) {
+            LOG.error("JobParametersInvalidException", e);
+        } catch (NoSuchJobException e) {
+            LOG.error("NoSuchJobException", e);
+        }
+        LOG.info("Proceso [" + id + "] Terminado");
+    }
 }

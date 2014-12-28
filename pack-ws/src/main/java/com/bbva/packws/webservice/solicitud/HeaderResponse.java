@@ -15,9 +15,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for HeaderResponse complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="HeaderResponse">
  *   &lt;complexContent>
@@ -31,14 +31,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HeaderResponse", propOrder = {
-    "codigoRetorno",
-    "ultimoRegistro",
-    "errores"
+        "codigoRetorno",
+        "ultimoRegistro",
+        "errores"
 })
 public class HeaderResponse {
 
@@ -50,11 +48,9 @@ public class HeaderResponse {
 
     /**
      * Gets the value of the codigoRetorno property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getCodigoRetorno() {
         return codigoRetorno;
@@ -62,11 +58,9 @@ public class HeaderResponse {
 
     /**
      * Sets the value of the codigoRetorno property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setCodigoRetorno(String value) {
         this.codigoRetorno = value;
@@ -74,11 +68,9 @@ public class HeaderResponse {
 
     /**
      * Gets the value of the ultimoRegistro property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Solicitud }
-     *     
+     *
+     * @return possible object is
+     * {@link Solicitud }
      */
     public Solicitud getUltimoRegistro() {
         return ultimoRegistro;
@@ -86,11 +78,9 @@ public class HeaderResponse {
 
     /**
      * Sets the value of the ultimoRegistro property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Solicitud }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Solicitud }
      */
     public void setUltimoRegistro(Solicitud value) {
         this.ultimoRegistro = value;
@@ -98,25 +88,23 @@ public class HeaderResponse {
 
     /**
      * Gets the value of the errores property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the errores property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getErrores().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
-     * 
-     * 
      */
     public List<String> getErrores() {
         if (errores == null) {

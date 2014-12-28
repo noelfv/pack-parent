@@ -13,37 +13,37 @@ import com.everis.web.listener.WebServletContextListener;
 
 public class GenerarArchivoThread extends Thread {
 
-	private static final Logger LOG = Logger.getLogger(GenerarArchivoThread.class);
-	private GenerarArchivoHandler handler;
-		
-	public GenerarArchivoThread(GenerarArchivoHandler handler) {
-		super();
-		this.handler = handler;
-	}
+    private static final Logger LOG = Logger.getLogger(GenerarArchivoThread.class);
+    private GenerarArchivoHandler handler;
 
-	@Override
-	public void run() {
-		SchedulerService schedulerService = WebServletContextListener.getBean("schedulerService");
-		try {
-			handler.setEstado(Estado.ACTIVO);
-			Long id = 0L;
-			schedulerService.executeJob(id);
-			Thread.sleep(20000);
-			handler.setEstado(Estado.INACTIVO);
-			handler.setId(id);
-		} catch (JobExecutionAlreadyRunningException e) {
-			LOG.error("JobExecutionAlreadyRunningException", e);
-		} catch (JobRestartException e) {
-			LOG.error("JobRestartException", e);
-		} catch (JobInstanceAlreadyCompleteException e) {
-			LOG.error("JobInstanceAlreadyCompleteException", e);
-		} catch (JobParametersInvalidException e) {
-			LOG.error("JobParametersInvalidException", e);
-		} catch (NoSuchJobException e) {
-			LOG.error("NoSuchJobException", e);
-		} catch (InterruptedException e) {
-			LOG.error("InterruptedException", e);
-		}
-	}
+    public GenerarArchivoThread(GenerarArchivoHandler handler) {
+        super();
+        this.handler = handler;
+    }
+
+    @Override
+    public void run() {
+        SchedulerService schedulerService = WebServletContextListener.getBean("schedulerService");
+        try {
+            handler.setEstado(Estado.ACTIVO);
+            Long id = 0L;
+            schedulerService.executeJob(id);
+            Thread.sleep(20000);
+            handler.setEstado(Estado.INACTIVO);
+            handler.setId(id);
+        } catch (JobExecutionAlreadyRunningException e) {
+            LOG.error("JobExecutionAlreadyRunningException", e);
+        } catch (JobRestartException e) {
+            LOG.error("JobRestartException", e);
+        } catch (JobInstanceAlreadyCompleteException e) {
+            LOG.error("JobInstanceAlreadyCompleteException", e);
+        } catch (JobParametersInvalidException e) {
+            LOG.error("JobParametersInvalidException", e);
+        } catch (NoSuchJobException e) {
+            LOG.error("NoSuchJobException", e);
+        } catch (InterruptedException e) {
+            LOG.error("InterruptedException", e);
+        }
+    }
 
 }
