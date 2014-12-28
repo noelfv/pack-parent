@@ -2,142 +2,143 @@ package com.everis.core.security;
 
 public class AbstractUser {
 
-	private String nombreCompleto;
-	private String codigoRegistro;
-	private String codigoCargo;
-	private String codigoOficina;
-	private String nombreOficina;
-	private String codigoOficinaMadre;
-	private String nombreOficinaMadre;
-	private String codigoTerritorio;
-	private String nombreTerritorio;
-	private String codigoArea;
-	private String nombreArea;
-	private String codigoBanca;
-	private String nombreBanca;
-	private long idRol;
-	private String rol;
-	
-	public AbstractUser() {}
+    private String nombreCompleto;
+    private String codigoRegistro;
+    private String codigoCargo;
+    private String codigoOficina;
+    private String nombreOficina;
+    private String codigoOficinaMadre;
+    private String nombreOficinaMadre;
+    private String codigoTerritorio;
+    private String nombreTerritorio;
+    private String codigoArea;
+    private String nombreArea;
+    private String codigoBanca;
+    private String nombreBanca;
+    private long idRol;
+    private String rol;
 
-	public String getNombreCompleto() {
-		return nombreCompleto;
-	}
+    public AbstractUser() {
+    }
 
-	public void setNombreCompleto(String nombreCompleto) {
-		this.nombreCompleto = nombreCompleto;
-	}
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
 
-	public String getCodigoRegistro() {
-		return codigoRegistro;
-	}
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
 
-	public void setCodigoRegistro(String codigoRegistro) {
-		this.codigoRegistro = codigoRegistro;
-	}
+    public String getCodigoRegistro() {
+        return codigoRegistro;
+    }
 
-	public String getCodigoCargo() {
-		return codigoCargo;
-	}
+    public void setCodigoRegistro(String codigoRegistro) {
+        this.codigoRegistro = codigoRegistro;
+    }
 
-	public void setCodigoCargo(String codigoCargo) {
-		this.codigoCargo = codigoCargo;
-	}
+    public String getCodigoCargo() {
+        return codigoCargo;
+    }
 
-	public String getCodigoOficina() {
-		return codigoOficina;
-	}
+    public void setCodigoCargo(String codigoCargo) {
+        this.codigoCargo = codigoCargo;
+    }
 
-	public void setCodigoOficina(String codigoOficina) {
-		this.codigoOficina = codigoOficina;
-	}
+    public String getCodigoOficina() {
+        return codigoOficina;
+    }
 
-	public String getNombreOficina() {
-		return nombreOficina;
-	}
+    public void setCodigoOficina(String codigoOficina) {
+        this.codigoOficina = codigoOficina;
+    }
 
-	public void setNombreOficina(String nombreOficina) {
-		this.nombreOficina = nombreOficina;
-	}
+    public String getNombreOficina() {
+        return nombreOficina;
+    }
 
-	public String getCodigoOficinaMadre() {
-		return codigoOficinaMadre;
-	}
+    public void setNombreOficina(String nombreOficina) {
+        this.nombreOficina = nombreOficina;
+    }
 
-	public void setCodigoOficinaMadre(String codigoOficinaMadre) {
-		this.codigoOficinaMadre = codigoOficinaMadre;
-	}
+    public String getCodigoOficinaMadre() {
+        return codigoOficinaMadre;
+    }
 
-	public String getNombreOficinaMadre() {
-		return nombreOficinaMadre;
-	}
+    public void setCodigoOficinaMadre(String codigoOficinaMadre) {
+        this.codigoOficinaMadre = codigoOficinaMadre;
+    }
 
-	public void setNombreOficinaMadre(String nombreOficinaMadre) {
-		this.nombreOficinaMadre = nombreOficinaMadre;
-	}
+    public String getNombreOficinaMadre() {
+        return nombreOficinaMadre;
+    }
 
-	public String getCodigoTerritorio() {
-		return codigoTerritorio;
-	}
+    public void setNombreOficinaMadre(String nombreOficinaMadre) {
+        this.nombreOficinaMadre = nombreOficinaMadre;
+    }
 
-	public void setCodigoTerritorio(String codigoTerritorio) {
-		this.codigoTerritorio = codigoTerritorio;
-	}
+    public String getCodigoTerritorio() {
+        return codigoTerritorio;
+    }
 
-	public String getNombreTerritorio() {
-		return nombreTerritorio;
-	}
+    public void setCodigoTerritorio(String codigoTerritorio) {
+        this.codigoTerritorio = codigoTerritorio;
+    }
 
-	public void setNombreTerritorio(String nombreTerritorio) {
-		this.nombreTerritorio = nombreTerritorio;
-	}
+    public String getNombreTerritorio() {
+        return nombreTerritorio;
+    }
 
-	public String getCodigoArea() {
-		return codigoArea;
-	}
+    public void setNombreTerritorio(String nombreTerritorio) {
+        this.nombreTerritorio = nombreTerritorio;
+    }
 
-	public void setCodigoArea(String codigoArea) {
-		this.codigoArea = codigoArea;
-	}
+    public String getCodigoArea() {
+        return codigoArea;
+    }
 
-	public String getNombreArea() {
-		return nombreArea;
-	}
+    public void setCodigoArea(String codigoArea) {
+        this.codigoArea = codigoArea;
+    }
 
-	public void setNombreArea(String nombreArea) {
-		this.nombreArea = nombreArea;
-	}
+    public String getNombreArea() {
+        return nombreArea;
+    }
 
-	public String getCodigoBanca() {
-		return codigoBanca;
-	}
+    public void setNombreArea(String nombreArea) {
+        this.nombreArea = nombreArea;
+    }
 
-	public void setCodigoBanca(String codigoBanca) {
-		this.codigoBanca = codigoBanca;
-	}
+    public String getCodigoBanca() {
+        return codigoBanca;
+    }
 
-	public String getNombreBanca() {
-		return nombreBanca;
-	}
+    public void setCodigoBanca(String codigoBanca) {
+        this.codigoBanca = codigoBanca;
+    }
 
-	public void setNombreBanca(String nombreBanca) {
-		this.nombreBanca = nombreBanca;
-	}
+    public String getNombreBanca() {
+        return nombreBanca;
+    }
 
-	public long getIdRol() {
-		return idRol;
-	}
+    public void setNombreBanca(String nombreBanca) {
+        this.nombreBanca = nombreBanca;
+    }
 
-	public void setIdRol(long idRol) {
-		this.idRol = idRol;
-	}
+    public long getIdRol() {
+        return idRol;
+    }
 
-	public String getRol() {
-		return rol;
-	}
+    public void setIdRol(long idRol) {
+        this.idRol = idRol;
+    }
 
-	public void setRol(String rol) {
-		this.rol = rol;
-	}
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
 
 }

@@ -8,59 +8,74 @@ import org.hibernate.SessionFactory;
 
 public interface IHibernateDAO<T> {
 
-	/**
-	 * @param sessionFactory
-	 */
-	void setSessionFactoryHibernate(SessionFactory sessionFactory);
+    /**
+     * @param sessionFactory
+     */
+    void setSessionFactoryHibernate(SessionFactory sessionFactory);
 
-	/**
-	 * Inserta o actualiza una lista de objetos
-	 * @param list 
-	 */
-	void saveOrUpdateAll(List<T> list);
+    /**
+     * Inserta o actualiza una lista de objetos
+     *
+     * @param list
+     */
+    void saveOrUpdateAll(List<T> list);
 
-	/**
-	 * Inserta o actualiza un objeto
-	 * @param t
-	 */
-	void saveOrUpdate(T t);
+    /**
+     * Inserta o actualiza un objeto
+     *
+     * @param t
+     */
+    void saveOrUpdate(T t);
 
-	/**
-	 * Inserta un objeto
-	 * @param t
-	 */
-	void save(T t);
+    /**
+     * Inserta un objeto
+     *
+     * @param t
+     */
+    void save(T t);
 
-	/**
-	 * Actualiza un objeto
-	 * @param t
-	 */
-	void update(T t);
+    /**
+     * Actualiza un objeto
+     *
+     * @param t
+     */
+    void update(T t);
 
-	/**
-	 * Elimina un objeto
-	 * @param t
-	 */
-	void delete(T t);
+    /**
+     * Elimina un objeto
+     *
+     * @param t
+     */
+    void delete(T t);
 
-	/**
-	 * Retorna un objeto <b>Criteria</b>
-	 * @param clazz
-	 * @return Criteria
-	 */
-	Criteria getCriteria(Class<?> clazz);
+    /**
+     * Elimina una coleccion de objetos
+     *
+     * @param t
+     */
+    void deleteaAll(List<T> t);
 
-	/**
-	 * Retorna un objeto <b>Criteria</b>
-	 * @param clazz
-	 * @param alias
-	 * @return Criteria
-	 */
-	Criteria getCriteria(Class<?> clazz, String alias);
+    /**
+     * Retorna un objeto <b>Criteria</b>
+     *
+     * @param clazz
+     * @return Criteria
+     */
+    Criteria getCriteria(Class<?> clazz);
 
-	/**
-	 * Retorna la sesion actual
-	 * @return Session
-	 */
-	Session getCurrentSession();
+    /**
+     * Retorna un objeto <b>Criteria</b>
+     *
+     * @param clazz
+     * @param alias
+     * @return Criteria
+     */
+    Criteria getCriteria(Class<?> clazz, String alias);
+
+    /**
+     * Retorna la sesion actual
+     *
+     * @return Session
+     */
+    Session getCurrentSession();
 }

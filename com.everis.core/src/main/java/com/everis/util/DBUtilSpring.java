@@ -36,7 +36,7 @@ public class DBUtilSpring {
     public void setDataSource(String jndiName, DataSource dataSource) {
         dataSources.put(jndiName, dataSource);
     }
-    
+
     public DataSource getDataSource(String jndiName) {
         DataSource dataSource = null;
 
