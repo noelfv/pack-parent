@@ -8,8 +8,8 @@ public class MailException extends Exception {
     private MailExceptionCodes error;
     private Message message;
 
-    public MailException(MailExceptionCodes error, Message message) {
-        super();
+    public MailException(Throwable cause, MailExceptionCodes error, Message message) {
+        super(cause);
         this.error = error;
         this.message = message;
     }
