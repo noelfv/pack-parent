@@ -43,22 +43,22 @@ public class Log4jServlet extends HttpServlet {
             if (log4jServiceName != null) {
                 log4jService = WebServletContextListener.getBean(log4jServiceName);
                 if (log4jService != null) {
-                    rootCategory = log4jService.obtener(Log4jService.rootCategory);
+                    rootCategory = log4jService.obtener(Log4jService.ROOT_CATEGORY);
                     if (rootCategory == null || rootCategory.isEmpty()) {
                         rootCategory = "INFO,stdout,LOGFILE";
                     }
 
-                    fileName = log4jService.obtener(Log4jService.file);
+                    fileName = log4jService.obtener(Log4jService.FILE);
                     if (fileName == null || fileName.isEmpty()) {
                         fileName = "/pr/" + app.toLowerCase() + "/online/pe/web/log/log_" + app.toLowerCase() + ".log";
                     }
 
-                    maxFileSize = log4jService.obtener(Log4jService.maxFileSize);
+                    maxFileSize = log4jService.obtener(Log4jService.MAX_FILE_SIZE);
                     if (maxFileSize == null || maxFileSize.isEmpty()) {
                         maxFileSize = "1024kb";
                     }
 
-                    maxBackupIndex = log4jService.obtener(Log4jService.maxBackupIndex);
+                    maxBackupIndex = log4jService.obtener(Log4jService.MAX_BACKUP_INDEX);
                     if (maxBackupIndex == null || maxBackupIndex.isEmpty()) {
                         maxBackupIndex = "20";
                     }
