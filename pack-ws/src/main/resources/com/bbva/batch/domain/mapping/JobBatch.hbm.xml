@@ -22,7 +22,7 @@
             <column name="ID_APLICACION" precision="10" scale="0"/>
         </many-to-one>
         <list name="steps" table="MNTR_PASO" inverse="true" lazy="true"
-              fetch="select">
+              fetch="select" cascade="delete">
             <key>
                 <column name="ID_TRABAJO" precision="10" scale="0"/>
             </key>

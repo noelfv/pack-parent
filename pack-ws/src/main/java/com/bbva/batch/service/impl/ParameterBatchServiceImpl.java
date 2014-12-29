@@ -2,47 +2,35 @@ package com.bbva.batch.service.impl;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bbva.batch.dao.ParameterBatchDAO;
 import com.bbva.batch.domain.ParameterBatch;
 import com.bbva.batch.service.ParameterBatchService;
+import com.everis.core.service.impl.DataManipulationService;
 
+@Transactional(propagation = Propagation.REQUIRED)
 @Service("parameterBatchService")
-public class ParameterBatchServiceImpl implements ParameterBatchService {
+public class ParameterBatchServiceImpl extends DataManipulationService<ParameterBatch, ParameterBatchDAO> implements ParameterBatchService {
 
-    @Resource(name = "parameterBatchDAO")
-    private ParameterBatchDAO parameterBatchDAO;
+    @Autowired
+    @Qualifier("parameterBatchDAO")
+    public void setHibernateDAO(ParameterBatchDAO hibernateDAO) {
+        super.setHibernateDAO(hibernateDAO);
+    }
 
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public List<ParameterBatch> listar(Long idStepBatch) {
         return listar(idStepBatch, false);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public List<ParameterBatch> listar(Long idStepBatch, boolean lazy) {
-        return parameterBatchDAO.listar(idStepBatch, lazy);
+        return getHibernateDAO().listar(idStepBatch, lazy);
     }
 
-    @Transactional
-    public void insertar(ParameterBatch o) {
-        parameterBatchDAO.save(o);
-    }
-
-    @Transactional
-    public void actualizar(ParameterBatch o) {
-        parameterBatchDAO.saveOrUpdate(o);
-    }
-
-    @Override
-    public void actualizar(List<ParameterBatch> o) {
-        parameterBatchDAO.saveOrUpdateAll(o);
-    }
-
-    @Transactional
-    public void eliminar(ParameterBatch o) {
-        parameterBatchDAO.delete(o);
-    }
 }

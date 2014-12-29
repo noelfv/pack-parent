@@ -35,8 +35,7 @@
         <property name="dateVal" type="date">
             <column name="FECHA"/>
         </property>
-        <many-to-one name="step" class="com.bbva.batch.domain.StepBatch"
-                     fetch="select">
+        <many-to-one name="step" class="com.bbva.batch.domain.StepBatch" fetch="select">
             <column name="ID_PASO" precision="10" scale="0"/>
         </many-to-one>
     </class>

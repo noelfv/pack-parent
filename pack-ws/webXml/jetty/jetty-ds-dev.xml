@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<Configure id="Server" class="org.eclipse.jetty.server.Server">
+<!-- <Configure id='webAppContext' class="org.eclipse.jetty.webapp.WebAppContext"> -->
+	<New id="DS_APP_CONELE" class="org.eclipse.jetty.plus.jndi.Resource">
+		<Arg></Arg>
+		<Arg>jdbc/APP_CONELE</Arg>
+		<Arg>
+			<New class="com.mchange.v2.c3p0.ComboPooledDataSource">
+				<Set name="driverClass">oracle.jdbc.driver.OracleDriver</Set>
+				<Set name="jdbcUrl">jdbc:oracle:thin:@192.168.96.2:1521:XE</Set>
+				<Set name="user">APP_CONELE</Set>
+				<Set name="password">APP_CONELE</Set>
+			</New>
+			<!--
+			<New class="oracle.jdbc.pool.OracleDataSource">
+			<Set name="DriverType">thin</Set>
+			<Set name="URL"></Set>
+			<Set name="User"></Set>
+			<Set name="Password">APP_CONELE</Set>
+			<Set name="connectionCachingEnabled">true</Set>
+			<Set name="connectionCacheProperties"><New class="java.util.Properties">
+				<Call name="setProperty"><Arg>MinLimit</Arg><Arg>5</Arg>
+				</Call></New>
+			</Set>
+			</New>
+			-->
+		</Arg>
+	</New>
+</Configure>

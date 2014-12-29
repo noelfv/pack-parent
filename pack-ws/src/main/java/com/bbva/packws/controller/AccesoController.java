@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = {"", "scheduler"})
 public class AccesoController {
 
-	@RequestMapping(value="signIn")
-	public String signIn() {
+    @RequestMapping(value = "signIn")
+    public String signIn() {
 
-        urn "common/sign-in";
-	}
-	
-	@RequestMapping(value="signOut")
-	public String signOut() {
-		return "common/sign-out";
-	}
-	
-	@RequestMapping(value="notAuthorized")
-	public String notAuthorized() {
-		return "common/not-authorized";
-	}
+        return "common/sign-in";
+    }
+
+    @RequestMapping(value = "signOut")
+    public String signOut() {
+        return "common/sign-out";
+    }
+
+    @RequestMapping(value = "notAuthorized")
+    public String notAuthorized() {
+        return "common/not-authorized";
+    }
 }

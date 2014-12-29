@@ -66,7 +66,7 @@ public class StepFactoryImpl implements StepFactory {
     }
 
     public Step createStep(StepBatch stepBatch) {
-        TaskletStep step = new TaskletStep(stepBatch.getName() + "Step");
+        TaskletStep step = new TaskletStep(stepBatch.getName());
 
         try {
             ItemReaderType readerType = ItemReaderType.valueOf(stepBatch.getReader());

@@ -3,8 +3,9 @@ package com.bbva.batch.service;
 import java.util.List;
 
 import com.bbva.batch.domain.JobBatch;
+import com.everis.core.service.IDataManipulationService;
 
-public interface JobBatchService {
+public interface JobBatchService extends IDataManipulationService<JobBatch> {
 
     List<JobBatch> listar(Long idApplicationBatch);
 
@@ -13,10 +14,4 @@ public interface JobBatchService {
     JobBatch obtener(Long idJobBatch);
 
     JobBatch obtener(Long idJobBatch, boolean lazy);
-
-    void insertar(JobBatch o);
-
-    void actualizar(JobBatch o);
-
-    void eliminar(JobBatch o);
 }

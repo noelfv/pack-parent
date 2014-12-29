@@ -24,13 +24,13 @@ public class Log4jServiceImpl implements Log4jService {
         String value = "";
 
         try {
-            if (Log4jService.rootCategory.equalsIgnoreCase(key)) {
+            if (Log4jService.ROOT_CATEGORY.equalsIgnoreCase(key)) {
                 value = parametroConfiguracionService.obtenerParametro(Configuracion.PB_ROOT_CATEGORY.getKey()).getValor();
-            } else if (Log4jService.file.equalsIgnoreCase(key)) {
+            } else if (Log4jService.FILE.equalsIgnoreCase(key)) {
                 value = parametroConfiguracionService.obtenerParametro(Configuracion.PB_FILE.getKey()).getValor();
-            } else if (Log4jService.maxFileSize.equalsIgnoreCase(key)) {
+            } else if (Log4jService.MAX_FILE_SIZE.equalsIgnoreCase(key)) {
                 value = parametroConfiguracionService.obtenerParametro(Configuracion.PB_MAX_FILE_SIZE.getKey()).getValor();
-            } else if (Log4jService.maxBackupIndex.equalsIgnoreCase(key)) {
+            } else if (Log4jService.MAX_BACKUP_INDEX.equalsIgnoreCase(key)) {
                 value = parametroConfiguracionService.obtenerParametro(Configuracion.PB_MAX_BACKUP_INDEX.getKey()).getValor();
             }
         } catch (Exception e) {

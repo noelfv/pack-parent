@@ -62,7 +62,7 @@ public class JobController extends AbstractSpringControllerImpl {
     public String index(ModelMap model) {
         model.addAttribute("schedulerClass", "");
         model.addAttribute("jobClass", "ui-state-active-bbva");
-        return "index/index";
+        return "job/index";
     }
 
     @RequestMapping(value = "listar", method = RequestMethod.POST)

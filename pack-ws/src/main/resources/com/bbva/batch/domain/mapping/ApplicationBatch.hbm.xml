@@ -18,7 +18,7 @@
             <column name="JNDI"/>
         </property>
         <list name="jobs" table="MNTR_TRABAJO" inverse="true" lazy="true"
-              fetch="select">
+              fetch="select" cascade="delete" >
             <key>
                 <column name="ID_APLICACION" precision="10" scale="0"/>
             </key>

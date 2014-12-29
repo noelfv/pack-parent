@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <tiles:insertDefinition name="default">
 	<tiles:putAttribute name="body">
-		<script type="text/javascript" src="${pageContext.request.contextPath}/view/index/js/index.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/view/scheduler/js/index.js"></script>
 		<div class="ui-accordion ui-widget ui-helper-reset" style="padding-bottom: 10px;">
 			<label class="ui-accordion-header ui-accordion-header-active ui-corner-top ui-widget-header">Estado de las tareas programadas</label>
 			<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
@@ -17,35 +17,6 @@
 				<div id="pnlTrigger"></div>
 			</div>
 		</div>
-		<div class="ui-accordion ui-widget ui-helper-reset">
-			<label class="ui-accordion-header ui-accordion-header-active ui-corner-top ui-widget-header">Estado del ultimo trabajo</label>
-			<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
-				<table style="width: 100%; padding-bottom: 5px;">
-					<tr>
-						<td>
-							<c:if test="${sessionScope.handler.estado == 'ACTIVO'}">
-								<label id="lblCargando">En proceso...</label>
-							</c:if>
-							<c:if test="${sessionScope.handler.estado != 'ACTIVO'}">
-								<label id="lblCargando" class="hide">En proceso...</label>
-							</c:if>						
-						</td>
-						<td align="right">
-							<button id="btnEjecutar" title="Iniciar Operación">Ejecutar</button>
-						</td>
-					</tr>
-				</table>
-				<div>Trabajo</div>
-				<div id="pnlJobExecutions"></div>
-				<br/>
-				<div>Parametros</div>
-				<div id="pnlParametros"></div>
-				<br/>
-				<div>Pasos</div>
-				<div id="pnlPasos"></div>
-			</div>
-		</div>
-		
 		<div id="dialogReprogramar">
 			<table style="margin: auto; width: 100%">
 				<tr>

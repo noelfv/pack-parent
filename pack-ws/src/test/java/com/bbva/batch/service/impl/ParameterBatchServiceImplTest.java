@@ -19,7 +19,7 @@ import com.bbva.batch.service.ApplicationBatchService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContextTest.xml" })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ApplicationBatchServiceImplTest extends AbstractJUnit4Test {
+public class ParameterBatchServiceImplTest extends AbstractJUnit4Test {
 
     private String exclude[] = new String[] { "*.class", "jobs.application", "jobs.steps", "jobs.steps.job", "jobs.steps.parameters.step" };
 
@@ -30,12 +30,12 @@ public class ApplicationBatchServiceImplTest extends AbstractJUnit4Test {
     public void _01Eliminar() {
         ApplicationBatch application = new ApplicationBatch();
 
-        application = applicationBatchService.obtener("packBBVA");
+        application = applicationBatchService.obtener(1L);
         if (application != null) {
             applicationBatchService.eliminar(application);
         }
 
-        application = applicationBatchService.obtener("gescar");
+        application = applicationBatchService.obtener(2L);
         if (application != null) {
             applicationBatchService.eliminar(application);
         }

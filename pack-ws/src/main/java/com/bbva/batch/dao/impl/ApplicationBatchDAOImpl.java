@@ -23,6 +23,13 @@ public class ApplicationBatchDAOImpl extends HibernateDAO<ApplicationBatch> impl
     }
 
     @Override
+    public ApplicationBatch obtener(String name, boolean lazy) {
+        Criteria criteria = super.getCriteria(ApplicationBatch.class);
+        criteria.add(Restrictions.eq("name", name));
+        return (ApplicationBatch) criteria.uniqueResult();
+    }
+
+    @Override
     public ApplicationBatch obtener(Long idApplication, boolean lazy) {
         Criteria criteria = super.getCriteria(ApplicationBatch.class);
         criteria.add(Restrictions.eq("id", idApplication));

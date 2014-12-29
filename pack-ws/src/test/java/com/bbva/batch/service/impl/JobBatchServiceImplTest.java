@@ -5,8 +5,10 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4Test;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,19 +19,50 @@ import com.bbva.batch.service.JobBatchService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContextTest.xml"})
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class JobBatchServiceImplTest extends AbstractJUnit4Test {
+
+    private String exclude[] = new String[] { "*.class", "application", "steps", "steps.job", "steps.parameters.step" };
 
     @Resource(name = "jobBatchService")
     private JobBatchService jobBatchService;
 
     @Test
-    public void listar() {
-        List<JobBatch> jobBatchs = jobBatchService.listar(1L);
+    public void _01Eliminar() {
+        JobBatch o = new JobBatch();
 
-        printer(jobBatchs);
-        Assert.assertTrue(jobBatchs.size() >= 0);
+        o = jobBatchService.obtener(1L);
+        if (o != null) {
+            jobBatchService.eliminar(o);
+            o = jobBatchService.obtener(1L);
+            Assert.assertNull("Not delete", o);
+        }
+
+        o = jobBatchService.obtener(2L);
+        if (o != null) {
+            jobBatchService.eliminar(o);
+            o = jobBatchService.obtener(2L);
+            Assert.assertNull("Not delete", o);
+        }
     }
 
+    @Test
+    public void _02Insertar() {
+        //jobBatchService.insertar(new ApplicationBatch("packBBVA", "jdbc/APP_CONELE"));
+    }
+
+    @Test
+    public void _03Actualizar() {
+        //jobBatchService.insertar(new ApplicationBatch("gescar", "jdbc/APP_GESCAR"));
+    }
+
+    @Test
+    public void _04listarLazy() {
+        List<JobBatch> jobs = jobBatchService.listar(1L, true);
+        printer(jobs, exclude);
+        Assert.assertTrue(jobs.size() == 2);
+    }
+    
     @Test
     public void actualizar() {
         ApplicationBatch application = new ApplicationBatch();

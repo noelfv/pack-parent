@@ -13,9 +13,9 @@
 								</div>
 							</td>
 							<td>
-								<a class="fg-button ${requestScope.jobClass}" href="<%=request.getContextPath()%>/scheduler/index.html">
-										<div class="title title-ico title-ico-procesos">Configuraci&#243;n de trabajos</div>
-									</a>
+								<a class="fg-button ${requestScope.jobClass}" href="<%=request.getContextPath()%>/job/index.html">
+									<div class="title title-ico title-ico-procesos">Configuraci&#243;n de trabajos</div>
+								</a>
 							</td>
 						</tr>
 					</table>

@@ -8,6 +8,6 @@ import com.everis.core.dao.IHibernateDAO;
 public interface ApplicationBatchDAO extends IHibernateDAO<ApplicationBatch> {
 
     List<ApplicationBatch> listar(boolean lazy);
-
+    ApplicationBatch obtener(String name, boolean lazy);
     ApplicationBatch obtener(Long idApplication, boolean lazy);
 }

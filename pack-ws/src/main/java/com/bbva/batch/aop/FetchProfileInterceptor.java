@@ -13,14 +13,27 @@ public class FetchProfileInterceptor {
     private static final Logger LOG = Logger.getLogger(FetchProfileInterceptor.class);
     private static final String FETCH_PROFILE = "fetchProfile";
 
+    private void infoInvoke(ProceedingJoinPoint joinPoint, boolean lazy) {
+        if (LOG.isInfoEnabled()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("\n\tClass: ");
+            sb.append(joinPoint.getTarget().getClass().getName());
+            sb.append("\n\tMethod Invoke: ");
+            sb.append(joinPoint.getSignature().getName());
+            sb.append("\n\tArgs Length: ");
+            sb.append(joinPoint.getArgs().length);
+            sb.append("\n\tKind: ");
+            sb.append(joinPoint.getKind());
+            sb.append("\n\tLazy: ");
+            sb.append((lazy ? "Use fetchProfile" : "No use fetchProfile"));
+            LOG.info(sb.toString());
+        }
+    }
+
     @Around("execution(* com.bbva.*.dao.impl.*.* (..)) && args(.., lazy)")
     public Object invoke(ProceedingJoinPoint joinPoint, boolean lazy) throws Exception {
         Object o = null;
-        LOG.info("Class: " + joinPoint.getTarget().getClass().getName());
-        LOG.info("Method Invoke: " + joinPoint.getSignature().getName());
-        LOG.info("Args Length: " + joinPoint.getArgs().length);
-        LOG.info("Kind: " + joinPoint.getKind());
-        LOG.info("Lazy: " + (lazy ? "Use fetchProfile" : "No use fetchProfile"));
+        infoInvoke(joinPoint, lazy);
 
         HibernateDAO<?> dao = (HibernateDAO<?>) joinPoint.getTarget();
         if (lazy && !dao.getCurrentSession().isFetchProfileEnabled(FETCH_PROFILE)) {
@@ -32,6 +45,10 @@ public class FetchProfileInterceptor {
             o = joinPoint.proceed();
         } catch (Throwable t) {
             throw new Exception("FetchProfileInterceptor:invoke(ProceedingJoinPoint joinPoint, boolean lazy)", t);
+        } finally {
+            if (lazy) {
+                dao.getCurrentSession().disableFetchProfile(FETCH_PROFILE);
+            }
         }
 
         return o;

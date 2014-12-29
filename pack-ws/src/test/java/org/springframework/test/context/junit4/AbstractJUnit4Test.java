@@ -1,14 +1,17 @@
 package org.springframework.test.context.junit4;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import flexjson.JSONSerializer;
+import java.util.Collection;
+import java.util.Properties;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import javax.annotation.PostConstruct;
-import java.util.Collection;
-import java.util.Properties;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import flexjson.JSONSerializer;
 
 public class AbstractJUnit4Test {
 
@@ -19,6 +22,7 @@ public class AbstractJUnit4Test {
 
         Properties prop = new Properties();
         prop.setProperty("log4j.rootCategory", "INFO,LOGFILE,stdout");
+        // prop.setProperty("log4j.rootCategory", "INFO");
         prop.setProperty("log4j.appender.LOGFILE", "org.apache.log4j.RollingFileAppender");
         prop.setProperty("log4j.appender.LOGFILE.file", "/pr/pack-ws/online/pe/web/log/log_pack-ws.log");
         prop.setProperty("log4j.appender.LOGFILE.MaxFileSize", "1024kb");
@@ -31,7 +35,9 @@ public class AbstractJUnit4Test {
         prop.setProperty("log4j.appender.stdout.layout.ConversionPattern", "[%d{HH:mm:ss}]%p - %C{1}.%M(%L)  %m%n");
         prop.setProperty("log4j.logger.org.hibernate.SQL", "DEBUG");
         // prop.setProperty("log4j.logger.org.hibernate.type", "TRACE");
-
+        // prop.setProperty("log4j.logger.com.bbva", "INFO,LOGFILE,stdout");
+        // prop.setProperty("log4j.logger.org.hibernate", "INFO,LOGFILE");
+        
         PropertyConfigurator.configure(prop);
         LOGGER = Logger.getLogger(AbstractJUnit4Test.class);
         LOGGER.error("Logger -> Init");
@@ -42,17 +48,6 @@ public class AbstractJUnit4Test {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(o);
             LOGGER.info(json);
-        } catch (Exception e) {
-            LOGGER.error("", e);
-        }
-    }
-
-    public void printer(Collection<?> o) {
-        try {
-            Gson gson = new GsonBuilder().create();
-            for (Object iO : o) {
-                LOGGER.info(gson.toJson(iO));
-            }
         } catch (Exception e) {
             LOGGER.error("", e);
         }
@@ -74,11 +69,18 @@ public class AbstractJUnit4Test {
         }
     }
 
+    public void printer(Object o) {
+        printer(o, new String[]{});
+    }
+    
     public void printer(Collection<?> o, String[] exclude) {
+        JSONSerializer serializer = new JSONSerializer().exclude(exclude);
+        StringBuilder sb = new StringBuilder();
         try {
             for (Object iO : o) {
-                LOGGER.info(new JSONSerializer().exclude(exclude).deepSerialize(iO));
+                sb.append("\n\t" + serializer.deepSerialize(iO));
             }
+            LOGGER.info(sb.toString());
         } catch (Exception e) {
             LOGGER.error("", e);
         }
