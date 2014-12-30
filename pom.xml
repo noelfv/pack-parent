@@ -62,6 +62,9 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
+                    <systemProperties>
+                        <JAVA_OPTS>-Xms256m -Xmx512m -XX:MaxPermSize=1024m</JAVA_OPTS>
+                    </systemProperties>
                     <url>http://192.168.96.2:8081/manager/text</url>
                     <username>tomcat</username>
                     <password>tomcat</password>

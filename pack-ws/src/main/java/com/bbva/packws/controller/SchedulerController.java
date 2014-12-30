@@ -45,6 +45,7 @@ public class SchedulerController extends AbstractSpringControllerImpl {
 
         try {
             SchedulerModel schedulerModel = new SchedulerModel();
+            schedulerModel.setTipoResultado(Resultado.EXITO);
             schedulerModel.setTriggerInstances(triggerService.listar());
             result = this.renderModelJson(schedulerModel);
         } catch (Exception e) {

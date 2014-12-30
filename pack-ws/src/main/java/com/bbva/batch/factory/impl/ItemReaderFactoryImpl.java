@@ -1,17 +1,29 @@
 package com.bbva.batch.factory.impl;
 
+import java.text.SimpleDateFormat;
+
 import javax.sql.DataSource;
 
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.PagingQueryProvider;
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
+import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.DefaultFieldSetFactory;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.item.file.transform.FieldSetFactory;
+import org.springframework.batch.item.file.transform.FixedLengthTokenizer;
+import org.springframework.batch.item.file.transform.LineTokenizer;
+import org.springframework.batch.item.file.transform.Range;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
 
 import com.bbva.batch.domain.ItemBatch;
 import com.bbva.batch.enums.ItemReaderType;
 import com.bbva.batch.enums.ParameterType;
 import com.bbva.batch.factory.ItemReaderFactory;
+import com.bbva.batch.util.ItemBatchFieldSetMapper;
 import com.bbva.batch.util.ItemBatchRowMapper;
 import com.bbva.batch.util.ParamUtil;
 import com.everis.util.DBUtilSpring;
@@ -51,6 +63,61 @@ public class ItemReaderFactoryImpl implements ItemReaderFactory {
         return reader;
     }
 
+    private LineTokenizer createDelimitedLineTokenizer(ParamUtil params, FieldSetFactory fieldSetFactory) {
+        DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
+        lineTokenizer.setFieldSetFactory(fieldSetFactory);
+        lineTokenizer.setDelimiter(params.getParamAsString(ParameterType.PARAM_DELIMITER));
+        lineTokenizer.setQuoteCharacter(params.getParamAsString(ParameterType.PARAM_QUOTE_CHARACTER).charAt(0));
+        lineTokenizer.setNames(params.getParamAsString(ParameterType.PARAM_FIELDS).split(","));
+        
+        return lineTokenizer;
+    }
+    
+    private LineTokenizer createFixedLengthTokenizer(ParamUtil params, FieldSetFactory fieldSetFactory) {
+        String[] cols = params.getParamAsString(ParameterType.PARAM_RANGE).split(",");
+        String[] fixeds = params.getParamAsString(ParameterType.PARAM_RANGE).split(",");
+        Range[] ranges = new Range[fixeds.length];
+        
+        for(int i = 0; i < cols.length; i++) {
+            fixeds = cols[i].split("-");
+            ranges[i] = new Range(Integer.parseInt(fixeds[0]), Integer.parseInt(fixeds[1]));
+        }
+        
+        FixedLengthTokenizer lineTokenizer = new FixedLengthTokenizer();
+        lineTokenizer.setFieldSetFactory(fieldSetFactory);
+        lineTokenizer.setNames(params.getParamAsString(ParameterType.PARAM_FIELDS).split(","));
+        lineTokenizer.setColumns(ranges);
+        
+        return lineTokenizer;
+    }
+    
+    private FlatFileItemReader<ItemBatch> createFlatFileItemReader(ParamUtil params, boolean delimit) throws Exception {
+        FlatFileItemReader<ItemBatch> reader = new FlatFileItemReader<ItemBatch>();
+        DefaultLineMapper<ItemBatch> lineMapper = new DefaultLineMapper<ItemBatch>();
+        LineTokenizer lineTokenizer;
+        DefaultFieldSetFactory fieldSetFactory = new DefaultFieldSetFactory();
+        ItemBatchFieldSetMapper fieldSetMapper = new ItemBatchFieldSetMapper();
+        SimpleDateFormat formatter = new SimpleDateFormat(params.getParamAsString(ParameterType.PARAM_FORMAT_DATE));
+        
+        fieldSetFactory.setDateFormat(formatter);
+        
+        fieldSetMapper.setClassName(params.getParamAsString(ParameterType.PARAM_CLASS_NAME).split(","));
+        
+        if(delimit) {
+            lineTokenizer = createDelimitedLineTokenizer(params, fieldSetFactory);
+        } else {
+            lineTokenizer = createFixedLengthTokenizer(params, fieldSetFactory);
+        }
+        
+        lineMapper.setLineTokenizer(lineTokenizer);
+        lineMapper.setFieldSetMapper(fieldSetMapper);
+        
+        reader.setResource(new FileSystemResource(params.getParamAsString(ParameterType.PARAM_RESOURCE)));
+        reader.setLineMapper(lineMapper);
+        reader.afterPropertiesSet();
+        return reader;
+    }
+    
     @Override
     public ItemReader<ItemBatch> create(ItemReaderType type, ParamUtil params) throws Exception {
         ItemReader<ItemBatch> reader = null;
@@ -58,11 +125,11 @@ public class ItemReaderFactoryImpl implements ItemReaderFactory {
         if (type.compareTo(ItemReaderType.READER_TABLE) == 0) {
             reader = createJdbcPagingItemReader(params);
         } else if (type.compareTo(ItemReaderType.READER_TEXT_DELIMIT) == 0) {
-
+            reader = createFlatFileItemReader(params, true);
         } else if (type.compareTo(ItemReaderType.READER_TEXT_POSITION) == 0) {
-
+            reader = createFlatFileItemReader(params, false);
         } else if (type.compareTo(ItemReaderType.READER_XML) == 0) {
-
+            throw new UnsupportedOperationException();
         }
 
         return reader;

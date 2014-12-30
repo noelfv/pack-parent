@@ -1,5 +1,7 @@
 package com.bbva.quartz.factory.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -45,6 +47,13 @@ public class QuartzFactoryImpl implements QuartzFactory {
             scheduler.scheduleJob(jobDetail, cronTrigger);
         } catch (Exception e) {
             LOG.error("No se pudo programar la tarea", e);
+        }
+    }
+
+    @Override
+    public void createJobs(List<JobBatch> jobsBatch) {
+        for(JobBatch job : jobsBatch) {
+            createJob(job);
         }
     }
 }

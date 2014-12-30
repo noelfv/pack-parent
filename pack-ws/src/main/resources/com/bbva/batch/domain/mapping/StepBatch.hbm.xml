@@ -14,6 +14,9 @@
         <property name="name" type="string">
             <column name="NOMBRE"/>
         </property>
+        <property name="description" type="string" length="2000">
+            <column name="DESCRIPCION"/>
+        </property>
         <property name="order" type="long">
             <column name="ORDEN"/>
         </property>

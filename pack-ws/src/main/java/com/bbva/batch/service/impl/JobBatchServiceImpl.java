@@ -42,4 +42,14 @@ public class JobBatchServiceImpl extends DataManipulationService<JobBatch, JobBa
     public JobBatch obtener(Long idJobBatch, boolean lazy) {
         return getHibernateDAO().obtener(idJobBatch, lazy);
     }
+    
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    public JobBatch obtener(Long idApplicationBatch, String name) {
+        return obtener(idApplicationBatch, name, false);
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    public JobBatch obtener(Long idApplicationBatch, String name, boolean lazy) {
+        return getHibernateDAO().obtener(idApplicationBatch, name, lazy);
+    }
 }

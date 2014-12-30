@@ -24,6 +24,14 @@ public class JobBatchDAOImpl extends HibernateDAO<JobBatch> implements JobBatchD
     }
 
     @Override
+    public JobBatch obtener(Long idApplicationBatch, String name, boolean lazy) {
+        Criteria criteria = super.getCriteria(JobBatch.class);
+        criteria.add(Restrictions.eq("application.id", idApplicationBatch));
+        criteria.add(Restrictions.eq("name", name));
+        return (JobBatch) criteria.uniqueResult();
+    }
+
+    @Override
     public JobBatch obtener(Long idJobBatch, boolean lazy) {
         Criteria criteria = super.getCriteria(JobBatch.class);
         criteria.add(Restrictions.eq("id", idJobBatch));

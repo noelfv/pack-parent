@@ -21,4 +21,11 @@ public class StepBatchDAOImpl extends HibernateDAO<StepBatch> implements StepBat
         return (List<StepBatch>) criteria.list();
     }
 
+    @Override
+    public StepBatch obtener(Long idJobBatch, String name, boolean lazy) {
+        Criteria criteria = super.getCriteria(StepBatch.class);
+        criteria.add(Restrictions.eq("job.id", idJobBatch));
+        criteria.add(Restrictions.eq("name", name));
+        return (StepBatch) criteria.uniqueResult();
+    }
 }

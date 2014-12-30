@@ -8,4 +8,5 @@ import com.everis.core.dao.IHibernateDAO;
 public interface StepBatchDAO extends IHibernateDAO<StepBatch> {
 
     List<StepBatch> listar(Long idJobBatch, boolean lazy);
+    StepBatch obtener(Long idJobBatch, String name, boolean lazy);
 }

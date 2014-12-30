@@ -281,6 +281,10 @@ b,
 	font-weight: normal;
 }
 
+.ui-jqgrid tr.jqgrow td{
+	height: 26px;
+}
+
 .ui-jqgrid-htable th.ui-th-column-header,
 .ui-jqgrid-htable th.ui-th-column {
 	background-color: #f8f8f5;
@@ -289,6 +293,7 @@ b,
 	color: #616161;
 	border-collapse: separate;
 	border-spacing: 3px;
+	height: 36px;
 }
 
 .ui-jqgrid {
@@ -318,6 +323,22 @@ b,
 	border-bottom: 1px solid #e5e5e5;
 }
 
+.ui-jqgrid .ui-jqgrid-pager {
+	height: 30px;
+}
+
+.ui-jqgrid .ui-state-default .ui-icon {
+	background-image: url("../theme/bbva/images/ui-icons_999999_256x240.png");
+}
+
+.ui-jqgrid .ui-th-column .ui-state-hover .ui-icon {
+	background-image: url("../theme/bbva/images/ui-icons_999999_256x240.png");
+}
+
+.ui-jqgrid .ui-state-hover .ui-icon {
+	background-image: url("../theme/bbva/images/ui-icons_ffffff_256x240.png");
+}
+
 .tblMenuL {
 	float: left;	
 }
@@ -339,12 +360,15 @@ div.title-ico {
 	padding-left: 36px;
 	height: inherit !important;
 }
+
 div.title-ico-procesos {
 	background: url("../img/ajustes32x32_white.png") left no-repeat;	
 }
+
 div.title-ico-calendario {
 	background: url("../img/calendario32x32_white.png") left no-repeat;	
 }
+
 a.fg-button-img,
 a.fg-button,
 span.fg-button {
@@ -370,6 +394,7 @@ a.fg-button-img img {
 	vertical-align: middle;
 }
 
+.ui-jqgrid td.ui-state-hover,
 a:hover.fg-button,
 a:hover.fg-button-img,
 .ui-state-active-bbva,
@@ -382,6 +407,10 @@ span.fg-button {
 	background:-ms-linear-gradient(top,#0079c1 0,#00529b 100%);
 	background:linear-gradient(to bottom,#0079c1 0,#00529b 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#0079c1,endColorstr=#00529b,GradientType=0);
+	box-shadow:0 0 5px rgba(0,0,0,0.5) inset;
+}
+
+.ui-jqgrid th.ui-state-hover {
 	box-shadow:0 0 5px rgba(0,0,0,0.5) inset;
 }
 
@@ -416,8 +445,8 @@ input.ui-text {
     padding: .583em .755em .5em .755em;
     height: auto;
     margin: 0;
-    width: 100%;
     /*
+    width: 100%;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     */
@@ -470,4 +499,12 @@ input.ui-text-conflicto {
 	background: url("../img/excel.png") !important;
 }
 
+.u-icon-ver-detalle {
+	background: url("../img/ver.png") !important;
+	cursor: pointer;
+	height: 18px;
+}
 
+.ui-jqgrid .ui-state-highlight .u-icon-ver-detalle {
+	background: url("../img/ver_sel.png") !important;
+}

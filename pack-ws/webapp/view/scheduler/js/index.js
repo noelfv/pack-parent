@@ -68,7 +68,7 @@ listar = function() {
             });
         }
     });
-},
+};
 
 $(document).ready(function() {
     $("#btnReprogramar").button({

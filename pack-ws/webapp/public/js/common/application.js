@@ -404,13 +404,14 @@ configurarGrid = function(id, options, fnAction, optionsGroup) {
 	// rowNum : 15,
     // loadError : function(xhr, st, err) {s},
 	options = $.extend({
-        scroll: 1,
+        /* scroll: 1, */
         datatype : "local",
 		data : {},
 		rownumbers : false,
 		recordtext : "{0} - {1} de {2} elementos",
 		pgtext : 'Pag: {0} de {1}',
 		pager : xpag,
+		rowNum : 15,
 		height : 300,
 		emptyrecords : 'No hay resultados',
 		viewrecords : true,
@@ -422,7 +423,7 @@ configurarGrid = function(id, options, fnAction, optionsGroup) {
 		shrinkToFit : false,
 		cmTemplate : {
 			 resizable: true,
-			 sortable: true
+			 sortable: false
 		}
 	}, options);
 	

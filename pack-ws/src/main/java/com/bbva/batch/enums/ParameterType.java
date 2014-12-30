@@ -9,11 +9,15 @@ public enum ParameterType {
     PARAM_GROUP("GROUP", String.class),
     PARAM_SORT("SORT", String.class),
     PARAM_PAGE_SIZE("PAGE_SIZE", Long.class),
-
     PARAM_FORMAT("FORMAT", String.class),
     PARAM_RESOURCE("RESOURCE", String.class),
-    PARAM_FIELDS("FIELDS", String.class);
-
+    PARAM_FIELDS("FIELDS", String.class),
+    PARAM_DELIMITER("DELIMITER", String.class),
+    PARAM_QUOTE_CHARACTER("QUOTE_CHARACTER", String.class),
+    PARAM_CLASS_NAME("CLASS_NAME", String.class),
+    PARAM_FORMAT_DATE("FORMAT_DATE", String.class),
+    PARAM_RANGE("RANGE", String.class);
+    
     private String nameParam;
     private Class<?> dataType;
 

@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bbva.batch.domain.ApplicationBatch;
 import com.bbva.batch.domain.JobBatch;
+import com.bbva.batch.service.ApplicationBatchService;
 import com.bbva.batch.service.JobBatchService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,64 +28,57 @@ public class JobBatchServiceImplTest extends AbstractJUnit4Test {
     @Resource(name = "jobBatchService")
     private JobBatchService jobBatchService;
 
+    @Resource(name = "applicationBatchService")
+    private ApplicationBatchService applicationBatchService;
+    
     @Test
     public void _01Eliminar() {
+        ApplicationBatch application = applicationBatchService.obtener("packBBVA");
         JobBatch o = new JobBatch();
-
-        o = jobBatchService.obtener(1L);
-        if (o != null) {
-            jobBatchService.eliminar(o);
-            o = jobBatchService.obtener(1L);
-            Assert.assertNull("Not delete", o);
+        List<JobBatch> jobs;
+        
+        jobs = jobBatchService.listar(application.getId(), true);
+        if (jobs != null) {
+            jobBatchService.eliminar(jobs);
+            jobs = jobBatchService.listar(application.getId(), true);
+            Assert.assertTrue("Not delete", jobs.size() == 0);
         }
 
-        o = jobBatchService.obtener(2L);
+        application = applicationBatchService.obtener("gescar");
+        o = jobBatchService.obtener(application.getId(), "jobOficina");
         if (o != null) {
             jobBatchService.eliminar(o);
-            o = jobBatchService.obtener(2L);
+            o = jobBatchService.obtener(o.getId());
             Assert.assertNull("Not delete", o);
         }
     }
 
     @Test
     public void _02Insertar() {
-        //jobBatchService.insertar(new ApplicationBatch("packBBVA", "jdbc/APP_CONELE"));
+        JobBatch jobBatch = new JobBatch();
+        jobBatch.setName("jobSimulacion");
+        jobBatch.setCronExpression("0 0 1 ? * * *");
+        jobBatch.setApplication(applicationBatchService.obtener("packBBVA"));
+        
+        jobBatch = jobBatchService.insertar(jobBatch);
+        Assert.assertNotNull("No inserto", jobBatch.getId());
     }
 
     @Test
     public void _03Actualizar() {
-        //jobBatchService.insertar(new ApplicationBatch("gescar", "jdbc/APP_GESCAR"));
+        JobBatch jobBatch = new JobBatch();
+        jobBatch.setName("jobOficina");
+        jobBatch.setCronExpression("0 0 0/1 1/1 * ? *");
+        jobBatch.setApplication(applicationBatchService.obtener("gescar"));
+        
+        jobBatchService.actualizar(jobBatch);
+        Assert.assertNotNull("No inserto actualizo", jobBatch.getId());
     }
 
     @Test
     public void _04listarLazy() {
-        List<JobBatch> jobs = jobBatchService.listar(1L, true);
+        List<JobBatch> jobs = jobBatchService.listar(applicationBatchService.obtener("packBBVA").getId(), true);
         printer(jobs, exclude);
-        Assert.assertTrue(jobs.size() == 2);
-    }
-    
-    @Test
-    public void actualizar() {
-        ApplicationBatch application = new ApplicationBatch();
-        application.setId(1L);
-        application.setVersion(0L);
-        application.setName("packBBVA");
-        application.setJndi("jdbc/APP_CONELE");
-
-        JobBatch jobBatch = new JobBatch();
-        jobBatch.setId(1L);
-        jobBatch.setVersion(0L);
-        jobBatch.setName("job1");
-        jobBatch.setCronExpression("0 0 1 ? * * *");
-        jobBatch.setApplication(application);
-
-        try {
-            jobBatchService.actualizar(jobBatch);
-        } catch (Exception e) {
-            LOGGER.error("Version conflicto", e);
-            Assert.fail("Version conflicto");
-        }
-
-        prettyPrinter(jobBatch);
+        Assert.assertTrue(jobs.size() == 1);
     }
 }
