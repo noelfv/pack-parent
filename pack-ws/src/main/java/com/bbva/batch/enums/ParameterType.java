@@ -16,7 +16,8 @@ public enum ParameterType {
     PARAM_QUOTE_CHARACTER("QUOTE_CHARACTER", String.class),
     PARAM_CLASS_NAME("CLASS_NAME", String.class),
     PARAM_FORMAT_DATE("FORMAT_DATE", String.class),
-    PARAM_RANGE("RANGE", String.class);
+    PARAM_RANGE("RANGE", String.class),
+    PARAM_QUERY("RANGE", String.class);
     
     private String nameParam;
     private Class<?> dataType;

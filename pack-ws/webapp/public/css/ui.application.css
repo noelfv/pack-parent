@@ -327,6 +327,7 @@ b,
 	height: 30px;
 }
 
+.ui-jqgrid th.ui-state-hover .ui-icon,
 .ui-jqgrid .ui-state-default .ui-icon {
 	background-image: url("../theme/bbva/images/ui-icons_999999_256x240.png");
 }

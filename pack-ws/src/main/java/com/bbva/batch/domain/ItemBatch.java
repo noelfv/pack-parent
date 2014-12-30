@@ -2,9 +2,11 @@ package com.bbva.batch.domain;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -52,7 +54,21 @@ public class ItemBatch {
     public Date getDate(String key) {
         return (Date) values.get(key);
     }
+    
+    public String[] properties() {
+        List<String> properties = new ArrayList<String>();
+        Iterator<Entry<String, Object>> element = values.entrySet().iterator();
+        while (element.hasNext()) {
+            Entry<String, Object> e = element.next();
+            properties.add(e.getKey());
+        }
+        return properties.toArray(new String[]{});
+    }
 
+    public boolean existsKey(String key) {
+        return values.containsKey(key);
+    }
+    
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("{class:\"" + this.getClass().getName() + "\"");

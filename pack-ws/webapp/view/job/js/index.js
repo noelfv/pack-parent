@@ -1,11 +1,34 @@
 var
 
 fmtVerDetalle = function(cellvalue, options, rowObject) {
-	return "<a href='javascript:void(0);' onclick='verDetalle(\"" + cellvalue + "\")'><span class='ui-icon u-icon-ver-detalle'></span></a>";
+	return "<a href='javascript:void(0);' onclick='verDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-ver-detalle'></span></a>";
+},
+
+fmtVerDetalleTrabajo = function(cellvalue, options, rowObject) {
+	return "<a href='javascript:void(0);' onclick='verDetalleTrabajo(" + cellvalue + ")'><span class='ui-icon u-icon-ver-detalle'></span></a>";
+},
+
+fmtVerDetallePaso = function(cellvalue, options, rowObject) {
+	return "<a href='javascript:void(0);' onclick='verDetallePaso(" + cellvalue + ")'><span class='ui-icon u-icon-ver-detalle'></span></a>";
 },
 
 formatterExitStatus = function(cellvalue, options, rowObject) {
 	return cellvalue.exitCode;
+},
+
+
+listar = function() {
+	var _ajax = $.ajax({
+		url:  obtenerContexto("job/listar.html")
+	});
+	
+	_ajax.success(function(request) {
+		if(request.tipoResultado == 'EXITO') {
+			configurarAplicacion(request);
+		} else if(request.tipoResultado == 'ERROR_SISTEMA') {
+			openJqError({type: "SYS", content: request.mensaje});
+		}
+	});
 },
 
 configurarAplicacion = function(request) {
@@ -19,8 +42,9 @@ configurarAplicacion = function(request) {
 			{}, {}, {}, {}, {},
 			{}, {}, {}, {}, {}
 		],
-		height : 300,
+		height : "auto",
 		width : 580,
+		rowNum : 12,
 		colNames : [
 			  'Aplicaci\u00F3n'
 			, 'JNDI'
@@ -37,23 +61,103 @@ configurarAplicacion = function(request) {
 },
 
 verDetalle = function(idAplicacion) {
-	$("#lblAplicacion").html("request");
-	$("#layoutDetalleAplicacion").removeClass("hide");
-	$("#layoutAplicacion").addClass("hide");
-}
-
-listar = function() {
 	var _ajax = $.ajax({
-		url:  obtenerContexto("job/listar.html")
+		url:  obtenerContexto("job/listar.html") /*Change */
 	});
 	
 	_ajax.success(function(request) {
 		if(request.tipoResultado == 'EXITO') {
-			configurarAplicacion(request);
+			/* Change */
+			$("#lblAplicacion").html("{request.aplicacion}");
+			$("#layoutDetalleAplicacion").removeClass("hide");
+			$("#layoutAplicacion").addClass("hide");
+			configurarTrabajo(request);
 		} else if(request.tipoResultado == 'ERROR_SISTEMA') {
 			openJqError({type: "SYS", content: request.mensaje});
 		}
 	});
+}
+
+configurarTrabajo = function(request) {
+	configurarGrid("pnlJobs", {
+	    datatype : "local",
+		data : [
+			{}, {}, {}, {}, {},
+			{}, {}, {}, {}, {},
+			{}, {}, {}, {}, {},
+			{}, {}, {}, {}, {},
+			{}, {}, {}, {}, {},
+			{}, {}, {}, {}, {}
+		],
+		height : "auto",
+		width : 580,
+		rowNum : 6,
+		colNames : [
+			  'Trabajo'
+			, 'Cron'
+			, 'Nro. Pasos'
+			, ''   
+		],
+	   	colModel : [
+	   		  {name: 'name'          , index: 'name'          , width: 300}
+	   		, {name: 'cronExpression', index: 'cronExpression', width: 100}
+	   		, {name: 'sizeSteps'     , index: 'sizeSteps'     , width: 100}
+	   		, {name: 'id'            , index: 'id'            , width: 40, formatter: fmtVerDetalleTrabajo}	
+	   	]
+	});
+},
+
+verDetalleTrabajo = function() {
+	var _ajax = $.ajax({
+		url:  obtenerContexto("job/listar.html") /*Change */
+	});
+	
+	_ajax.success(function(request) {
+		if(request.tipoResultado == 'EXITO') {
+			/* Change */
+			$("#lblTrabajo").html("{request.aplicacion}:{request.trabajo}");
+			$("#layoutDetalleTrabajo").removeClass("hide");
+			$("#layoutDetalleAplicacion").addClass("hide");
+			configurarPaso(request);
+		} else if(request.tipoResultado == 'ERROR_SISTEMA') {
+			openJqError({type: "SYS", content: request.mensaje});
+		}
+	});
+},
+
+configurarPaso = function(request) {
+	configurarGrid("pnlSteps", {
+	    datatype : "local",
+		data : [
+			{}, {}, {}, {}, {},
+			{}, {}, {}, {}, {},
+			{}, {}, {}, {}, {},
+			{}, {}, {}, {}, {},
+			{}, {}, {}, {}, {},
+			{}, {}, {}, {}, {}
+		],
+		height : "auto",
+		width : 690,
+		rowNum : 6,
+		colNames : [
+			  'Pos.'
+			, 'Paso'
+			, 'Tipo'
+			, 'JNDI'
+			, ''
+		],
+	   	colModel : [
+	   		  {name: 'name'          , index: 'name'          , width: 40}
+	   		, {name: 'cronExpression', index: 'cronExpression', width: 300}
+	   		, {name: 'sizeSteps'     , index: 'sizeSteps'     , width: 100}
+	   		, {name: 'sizeSteps'     , index: 'sizeSteps'     , width: 100}
+	   		, {name: 'id'            , index: 'id'            , width: 40, formatter: fmtVerDetallePaso}	
+	   	]
+	});
+},
+
+verDetallePaso = function() {
+
 },
 
 verificarOperacion = function() {

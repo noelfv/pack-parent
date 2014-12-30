@@ -423,7 +423,7 @@ configurarGrid = function(id, options, fnAction, optionsGroup) {
 		shrinkToFit : false,
 		cmTemplate : {
 			 resizable: true,
-			 sortable: false
+			 sortable: true
 		}
 	}, options);
 	

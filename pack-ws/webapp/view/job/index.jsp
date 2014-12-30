@@ -35,6 +35,29 @@
 			</div>
 		</div>
 
+		<div id="layoutDetalleTrabajo" class="hide">
+			<div class="ui-accordion ui-widget ui-helper-reset">
+				<label class="ui-accordion-header ui-accordion-header-active ui-corner-top ui-widget-header">Trabajo: <span id="lblTrabajo">{requestScope.nombreAplicacion} : {requestScope.nombreTrabajo}</span></label>
+				<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
+					<table style="width: 100%; padding-bottom: 5px;">
+						<tr>
+							<td style="width: 120px;">Expresi&#243;n Cron:</td>
+							<td>{requestScope.cron}</td>
+						</tr>
+						<tr>
+							<td>Descripci&#243;n:</td>
+							<td>{requestScope.descripcion}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="ui-accordion ui-widget ui-helper-reset">
+				<label class="ui-accordion-header ui-accordion-header-active ui-corner-top ui-widget-header">Pasos</label>
+				<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
+					<div id="pnlSteps"></div>
+				</div>
+			</div>
+		</div>
 		
 	</tiles:putAttribute>
 </tiles:insertDefinition>
