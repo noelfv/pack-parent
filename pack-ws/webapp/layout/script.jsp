@@ -5,6 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/theme/bbva/jquery-ui-1.10.1.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/jquery-ui-timepicker-addon.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/jquery.handsontable.full.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/primeui-1.1.css"/>
 
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/ui.application.css"/>
 	<!--[if ie 7]><link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/ui.application.7ie.css"/><![endif]-->
@@ -27,7 +28,8 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.autoText-1.0.0.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.validity.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.validity.lang.es.js"></script>
-	
+	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.primeui-1.1.js"></script>
+    
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/common/browser.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/common/application.js"></script>
 	 	

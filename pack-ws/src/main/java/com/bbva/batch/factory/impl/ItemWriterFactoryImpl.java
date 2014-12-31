@@ -29,13 +29,13 @@ public class ItemWriterFactoryImpl implements ItemWriterFactory {
 
         FlatFileItemWriter<ItemBatch> writer = new FlatFileItemWriter<ItemBatch>();
         writer.setResource(new FileSystemResource(params.getParamAsString(ParameterType.PARAM_RESOURCE)));
-        writer.setAppendAllowed(true);
+        writer.setAppendAllowed(true); // TODO: Change Parametrizar
         writer.setLineAggregator(lineAggregator);
         writer.afterPropertiesSet();
         return writer;
     }
 
-    private JdbcBatchItemWriter<ItemBatch> createJdbcBatchItemWriter(ParamUtil params) throws Exception {
+    private JdbcBatchItemWriter<ItemBatch> createJdbcBatchItemWriter(ParamUtil params) {
         JdbcBatchItemWriter<ItemBatch> writer = new JdbcBatchItemWriter<ItemBatch>();
         ItemBatchSqlParameterSourceProvider itemBatchSqlParameterSourceProvider = new ItemBatchSqlParameterSourceProvider();
         
