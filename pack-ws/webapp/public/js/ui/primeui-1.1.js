@@ -1506,7 +1506,7 @@ $(function() {
                 $this.scrollHeaderBox.css('margin-left', -scrollLeft);
             });
 
-            this.scrollHeader.on('scroll.dataTable', function() {
+            this.scrollHeader.on('scroll.dataTable', function(){
                 $this.scrollHeader.scrollLeft(0);
             });
 

@@ -67,10 +67,10 @@
 	text-align:center
 }
 
-.ui-jqgrid .ui-jqgrid-htable th div {
+.ui-jqgrid .ui-jqgrid-htable th div.ui-th-div {
 	overflow: hidden;
 	position: relative;
-	height: 17px
+	height: 18px;
 }
 
 .ui-th-column,.ui-jqgrid .ui-jqgrid-htable th.ui-th-column {
@@ -100,7 +100,7 @@
 .ui-jqgrid .ui-th-div-ie {
 	white-space: nowrap;
 	zoom: 1;
-	height: 17px
+	height: 18px;
 }
 
 .ui-jqgrid .ui-jqgrid-resize {
@@ -762,14 +762,14 @@ tr.ui-search-toolbar select {
 }
 
 .ui-jqgrid tr.ui-state-hover {
-	/* border: 1px solid #fad42e !important; */
-	background: #e0f6fc !important;
+	/* border: 1px solid #EEF9FD !important; /* fad42e */
+	background: #EEF9FD !important;
 	color: #363636;
 }
 
 .ui-jqgrid tr.ui-state-highlight {
 	/* border: 1px solid #ffde2e !important; */
-	background: #094FA4 !important; /* #009EE5 */
+	background: #e0f6fc !important; /* #009EE5 #094FA4 #89D1F3 */
 	font-weight: normal !important;
-	color: #FFF !important; 
+	color: #094FA4 !important; 
 }

@@ -29,7 +29,7 @@ createDialogHTML = function(id, options) {
 		buttons: {},
 		autoOpen: false,
 		resizable: false,
-		closeOnEscape: false,
+		closeOnEscape: true,
 		modal: true
 	}, options);
 	
@@ -386,7 +386,7 @@ configurarGridHost = function(id, options, nroRegistros, pagina, fnAction, optio
 	configurarPaginator(xpag, nroRegistros, fnAction, pagina);
 },
 
-configurarGrid = function(id, options, fnAction, optionsGroup) {
+configurarGrid = function(id, optionsLocal, fnAction, optionsGroup) {
 	
 	var pag = "pag_" + id,
 		tbl = "tbl_" + id,
@@ -407,7 +407,7 @@ configurarGrid = function(id, options, fnAction, optionsGroup) {
         /* scroll: 1, */
         datatype : "local",
 		data : {},
-		rownumbers : false,
+		rownumbers : true,
 		recordtext : "{0} - {1} de {2} elementos",
 		pgtext : 'Pag: {0} de {1}',
 		pager : xpag,
@@ -425,13 +425,91 @@ configurarGrid = function(id, options, fnAction, optionsGroup) {
 			 resizable: true,
 			 sortable: true
 		}
-	}, options);
+	}, optionsLocal);
 	
+	options.onPaging = function(pgButton) {
+   		// Change de Page
+   		var o = $('#cb_tbl_' + id);
+   		
+   		if($.isFunction(optionsLocal.onPaging)) {
+   			optionsLocal.onPaging();
+   		}
+   	};
+
+	options.loadComplete = function(data) {
+   		// Load
+   		$(xpnl).find("input[type=checkbox]").puicheckbox();
+   		if($.isFunction(optionsLocal.loadComplete)) {
+   			optionsLocal.loadComplete();	
+   		}
+   	};
+
+	options.onSelectRow = function(rowid, status, e) {
+		console.log(rowid + "+" + status)
+   		selectPrimeUI(rowid, status, id);
+   		if($.isFunction(optionsLocal.onSelectRow)) {
+   			optionsLocal.onSelectRow();
+   		}
+   	}
+
 	$(xtbl).jqGrid(options);
-	
+	$('#cb_tbl_' + id).puicheckbox({"change": function(event, checked) {
+		var __pag = $("#pg_pag_" + id).find(".ui-pg-input").eq(0).val() - 1,
+			__chk = $('#cb_tbl_' + id).prop("checked");
+		console.log(checked);
+		/**/
+		s(optionsLocal.rowNum, __pag, __chk, xtbl);
+		selectPrimeUIHeader(__chk);
+		console.log(checked);
+	}});
+
 	if($.isPlainObject(optionsGroup)) {
 		$(xtbl).jqGrid('setGroupHeaders', optionsGroup);
 		$(xtbl).jqGrid('setFrozenColumns');
+	}
+},
+
+s = function(rowNum, __pag, __chk, xtbl) {
+	for(var i = (rowNum * __pag); i < ((rowNum * __pag) + 15); i++) {
+		if(__chk) {
+			$(xtbl).jqGrid('setSelection', i);
+		} else {
+			$(xtbl).jqGrid('resetSelection', i);
+		}
+	}
+},
+
+selectPrimeUIHeader = function(status, id) {
+	var o = $('#cb_tbl_' + id).parent().parent();
+	console.log(status);
+	if(status) {
+		if(!o.find(".pui-chkbox-box").hasClass("ui-state-active")) {
+			o.find(".pui-chkbox-box").addClass("ui-state-active");
+			o.find(".pui-chkbox-icon").addClass("ui-icon ui-icon-check");
+			// console.log("ssss");
+		}
+
+	} else {
+		if(o.find(".pui-chkbox-box").hasClass("ui-state-active")) {
+			o.find(".pui-chkbox-box").removeClass("ui-state-active");
+			o.find(".pui-chkbox-icon").removeClass("ui-icon ui-icon-check");
+			// console.log("ssssddddd");
+		}
+	}
+},
+
+selectPrimeUI = function(rowid, status, id) {
+	var o = $("#jqg_tbl_" + id + "_" + rowid).parent().parent();
+	if(status) {
+		if(!o.find(".pui-chkbox-box").hasClass("ui-state-active")) {
+			o.find(".pui-chkbox-box").addClass("ui-state-active");
+			o.find(".pui-chkbox-icon").addClass("ui-icon ui-icon-check");
+		}
+	} else {
+		if(o.find(".pui-chkbox-box").hasClass("ui-state-active")) {
+			o.find(".pui-chkbox-box").removeClass("ui-state-active");
+			o.find(".pui-chkbox-icon").removeClass("ui-icon ui-icon-check");
+		}
 	}
 },
 
@@ -668,13 +746,13 @@ $(document).ready(function() {
     });
 	
 	$(document).tooltip({
-		items: ".menuItemBarImg",
+		items: "a",
 		tooltipClass: "ui-state-highlight",
 		position: { my: "left top+5"},
 		content: function() {
 			var element = $(this);
-			if (element.is("img")) {
-				return element.attr("data-title");
+			if (element.is("a")) {
+				return element.attr("title");
 			}
 		}
 	});

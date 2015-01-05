@@ -28,7 +28,7 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.autoText-1.0.0.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.validity.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.validity.lang.es.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.primeui-1.1.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/primeui-1.1.js"></script>
     
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/common/browser.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/common/application.js"></script>
