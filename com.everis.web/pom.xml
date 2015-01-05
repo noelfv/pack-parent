@@ -18,6 +18,7 @@
         <jstl.version>1.2</jstl.version>
         <struts2.core.version>2.3.8</struts2.core.version>
         <javax.servlet.version>3.0.1</javax.servlet.version>
+        <javax.servlet.jsp.version>2.0</javax.servlet.jsp.version>
         <commons-digester.version>2.0</commons-digester.version>
     </properties>
 
@@ -36,6 +37,12 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>${javax.servlet.jsp.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
