@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.bbva.batch.service.ApplicationBatchService;
 import com.bbva.batch.service.JobInstanceService;
@@ -29,7 +28,6 @@ import com.everis.web.controller.impl.AbstractSpringControllerImpl;
 
 @Controller("jobController")
 @Scope("prototype")
-@SessionAttributes({ "handler" })
 @RequestMapping(value = "job")
 public class JobController extends AbstractSpringControllerImpl {
 
@@ -68,7 +66,7 @@ public class JobController extends AbstractSpringControllerImpl {
     }
 
     @RequestMapping(value = "listar", method = RequestMethod.POST)
-    public @ResponseBody String listar(@ModelAttribute(value = "handler") GenerarArchivoHandler handler) {
+    public @ResponseBody String listar() {
         String result;
 
         try {
@@ -80,7 +78,6 @@ public class JobController extends AbstractSpringControllerImpl {
             if (id != null) {
                 schedulerModel.setRunningJobInstances(jobExplorer.getJobExecutions(jobInstance));
             }
-            schedulerModel.setHandler(handler);
             result = this.renderModelJson(schedulerModel);
         } catch (Exception e) {
             result = this.renderErrorSistema(e);

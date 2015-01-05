@@ -14,7 +14,11 @@ import org.springframework.test.context.junit4.AbstractJUnit4Test;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bbva.batch.domain.ApplicationBatch;
+import com.bbva.batch.domain.JobBatch;
+import com.bbva.batch.domain.StepBatch;
 import com.bbva.batch.service.ApplicationBatchService;
+import com.bbva.batch.service.JobBatchService;
+import com.bbva.batch.service.StepBatchService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContextTest.xml" })
@@ -25,40 +29,44 @@ public class StepBatchServiceImplTest extends AbstractJUnit4Test {
 
     @Resource(name = "applicationBatchService")
     private ApplicationBatchService applicationBatchService;
+    
+    @Resource(name = "jobBatchService")
+    private JobBatchService jobBatchService;
+    
+    @Resource(name = "stepBatchService")
+    private StepBatchService stepBatchService;
 
     @Test
     public void _01Eliminar() {
-        ApplicationBatch application = new ApplicationBatch();
-
-        application = applicationBatchService.obtener(1L);
-        if (application != null) {
-            applicationBatchService.eliminar(application);
+        ApplicationBatch application = applicationBatchService.obtener("packBBVA");
+        JobBatch o = jobBatchService.obtener(application.getId(), "jobSimulacion");
+        List<StepBatch> steps;
+        
+        if (o != null) {
+            steps = stepBatchService.listar(o.getId());
+            stepBatchService.eliminar(steps);
+            steps = stepBatchService.listar(o.getId());
+            Assert.assertTrue("Not delete", steps.size() == 0);
         }
-
-        application = applicationBatchService.obtener(2L);
-        if (application != null) {
-            applicationBatchService.eliminar(application);
-        }
-
-        List<ApplicationBatch> applications = applicationBatchService.listar();
-        Assert.assertTrue("Sin elementos", applications.size() == 0);
     }
 
     @Test
     public void _02Insertar() {
-        applicationBatchService.insertar(new ApplicationBatch("packBBVA", "jdbc/APP_CONELE"));
+        //applicationBatchService.insertar(new ApplicationBatch("packBBVA", "jdbc/APP_CONELE"));
     }
 
     @Test
     public void _03Actualizar() {
-        applicationBatchService.insertar(new ApplicationBatch("gescar", "jdbc/APP_GESCAR"));
+        //applicationBatchService.insertar(new ApplicationBatch("gescar", "jdbc/APP_GESCAR"));
     }
 
     @Test
     public void _04listarLazy() {
-        List<ApplicationBatch> applicationBatchs = applicationBatchService.listar(true);
-        printer(applicationBatchs, exclude);
-        Assert.assertTrue(applicationBatchs.size() == 2);
+        ApplicationBatch application = applicationBatchService.obtener("packBBVA");
+        JobBatch o = jobBatchService.obtener(application.getId(), "jobSimulacion");
+        List<StepBatch> steps = stepBatchService.listar(o.getId(), true);
+        printer(steps, exclude);
+        Assert.assertTrue(steps.size() == 2);
     }
 
 }
