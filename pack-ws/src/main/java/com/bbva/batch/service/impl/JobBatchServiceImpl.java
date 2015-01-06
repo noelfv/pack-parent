@@ -22,6 +22,16 @@ public class JobBatchServiceImpl extends DataManipulationService<JobBatch, JobBa
     public void setHibernateDAO(JobBatchDAO hibernateDAO) {
         super.setHibernateDAO(hibernateDAO);
     }
+
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    public List<JobBatch> listar(Long idApplicationBatch, String name) {
+        return listar(idApplicationBatch, name, false);
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    public List<JobBatch> listar(Long idApplicationBatch, String name, boolean lazy) {
+        return getHibernateDAO().listar(idApplicationBatch, name, lazy);
+    }
     
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public List<JobBatch> listar(Long idApplicationBatch) {
@@ -30,7 +40,7 @@ public class JobBatchServiceImpl extends DataManipulationService<JobBatch, JobBa
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public List<JobBatch> listar(Long idApplicationBatch, boolean lazy) {
-        return getHibernateDAO().listar(idApplicationBatch, lazy);
+        return listar(idApplicationBatch, "", lazy);
     }
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)

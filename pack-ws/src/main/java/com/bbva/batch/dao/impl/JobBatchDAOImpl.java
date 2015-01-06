@@ -3,6 +3,7 @@ package com.bbva.batch.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -16,9 +17,12 @@ public class JobBatchDAOImpl extends HibernateDAO<JobBatch> implements JobBatchD
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<JobBatch> listar(Long idApplicationBatch, boolean lazy) {
+    public List<JobBatch> listar(Long idApplicationBatch, String name, boolean lazy) {
         Criteria criteria = super.getCriteria(JobBatch.class);
         criteria.add(Restrictions.eq("application.id", idApplicationBatch));
+        if(name != null && name.trim().isEmpty()) {
+            criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE).ignoreCase());
+        }
         criteria.addOrder(Order.asc("id"));
         return (List<JobBatch>) criteria.list();
     }

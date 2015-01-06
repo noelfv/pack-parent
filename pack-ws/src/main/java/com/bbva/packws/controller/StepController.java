@@ -10,17 +10,22 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bbva.batch.domain.ApplicationBatch;
 import com.bbva.batch.service.ApplicationBatchService;
 import com.bbva.batch.service.JobInstanceService;
+import com.bbva.batch.service.StepBatchService;
 import com.bbva.packws.batch.job.GenerarArchivoHandler;
 import com.bbva.packws.batch.job.GenerarArchivoThread;
+import com.bbva.packws.model.ApplicationModel;
 import com.bbva.packws.model.SchedulerModel;
+import com.bbva.packws.model.StepModel;
 import com.bbva.packws.service.SchedulerService;
 import com.everis.core.enums.Estado;
 import com.everis.enums.Resultado;
@@ -33,100 +38,83 @@ public class StepController extends AbstractSpringControllerImpl {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(StepController.class);
-    private static final String OPERACION_INICIAR = "iniciarJob";
-    private static final String OPERACION_LISTAR = "listarJob";
-    private static final String EXCLUDE_APPLICATION[] = new String[] { "*.class", "jobs" };
+    private static final String EXCLUDE_STEP[] = new String[] { "*.class", "jobs" };
 
-    @Resource(name = "schedulerService")
-    private SchedulerService schedulerService;
+    @Resource(name = "stepBatchService")
+    private StepBatchService stepBatchService;
 
-    @Resource(name = "jobInstanceService")
-    private JobInstanceService jobInstanceService;
-
-    @Resource(name = "jobRepository")
-    private JobRepository jobRepository;
-
-    @Resource(name = "jobExplorer")
-    private JobExplorer jobExplorer;
-
-    @Resource(name = "applicationBatchService")
-    private ApplicationBatchService applicationBatchService;
-    
-    @ModelAttribute("handler")
-    public GenerarArchivoHandler populateHandler() {
-        return new GenerarArchivoHandler();
-    }
-
-    @RequestMapping(value = "index")
-    public String index(ModelMap model) {
-        model.addAttribute("schedulerClass", "");
-        model.addAttribute("jobClass", "ui-state-active-bbva");
-        model.addAttribute("applications", this.renderModelJsonDeepExclude(applicationBatchService.listar(), EXCLUDE_APPLICATION));
-        return "job/index";
-    }
-
-    @RequestMapping(value = "listar", method = RequestMethod.POST)
-    public @ResponseBody String listar() {
-        String result;
+    @RequestMapping(value = "list")
+    public String index(ModelMap model, @PathVariable("id") Long id) {
+        String result = "{}";
+        StepModel m = new StepModel();
 
         try {
-            SchedulerModel schedulerModel = new SchedulerModel();
-            Long id = jobInstanceService.obtenerUltimaInstancia();
-            JobInstance jobInstance = jobExplorer.getJobInstance(id);
-
-            schedulerModel.setTipoResultado(Resultado.EXITO);
-            if (id != null) {
-                schedulerModel.setRunningJobInstances(jobExplorer.getJobExecutions(jobInstance));
-            }
-            result = this.renderModelJson(schedulerModel);
+            m.setTipoResultado(Resultado.EXITO);
+            m.setApplicationClass("ui-state-active-bbva");
+            m.setSteps(stepBatchService.listar(id, true));
+            result = this.renderModelJsonDeepExclude(m, EXCLUDE_STEP);
         } catch (Exception e) {
             result = this.renderErrorSistema(e);
         }
 
-        return result;
+        model.addAttribute("modelJSON", result);
+        return "job/aplicacion";
     }
 
-    @RequestMapping(value = "obtenerJob/{operacion}", method = RequestMethod.POST)
-    public @ResponseBody String obtenerJob(@ModelAttribute(value = "handler") GenerarArchivoHandler handler, @PathVariable("operacion") String operacion) {
-        String result;
-
-        try {
-            SchedulerModel schedulerModel = new SchedulerModel();
-            if (handler == null) {
-                handler = new GenerarArchivoHandler();
-                handler.setEstado(Estado.INACTIVO);
-            }
-
-            if (OPERACION_INICIAR.equalsIgnoreCase(operacion) && (handler.getEstado() == null || handler.getEstado().compareTo(Estado.INACTIVO) == 0)) {
-                handler.setEstado(Estado.ACTIVO);
-                GenerarArchivoThread generarArchivoThread = new GenerarArchivoThread(handler);
-                generarArchivoThread.start();
-
-                JobExecution jobExecution = new JobExecution(0L);
-                schedulerModel.getRunningJobInstances().add(jobExecution);
-            } else if (OPERACION_LISTAR.equalsIgnoreCase(operacion)) {
-                if (handler.getEstado().compareTo(Estado.INACTIVO) == 0) {
-                    Long id = jobInstanceService.obtenerUltimaInstancia();
-                    if (id != null) {
-                        JobInstance jobInstance = jobExplorer.getJobInstance(id);
-                        if (jobInstance != null) {
-                            schedulerModel.setRunningJobInstances(jobExplorer.getJobExecutions(jobInstance));
-                        }
-                    }
-                } else {
-                    JobExecution jobExecution = new JobExecution(0L);
-                    schedulerModel.getRunningJobInstances().add(jobExecution);
-                }
-            }
-
-            schedulerModel.setTipoResultado(Resultado.EXITO);
-            schedulerModel.setHandler(handler);
-            result = this.renderModelJson(schedulerModel);
-        } catch (Exception e) {
-            result = this.renderErrorSistema(e);
-        }
-
-        return result;
-    }
-
+//    @RequestMapping(value = "find", method = RequestMethod.POST)
+//    public @ResponseBody String buscar(@ModelAttribute("applicationModel") ApplicationModel applicationModel, BindingResult bindingResult) {
+//        String result = "";
+//        try {
+//            ApplicationModel model = new ApplicationModel();
+//            if (!bindingResult.hasErrors()) {
+//                ApplicationBatch app = applicationModel.getApplication();
+//                model.setTipoResultado(Resultado.EXITO);
+//                model.setApplications(stepBatchService.listar(app.getName()));
+//                result = this.renderModelJson(model);
+//            } else {
+//                result = this.renderErrorSistema(bindingResult.getAllErrors());
+//            }
+//        } catch (Exception e) {
+//            result = this.renderErrorSistema(e);
+//        }
+//        return result;
+//    }
+//
+//    @RequestMapping(value = "get", method = RequestMethod.POST)
+//    public @ResponseBody String obtener(@ModelAttribute("applicationModel") ApplicationModel applicationModel, BindingResult bindingResult) {
+//        String result = "";
+//        try {
+//            ApplicationModel model = new ApplicationModel();
+//            if (!bindingResult.hasErrors()) {
+//                ApplicationBatch app = applicationModel.getApplication();
+//                model.setTipoResultado(Resultado.EXITO);
+//                model.setApplication(stepBatchService.obtener(app.getId()));
+//                result = this.renderModelJson(model);
+//            } else {
+//                result = this.renderErrorSistema(bindingResult.getAllErrors());
+//            }
+//        } catch (Exception e) {
+//            result = this.renderErrorSistema(e);
+//        }
+//        return result;
+//    }
+//
+//    @RequestMapping(value = "save", method = RequestMethod.POST)
+//    public @ResponseBody String guardar(@ModelAttribute("applicationModel") ApplicationModel applicationModel, BindingResult bindingResult) {
+//        String result = "";
+//        try {
+//            ApplicationModel model = new ApplicationModel();
+//            if (!bindingResult.hasErrors()) {
+//                ApplicationBatch app = applicationModel.getApplication();
+//                model.setTipoResultado(Resultado.EXITO);
+//                model.setApplication(stepBatchService.actualizar(app));
+//                result = this.renderModelJson(model);
+//            } else {
+//                result = this.renderErrorSistema(bindingResult.getAllErrors());
+//            }
+//        } catch (Exception e) {
+//            result = this.renderErrorSistema(e);
+//        }
+//        return result;
+//    }
 }

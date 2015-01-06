@@ -104,4 +104,24 @@ public class ApplicationController extends AbstractSpringControllerImpl {
         }
         return result;
     }
+    
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
+    public @ResponseBody String eliminar(@ModelAttribute("applicationModel") ApplicationModel applicationModel, BindingResult bindingResult) {
+        String result = "";
+        try {
+            ApplicationModel model = new ApplicationModel();
+            if (!bindingResult.hasErrors()) {
+                ApplicationBatch app = applicationModel.getApplication();
+                
+                model.setTipoResultado(Resultado.EXITO);
+                model.setApplication(applicationBatchService.actualizar(app));
+                result = this.renderModelJson(model);
+            } else {
+                result = this.renderErrorSistema(bindingResult.getAllErrors());
+            }
+        } catch (Exception e) {
+            result = this.renderErrorSistema(e);
+        }
+        return result;
+    }
 }

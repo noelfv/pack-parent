@@ -1,61 +1,28 @@
 package com.bbva.packws.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.batch.core.JobExecution;
-
-import com.bbva.packws.batch.job.GenerarArchivoHandler;
-import com.bbva.quartz.domain.Trigger;
+import com.bbva.batch.domain.StepBatch;
 
 public class StepModel extends Model {
 
-    private List<JobExecution> runningJobInstances;
-    private List<Trigger> triggerInstances;
-    private GenerarArchivoHandler handler;
-    private String cronTrigger;
-    private String time;
+    private List<StepBatch> steps;
+    private StepBatch step;
 
-    public List<JobExecution> getRunningJobInstances() {
-        if (runningJobInstances == null) {
-            runningJobInstances = new ArrayList<JobExecution>();
-        }
-        return runningJobInstances;
+    public List<StepBatch> getSteps() {
+        return steps;
     }
 
-    public void setRunningJobInstances(List<JobExecution> runningJobInstances) {
-        this.runningJobInstances = runningJobInstances;
+    public void setSteps(List<StepBatch> steps) {
+        this.steps = steps;
     }
 
-    public List<Trigger> getTriggerInstances() {
-        return triggerInstances;
+    public StepBatch getStep() {
+        return step;
     }
 
-    public void setTriggerInstances(List<Trigger> triggerInstances) {
-        this.triggerInstances = triggerInstances;
+    public void setStep(StepBatch step) {
+        this.step = step;
     }
 
-    public GenerarArchivoHandler getHandler() {
-        return handler;
-    }
-
-    public void setHandler(GenerarArchivoHandler handler) {
-        this.handler = handler;
-    }
-
-    public String getCronTrigger() {
-        return cronTrigger;
-    }
-
-    public void setCronTrigger(String cronTrigger) {
-        this.cronTrigger = cronTrigger;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 }
