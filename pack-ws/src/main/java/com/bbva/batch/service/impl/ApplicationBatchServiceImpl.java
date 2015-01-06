@@ -24,13 +24,23 @@ public class ApplicationBatchServiceImpl extends DataManipulationService<Applica
     }
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    public List<ApplicationBatch> listar(String name) {
+        return listar(name, false);
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    public List<ApplicationBatch> listar(String name, boolean lazy) {
+        return getHibernateDAO().listar(name, lazy);
+    }
+    
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public List<ApplicationBatch> listar() {
         return listar(false);
     }
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public List<ApplicationBatch> listar(boolean lazy) {
-        return getHibernateDAO().listar(lazy);
+        return listar("", false);
     }
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)

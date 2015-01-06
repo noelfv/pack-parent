@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller("accesoController")
 @Scope("prototype")
-@RequestMapping(value = {"", "scheduler"})
+@RequestMapping(value = {"", "scheduler", "application", "job", "step"})
 public class AccesoController {
 
     @RequestMapping(value = "signIn")

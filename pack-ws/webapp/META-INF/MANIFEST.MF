@@ -1,85 +1,33 @@
 Manifest-Version: 1.0
-Class-Path: com.everis.web.jar 
- ldap-dev-1.0.jar 
- com.everis.core.jar 
- com.everis.util.jar 
- log4j-1.2.17.jar 
- commons-lang3-3.1.jar 
- commons-io-2.2.jar 
- hibernate-core-3.6.7.Final.jar 
- antlr-2.7.6.jar 
- commons-collections-3.1.jar 
- dom4j-1.6.1.jar 
- hibernate-commons-annotations-3.2.0.Final.jar 
- slf4j-api-1.6.0.jar 
- hibernate-jpa-2.0-api-1.0.1.Final.jar 
- jta-1.1.jar 
- hibernate-ehcache-3.6.7.Final.jar 
- ehcache-core-2.4.3.jar 
- hibernate-entitymanager-3.6.7.Final.jar 
- javassist-3.12.0.GA.jar 
- spring-context-3.2.0.RELEASE.jar 
- spring-core-3.2.0.RELEASE.jar 
- commons-logging-1.1.1.jar 
- spring-aop-3.2.0.RELEASE.jar 
- aopalliance-1.0.jar 
- spring-beans-3.2.0.RELEASE.jar 
- spring-expression-3.2.0.RELEASE.jar 
- spring-jdbc-3.2.0.RELEASE.jar 
- spring-tx-3.2.0.RELEASE.jar 
- spring-orm-3.2.0.RELEASE.jar 
- cglib-nodep-2.2.2.jar 
- spring-aspects-3.2.0.RELEASE.jar 
- aspectjweaver-1.7.1.jar 
- spring-context-support-3.2.0.RELEASE.jar 
- aspectjrt-1.7.1.jar 
- spring-web-3.2.0.RELEASE.jar 
- spring-webmvc-3.2.0.RELEASE.jar 
- jackson-mapper-asl-1.9.10.jar 
- jackson-core-asl-1.9.10.jar 
- flexjson-3.2.jar 
- slf4j-log4j12-1.7.7.jar 
- tiles-core-2.2.2.jar 
- tiles-api-2.2.2.jar 
- commons-digester-2.0.jar 
- commons-beanutils-1.8.0.jar 
- tiles-servlet-2.2.2.jar 
- tiles-jsp-2.2.2.jar 
- tiles-template-2.2.2.jar 
- jstl-1.2.jar 
- com.everis.mail.jar 
- mail-1.4.7.jar 
- activation-1.1.jar 
- spring-batch-core-2.2.0.RELEASE.jar 
- spring-batch-infrastructure-2.2.0.RELEASE.jar 
- spring-retry-1.0.2.RELEASE.jar 
- xstream-1.3.jar 
- xpp3_min-1.1.4c.jar 
- jettison-1.1.jar 
- quartz-1.8.6.jar 
- ojdbc6-11.2.0.3.jar 
- saaj-impl-1.3.23.jar 
- javax.xml.soap-api-1.3.5.jar 
- mimepull-1.9.jar 
- stax-ex-1.7.4.jar 
- stax-api-1.0-2.jar 
- cxf-rt-frontend-jaxws-2.7.8.jar 
- xml-resolver-1.2.jar 
- asm-3.3.1.jar 
- cxf-api-2.7.8.jar 
- woodstox-core-asl-4.2.0.jar 
- stax2-api-3.1.1.jar 
- xmlschema-core-2.0.3.jar 
- geronimo-javamail_1.4_spec-1.7.1.jar 
- wsdl4j-1.6.3.jar 
- cxf-rt-core-2.7.8.jar 
- jaxb-impl-2.1.13.jar 
- cxf-rt-bindings-soap-2.7.8.jar 
- cxf-rt-databinding-jaxb-2.7.8.jar 
- cxf-rt-bindings-xml-2.7.8.jar 
- cxf-rt-frontend-simple-2.7.8.jar 
- cxf-rt-ws-addr-2.7.8.jar 
- cxf-rt-ws-policy-2.7.8.jar 
- neethi-3.0.2.jar 
- cxf-rt-transports-http-2.7.8.jar
+Class-Path: com.everis.web.jar ldap-dev-1.0.jar com.everis.core.jar co
+ m.everis.util.jar log4j-1.2.17.jar commons-lang3-3.1.jar commons-io-2
+ .2.jar hibernate-core-3.6.7.Final.jar antlr-2.7.6.jar commons-collect
+ ions-3.1.jar dom4j-1.6.1.jar hibernate-commons-annotations-3.2.0.Fina
+ l.jar slf4j-api-1.6.0.jar hibernate-jpa-2.0-api-1.0.1.Final.jar jta-1
+ .1.jar hibernate-ehcache-3.6.7.Final.jar ehcache-core-2.4.3.jar hiber
+ nate-entitymanager-3.6.7.Final.jar javassist-3.12.0.GA.jar spring-con
+ text-3.2.0.RELEASE.jar spring-core-3.2.0.RELEASE.jar commons-logging-
+ 1.1.1.jar spring-aop-3.2.0.RELEASE.jar aopalliance-1.0.jar spring-bea
+ ns-3.2.0.RELEASE.jar spring-expression-3.2.0.RELEASE.jar spring-jdbc-
+ 3.2.0.RELEASE.jar spring-tx-3.2.0.RELEASE.jar spring-orm-3.2.0.RELEAS
+ E.jar cglib-nodep-2.2.2.jar spring-aspects-3.2.0.RELEASE.jar aspectjw
+ eaver-1.7.1.jar spring-context-support-3.2.0.RELEASE.jar aspectjrt-1.
+ 7.1.jar spring-web-3.2.0.RELEASE.jar spring-webmvc-3.2.0.RELEASE.jar 
+ jackson-mapper-asl-1.9.10.jar jackson-core-asl-1.9.10.jar flexjson-3.
+ 2.jar slf4j-log4j12-1.7.7.jar tiles-core-2.2.2.jar tiles-api-2.2.2.ja
+ r commons-digester-2.0.jar commons-beanutils-1.8.0.jar tiles-servlet-
+ 2.2.2.jar tiles-jsp-2.2.2.jar tiles-template-2.2.2.jar jstl-1.2.jar c
+ om.everis.mail.jar mail-1.4.7.jar activation-1.1.jar spring-batch-cor
+ e-2.2.0.RELEASE.jar spring-batch-infrastructure-2.2.0.RELEASE.jar spr
+ ing-retry-1.0.2.RELEASE.jar xstream-1.3.jar xpp3_min-1.1.4c.jar jetti
+ son-1.1.jar quartz-1.8.6.jar ojdbc6-11.2.0.3.jar saaj-impl-1.3.23.jar
+  javax.xml.soap-api-1.3.5.jar mimepull-1.9.jar stax-ex-1.7.4.jar stax
+ -api-1.0-2.jar cxf-rt-frontend-jaxws-2.7.8.jar xml-resolver-1.2.jar a
+ sm-3.3.1.jar cxf-api-2.7.8.jar woodstox-core-asl-4.2.0.jar stax2-api-
+ 3.1.1.jar xmlschema-core-2.0.3.jar geronimo-javamail_1.4_spec-1.7.1.j
+ ar wsdl4j-1.6.3.jar cxf-rt-core-2.7.8.jar jaxb-impl-2.2.6.jar cxf-rt-
+ bindings-soap-2.7.8.jar cxf-rt-databinding-jaxb-2.7.8.jar cxf-rt-bind
+ ings-xml-2.7.8.jar cxf-rt-frontend-simple-2.7.8.jar cxf-rt-transports
+ -http-2.7.8.jar cxf-rt-ws-addr-2.7.8.jar cxf-rt-ws-policy-2.7.8.jar n
+ eethi-3.0.2.jar
 
