@@ -4,7 +4,7 @@
 <tiles:insertDefinition name="default">
 	<tiles:putAttribute name="body">
 		<script type="text/javascript" src="${pageContext.request.contextPath}/view/job/js/jsAplicacion.js"></script>
-		<span id="labelJSON" class="hide">${requestScope.applications}</span>
+		<span id="labelJSON" class="hide">${requestScope.model}</span>
 		<div id="layoutAplicacion" class="ui-accordion ui-widget ui-helper-reset">
 			<label class="ui-accordion-header ui-accordion-header-active ui-corner-top ui-widget-header">Aplicaciones</label>
 			<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
@@ -36,12 +36,6 @@
 					<td>JNDI</td>
 					<td><b>:</b></td>
 					<td><input type="text" id="txtJNDI" /></td>
-				</tr>
-				<tr>
-					<td colspan="3" align="right">
-						<button id="btnAceptar">Aceptar</button>
-						<button id="btnCancelar">Cancelar</button>
-					</td>
 				</tr>
 			</table>
 		</div>

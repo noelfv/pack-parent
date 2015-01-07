@@ -1194,16 +1194,16 @@ body .ui-tooltip {
 	height: 16px;
 }
 .ui-icon-pers-info {
-	background-image: url('images/dialog/info.png');
+	background-image: url('images/dialog/aviso32x32.png');
 }
 .ui-icon-pers-error {
-	background-image: url('images/dialog/error.png');
+	background-image: url('images/dialog/activado32x32.png');
 }
 .ui-icon-pers-warning {
-	background-image: url('images/dialog/warning.png');
+	background-image: url('images/dialog/alerta32x32.png');
 }
 .ui-icon-pers-question {
-	background-image: url('images/dialog/question.png');
+	background-image: url('images/dialog/ayuda32x32.png');
 }
 .ui-icon-bbva-close {
 	background-image: url('images/bbva/logout16x16.png');

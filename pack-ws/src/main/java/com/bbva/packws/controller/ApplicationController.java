@@ -25,7 +25,7 @@ public class ApplicationController extends AbstractSpringControllerImpl {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(ApplicationController.class);
-    private static final String EXCLUDE_APPLICATION[] = new String[] { "*.class", "jobs" };
+    private static final String EXCLUDE_APPLICATION[] = new String[] { "*.class", "*.jobs" };
 
     @Resource(name = "applicationBatchService")
     private ApplicationBatchService applicationBatchService;
@@ -44,7 +44,9 @@ public class ApplicationController extends AbstractSpringControllerImpl {
             result = this.renderErrorSistema(e);
         }
 
-        model.addAttribute("modelJSON", result);
+        model.addAttribute("schedulerClass", "");
+        model.addAttribute("jobClass", "ui-state-active-bbva");
+        model.addAttribute("model", result);
         return "job/aplicacion";
     }
 
@@ -57,7 +59,7 @@ public class ApplicationController extends AbstractSpringControllerImpl {
                 ApplicationBatch app = applicationModel.getApplication();
                 model.setTipoResultado(Resultado.EXITO);
                 model.setApplications(applicationBatchService.listar(app.getName()));
-                result = this.renderModelJson(model);
+                result = this.renderModelJsonDeepExclude(model, EXCLUDE_APPLICATION);
             } else {
                 result = this.renderErrorSistema(bindingResult.getAllErrors());
             }
@@ -76,7 +78,7 @@ public class ApplicationController extends AbstractSpringControllerImpl {
                 ApplicationBatch app = applicationModel.getApplication();
                 model.setTipoResultado(Resultado.EXITO);
                 model.setApplication(applicationBatchService.obtener(app.getId()));
-                result = this.renderModelJson(model);
+                result = this.renderModelJsonDeepExclude(model, EXCLUDE_APPLICATION);
             } else {
                 result = this.renderErrorSistema(bindingResult.getAllErrors());
             }

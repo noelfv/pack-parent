@@ -25,12 +25,12 @@ public class QuartzFactoryImplTest extends AbstractJUnit4Test {
 
     @Test
     public void createJob() {
-        ApplicationBatch app = applicationBatchService.obtener("packBBVA", true);
+        /*ApplicationBatch app = applicationBatchService.obtener("packBBVA", true);
         quartzFactory.createJobs(app.getJobs());
         try {
             Thread.sleep(6000);
         } catch (InterruptedException e) {
             Assert.fail("Error");
-        }
+        }*/
     }
 }

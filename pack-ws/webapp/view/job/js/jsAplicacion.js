@@ -62,18 +62,49 @@ verDetalle = function(idAplicacion) {
 },
 
 editarDetalle = function(rowid) {
-	$("#dialogAplicacion").dialog("open");
-}
+	AjaxUtil({
+		url: obtenerContexto("application/get.html"),
+		data: {
+			"application.id": rowid
+		},
+		onSuccess: function(request) {
+			$("#dialogAplicacion").dialog("open");
+		}
+	});
+},
+
+elimniarDetalle = function(rowid) {
+	AjaxUtil({
+		action: 'delete',
+		url: obtenerContexto("application/delete.html"),
+		data: {
+			"application.id": rowid
+		},
+		onSuccess: function(request) {
+			console.log('Hola Mundo');
+		}
+	});
+};
 
 $(document).ready(function() {
 	$("#btnNuevo").button({icons : { primary : "ui-icon-document" }}).on("click", function(){
 		var ids = $("#tbl_pnlApplications").jqGrid('getGridParam','selarrrow');
-        var id = $("#tbl_pnlApplications").jqGrid('getGridParam', 'selrow');
-
-        console.log(ids);
-        console.log(id);
+		var id = $("#tbl_pnlApplications").jqGrid('getGridParam', 'selrow');
+		$("#dialogAplicacion").dialog("open");
 	});
 
-	createDialogHTML("dialogAplicacion", { width : 290 });
-	configurarAplicacion($.parseJSON($("#labelJSON").text()));
+	request = $.parseJSON($("#labelJSON").text());
+	if(request.tipoResultado == 'EXITO') {
+		configurarAplicacion(request.applications);
+	} else if(request.tipoResultado == 'ERROR_SISTEMA') {
+		openJqError({type: "SYS", content: request.mensaje});
+	}
+	
+	createDialogHTML("dialogAplicacion", {
+		width : 290,
+		buttons: {
+			  "Aceptar": function(){ closeDialog($(this).attr("id")); }
+			, "Cancelar": function(){ $("#dialogAplicacion").dialog("close"); }
+		}
+	});
 });

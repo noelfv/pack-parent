@@ -60,8 +60,8 @@ createDialog = function(id, icon, options) {
 	
 	table = $("<table>").css({"width": "100%", "height": "100%"}).appendTo(div);
 	tr = $("<tr>").appendTo(table);
-	td = $("<td style='width: 36px;text-align: center;'><span class='" + icon + "' style='float:left; margin:0 7px 7px 0;'></span></td>").appendTo(tr);
-	td = $("<td><span id='content" + id + "' class='contentDialog' style='text-align: justify;'></span></td>").appendTo(tr);
+	td = $("<td style='width: 36px;text-align: center; padding-right: 15px;'><span class='" + icon + "' style='float:left; margin:0 7px 7px 0;'></span></td>").appendTo(tr);
+	td = $("<td style='text-align: left;'><span id='content" + id + "' class='contentDialog'></span></td>").appendTo(tr);
 	
 	div.dialog(_options);
 },
@@ -180,16 +180,24 @@ openJqWarn = function(options) {
 openJqError = function(options) {
 	options = $.extend({id: "jqError"
 		, buttons: {
-			"Aceptar": function(){closeDialog($(this).attr("id"));}
+			"Ver Detalle": function() { 
+				$('#error').toggleClass('hide'); 
+				$('#jqError').dialog("option", "position", { my: "center", at: "center", of: window });
+			},
+			"Aceptar": function() { closeDialog($(this).attr("id")); }
 		}
 	}, options);
 	if(options.type == "SYS") {
-		options.width = 500;
+		options.width = 530;
 		options.height = 300;
+		/*
 		options.content = "Error del sistema, comuniquese con su Administrador de Sistema.<br/>" +
-			"<button id=\"btnVerDetalle\">Ver Detalle</button>" +
-			"<div id=\"error\" class=\"error-hide\" style=\"overflow: auto; width: 440px; height: 150px;\">" + options.content + "</div>" +
-			"<script type=\"text/javascript\">$('#btnVerDetalle').button().bind('click', function(){ $('#error').toggleClass('error-hide'); })</script>";
+			"<div style='padding-top: 10px; padding-bottom: 10px;'><button id=\"btnVerDetalle\">Ver Detalle</button></div>" +
+			"<div id=\"error\" class=\"hide\" style=\"overflow: auto; width: 440px; height: 150px;\">" + options.content + "</div>" +
+			"<script type=\"text/javascript\">$('#btnVerDetalle').button().bind('click', function(){ $('#error').toggleClass('hide'); })</script>";
+		*/
+		options.content = "Error del sistema, comuniquese con su Administrador de Sistema.<br/>" +
+			"<div id=\"error\" class=\"hide\" style=\"overflow: auto; width: 440px; height: 150px; padding-top: 15px;\">" + options.content + "</div>";
 		openDialogContent(options);
 	} else {	
 		openDialogContent(options);
@@ -682,11 +690,50 @@ NumeroUtil = {
 	
 	    return sign + currencySymbol + (j ? i.substr(0, j) + thouSeparator : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator) + (decPlaces ? decSeparator + Math.abs(n - i).toFixed(decPlaces).slice(2) : "");
 	}
+},
+
+AjaxUtil = function(options) {
+	var invokeAjax = function() {
+		var xhr = $.ajax({ url: options.url, data: options.data });
+		
+		xhr.success(function(request) {
+			if(request.tipoResultado == 'EXITO') {
+				if($.isFunction(options.onSuccess)) {
+		   			options.onSuccess(request);	
+		   		}
+			} else if(request.tipoResultado == 'ERROR_SISTEMA') {
+				openJqError({type: "SYS", content: request.mensaje});
+			}
+		});	
+	}
+
+	if(options.action === 'save') {
+		openJqConfirm({
+			content: options.content,
+			buttons: {
+				"Aceptar": function() {
+				  	closeDialog($(this).attr("id"));
+				}
+			}
+		});
+	} else if(options.action === 'delete') {
+		openJqConfirm({
+			content: options.content || "\u00BF Desea eliminar el registro \u003F",
+			buttons: {
+				"Aceptar": function() {
+					$("#jqConfirm").dialog("close");
+					invokeAjax();
+				}
+			}
+		});
+	} else {
+		invokeAjax();
+	}
 };
 
 $(document).ready(function() {
 
-	createDialogHTML('jqLoad', {height: 90, width: 200, dialogClass: "hide-title-bar"});
+	createDialogHTML('jqLoad', {height: 218, width: 400, dialogClass: "hide-title-bar"});
 	createDialog('jqConfirm', 'ui-icon-pers-question', {});
 	createDialog('jqInfo', 'ui-icon-pers-info', {});
 	createDialog('jqWarn', 'ui-icon-pers-warning', {});
@@ -703,14 +750,7 @@ $(document).ready(function() {
 	    },
 		cache: false,
 		error: function(request, status, error) {
-			if(request.status == 408) {
-				window.open(obtenerContexto("closeSessionAction.do"), '_self');
-			} else if(request.status == 405) {
-				// Error WebService
-				openJqError({content: request.getResponseHeader("errorMensaje")});
-			} else {
-				openJqError({content: "Error de comunicaci\u00F3n. <br/>(Estado: " + (status || "Desconocido") + ", Detalle: " + (error || "Indeterminado") + ")"});
-			}
+			openJqError({type: 'SYS', content: "Error de comunicaci\u00F3n. <br/>(Estado: " + (status || "Desconocido") + ", Detalle: " + (error || "Indeterminado") + ")"});
 		}
 	});
 	
@@ -739,12 +779,13 @@ $(document).ready(function() {
     	}
 	});
 	
+	/*
 	$("#menuBarItem1").menuBar({
         content: $("#menuBarItem1").next().html(),
         showSpeed: 1,
         flyOut: true
     });
-	
+
 	$(document).tooltip({
 		items: "a",
 		tooltipClass: "ui-state-highlight",
@@ -756,4 +797,27 @@ $(document).ready(function() {
 			}
 		}
 	});
+	*/
 });
+
+/*
+function onReady(callback) {
+    var intervalID = window.setInterval(checkReady, 1000);
+
+    function checkReady() {
+        if (document.getElementsByTagName('body')[0] !== undefined) {
+            window.clearInterval(intervalID);
+            callback.call(this);
+        }
+    }
+}
+
+function show(id, value) {
+    document.getElementById(id).style.display = value ? 'block' : 'none';
+}
+
+onReady(function () {
+    show('layout', true);
+    show('loading', false);
+});
+*/

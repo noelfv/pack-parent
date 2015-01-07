@@ -28,7 +28,7 @@ public class ParameterBatchServiceImplTest extends AbstractJUnit4Test {
 
     @Test
     public void _01Eliminar() {
-        ApplicationBatch application = new ApplicationBatch();
+        /*ApplicationBatch application = new ApplicationBatch();
 
         application = applicationBatchService.obtener(1L);
         if (application != null) {
@@ -41,10 +41,10 @@ public class ParameterBatchServiceImplTest extends AbstractJUnit4Test {
         }
 
         List<ApplicationBatch> applications = applicationBatchService.listar();
-        Assert.assertTrue("Sin elementos", applications.size() == 0);
+        Assert.assertTrue("Sin elementos", applications.size() == 0);*/
     }
 
-    @Test
+    /* @Test
     public void _02Insertar() {
         applicationBatchService.insertar(new ApplicationBatch("packBBVA", "jdbc/APP_CONELE"));
     }
@@ -59,6 +59,6 @@ public class ParameterBatchServiceImplTest extends AbstractJUnit4Test {
         List<ApplicationBatch> applicationBatchs = applicationBatchService.listar(true);
         printer(applicationBatchs, exclude);
         Assert.assertTrue(applicationBatchs.size() == 2);
-    }
+    }*/
 
 }

@@ -58,6 +58,7 @@ body {
 }
 
 #layout {
+	/* display: none; */
 	margin: auto;
 	width: 960px;
 	height: 100%;
@@ -110,6 +111,7 @@ body {
 	vertical-align: bottom;
 	font-size: 30px;
 	color: rgb(00, 110, 193);
+	font: "BBVA Web Light";
 }
 
 .panelUser {
@@ -152,6 +154,10 @@ body {
 	display: inline;
 }
 
+.hide-title-bar {
+	border: 1px solid #dcdcdc;
+}
+
 .hide-title-bar .ui-dialog-titlebar,
 .hide {
 	display: none;
@@ -188,7 +194,6 @@ table td {
 
 .panelMenu .title {
 	vertical-align: bottom;
-	font-family: "BBVA Web Medium";
 }
 
 #menu,
@@ -207,16 +212,71 @@ table td {
 	margin-bottom: 0px;
 }
 
-b,
-.ui-datepicker-buttonpane .ui-priority-primary,
-.ui-timepicker-div .ui-widget-header,
-.ui-dialog .ui-dialog-title {
+
+b {
 	font-family: "BBVA Web Medium";
 	font-weight: normal;
 }
 
-.ui-datepicker .ui-widget-header,
+.ui-datepicker-buttonpane .ui-priority-primary,
+.ui-timepicker-div .ui-widget-header,
+.ui-dialog .ui-dialog-title {
+	font-weight: normal;
+}
+
+.ui-dialog {
+    background-color:#fdfefe;
+    background-image: linear-gradient(#fdfefe, #ecf8fd);
+    background: -moz-linear-gradient(#fdfefe, #ecf8fd) repeat scroll 0 0 transparent;
+    border: 1px solid #89afd3;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow:2px 2px 0 #fff inset,#fff -2px -2px 0 inset;
+    -webkit-box-shadow:2px 2px 0 #fff inset,#fff -2px -2px 0 inset;
+    -o-box-shadow:2px 2px 0 #fff inset,#fff -2px -2px 0 inset;
+    box-shadow:2px 2px 0 #fff inset,#fff -2px -2px 0 inset;
+    position: fixed;
+    padding: 0;
+}
+
 .ui-dialog .ui-widget-header {
+	color: #0072C9;
+	border: none;
+	background: none; 
+}
+
+.ui-dialog .ui-dialog-buttonpane{
+	background: none; 
+	padding: 0.3em 0.5em 0.3em 0.4em;
+	border: none;
+}
+
+.ui-dialog .ui-dialog-titlebar .ui-button {
+	border: none;
+	background: none;
+}
+
+.ui-dialog .ui-dialog-titlebar .ui-icon {
+	background-image: url("../theme/bbva/images/ui-icons_2361ad_256x240.png");
+}
+
+.ui-dialog .ui-dialog-content {
+	padding: 0.5em 1em 0em 1em;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+	right: 0.7em;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+	padding: 0.6em 1em;
+}
+	
+
+.ui-datepicker .ui-widget-header {
 	background: linear-gradient(#0079c1, #00529b) repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
@@ -254,16 +314,33 @@ b,
 .ui-datepicker .ui-state-default,
 .ui-dialog .ui-button,
 #layout .ui-button {
-	background: linear-gradient(to bottom, #0079C1 0px, #00559D 100%) repeat scroll 0% 0% transparent;
-	border: 1px solid #00559D;
+	background: #0079c1;
+	background: linear-gradient(to bottom,#0079c1 0,#00559d 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0079c1', endColorstr='#00559d', GradientType=0);
+	border-radius: 4px;
+	border: 1px solid #00559d;
 	color: #FFF;
+	cursor: pointer;
+	text-align: center;
+	vertical-align: middle;
+	text-shadow: none;
+	font: "BBVA Web Medium",arial,sans-serif;
+	-webkit-filter: none;
+	filter: none;
+	box-shadow: none;
 }
 
 .ui-datepicker .ui-state-hover,
 .ui-dialog button.ui-state-hover,
 #layout button.ui-state-hover{
-	background: #094fa4;
-	background: linear-gradient(to bottom,#006ec1 0,#094fa4 100%);
+	background: #0069b1;
+	background: linear-gradient(to bottom,#0069b1 0,#004b8c 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0069b1', endColorstr='#004b8c', GradientType=0);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.2);
+	border: 1px solid #003c6f;
+	color: #FFF;
+	text-decoration: none;
+	transition: background-position .1s linear;
 }
 
 .ui-widget-panel {
@@ -437,9 +514,9 @@ input[type="text"],
 input.ui-text {
     border: 1px solid #E8E8E6;
     border-radius: 2px;
+    box-shadow: inset 0 2px 3px 0 rgba(0,0,0,0.16);
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
-    box-shadow: inset 0 2px 3px 0 rgba(0,0,0,0.16);
     -moz-box-shadow: inset 0 2px 3px 0 rgba(0,0,0,0.16);
     -webkit-box-shadow: inset 0 2px 3px 0 rgba(0,0,0,0.16);
     color: #434A58;
@@ -447,30 +524,17 @@ input.ui-text {
     padding: .583em .755em .5em .755em;
     height: auto;
     margin: 0;
-    /*
-    width: 100%;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    */
-}
-
-input.ui-text {
-	height: 20px;
-	line-height: 20px;
-	vertical-align: middle;
-	padding: 0px;
-	padding-left: 4px;
-	font-size: 12px;
+    background: #fff;
 }
 
 input.ui-text-date {
-	background: url("../img/calendar.gif") no-repeat 66px center;
+	background: url("../img/calendario16x16.png") no-repeat 66px center; /* calendar.gif */
 	padding-right: 18px;
 	width: 62px;
 }
 
 input.ui-text-time {
-	background: url("../img/clock.png") no-repeat 66px center;
+	background: url("../img/calendario16x16.png") no-repeat 66px center; /* clock.png */
 	padding-right: 18px;
 	width: 62px;
 }
@@ -511,48 +575,27 @@ input.ui-text-conflicto {
 	padding-right: 3px;
 	background: url("../img/ver.png") no-repeat !important;
 }
-/* .ui-jqgrid .ui-state-highlight .u-icon-ver-detalle { background: url("../img/ver_sel.png") no-repeat !important; } */
 
 .u-icon-editar {background: url("../img/modificar.png") no-repeat !important; }
-/* .ui-jqgrid .ui-state-highlight .u-icon-editar { background: url("../img/modificar_sel.png") no-repeat !important; } */
 
 .u-icon-eliminar { background: url("../img/eliminar.png") no-repeat !important; }
-/* .ui-jqgrid .ui-state-highlight .u-icon-eliminar { background: url("../img/eliminar_sel.png") no-repeat !important; } */
 
-/*
-.ui-jqgrid .ui-jqgrid-htable th:first-child div.pui-chkbox {
-	top: -15px;
-}
-.ui-jqgrid .ui-jqgrid-htable th div.pui-chkbox div:parent,
-.ui-jqgrid .ui-jqgrid-htable th div.pui-chkbox {
-	top: -10px;
-	height: 20px;
-}
-*/
-
-/* background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #dfeffc; */
 .pui-chkbox .ui-state-default {
+	color: #2e6e9e;
+	font-weight: bold;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    border: 1px solid #BED6F8;
     background: #dfeffc url(../theme/bbva/images/ui-bg_glass_75_d0e5f5_1x400.png) 50% 50% repeat-x;
 	background: #dfeffc linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
 	background: #dfeffc -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.8)), to(rgba(255,255,255,0)));
 	background: #dfeffc -moz-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0));
-	/*
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#00FFFFFF);
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#00FFFFFF)";
-	*/
+	box-shadow: 0px 0px 8px #EEF9FD;
 	-moz-box-shadow: 0 0 5px #EEF9FD;
 	-webkit-box-shadow: 0px 0px 8px #EEF9FD;
-	box-shadow: 0px 0px 8px #EEF9FD;
-
-	border: 1px solid #BED6F8; /* #79b7e7 #C5DBEC */
-	color: #2e6e9e;
-	font-weight: bold;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);	
 }
 
 .pui-chkbox .ui-state-active {
 	border: 1px solid #79B7E7;
-	/* background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #dfeffc; */
 	background: url("../theme/bbva/images/ui-bg_inset-hard_100_f5f8f9_1x100.png") repeat-x scroll 50% 50% #F5F8F9; 
 	font-weight: bold;
 	color: #E17009;
@@ -560,4 +603,60 @@ input.ui-text-conflicto {
 
 .pui-chkbox-icon {
 	background-image: url("../theme/bbva/images/ui-icons_f9bd01_256x240.png") !important; 
+}
+
+.loading {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-o-border-radius: 3px;
+	border-radius: 3px;
+	background-image: none;
+	border: 1px solid #f5f7f8;
+	background-color: #ededed;
+	display: none;
+	z-index: 100011;
+	outline: 0px;
+	height: 218px;
+	width: 400px;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	padding: 0px !important;
+}
+
+.loadingContent {
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-o-border-radius: 3px;
+	border-radius: 3px;
+	border: 1px solid #dcdcdc;
+	background: #fff;
+	position: relative;
+	overflow: visible;
+	height: 208px;
+	width: 396px;
+	margin: auto;
+}
+
+.loading .loadingImage{
+	position:relative;
+	height: 170px;
+	width: 396px;
+	background: #fff url(../img/cargando.gif) center center no-repeat;
+	display:block;
+}
+
+.loading .loadingText{
+	color:#555;
+	text-align:center;
+	display:block;
+}
+
+.ui-widget-overlay {
+	background: #2d5972 url("../img/ui-bg_flat_0_2d5972_40x100.png") 50% 50% repeat-x;
+	opacity: .30;
+	filter: Alpha(Opacity = 30);
 }
