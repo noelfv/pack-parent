@@ -692,6 +692,15 @@ NumeroUtil = {
 	}
 },
 
+ValidUtil = function(content) {
+	var objectos = $(content).find("[data-valid]"), o = null;
+
+	for(i in objectos) {
+		o = objectos[i];
+		console.log(o.attr("data-valid"));
+	}
+}
+
 AjaxUtil = function(options) {
 	var invokeAjax = function() {
 		var xhr = $.ajax({ url: options.url, data: options.data });
