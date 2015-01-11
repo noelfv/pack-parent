@@ -446,30 +446,32 @@ configurarGrid = function(id, optionsLocal, fnAction, optionsGroup) {
 
 	options.loadComplete = function(data) {
    		// Load
-   		$(xpnl).find("input[type=checkbox]").puicheckbox();
+   		// $(xpnl).find("input[type=checkbox]").puicheckbox();
    		if($.isFunction(optionsLocal.loadComplete)) {
    			optionsLocal.loadComplete();	
    		}
    	};
 
 	options.onSelectRow = function(rowid, status, e) {
-		console.log(rowid + "+" + status)
+		/* console.log(rowid + "+" + status)
    		selectPrimeUI(rowid, status, id);
    		if($.isFunction(optionsLocal.onSelectRow)) {
    			optionsLocal.onSelectRow();
    		}
+   		 */
    	}
 
 	$(xtbl).jqGrid(options);
+	/*
 	$('#cb_tbl_' + id).puicheckbox({"change": function(event, checked) {
 		var __pag = $("#pg_pag_" + id).find(".ui-pg-input").eq(0).val() - 1,
 			__chk = $('#cb_tbl_' + id).prop("checked");
 		console.log(checked);
-		/**/
 		s(optionsLocal.rowNum, __pag, __chk, xtbl);
 		selectPrimeUIHeader(__chk);
 		console.log(checked);
 	}});
+	*/
 
 	if($.isPlainObject(optionsGroup)) {
 		$(xtbl).jqGrid('setGroupHeaders', optionsGroup);
@@ -534,15 +536,16 @@ configurarGridGroupHeaders = function(id, options, optionColumnHeader, nroRegist
 /**
  * Pone una clases para que resalta el input seleccionado
  */
-onFocus = function() {
+textFocus = function() {
 	$(this).toggleClass("ui-text-highlight");
 },
 
 /**
  * Pone una clases para que resalta el input cuando no tiene valor
  */
-onBlur = function() {
+textBlur = function() {
 	$(this).toggleClass("ui-text-highlight");
+	/*
 	val = $.trim($(this).val());
 	if(val.length == 0) {
 		if(!$(this).hasClass("ui-text-highlight-warning")) {
@@ -553,6 +556,7 @@ onBlur = function() {
 			$(this).removeClass("ui-text-highlight-warning");
 		}
 	}
+	*/
 },
 
 /**
@@ -702,11 +706,14 @@ ValidUtil = function(content) {
 }
 
 AjaxUtil = function(options) {
-	var invokeAjax = function() {
+	var invokeAjax = function(callback) {
 		var xhr = $.ajax({ url: options.url, data: options.data });
 		
 		xhr.success(function(request) {
 			if(request.tipoResultado == 'EXITO') {
+				if($.isFunction(callback)) {
+		   			callback(request);	
+		   		}
 				if($.isFunction(options.onSuccess)) {
 		   			options.onSuccess(request);	
 		   		}
@@ -735,6 +742,21 @@ AjaxUtil = function(options) {
 				}
 			}
 		});
+	} else if(options.action === 'viewDetaill') {
+		invokeAjax(function(request) {
+			var o = request[options.container], e = null;
+			for (var p in o) {
+		        if(o.hasOwnProperty(p)) {
+		        	e = $("#" + options.container + "\\." + p);
+		        	if(e.is("input")) {
+		        		e.val(o[p]);
+		        	} else if(e.is("div")) {
+		        		e.html(o[p]);
+		        	}
+		            // str = str.replace(new RegExp("#\\{" + p + "\\}", "g"), obj[p] == null ? "&nbsp;" : obj[p]);
+		        }
+		    }
+		});
 	} else {
 		invokeAjax();
 	}
@@ -742,7 +764,7 @@ AjaxUtil = function(options) {
 
 $(document).ready(function() {
 
-	createDialogHTML('jqLoad', {height: 218, width: 400, dialogClass: "hide-title-bar"});
+	createDialogHTML('jqLoad', {height: 150, width: 250, dialogClass: "hide-title-bar"});
 	createDialog('jqConfirm', 'ui-icon-pers-question', {});
 	createDialog('jqInfo', 'ui-icon-pers-info', {});
 	createDialog('jqWarn', 'ui-icon-pers-warning', {});
@@ -787,7 +809,12 @@ $(document).ready(function() {
         	$('#jqLoad').dialog('close');
     	}
 	});
-	
+
+	$('input[type="text"]').on("focus", textFocus);
+	$('input[type="text"]').on("blur", textBlur);
+
+	$("#layout").removeClass("hide");
+
 	/*
 	$("#menuBarItem1").menuBar({
         content: $("#menuBarItem1").next().html(),
@@ -810,6 +837,7 @@ $(document).ready(function() {
 });
 
 /*
+$('#jqLoad').dialog('open');
 function onReady(callback) {
     var intervalID = window.setInterval(checkReady, 1000);
 
@@ -820,11 +848,13 @@ function onReady(callback) {
         }
     }
 }
-
 function show(id, value) {
-    document.getElementById(id).style.display = value ? 'block' : 'none';
+	if(id == 'loading') {
+		$('#jqLoad').dialog('close');
+	} else {
+		document.getElementById(id).style.display = value ? 'block' : 'none';	
+	}
 }
-
 onReady(function () {
     show('layout', true);
     show('loading', false);

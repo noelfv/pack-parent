@@ -10,7 +10,7 @@
 	<title><tiles:insertAttribute name="title" ignore="true" /></title>
 </head>
 <body>
-	<div id="layout">
+	<div id="layout" class="hide">
 		<tiles:insertAttribute name="head" />
 		<tiles:insertAttribute name="menu" />
 		<div id="body">

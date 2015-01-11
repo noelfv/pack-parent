@@ -102,44 +102,6 @@
         <finalName>pack-ws</finalName>
         <plugins>
             <plugin>
-                <groupId>com.samaxes.maven</groupId>
-                <artifactId>minify-maven-plugin</artifactId>
-                <version>1.7.4</version>
-                <executions>
-                    <execution>
-                    <id>default-minify</id>
-                    <configuration>
-                        <cssSourceIncludes>
-                            <cssSourceInclude>**</cssSourceInclude>
-                        </cssSourceIncludes>
-                        <jsSourceIncludes>
-                            <jsSourceInclude>**</jsSourceInclude>
-                        </jsSourceIncludes>
-                    </configuration>
-                    <goals>
-                        <goal>minify</goal>
-                    </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <additionalProjectnatures>
-                        <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
-                    </additionalProjectnatures>
-                    <additionalBuildcommands>
-                        <buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
-                    </additionalBuildcommands>
-                    <wtpmanifest>true</wtpmanifest>
-                    <wtpapplicationxml>true</wtpapplicationxml>
-                    <wtpversion>2.0</wtpversion>
-                    <downloadSources>false</downloadSources>
-                    <downloadJavadocs>false</downloadJavadocs>
-                </configuration>
-            </plugin>
-            <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>
@@ -209,6 +171,82 @@
                         </excludes>
                     </resource>
                 </resources>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.3</version>
+                        <configuration>
+                            <warSourceDirectory>webapp</warSourceDirectory>
+                            <webXml>${webXmlPath}/web.xml</webXml>
+                            <warSourceExcludes>public/css/,public/theme/bbva/jquery-ui-1.10.1.css,public/js/</warSourceExcludes>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.samaxes.maven</groupId>
+                        <artifactId>minify-maven-plugin</artifactId>
+                        <version>1.7.4</version>
+                        <executions>
+                            <execution>
+                                <id>default-minify</id>
+                                <configuration>
+                                    <skipMerge>true</skipMerge>
+                                    <nosuffix>true</nosuffix>
+                                    <webappSourceDir>${project.basedir}/webapp</webappSourceDir>
+                                    <cssSourceDir>public</cssSourceDir>
+                                    <cssSourceFiles>
+                                        <cssSourceFile>css/ui.jqgrid.css</cssSourceFile>
+                                        <cssSourceFile>css/ui.multiselect.css</cssSourceFile>
+                                        <cssSourceFile>css/ui.autocomplete.extends.css</cssSourceFile>
+                                        <cssSourceFile>css/jquery.validity.css</cssSourceFile>
+                                        <cssSourceFile>css/jquery-ui-timepicker-addon.css</cssSourceFile>
+                                        <cssSourceFile>css/jquery.handsontable.full.css</cssSourceFile>
+                                        <cssSourceFile>css/primeui-1.1.css</cssSourceFile>
+                                        <cssSourceFile>css/ui.application.css</cssSourceFile>
+                                        <cssSourceFile>css/ui.application.7ie.css</cssSourceFile>
+                                        <cssSourceFile>css/ui.fg.menu.css</cssSourceFile>
+                                        <cssSourceFile>theme/bbva/jquery-ui-1.10.1.css</cssSourceFile>
+                                    </cssSourceFiles>
+                                    <jsSourceDir>public</jsSourceDir>
+                                    <jsSourceFiles>
+                                        <!--
+                                        <jsSourceFile>js/ui/jquery-1.9.1.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/primeui-1.1.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/jquery-ui-1.10.1.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/jquery-ui-timepicker-addon.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/jquery.handsontable.full.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/jquery.jqGrid.src.js</jsSourceFile>
+                                        -->
+                                        <jsSourceFile>js/ui/jquery-ui-autocomplete-extends.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/ui.multiselect.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/i18n/datepicker.locale-es.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/i18n/jquery-ui-timepicker-es.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/i18n/grid.locale-es.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/jquery.fg.menu.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/jquery.autoNumeric-1.6.2.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/jquery.autoText-1.0.0.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/jquery.validity.js</jsSourceFile>
+                                        <jsSourceFile>js/ui/jquery.validity.lang.es.js</jsSourceFile>
+                                        <jsSourceFile>js/common/browser.js</jsSourceFile>
+                                        <jsSourceFile>js/common/application.js</jsSourceFile>
+                                    </jsSourceFiles>
+                                    <jsEngine>CLOSURE</jsEngine>
+                                    <!--
+                                    <closureCreateSourceMap>true</closureCreateSourceMap>
+                                    -->
+                                    <closureCompilationLevel>WHITESPACE_ONLY</closureCompilationLevel>
+                                    <!--
+                                    <closureExterns>
+                                    <closureExtern>extern/external-lib.js</closureExtern>
+                                    </closureExterns>
+                                    -->
+                                </configuration>
+                                <goals>
+                                    <goal>minify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
     </profiles>

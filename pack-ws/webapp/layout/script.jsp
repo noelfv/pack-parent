@@ -11,6 +11,7 @@
 	<!--[if ie 7]><link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/ui.application.7ie.css"/><![endif]-->
 	<!--[if ie 8]><link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/ui.application.7ie.css"/><![endif]-->
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/ui.fg.menu.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/css/jquery-te-1.4.0.css"/>
 	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery-1.9.1.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery-ui-1.10.1.js"></script>
@@ -29,7 +30,8 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.validity.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery.validity.lang.es.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/primeui-1.1.js"></script>
-    
+	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/ui/jquery-te-1.4.0.min.js"></script>
+	    
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/common/browser.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/js/common/application.js"></script>
 	 	

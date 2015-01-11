@@ -63,6 +63,8 @@ verDetalle = function(idAplicacion) {
 
 editarDetalle = function(rowid) {
 	AjaxUtil({
+		action: 'viewDetaill',
+		container: 'application',
 		url: obtenerContexto("application/get.html"),
 		data: {
 			"application.id": rowid
@@ -100,8 +102,27 @@ $(document).ready(function() {
 		openJqError({type: "SYS", content: request.mensaje});
 	}
 	
+	$("#application\\.description").jqte({
+		left: false,
+		center: false,
+		right: false,
+		sub: false,
+		sup: false,
+		outdent: false,
+		indent: false,
+		strike: false,
+		link: false,
+		unlink: false,
+		remove: false,
+		rule: false,
+		source: false,
+		ol: false,
+		ul: false
+	});
+
 	createDialogHTML("dialogAplicacion", {
-		width : 290,
+		title : "Registro de Aplicaci\u00F3n",
+		width : 550,
 		buttons: {
 			  "Aceptar": function(){ closeDialog($(this).attr("id")); }
 			, "Cancelar": function(){ $("#dialogAplicacion").dialog("close"); }
