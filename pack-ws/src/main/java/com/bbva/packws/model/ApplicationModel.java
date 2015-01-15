@@ -3,8 +3,9 @@ package com.bbva.packws.model;
 import java.util.List;
 
 import com.bbva.batch.domain.ApplicationBatch;
+import com.everis.web.model.BaseModel;
 
-public class ApplicationModel extends Model {
+public class ApplicationModel extends BaseModel {
 
     private List<ApplicationBatch> applications;
     private ApplicationBatch application;

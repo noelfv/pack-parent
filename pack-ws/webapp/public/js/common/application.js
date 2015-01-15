@@ -696,7 +696,8 @@ NumeroUtil = {
 	}
 },
 
-ValidUtil = function(content) {
+/*
+ValidUtil = function(objectID) {
 	var objectos = $(content).find("[data-valid]"), o = null;
 
 	for(i in objectos) {
@@ -704,6 +705,24 @@ ValidUtil = function(content) {
 		console.log(o.attr("data-valid"));
 	}
 }
+*/
+
+StringUtil = {
+	escape: function(text) {
+		return text.replace(/[\u00ED]/g, "&#237;")
+			.replace(/[\u00FA]/g, "&#250;")
+			.replace(/[\u00F3]/g, "&#243;")
+			.replace(/[\u00E9]/g, "&#233;")
+			.replace(/[\u00E1]/g, "&#225;")
+			.replace(/[\u00F1]/g, "&#241;")
+			.replace(/[\u00CD]/g, "$#205;")
+			.replace(/[\u00DA]/g, "$#218;")
+			.replace(/[\u00D3]/g, "$#211;")
+			.replace(/[\u00C9]/g, "$#201;")
+			.replace(/[\u00C1]/g, "$#193;")
+			.replace(/[\u00D1]/g, "$#209;");
+	}
+},
 
 AjaxUtil = function(options) {
 	var invokeAjax = function(callback) {
@@ -711,6 +730,9 @@ AjaxUtil = function(options) {
 		
 		xhr.success(function(request) {
 			if(request.tipoResultado == 'EXITO') {
+				if(request.mensaje != null) {
+					openJqInfo({content: request.mensaje});
+				}
 				if($.isFunction(callback)) {
 		   			callback(request);	
 		   		}
@@ -724,14 +746,30 @@ AjaxUtil = function(options) {
 	}
 
 	if(options.action === 'save') {
-		openJqConfirm({
-			content: options.content,
-			buttons: {
-				"Aceptar": function() {
-				  	closeDialog($(this).attr("id"));
+		var save = function() {
+	   		openJqConfirm({
+				content: options.content || "\u00BF Desea guardar los cambios hechos \u003F",
+				buttons: {
+					"Aceptar": function() {
+					  	closeDialog($(this).attr("id"));
+						invokeAjax();
+					},
+					"Cancelar": function() {
+					  	closeDialog($(this).attr("id"));
+					}
 				}
-			}
-		});
+			});			
+		}
+
+		if($.isFunction(options.validation)) {
+		   	if(options.validation()) {
+		   		save();
+		   	} else {
+		   		openJqWarn({content: "Verifique los datos ingresados, por favor."});
+		   	}
+		} else {
+			save();
+		}
 	} else if(options.action === 'delete') {
 		openJqConfirm({
 			content: options.content || "\u00BF Desea eliminar el registro \u003F",
@@ -744,16 +782,15 @@ AjaxUtil = function(options) {
 		});
 	} else if(options.action === 'viewDetaill') {
 		invokeAjax(function(request) {
-			var o = request[options.container], e = null;
+			var o = request[options.element], e = null;
 			for (var p in o) {
 		        if(o.hasOwnProperty(p)) {
-		        	e = $("#" + options.container + "\\." + p);
+		        	e = $("#" + options.element + "\\." + p);
 		        	if(e.is("input")) {
 		        		e.val(o[p]);
 		        	} else if(e.is("div")) {
 		        		e.html(o[p]);
 		        	}
-		            // str = str.replace(new RegExp("#\\{" + p + "\\}", "g"), obj[p] == null ? "&nbsp;" : obj[p]);
 		        }
 		    }
 		});

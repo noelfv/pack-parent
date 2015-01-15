@@ -2,7 +2,6 @@ package com.bbva.packws.controller;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,10 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bbva.batch.domain.ApplicationBatch;
 import com.bbva.batch.domain.JobBatch;
+import com.bbva.batch.service.ApplicationBatchService;
 import com.bbva.batch.service.JobBatchService;
-import com.bbva.packws.model.ApplicationModel;
 import com.bbva.packws.model.JobModel;
 import com.everis.enums.Resultado;
 import com.everis.web.controller.impl.AbstractSpringControllerImpl;
@@ -27,27 +25,19 @@ import com.everis.web.controller.impl.AbstractSpringControllerImpl;
 public class JobController extends AbstractSpringControllerImpl {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(JobController.class);
     private static final String EXCLUDE_JOB[] = new String[] { "*.class", "application", "steps" };
 
     @Resource(name = "jobBatchService")
     private JobBatchService jobBatchService;
 
+    @Resource(name = "applicationBatchService")
+    private ApplicationBatchService applicationBatchService;
+    
     @RequestMapping(value = "list/{id}")
     public String index(ModelMap model, @PathVariable("id") Long id) {
-        String result = "{}";
-        JobModel m = new JobModel();
-
-        try {
-            m.setTipoResultado(Resultado.EXITO);
-            m.setApplicationClass("ui-state-active-bbva");
-            m.setJobs(jobBatchService.listar(id));
-            result = this.renderModelJsonDeepExclude(m, EXCLUDE_JOB);
-        } catch (Exception e) {
-            result = this.renderErrorSistema(e);
-        }
-
-        model.addAttribute("modelJSON", result);
+        model.addAttribute("schedulerClass", "");
+        model.addAttribute("jobClass", "ui-state-active-bbva");
+        model.addAttribute("application", applicationBatchService.obtener(id));
         return "job/trabajo";
     }
 
@@ -60,7 +50,7 @@ public class JobController extends AbstractSpringControllerImpl {
                 JobBatch job = jobModel.getJob();
                 model.setTipoResultado(Resultado.EXITO);
                 model.setJobs(jobBatchService.listar(job.getApplication().getId(), job.getName()));
-                result = this.renderModelJson(model);
+                result = this.renderModelJsonDeepExclude(model, EXCLUDE_JOB);
             } else {
                 result = this.renderErrorSistema(bindingResult.getAllErrors());
             }
@@ -70,41 +60,66 @@ public class JobController extends AbstractSpringControllerImpl {
         return result;
     }
 
-//    @RequestMapping(value = "get", method = RequestMethod.POST)
-//    public @ResponseBody String obtener(@ModelAttribute("applicationModel") ApplicationModel applicationModel, BindingResult bindingResult) {
-//        String result = "";
-//        try {
-//            ApplicationModel model = new ApplicationModel();
-//            if (!bindingResult.hasErrors()) {
-//                ApplicationBatch app = applicationModel.getApplication();
-//                model.setTipoResultado(Resultado.EXITO);
-//                model.setApplication(jobBatchService.obtener(app.getId()));
-//                result = this.renderModelJson(model);
-//            } else {
-//                result = this.renderErrorSistema(bindingResult.getAllErrors());
-//            }
-//        } catch (Exception e) {
-//            result = this.renderErrorSistema(e);
-//        }
-//        return result;
-//    }
-//
-//    @RequestMapping(value = "save", method = RequestMethod.POST)
-//    public @ResponseBody String guardar(@ModelAttribute("applicationModel") ApplicationModel applicationModel, BindingResult bindingResult) {
-//        String result = "";
-//        try {
-//            ApplicationModel model = new ApplicationModel();
-//            if (!bindingResult.hasErrors()) {
-//                ApplicationBatch app = applicationModel.getApplication();
-//                model.setTipoResultado(Resultado.EXITO);
-//                model.setApplication(jobBatchService.actualizar(app));
-//                result = this.renderModelJson(model);
-//            } else {
-//                result = this.renderErrorSistema(bindingResult.getAllErrors());
-//            }
-//        } catch (Exception e) {
-//            result = this.renderErrorSistema(e);
-//        }
-//        return result;
-//    }
+    @RequestMapping(value = "get", method = RequestMethod.POST)
+    public @ResponseBody String obtener(@ModelAttribute("jobModel") JobModel jobModel, BindingResult bindingResult) {
+        String result = "";
+        try {
+            JobModel model = new JobModel();
+            if (!bindingResult.hasErrors()) {
+                JobBatch job = jobModel.getJob();
+                model.setTipoResultado(Resultado.EXITO);
+                model.setJob(jobBatchService.obtener(job.getId()));
+                result = this.renderModelJsonDeepExclude(model, EXCLUDE_JOB);
+            } else {
+                result = this.renderErrorSistema(bindingResult.getAllErrors());
+            }
+        } catch (Exception e) {
+            result = this.renderErrorSistema(e);
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "save", method = RequestMethod.POST)
+    public @ResponseBody String guardar(@ModelAttribute("jobModel") JobModel jobModel, BindingResult bindingResult) {
+        String result = "";
+        try {
+            JobModel model = new JobModel();
+            if (!bindingResult.hasErrors()) {
+                JobBatch job = jobModel.getJob();
+                model.setTipoResultado(Resultado.EXITO);
+                jobBatchService.actualizar(job);
+                model.setMensaje("Registro actualizado correctamente");
+                model.setJobs(jobBatchService.listar(job.getApplication().getId()));
+                result = this.renderModelJsonDeepExclude(model, EXCLUDE_JOB);
+            } else {
+                result = this.renderErrorSistema(bindingResult.getAllErrors());
+            }
+        } catch (Exception e) {
+            result = this.renderErrorSistema(e);
+        }
+        return result;
+    }
+    
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
+    public @ResponseBody String eliminar(@ModelAttribute("jobModel") JobModel jobModel, BindingResult bindingResult) {
+        String result = "";
+        try {
+            JobModel model = new JobModel();
+            if (!bindingResult.hasErrors()) {
+                JobBatch job = jobModel.getJob();
+                job = jobBatchService.obtener(job.getId());
+                jobBatchService.eliminar(job);
+                
+                model.setTipoResultado(Resultado.EXITO);
+                model.setMensaje("Registro eliminado");
+                model.setJobs(jobBatchService.listar(job.getApplication().getId()));
+                result = this.renderModelJsonDeepExclude(model, EXCLUDE_JOB);
+            } else {
+                result = this.renderErrorSistema(bindingResult.getAllErrors());
+            }
+        } catch (Exception e) {
+            result = this.renderErrorSistema(e);
+        }
+        return result;
+    }
 }

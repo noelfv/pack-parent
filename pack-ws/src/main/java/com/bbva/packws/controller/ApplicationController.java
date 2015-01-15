@@ -2,7 +2,6 @@ package com.bbva.packws.controller;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,7 +23,6 @@ import com.everis.web.controller.impl.AbstractSpringControllerImpl;
 public class ApplicationController extends AbstractSpringControllerImpl {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(ApplicationController.class);
     private static final String EXCLUDE_APPLICATION[] = new String[] { "*.class", "*.jobs" };
 
     @Resource(name = "applicationBatchService")
@@ -32,21 +30,8 @@ public class ApplicationController extends AbstractSpringControllerImpl {
 
     @RequestMapping(value = "list")
     public String index(ModelMap model) {
-        String result = "{}";
-        ApplicationModel m = new ApplicationModel();
-
-        try {
-            m.setTipoResultado(Resultado.EXITO);
-            m.setApplicationClass("ui-state-active-bbva");
-            m.setApplications(applicationBatchService.listar());
-            result = this.renderModelJsonDeepExclude(m, EXCLUDE_APPLICATION);
-        } catch (Exception e) {
-            result = this.renderErrorSistema(e);
-        }
-
         model.addAttribute("schedulerClass", "");
         model.addAttribute("jobClass", "ui-state-active-bbva");
-        model.addAttribute("model", result);
         return "job/aplicacion";
     }
 
@@ -96,8 +81,10 @@ public class ApplicationController extends AbstractSpringControllerImpl {
             if (!bindingResult.hasErrors()) {
                 ApplicationBatch app = applicationModel.getApplication();
                 model.setTipoResultado(Resultado.EXITO);
-                model.setApplication(applicationBatchService.actualizar(app));
-                result = this.renderModelJson(model);
+                applicationBatchService.actualizar(app);
+                model.setMensaje("Registro actualizado correctamente");
+                model.setApplications(applicationBatchService.listar());
+                result = this.renderModelJsonDeepExclude(model, EXCLUDE_APPLICATION);
             } else {
                 result = this.renderErrorSistema(bindingResult.getAllErrors());
             }
@@ -114,10 +101,13 @@ public class ApplicationController extends AbstractSpringControllerImpl {
             ApplicationModel model = new ApplicationModel();
             if (!bindingResult.hasErrors()) {
                 ApplicationBatch app = applicationModel.getApplication();
+                app = applicationBatchService.obtener(app.getId());
+                applicationBatchService.eliminar(app);
                 
                 model.setTipoResultado(Resultado.EXITO);
-                model.setApplication(applicationBatchService.actualizar(app));
-                result = this.renderModelJson(model);
+                model.setMensaje("Registro eliminado");
+                model.setApplications(applicationBatchService.listar());
+                result = this.renderModelJsonDeepExclude(model, EXCLUDE_APPLICATION);
             } else {
                 result = this.renderErrorSistema(bindingResult.getAllErrors());
             }

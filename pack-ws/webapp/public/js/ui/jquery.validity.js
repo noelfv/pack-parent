@@ -85,7 +85,9 @@ $.validity = {
         time12:/^((0?\d)|(1[012])):[0-5]\d?\s?[aApP]\.?[mM]\.?$/,
         time24:/^(20|21|22|23|[01]\d|\d)(([:][0-5]\d){1,2})$/,
 
-        nonHtml:/^[^<>]*$/
+        nonHtml:/^[^<>]*$/,
+
+        jndi: /^(jdbc\/)*/
     },
 
     // Built-in set of default error messages (for use when a message isn't 
@@ -141,7 +143,8 @@ $.validity = {
         isMultiplo: "Debe ingresar un valor m\u00FAltiplo de ",
         attrChecked:"Atributo inv\u00E1lido",
         isLength: "Debe ingresar #{val} caracteres",
-        isMaxLength: "Debe ingresar #{min} caracteres como minimo y #{max} como m\u00E1ximo"
+        isMaxLength: "Debe ingresar #{min} caracteres como minimo y #{max} como m\u00E1ximo",
+        jndi: "Formato invalido, debe iniciar con <b>jdbc/<b>. (Ejemplo: jdbc/APP)"
     },
     
     // Abstract output:

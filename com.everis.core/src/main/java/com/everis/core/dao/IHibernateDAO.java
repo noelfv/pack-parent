@@ -53,7 +53,7 @@ public interface IHibernateDAO<T> {
      *
      * @param t
      */
-    void deleteaAll(List<T> t);
+    void deleteAll(List<T> t);
 
     /**
      * Retorna un objeto <b>Criteria</b>

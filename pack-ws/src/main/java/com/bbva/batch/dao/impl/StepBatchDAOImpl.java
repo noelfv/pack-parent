@@ -3,6 +3,7 @@ package com.bbva.batch.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +16,12 @@ public class StepBatchDAOImpl extends HibernateDAO<StepBatch> implements StepBat
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<StepBatch> listar(Long idJobBatch, boolean lazy) {
+    public List<StepBatch> listar(Long idJobBatch, String name, boolean lazy) {
         Criteria criteria = super.getCriteria(StepBatch.class);
         criteria.add(Restrictions.eq("job", idJobBatch));
+        if(name != null && !name.trim().isEmpty()) {
+            criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE).ignoreCase());
+        }
         return (List<StepBatch>) criteria.list();
     }
 
@@ -26,6 +30,13 @@ public class StepBatchDAOImpl extends HibernateDAO<StepBatch> implements StepBat
         Criteria criteria = super.getCriteria(StepBatch.class);
         criteria.add(Restrictions.eq("job.id", idJobBatch));
         criteria.add(Restrictions.eq("name", name));
+        return (StepBatch) criteria.uniqueResult();
+    }
+    
+    @Override
+    public StepBatch obtener(Long idStepBatch, boolean lazy) {
+        Criteria criteria = super.getCriteria(StepBatch.class);
+        criteria.add(Restrictions.eq("id", idStepBatch));
         return (StepBatch) criteria.uniqueResult();
     }
 }

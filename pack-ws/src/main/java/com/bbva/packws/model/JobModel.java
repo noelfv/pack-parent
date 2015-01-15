@@ -3,8 +3,9 @@ package com.bbva.packws.model;
 import java.util.List;
 
 import com.bbva.batch.domain.JobBatch;
+import com.everis.web.model.BaseModel;
 
-public class JobModel extends Model {
+public class JobModel extends BaseModel {
 
     private List<JobBatch> jobs;
     private JobBatch job;

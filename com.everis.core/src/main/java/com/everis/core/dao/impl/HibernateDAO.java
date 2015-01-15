@@ -87,7 +87,7 @@ public class HibernateDAO<T> extends HibernateDaoSupport implements IHibernateDA
      * @see com.everis.core.dao.impl.IHibernateDAO#deleteAll(List<T>)
      */
     @Override
-    public void deleteaAll(List<T> t) {
+    public void deleteAll(List<T> t) {
         super.getHibernateTemplate().deleteAll(t);
         super.getHibernateTemplate().flush();
     }

@@ -20,7 +20,7 @@ public class JobBatchDAOImpl extends HibernateDAO<JobBatch> implements JobBatchD
     public List<JobBatch> listar(Long idApplicationBatch, String name, boolean lazy) {
         Criteria criteria = super.getCriteria(JobBatch.class);
         criteria.add(Restrictions.eq("application.id", idApplicationBatch));
-        if(name != null && name.trim().isEmpty()) {
+        if(name != null && !name.trim().isEmpty()) {
             criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE).ignoreCase());
         }
         criteria.addOrder(Order.asc("id"));

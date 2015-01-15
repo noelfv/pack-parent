@@ -2,8 +2,8 @@ package com.bbva.packws.webservice.enums;
 
 public enum CodigoRetorno {
 
-    SIN_RESULTADO("00", "CLIENTE SIN SOLICITUDES"),
-    CON_RESULTADO("10", "CLIENTE CON SOLICITUDES"),
+    SIN_RESULTADO("10", "CLIENTE SIN SOLICITUDES"),
+    CON_RESULTADO("00", "CLIENTE CON SOLICITUDES"),
     ERROR_ACCESO("99", "ERROR EN ACCESO");
 
     private String codigo;

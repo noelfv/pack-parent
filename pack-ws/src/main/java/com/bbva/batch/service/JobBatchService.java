@@ -14,5 +14,5 @@ public interface JobBatchService extends IDataManipulationService<JobBatch> {
     JobBatch obtener(Long idJobBatch);
     JobBatch obtener(Long idJobBatch, boolean lazy);
     JobBatch obtener(Long idApplicationBatch, String name);
-    JobBatch obtener(Long idApplicationBatch, String name, boolean lazy);
+    JobBatch obtener(Long idApplicationBatch, String name, boolean lazy); 
 }

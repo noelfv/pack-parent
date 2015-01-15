@@ -7,8 +7,9 @@ import org.springframework.batch.core.JobExecution;
 
 import com.bbva.packws.batch.job.GenerarArchivoHandler;
 import com.bbva.quartz.domain.Trigger;
+import com.everis.web.model.BaseModel;
 
-public class SchedulerModel extends Model {
+public class SchedulerModel extends BaseModel {
 
     private List<JobExecution> runningJobInstances;
     private List<Trigger> triggerInstances;

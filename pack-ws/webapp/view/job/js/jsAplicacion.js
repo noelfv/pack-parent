@@ -7,15 +7,13 @@ fmtVerDetalle = function(cellvalue, options, rowObject) {
 },
 
 listar = function() {
-	var _ajax = $.ajax({
-		url:  obtenerContexto("job/listar.html")
-	});
-	
-	_ajax.success(function(request) {
-		if(request.tipoResultado == 'EXITO') {
-			configurarAplicacion(request);
-		} else if(request.tipoResultado == 'ERROR_SISTEMA') {
-			openJqError({type: "SYS", content: request.mensaje});
+	AjaxUtil({
+		url: obtenerContexto("application/find.html"),
+		data: {
+			"application.name": $("#findApplicationName").val()
+		},
+		onSuccess: function(request) {
+			configurarAplicacion(request.applications);
 		}
 	});
 },
@@ -23,10 +21,10 @@ listar = function() {
 configurarAplicacion = function(applications) {
 	configurarGrid("pnlApplications", {
 	    datatype : "local",
-		data : applications,
+		data : applications || [],
 		height : "auto",
 		width : 620,
-		rowNum : 10,
+		rowNum : 8,
 		multiselect : false,
 		colNames : [
 			  'Aplicaci\u00F3n'
@@ -44,32 +42,19 @@ configurarAplicacion = function(applications) {
 },
 
 verDetalle = function(idAplicacion) {
-	var _ajax = $.ajax({
-		url:  obtenerContexto("job/listar.html") /*Change */
-	});
-	
-	_ajax.success(function(request) {
-		if(request.tipoResultado == 'EXITO') {
-			/* Change */
-			$("#lblAplicacion").html("{request.aplicacion}");
-			$("#layoutDetalleAplicacion").removeClass("hide");
-			$("#layoutAplicacion").addClass("hide");
-			configurarTrabajo(request);
-		} else if(request.tipoResultado == 'ERROR_SISTEMA') {
-			openJqError({type: "SYS", content: request.mensaje});
-		}
-	});
+	window.location = obtenerContexto("job/list/" + idAplicacion + ".html");
 },
 
 editarDetalle = function(rowid) {
 	AjaxUtil({
 		action: 'viewDetaill',
-		container: 'application',
+		element: 'application',
 		url: obtenerContexto("application/get.html"),
 		data: {
 			"application.id": rowid
 		},
 		onSuccess: function(request) {
+			$("#application\\.description").jqteVal(request.application.description);
 			$("#dialogAplicacion").dialog("open");
 		}
 	});
@@ -83,24 +68,68 @@ elimniarDetalle = function(rowid) {
 			"application.id": rowid
 		},
 		onSuccess: function(request) {
-			console.log('Hola Mundo');
+			configurarAplicacion(request.applications);
+		}
+	});
+},
+
+guardarDetalle = function() {
+	AjaxUtil({
+		action: 'save',
+		container: 'dialogApplication',
+		url: obtenerContexto("application/save.html"),
+		data: {
+			"application.id": $("#application\\.id").text(),
+			"application.version": $("#application\\.version").val(),
+			"application.name": $("#application\\.name").val(),
+			"application.jndi": $("#application\\.jndi").val(),
+			"application.description": StringUtil.escape($("#application\\.description").val()),
+		},
+		onSuccess: function(request) {
+			configurarAplicacion(request.applications);
+			$("#dialogAplicacion").dialog("close");
+		},
+		validation: function() {
+			$.validity.start();
+
+			$("#application\\.name").require();
+			$("#application\\.jndi").require().match(function(){
+			    var rgx = /^(jdbc)[\/]*/;
+			    var str = $("#application\\.jndi").val();
+			    
+			    if(str.replace(rgx, "").length > 0) {
+			    	return rgx.test(str);
+			    } 
+			    
+			    return false;
+			}, "Formato invalido. Debe iniciar con jdbc/, ejemplo: jdbc/APP");
+
+			$("#application\\.description").assert(function(){
+				return ($("#application\\.description").val().length < 1200);
+			}, "La longitud de la descripci\u00F3n no debe de exceder de 1200 caracteres");
+
+			var result = $.validity.end();
+			return result.valid;
 		}
 	});
 };
 
 $(document).ready(function() {
+	$("#btnBuscar").button({icons : { primary : "ui-icon-search" }}).on("click", listar);
+	$("#btnLimpiar").button({icons : { primary : "ui-icon-refresh" }}).on("click", function(){
+		$("#findApplicationName").val("");
+		listar();
+	});
 	$("#btnNuevo").button({icons : { primary : "ui-icon-document" }}).on("click", function(){
-		var ids = $("#tbl_pnlApplications").jqGrid('getGridParam','selarrrow');
-		var id = $("#tbl_pnlApplications").jqGrid('getGridParam', 'selrow');
+		// var ids = $("#tbl_pnlApplications").jqGrid('getGridParam','selarrrow');
+		// var id = $("#tbl_pnlApplications").jqGrid('getGridParam', 'selrow');
+		$("#application\\.id").html("");
+		$("#application\\.version").val("");
+		$("#application\\.name").val("");
+		$("#application\\.jndi").val("");
+		$("#application\\.description").val("");
 		$("#dialogAplicacion").dialog("open");
 	});
-
-	request = $.parseJSON($("#labelJSON").text());
-	if(request.tipoResultado == 'EXITO') {
-		configurarAplicacion(request.applications);
-	} else if(request.tipoResultado == 'ERROR_SISTEMA') {
-		openJqError({type: "SYS", content: request.mensaje});
-	}
 	
 	$("#application\\.description").jqte({
 		left: false,
@@ -121,11 +150,13 @@ $(document).ready(function() {
 	});
 
 	createDialogHTML("dialogAplicacion", {
-		title : "Registro de Aplicaci\u00F3n",
-		width : 550,
+		title: "Registro de Aplicaci\u00F3n",
+		width: 550,
 		buttons: {
-			  "Aceptar": function(){ closeDialog($(this).attr("id")); }
+			  "Aceptar": function(){ guardarDetalle(); }
 			, "Cancelar": function(){ $("#dialogAplicacion").dialog("close"); }
 		}
 	});
+
+	listar();
 });

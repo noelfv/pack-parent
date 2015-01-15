@@ -42,7 +42,7 @@ public abstract class DataManipulationService<T, D extends IHibernateDAO<T>> imp
 
     @Override
     public void eliminar(List<T> o) {
-        hibernateDAO.deleteaAll(o);
+        hibernateDAO.deleteAll(o);
     }
 
 }

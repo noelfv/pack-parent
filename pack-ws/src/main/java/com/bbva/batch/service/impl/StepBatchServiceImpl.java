@@ -29,8 +29,37 @@ public class StepBatchServiceImpl extends DataManipulationService<StepBatch, Ste
     }
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-    public List<StepBatch> listar(Long idJobBatch, boolean lazy) {
-        return getHibernateDAO().listar(idJobBatch, lazy);
+    public List<StepBatch> listar(Long idJobBatch, String name, boolean lazy) {
+        return getHibernateDAO().listar(idJobBatch, name, lazy);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    public List<StepBatch> listar(Long idJobBatch, String name) {
+        return listar(idJobBatch, name, false);
+    }
+
+    @Override
+    public List<StepBatch> listar(Long idJobBatch, boolean lazy) {
+        return listar(idJobBatch, "", lazy);
+    }
+
+    @Override
+    public StepBatch obtener(Long idStepBatch) {
+        return obtener(idStepBatch, false);
+    }
+
+    @Override
+    public StepBatch obtener(Long idStepBatch, boolean lazy) {
+        return getHibernateDAO().obtener(idStepBatch, lazy);
+    }
+
+    @Override
+    public StepBatch obtener(Long idJobBatch, String name) {
+        return obtener(idJobBatch, name, false);
+    }
+
+    @Override
+    public StepBatch obtener(Long idJobBatch, String name, boolean lazy) {
+        return getHibernateDAO().obtener(idJobBatch, name, lazy);
+    }
 }

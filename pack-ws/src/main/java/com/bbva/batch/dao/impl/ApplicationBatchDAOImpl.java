@@ -19,7 +19,7 @@ public class ApplicationBatchDAOImpl extends HibernateDAO<ApplicationBatch> impl
     @Override
     public List<ApplicationBatch> listar(String name, boolean lazy) {
         Criteria criteria = super.getCriteria(ApplicationBatch.class);
-        if(name != null && name.trim().isEmpty()) {
+        if(name != null && !name.trim().isEmpty()) {
             criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE).ignoreCase());
         }
         criteria.addOrder(Order.asc("id"));
