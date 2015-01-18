@@ -33,7 +33,7 @@ public class StepController extends AbstractSpringControllerImpl {
     @Resource(name = "jobBatchService")
     private JobBatchService jobBatchService;
     
-    @RequestMapping(value = "list")
+    @RequestMapping(value = "list/{id}")
     public String index(ModelMap model, @PathVariable("id") Long id) {
         model.addAttribute("schedulerClass", "");
         model.addAttribute("jobClass", "ui-state-active-bbva");

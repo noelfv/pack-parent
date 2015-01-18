@@ -61,4 +61,13 @@ public class JobBatch extends EntityBatch {
     public void setSteps(List<StepBatch> steps) {
         this.steps = steps;
     }
+
+    public int getCountSteps() {
+        int size = 0;
+        if(this.steps != null) {
+            size = this.steps.size();
+        }
+        
+        return size;
+    }
 }

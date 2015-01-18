@@ -25,7 +25,7 @@ import com.everis.web.controller.impl.AbstractSpringControllerImpl;
 public class JobController extends AbstractSpringControllerImpl {
 
     private static final long serialVersionUID = 1L;
-    private static final String EXCLUDE_JOB[] = new String[] { "*.class", "application", "steps" };
+    private static final String EXCLUDE_JOB[] = new String[] { "*.class", "*.application", "*.steps" };
 
     @Resource(name = "jobBatchService")
     private JobBatchService jobBatchService;
@@ -49,7 +49,7 @@ public class JobController extends AbstractSpringControllerImpl {
             if (!bindingResult.hasErrors()) {
                 JobBatch job = jobModel.getJob();
                 model.setTipoResultado(Resultado.EXITO);
-                model.setJobs(jobBatchService.listar(job.getApplication().getId(), job.getName()));
+                model.setJobs(jobBatchService.listar(job.getApplication().getId(), job.getName(), true));
                 result = this.renderModelJsonDeepExclude(model, EXCLUDE_JOB);
             } else {
                 result = this.renderErrorSistema(bindingResult.getAllErrors());
@@ -85,11 +85,21 @@ public class JobController extends AbstractSpringControllerImpl {
         try {
             JobModel model = new JobModel();
             if (!bindingResult.hasErrors()) {
+                JobBatch tmp = null;
                 JobBatch job = jobModel.getJob();
-                model.setTipoResultado(Resultado.EXITO);
-                jobBatchService.actualizar(job);
-                model.setMensaje("Registro actualizado correctamente");
-                model.setJobs(jobBatchService.listar(job.getApplication().getId()));
+                if(job.getId() == null) {
+                    tmp = jobBatchService.obtener(job.getApplication().getId(), job.getName());
+                }
+                if(tmp == null) {
+                    model.setTipoResultado(Resultado.EXITO);
+                    job.setApplication(applicationBatchService.obtener(job.getApplication().getId()));
+                    jobBatchService.actualizar(job);
+                    model.setMensaje("Registro actualizado correctamente");
+                } else {
+                    model.setTipoResultado(Resultado.ADVERTENCIA);
+                    model.setMensaje("El nombre del trabajo ya esta registrado");
+                }                
+                model.setJobs(jobBatchService.listar(job.getApplication().getId(), true));
                 result = this.renderModelJsonDeepExclude(model, EXCLUDE_JOB);
             } else {
                 result = this.renderErrorSistema(bindingResult.getAllErrors());
@@ -112,7 +122,7 @@ public class JobController extends AbstractSpringControllerImpl {
                 
                 model.setTipoResultado(Resultado.EXITO);
                 model.setMensaje("Registro eliminado");
-                model.setJobs(jobBatchService.listar(job.getApplication().getId()));
+                model.setJobs(jobBatchService.listar(job.getApplication().getId(), true));
                 result = this.renderModelJsonDeepExclude(model, EXCLUDE_JOB);
             } else {
                 result = this.renderErrorSistema(bindingResult.getAllErrors());

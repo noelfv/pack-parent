@@ -79,11 +79,20 @@ public class ApplicationController extends AbstractSpringControllerImpl {
         try {
             ApplicationModel model = new ApplicationModel();
             if (!bindingResult.hasErrors()) {
+                ApplicationBatch tmp = null;
                 ApplicationBatch app = applicationModel.getApplication();
-                model.setTipoResultado(Resultado.EXITO);
-                applicationBatchService.actualizar(app);
-                model.setMensaje("Registro actualizado correctamente");
-                model.setApplications(applicationBatchService.listar());
+                if(app.getId() == null) {
+                    tmp = applicationBatchService.obtener(app.getName());
+                }
+                if(tmp == null) {
+                    model.setTipoResultado(Resultado.EXITO);
+                    applicationBatchService.actualizar(app);
+                    model.setMensaje("Registro actualizado correctamente");
+                    model.setApplications(applicationBatchService.listar());
+                } else {
+                    model.setTipoResultado(Resultado.ADVERTENCIA);
+                    model.setMensaje("El nombre de la aplicaci&#243;n ya esta registrado");
+                }
                 result = this.renderModelJsonDeepExclude(model, EXCLUDE_APPLICATION);
             } else {
                 result = this.renderErrorSistema(bindingResult.getAllErrors());

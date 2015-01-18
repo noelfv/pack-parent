@@ -180,16 +180,25 @@ openJqWarn = function(options) {
 openJqError = function(options) {
 	options = $.extend({id: "jqError"
 		, buttons: {
-			"Ver Detalle": function() { 
-				$('#error').toggleClass('hide'); 
-				$('#jqError').dialog("option", "position", { my: "center", at: "center", of: window });
-			},
 			"Aceptar": function() { closeDialog($(this).attr("id")); }
 		}
 	}, options);
 	if(options.type == "SYS") {
 		options.width = 530;
 		options.height = 300;
+		options.buttons = {
+			"Ver Detalle": function() { 
+				var o = $("[aria-describedby=jqError]").find(".ui-dialog-buttonpane").find(".ui-button").eq(0).find(".ui-button-text");
+				if(o.text() == "Ver Detalle") {
+					o.text("Ocultar Detalle");
+				} else {
+					o.text("Ver Detalle");
+				}
+				$('#error').toggleClass('hide'); 
+				$('#jqError').dialog("option", "position", { my: "center", at: "center", of: window });
+			},
+			"Aceptar": function() { closeDialog($(this).attr("id")); }
+		};
 		/*
 		options.content = "Error del sistema, comuniquese con su Administrador de Sistema.<br/>" +
 			"<div style='padding-top: 10px; padding-bottom: 10px;'><button id=\"btnVerDetalle\">Ver Detalle</button></div>" +
@@ -741,6 +750,8 @@ AjaxUtil = function(options) {
 		   		}
 			} else if(request.tipoResultado == 'ERROR_SISTEMA') {
 				openJqError({type: "SYS", content: request.mensaje});
+			} else if(request.tipoResultado == 'ADVERTENCIA') {
+				openJqWarn({type: "SYS", content: request.mensaje});
 			}
 		});	
 	}

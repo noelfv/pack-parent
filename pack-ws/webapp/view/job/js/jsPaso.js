@@ -6,102 +6,26 @@ fmtVerDetalle = function(cellvalue, options, rowObject) {
 		"<a title='Eliminar' href='javascript:void(0);' onclick='elimniarDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-eliminar'></span></a>";
 },
 
-fmtVerDetalleTrabajo = function(cellvalue, options, rowObject) {
-	return "<a href='javascript:void(0);' onclick='verDetalleTrabajo(" + cellvalue + ")'><span class='ui-icon u-icon-ver-detalle'></span></a>";
-},
-
-fmtVerDetallePaso = function(cellvalue, options, rowObject) {
-	return "<a href='javascript:void(0);' onclick='verDetallePaso(" + cellvalue + ")'><span class='ui-icon u-icon-ver-detalle'></span></a>";
-},
-
-formatterExitStatus = function(cellvalue, options, rowObject) {
-	return cellvalue.exitCode;
-},
-
-
 listar = function() {
-	var _ajax = $.ajax({
-		url:  obtenerContexto("job/listar.html")
-	});
-	
-	_ajax.success(function(request) {
-		if(request.tipoResultado == 'EXITO') {
-			configurarAplicacion(request);
-		} else if(request.tipoResultado == 'ERROR_SISTEMA') {
-			openJqError({type: "SYS", content: request.mensaje});
+	AjaxUtil({
+		url: obtenerContexto("job/find.html"),
+		data: {
+			"job.application.id": $("#application\\.id").val(),
+			"job.name": $("#findJobName").val()
+		},
+		onSuccess: function(request) {
+			configurarTrabajo(request.jobs);
 		}
 	});
 },
 
-configurarAplicacion = function(applications) {
-	configurarGrid("pnlApplications", {
-	    datatype : "local",
-		data : applications,
-		height : "auto",
-		width : 620,
-		rowNum : 10,
-		multiselect : false,
-		colNames : [
-			  'Aplicaci\u00F3n'
-			, 'JNDI'
-			, 'Nro. Trab.'
-			, ''   
-		],
-	   	colModel : [
-	   		  {name: 'name'     , index: 'name'     , width: 250}
-	   		, {name: 'jndi'     , index: 'jndi'     , width: 160}
-	   		, {name: 'sizeJobs' , index: 'sizeJobs' , width: 90}
-	   		, {name: 'id'       , index: 'id'       , width: 70, align: "center", formatter: fmtVerDetalle, sortable: false}	
-	   	],
-	   	onPaging: function(pgButton) {
-	   		// Change de Page
-	   		//console.log("eventLocal1");
-	   	},
-	   	loadComplete: function(data) {
-	   		//console.log("eventLocal2");
-	   	},
-	   	onSelectRow: function(rowid, status, e) {
-	   		//console.log("eventLocal3");
-	   	}
-	});
-},
-
-verDetalle = function(idAplicacion) {
-	var _ajax = $.ajax({
-		url:  obtenerContexto("job/listar.html") /*Change */
-	});
-	
-	_ajax.success(function(request) {
-		if(request.tipoResultado == 'EXITO') {
-			/* Change */
-			$("#lblAplicacion").html("{request.aplicacion}");
-			$("#layoutDetalleAplicacion").removeClass("hide");
-			$("#layoutAplicacion").addClass("hide");
-			configurarTrabajo(request);
-		} else if(request.tipoResultado == 'ERROR_SISTEMA') {
-			openJqError({type: "SYS", content: request.mensaje});
-		}
-	});
-},
-
-editarDetalle = function(rowid) {
-	$("#dialogAplicacion").dialog("open");
-}
-
-configurarTrabajo = function(request) {
+configurarTrabajo = function(jobs) {
 	configurarGrid("pnlJobs", {
 	    datatype : "local",
-		data : [
-			{}, {}, {}, {}, {},
-			{}, {}, {}, {}, {},
-			{}, {}, {}, {}, {},
-			{}, {}, {}, {}, {},
-			{}, {}, {}, {}, {},
-			{}, {}, {}, {}, {}
-		],
+		data : jobs || [],
 		height : "auto",
-		width : 580,
-		rowNum : 6,
+		width : 630,
+		rowNum : 5,
 		colNames : [
 			  'Trabajo'
 			, 'Cron'
@@ -110,31 +34,144 @@ configurarTrabajo = function(request) {
 		],
 	   	colModel : [
 	   		  {name: 'name'          , index: 'name'          , width: 300}
-	   		, {name: 'cronExpression', index: 'cronExpression', width: 100}
-	   		, {name: 'sizeSteps'     , index: 'sizeSteps'     , width: 100}
-	   		, {name: 'id'            , index: 'id'            , width: 40, formatter: fmtVerDetalleTrabajo}	
+	   		, {name: 'cronExpression', index: 'cronExpression', width: 120}
+	   		, {name: 'countSteps'    , index: 'countSteps'    , width: 90}
+	   		, {name: 'id'            , index: 'id'            , width: 70, align: "center", formatter: fmtVerDetalle, sortable: false}
 	   	]
 	});
 },
 
-verDetalleTrabajo = function() {
-	var _ajax = $.ajax({
-		url:  obtenerContexto("job/listar.html") /*Change */
-	});
-	
-	_ajax.success(function(request) {
-		if(request.tipoResultado == 'EXITO') {
-			/* Change */
-			$("#lblTrabajo").html("{request.aplicacion}:{request.trabajo}");
-			$("#layoutDetalleTrabajo").removeClass("hide");
-			$("#layoutDetalleAplicacion").addClass("hide");
-			configurarPaso(request);
-		} else if(request.tipoResultado == 'ERROR_SISTEMA') {
-			openJqError({type: "SYS", content: request.mensaje});
+verDetalle = function(idAplicacion) {
+	window.location = obtenerContexto("step/list/" + idAplicacion + ".html");
+},
+
+editarDetalle = function(rowid) {
+	AjaxUtil({
+		action: 'viewDetaill',
+		element: 'job',
+		url: obtenerContexto("job/get.html"),
+		data: {
+			"job.application.id": $("#application\\.id").val(),
+			"job.id": rowid
+		},
+		onSuccess: function(request) {
+			$("#job\\.description").jqteVal(request.job.description);
+			$("#dialogTrabajo").dialog("open");
 		}
 	});
 },
 
+elimniarDetalle = function(rowid) {
+	AjaxUtil({
+		action: 'delete',
+		url: obtenerContexto("job/delete.html"),
+		data: {
+			"job.id": rowid
+		},
+		onSuccess: function(request) {
+			configurarTrabajo(request.jobs);
+		}
+	});
+},
+
+guardarDetalle = function() {
+	AjaxUtil({
+		action: 'save',
+		container: 'dialogTrabajo',
+		url: obtenerContexto("job/save.html"),
+		data: {
+			"job.application.id": $("#application\\.id").val(),
+			"job.id": $("#job\\.id").text(),
+			"job.version": $("#job\\.version").val(),
+			"job.name": $("#job\\.name").val(),
+			"job.cronExpression": $("#job\\.cronExpression").val(),
+			"job.description": StringUtil.escape($("#job\\.description").val()),
+		},
+		onSuccess: function(request) {
+			configurarTrabajo(request.jobs);
+			$("#dialogTrabajo").dialog("close");
+		},
+		validation: function() {
+			$.validity.start();
+
+			$("#job\\.name").require();
+			$("#job\\.cronExpression").require();
+
+			$("#job\\.description").assert(function(){
+				var o = $("#job\\.description\\.validity"),
+					l = $("#job\\.description").parent().parent().find(".jqte_editor").text().length,
+					v = (l < 1201)
+
+				o.attr("title", "La longitud de la descripci\u00F3n no debe de exceder de 1200 caracteres. Se ha ingresado " + l + " caracteres.");
+
+				if(!v) {
+					if(o.hasClass('hide')) {
+						o.removeClass('hide'); 	
+					}
+				} else {
+					if(!o.hasClass('hide')) {
+						o.addClass('hide'); 	
+					}
+				}
+
+				return v;
+			}, "La longitud de la descripci\u00F3n no debe de exceder de 1200 caracteres");
+
+			var result = $.validity.end();
+			return result.valid;
+		}
+	});
+};
+
+$(document).ready(function() {
+	$("#btnBuscar").button({icons : { primary : "ui-icon-search" }}).on("click", listar);
+	$("#btnLimpiar").button({icons : { primary : "ui-icon-refresh" }}).on("click", function(){
+		$("#findJobName").val("");
+		listar();
+	});
+	$("#btnNuevo").button({icons : { primary : "ui-icon-document" }}).on("click", function(){
+		$("#job\\.id").html("");
+		$("#job\\.version").val("");
+		$("#job\\.name").val("");
+		$("#job\\.cronExpression").val("");
+		$("#job\\.description").val("");
+		$("#dialogTrabajo").dialog("open");
+	});
+	
+	$("#job\\.description\\.validity").tooltip({
+		tooltipClass : "ui-state-error"
+	});
+
+	$("#job\\.description").jqte({
+		left: false,
+		center: false,
+		right: false,
+		sub: false,
+		sup: false,
+		outdent: false,
+		indent: false,
+		strike: false,
+		link: false,
+		unlink: false,
+		remove: false,
+		rule: false,
+		source: false,
+		ol: false,
+		ul: false
+	});
+
+	createDialogHTML("dialogTrabajo", {
+		title: "Registro de Trabajo",
+		width: 550,
+		buttons: {
+			  "Aceptar": function(){ guardarDetalle(); }
+			, "Cancelar": function(){ $("#dialogTrabajo").dialog("close"); }
+		}
+	});
+
+	listar();
+});
+/*
 configurarPaso = function(request) {
 	configurarGrid("pnlSteps", {
 	    datatype : "local",
@@ -165,75 +202,4 @@ configurarPaso = function(request) {
 	   	]
 	});
 },
-
-verDetallePaso = function() {
-
-},
-
-verificarOperacion = function() {
-	useFunctionLoading = function(method) {
-		if(method == "start") {
-			
-		} else if(method == "stop") {
-			
-		}
-	}
-	
-	var _ajax = $.ajax({
-		url:  obtenerContexto("scheduler/obtenerJob/listarJob.html")
-	});
-	
-	_ajax.success(function(request){
-		if(request.tipoResultado == 'EXITO') {
-			if(request.handler.estado == 'INACTIVO') {
-				$("#lblCargando").addClass("hide");
-				$("#btnEjecutar").button("enable");
-				configurarJobExecutions(request);
-			} else {
-				setTimeout(function(){ verificarOperacion() }, 5000);
-			}
-		} else if(request.tipoResultado == 'ERROR_SISTEMA') {
-			openJqError({type: "SYS", content: request.mensaje});
-		}
-	});
-},
-
-iniciarOperacion = function() {
-	var _ajax = $.ajax({
-			url:  obtenerContexto("job/obtenerJob/iniciarJob.html")
-		});
-		
-	_ajax.success(function(request){
-		if(request.tipoResultado == 'EXITO') {
-			if(request.handler.estado == 'ACTIVO') {
-				$("#lblCargando").removeClass("hide");
-				$("#btnEjecutar").button("disable");
-				setTimeout(function(){ verificarOperacion() }, 5000);
-			}
-			configurarJobExecutions(request);
-		} else if(request.tipoResultado == 'ERROR_SISTEMA') {
-			openJqError({type: "SYS", content: request.mensaje});
-		}
-	});
-};
-
-$(document).ready(function() {
-	$("#btnNuevo").button({icons : { primary : "ui-icon-document" }}).on("click", function(){
-		var ids = $("#tbl_pnlApplications").jqGrid('getGridParam','selarrrow');
-        var id = $("#tbl_pnlApplications").jqGrid('getGridParam', 'selrow');
-
-        console.log(ids);
-        console.log(id);
-	});
-
-	/* $("#btnEliminar").button({icons : { primary : "ui-icon-trash" }}); */
-	createDialogHTML("dialogAplicacion", {
-        width : 290
-    });
-	/* if(!$("#lblCargando").hasClass("hide")) {
-		$("#btnEjecutar").button("disable");
-		setTimeout(function(){ verificarOperacion() }, 5000);
-	} */
-	
-	configurarAplicacion($.parseJSON($("#labelJSON").text()));
-});
+*/

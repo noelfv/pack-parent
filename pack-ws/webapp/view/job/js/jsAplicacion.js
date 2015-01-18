@@ -105,7 +105,23 @@ guardarDetalle = function() {
 			}, "Formato invalido. Debe iniciar con jdbc/, ejemplo: jdbc/APP");
 
 			$("#application\\.description").assert(function(){
-				return ($("#application\\.description").val().length < 1200);
+				var o = $("#application\\.description\\.validity"),
+					l = $("#application\\.description").parent().parent().find(".jqte_editor").text().length,
+					v = (l < 1201)
+
+				o.attr("title", "La longitud de la descripci\u00F3n no debe de exceder de 1200 caracteres. Se ha ingresado " + l + " caracteres.");
+
+				if(!v) {
+					if(o.hasClass('hide')) {
+						o.removeClass('hide'); 	
+					}
+				} else {
+					if(!o.hasClass('hide')) {
+						o.addClass('hide'); 	
+					}
+				}
+
+				return v;
 			}, "La longitud de la descripci\u00F3n no debe de exceder de 1200 caracteres");
 
 			var result = $.validity.end();
@@ -129,6 +145,10 @@ $(document).ready(function() {
 		$("#application\\.jndi").val("");
 		$("#application\\.description").val("");
 		$("#dialogAplicacion").dialog("open");
+	});
+	
+	$("#application\\.description\\.validity").tooltip({
+		tooltipClass : "ui-state-error"
 	});
 	
 	$("#application\\.description").jqte({

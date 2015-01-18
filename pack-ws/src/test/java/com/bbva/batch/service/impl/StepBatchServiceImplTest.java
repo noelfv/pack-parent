@@ -37,6 +37,11 @@ public class StepBatchServiceImplTest extends AbstractJUnit4Test {
     private StepBatchService stepBatchService;
 
     @Test
+    public void _00Eliminar() {
+        LOGGER.info(System.getProperty("java.class.path"));
+    }
+    
+    @Test
     public void _01Eliminar() {
         ApplicationBatch application = applicationBatchService.obtener("packBBVA");
         JobBatch o = jobBatchService.obtener(application.getId(), "jobSimulacion");

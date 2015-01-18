@@ -32,22 +32,30 @@
 				<tr>
 					<td style="width: 80px">C&#243;digo</td>
 					<td><b>:</b></td>
-					<td><div id="application.id" data-model="application.id" data-validation="" class="ui-label" style="width: 85%"></div></td>
+					<td><div id="application.id" class="ui-label" style="width: 85%"></div></td>
 				</tr>
 				<tr>
 					<td>Nombre</td>
 					<td><b>:</b></td>
-					<td><input id="application.name" data-model="application.name" type="text" style="width: 85%"/></td>
+					<td><input id="application.name" type="text" style="width: 85%"/></td>
 				</tr>
 				<tr>
 					<td>JNDI</td>
 					<td><b>:</b></td>
-					<td><input id="application.jndi" data-model="application.jndi" type="text" style="width: 85%" /></td>
+					<td><input id="application.jndi" type="text" style="width: 85%" /></td>
 				</tr>
 				<tr>
 					<td>Descripci&#243;n</td>
 					<td><b>:</b></td>
-					<td><input id="application.description" data-model="application.description" type="text" style="width: 85%" /></td>
+					<td>
+						<table style="width: 100%"><tr>
+							<td><input id="application.description" type="text" style="width: 85%" /></td>
+							<td style="width: 20px;">
+								<img id="application.description.validity" class="hide" src="${pageContext.request.contextPath}/public/img/exclamation_red_frame.png" title="La longitud de la descripci&#243;n no debe de exceder de 1200 caracteres">
+							</td>
+						</tr></table>
+						
+					</td>
 				</tr>
 			</table>
 		</div>
