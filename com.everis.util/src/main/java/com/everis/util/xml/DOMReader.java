@@ -18,8 +18,17 @@ import com.everis.util.xml.filter.DOMFilter;
 
 public class DOMReader implements DOMFilter {
 
+    private static String pathSeparator = "$";
     private static final Logger LOGGER = Logger.getLogger(DOMReader.class);
     private List<DOMFilter> filters;
+
+    public static String getPathSeparator() {
+        return pathSeparator;
+    }
+    
+    public static void setPathSeparator(String pathSeparator) {
+        DOMReader.pathSeparator = pathSeparator;
+    }
 
     public DOMReader(List<DOMFilter> filters) {
         super();
@@ -57,27 +66,29 @@ public class DOMReader implements DOMFilter {
 
     private void obtenerElementos(Node node, String path) throws DOMReaderException {
         Node item;
-        Node attr;
+        short type;
         for (int j = 0; j < node.getChildNodes().getLength(); j++) {
             item = node.getChildNodes().item(j);
-            if (item.getNodeType() == Node.ELEMENT_NODE && item.getChildNodes().getLength() > 0) {
-                obtenerElementos(item, path + item.getNodeName() + "/");
-            } else if (item.getNodeType() == Node.ELEMENT_NODE) {
-                attr = item.getAttributes().getNamedItem("name");
-                LOGGER.info("path: " + path + item.getNodeName() + "/" + (attr == null ? "" : attr.getNodeValue()));
-                read((Element) item);
+            type = (item.getChildNodes().getLength() > 0 ? DOMFilter.NODE : DOMFilter.ELEMENT);
+            LOGGER.info(path + item.getNodeName() + "$%" + type);
+            
+            if (item.getNodeType() == Node.ELEMENT_NODE) {
+                read((Element) item, path + item.getNodeName(), type);            
+                if (type == DOMFilter.NODE) {
+                    obtenerElementos(item, path + item.getNodeName() + pathSeparator);
+                }
             }
         }
     }
 
-    public void read(Element element) throws DOMReaderException {
+    public void read(Element element, String path, short nivel) throws DOMReaderException {
         for (DOMFilter filter : filters) {
-            filter.read(element);
+            filter.read(element, path, nivel);
         }
     }
-
+    
     public void read(InputStream io, String path) throws DOMReaderException {
         Document doc = obtenerDocumento(io);
-        obtenerElementos(doc.getFirstChild(), "/");
+        obtenerElementos(doc.getFirstChild(), path);
     }
 }

@@ -24,7 +24,7 @@ public class AbstractJUnit4Test {
         prop.setProperty("log4j.rootCategory", "INFO,LOGFILE,stdout");
         // prop.setProperty("log4j.rootCategory", "INFO");
         prop.setProperty("log4j.appender.LOGFILE", "org.apache.log4j.RollingFileAppender");
-        prop.setProperty("log4j.appender.LOGFILE.file", "/pr/pack-ws/online/pe/web/log/log_pack-ws.log");
+        prop.setProperty("log4j.appender.LOGFILE.file", "/pr/pack-ws/online/pe/web/log/log_pack-ws-test.log");
         prop.setProperty("log4j.appender.LOGFILE.MaxFileSize", "1024kb");
         prop.setProperty("log4j.appender.LOGFILE.MaxBackupIndex", "10");
         prop.setProperty("log4j.appender.LOGFILE.append", "true");
@@ -47,7 +47,7 @@ public class AbstractJUnit4Test {
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(o);
-            LOGGER.info(json);
+            LOGGER.info("\n" + json);
         } catch (Exception e) {
             LOGGER.error("", e);
         }
