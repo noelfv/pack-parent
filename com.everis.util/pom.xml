@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.everis</groupId>
@@ -11,9 +11,12 @@
     <name>Util</name>
 
     <properties>
+        <flexjson.version>3.2</flexjson.version>
         <log4j.version>1.2.17</log4j.version>
         <commons.lang3.version>3.1</commons.lang3.version>
         <commons.io.version>2.2</commons.io.version>
+        <junit.version>4.11</junit.version>
+        <saaj.version>1.3.23</saaj.version>
     </properties>
 
     <dependencies>
@@ -31,6 +34,29 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons.io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.messaging.saaj</groupId>
+            <artifactId>saaj-impl</artifactId>
+            <version>${saaj.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.flexjson</groupId>
+            <artifactId>flexjson</artifactId>
+            <version>${flexjson.version}</version>
+            <!-- This may not be the current version. Check the above link -->
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

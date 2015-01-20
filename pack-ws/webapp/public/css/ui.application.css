@@ -523,9 +523,9 @@ div.ui-label {
     border: 1px solid #E8E8E6;
     /*margin: 2px 0;*/
     border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     box-shadow: inset 0 2px 3px 0 rgba(0,0,0,0.16);
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     -moz-box-shadow: inset 0 2px 3px 0 rgba(0,0,0,0.16);
     -webkit-box-shadow: inset 0 2px 3px 0 rgba(0,0,0,0.16);
     color: #333;
@@ -683,7 +683,6 @@ input.ui-text-conflicto {
 	-moz-border-radius: 3px;
 	-ms-border-radius: 3px;
 	-o-border-radius: 3px;
-	border-radius: 3px;
 	border: 1px solid #dcdcdc;
 	background: #fff;
 	position: relative;
@@ -722,11 +721,13 @@ input.ui-text-conflicto {
 	line-height: 28px !important;
 }
 
+.pui-dropdown-panel li.ui-state-hover,
 .pui-picklist li.ui-state-hover {
 	background: #EEF9FD !important;
 	color: #363636;
 }
 
+.pui-dropdown-panel li.ui-state-highlight,
 .pui-picklist li.ui-state-highlight {
 	background: #e0f6fc !important;
 	font-weight: normal !important;
@@ -734,7 +735,7 @@ input.ui-text-conflicto {
 }
 
 .pui-spinner input {
-	margin-right: 10px;
+	margin-right: 15px;
 }
 
 .pui-spinner .pui-spinner-button {
@@ -747,8 +748,119 @@ input.ui-text-conflicto {
     margin-right: 4px;
 }
 
+.pui-tabview .pui-tabview-panel {
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-ms-border-radius: 4px;
+	-o-border-radius: 4px;
+}
+
 .pui-tabview {
     position: relative;
     border: none !important;
     padding: 0px;
+}
+
+.pui-tabview .ui-widget-header {
+	background: none !important;
+	border: none !important;
+	height: 30px !important;
+	line-height: 28px !important;
+}
+
+.pui-tabview .ui-state-default {
+	background: none repeat scroll 0 0 #f0f2ef;
+    border: 1px solid #dcdcdc;
+}
+
+.pui-tabview .ui-state-active {
+	background: none repeat scroll 0 0 #fff;
+    border: 1px solid #dcdcdc;
+}
+
+.pui-tabview .ui-state-default a,
+.pui-tabview .ui-state-default a:link,
+.pui-tabview .ui-state-default a:visited {
+	color: black;
+}
+
+.pui-tabview .ui-state-active a,
+.pui-tabview .ui-state-active a:link,
+.pui-tabview .ui-state-active a:visited {
+	color: black;
+	font-family: "BBVA Web Medium" !important;
+}
+
+.pui-dropdown-container .ui-state-default {
+	background: none;
+	border: 1px solid #E8E8E6;
+}
+
+/*
+.pui-dropdown-container .ui-state-focus {
+	border: 1px solid #89AFD3;
+}
+*/
+
+.pui-dropdown-container .pui-inputtext {
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: inset 0 2px 3px 0 rgba(0,0,0,0.16);
+    -moz-box-shadow: inset 0 2px 3px 0 rgba(0,0,0,0.16);
+    -webkit-box-shadow: inset 0 2px 3px 0 rgba(0,0,0,0.16);
+    color: #333;
+    font: 14px Arial,sans-serif;
+    padding: .583em .755em .5em .755em;
+    height: 16px;
+    background: #fff;
+}
+
+.pui-dropdown-panel {
+	border: 1px solid #E8E8E6;
+}
+
+.pui-dropdown-panel .pui-dropdown-filter {
+	width: 90%;
+}
+
+.pui-dropdown-filter-container {
+	width: 93%;
+}
+
+.pui-dropdown-filter-container .pui-inputtext {
+	background: #fff;
+	color: #000;
+	border: 1px solid #E8E8E6;
+}
+
+.pui-dropdown-filter-container input.ui-state-hover {
+	border: 1px solid #89AFD3;
+}
+
+.pui-dropdown-panel .pui-dropdown-filter-container .ui-icon {
+    position: absolute;
+    right: 5px;
+    top: 15px;
+}
+
+.pui-dropdown .pui-dropdown-trigger .ui-icon {
+	margin-top: 7px;	
+}
+
+.pui-dropdown .pui-dropdown-trigger {
+	background: #0079c1;
+	background: linear-gradient(to bottom,#0079c1 0,#00559d 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0079c1', endColorstr='#00559d', GradientType=0);
+	border: 1px solid #00559d;
+}
+
+.pui-dropdown .ui-state-hover div.pui-dropdown-trigger {
+	background: #0069b1;
+	background: linear-gradient(to bottom,#0069b1 0,#004b8c 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0069b1', endColorstr='#004b8c', GradientType=0);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.2);
+	border: 1px solid #003c6f;
+	transition: background-position .1s linear;	
 }

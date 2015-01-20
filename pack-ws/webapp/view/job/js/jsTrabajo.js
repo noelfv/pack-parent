@@ -85,7 +85,7 @@ guardarDetalle = function() {
 			"job.version": $("#job\\.version").val(),
 			"job.name": $("#job\\.name").val(),
 			"job.cronExpression": $("#job\\.cronExpression").val(),
-			"job.description": StringUtil.escape($("#job\\.description").val()),
+			"job.description": StringUtil.escape($("#job\\.description").val())
 		},
 		onSuccess: function(request) {
 			configurarTrabajo(request.jobs);
@@ -171,9 +171,13 @@ $(document).ready(function() {
 
 	$(':radio').puiradiobutton();
 	$(':checkbox').puicheckbox();
-
-	$('#default').puispinner();
+	$('#spnMin').puispinner();
 	$("#tabs").puitabview();
+
+	/*
+	$('#filter').puidropdown({  
+        filter: true  
+    });
 
 	$('#update').puipicklist({
 		sourceData: [
@@ -190,12 +194,13 @@ $(document).ready(function() {
 		showSourceControls: true,  
 		showTargetControls: true,  
 		sourceCaption: 'Disponibles',  
-		targetCaption: 'Seleccionados'/*,  
-		filter: true,
-		content: function(option) {  
-			return '<img src="resources/demo/images/themes/' + option + '.png" alt="" /><span style="float:right;font-size:14px">' + option + '</span>';  
-		}*/
+		targetCaption: 'Seleccionados' //,  
+		//filter: true,
+		//content: function(option) {  
+		//	return '<img src="resources/demo/images/themes/' + option + '.png" alt="" /><span style="float:right;font-size:14px">' + option + '</span>';  
+		//}
 	});
+	*/
 
 	listar();
 });

@@ -46,31 +46,58 @@
 			</div>
 		</div>
 
+<div id="tabs">  
+    <ul>  
+        <li><a href="#tab1">Minuto</a></li>
+        <li><a href="#tab2">Hora</a></li>
+        <li><a href="#tab3">Diario</a></li>
+        <li><a href="#tab4">Mensual</a></li>
+        <li><a href="#tab5">Anual</a></li>
+    </ul>  
+    <div>  
+        <div id="tab1" style="height: 150px;">
+            Cada <input id="spnMin" type="text" style="width: 30px;"/> minuto(s)
+        </div>  
+        <div id="tab2" style="height: 150px;">
+            Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream. In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy, killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows.  
+        </div>  
+        <div id="tab3" style="height: 150px;">
+            After a break of more than 15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.  
+        </div>
+        <div id="tab4" style="height: 150px;">
+        	ss
+        </div>
+        <div id="tab5" style="height: 150px;">
+        	ss
+        </div>
+    </div>  
+</div> 
+<br><br>
+
+
+<!-- 
 
 <div id="update">  
     <select name="source"></select>  
     <select name="target"></select>  
 </div>
 
-<div id="tabs">  
-    <ul>  
-        <li><a href="#tab1">Tab 1</a></li>  
-        <li><a href="#tab2">Tab 2</a></li>  
-        <li><a href="#tab3">Tab 3</a></li>  
-    </ul>  
-    <div>  
-        <div id="tab1">  
-            The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding. His beloved son Michael has just come home from the war, but does not intend to become part of his father's business. T hrough Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect, but given to ruthless violence whenever anything stands against the good of the family.  
-        </div>  
-        <div id="tab2">  
-            Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream. In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy, killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows.  
-        </div>  
-        <div id="tab3">  
-            After a break of more than 15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.  
-        </div>  
-    </div>  
-</div> 
+<div class="pui-dropdown-container">
+<select id="filter" name="filter" style="width: 250px;">  
+    <option value="0">Select a City</option>  
+    <option value="1">Barcelona</option>  
+    <option value="2">Berlin</option>  
+    <option value="3">Istanbul</option>  
+    <option value="4">London</option>  
+    <option value="5">New York</option>  
+    <option value="6">Paris</option>  
+    <option value="7">Rome</option>  
+</select>
+</div>
+
 <br><br>
+-->
+
 <input id="default" type="text" /><br><br>
 
 		<div id="dialogTrabajo">
@@ -94,7 +121,7 @@
 <div id="pnlCronExpression"> 
     <table>
     	<tr>
-	        <td><input type="radio" name="cronType"/></td><td>Cada <input type="text" style="width: 30px;"/> minuto(s)</td>
+	        <td></td>
 	    </tr><tr>
 	        <td><input type="radio" name="cronType"/></td><td>Cada <input type="text" style="width: 30px;"/> hora(s)</td>
 	    </tr><tr>

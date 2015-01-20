@@ -25,18 +25,18 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *       &lt;sequence>
  *         &lt;element name="solicitud" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="codigoProducto" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="codigoSubProducto" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="estado" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="codigoSubProducto" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="estado" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="fechaAlta" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/>
- *         &lt;element name="importe" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *         &lt;element name="divisa" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="importe" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
+ *         &lt;element name="divisa" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="tipoDOI" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="numDOI" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="codigoCliente" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="contrato" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="plazo" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
  *         &lt;element name="oficina" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="ejecutivo" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="ejecutivo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="tasa" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -68,14 +68,11 @@ public class Solicitud {
     private String solicitud;
     @XmlElement(required = true)
     private String codigoProducto;
-    @XmlElement(required = true)
     private String codigoSubProducto;
-    @XmlElement(required = true)
     private String estado;
     @XmlSchemaType(name = "date")
     private XMLGregorianCalendar fechaAlta;
     private Double importe;
-    @XmlElement(required = true)
     private String divisa;
     @XmlElement(required = true)
     private String tipoDOI;
@@ -88,7 +85,6 @@ public class Solicitud {
     private Long plazo;
     @XmlElement(required = true)
     private String oficina;
-    @XmlElement(required = true)
     private String ejecutivo;
     private Double tasa;
 

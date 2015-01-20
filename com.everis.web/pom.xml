@@ -11,7 +11,6 @@
     <name>WebApp</name>
 
     <properties>
-        <flexjson.version>3.2</flexjson.version>
         <slf4j.log4j12.version>1.7.7</slf4j.log4j12.version>
         <org.springframework.version>3.2.0.RELEASE</org.springframework.version>
         <tiles.version>2.2.2</tiles.version>
@@ -59,12 +58,6 @@
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
             <version>1.9.10</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.flexjson</groupId>
-            <artifactId>flexjson</artifactId>
-            <version>${flexjson.version}</version>
-            <!-- This may not be the current version. Check the above link -->
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
