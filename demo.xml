@@ -1,0 +1,9 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:saaj="http://www.bbva.com.pe/CentrosBBVAWebService/">
+    <SOAP-ENV:Header />
+    <SOAP-ENV:Body>
+        <saaj:listarOficinaTerritorioSuprareaRequest>
+            <term>%</term>
+        </saaj:listarOficinaTerritorioSuprareaRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

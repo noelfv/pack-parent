@@ -10,7 +10,7 @@ public class CadenaUtil {
     }
     
     public static int match(String value, String pattern) {
-        int i = 1;
+        int i = 0;
         Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(value);
         while(m.find()){

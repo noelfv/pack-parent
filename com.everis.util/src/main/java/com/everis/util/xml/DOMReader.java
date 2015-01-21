@@ -18,8 +18,10 @@ import com.everis.util.xml.filter.DOMFilter;
 
 public class DOMReader implements DOMFilter {
 
-    private static String pathSeparator = "$";
     private static final Logger LOGGER = Logger.getLogger(DOMReader.class);
+    private static String pathSeparator = "$";
+    private Document document;
+    private Node firstElement;
     private List<DOMFilter> filters;
 
     public static String getPathSeparator() {
@@ -30,14 +32,19 @@ public class DOMReader implements DOMFilter {
         DOMReader.pathSeparator = pathSeparator;
     }
 
-    public DOMReader(List<DOMFilter> filters) {
+    public DOMReader(InputStream input) throws DOMReaderException {
         super();
+        document = obtenerDocumento(input);
+        this.filters = new ArrayList<DOMFilter>();
+    }
+    
+    public DOMReader(InputStream input, List<DOMFilter> filters) throws DOMReaderException {
+        this(input);
         this.filters = filters;
     }
 
-    public DOMReader(DOMFilter filter) {
-        super();
-        this.filters = new ArrayList<DOMFilter>();
+    public DOMReader(InputStream input, DOMFilter filter) throws DOMReaderException {
+        this(input);
         this.filters.add(filter);
     }
     
@@ -70,7 +77,7 @@ public class DOMReader implements DOMFilter {
         for (int j = 0; j < node.getChildNodes().getLength(); j++) {
             item = node.getChildNodes().item(j);
             type = (item.getChildNodes().getLength() > 0 ? DOMFilter.NODE : DOMFilter.ELEMENT);
-            LOGGER.info(path + item.getNodeName() + "$%" + type);
+            LOGGER.debug(path + item.getNodeName() + "$%" + type);
             
             if (item.getNodeType() == Node.ELEMENT_NODE) {
                 read((Element) item, path + item.getNodeName(), type);            
@@ -87,8 +94,28 @@ public class DOMReader implements DOMFilter {
         }
     }
     
-    public void read(InputStream io, String path) throws DOMReaderException {
-        Document doc = obtenerDocumento(io);
-        obtenerElementos(doc.getFirstChild(), path);
+    public void read() throws DOMReaderException {
+        firstElement = document.getFirstChild();
+        while(firstElement.getNodeType() != Node.ELEMENT_NODE) {
+            firstElement = firstElement.getNextSibling();
+        }
+
+        obtenerElementos(firstElement, pathSeparator);
+    }
+
+    public Document getDocument() {
+        return document;
+    }
+
+    public void setDocument(Document document) {
+        this.document = document;
+    }
+
+    public Node getFirstElement() {
+        return firstElement;
+    }
+
+    public void setFirstElement(Node firstElement) {
+        this.firstElement = firstElement;
     }
 }

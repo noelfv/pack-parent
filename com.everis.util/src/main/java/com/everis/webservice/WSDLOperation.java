@@ -1,10 +1,10 @@
 package com.everis.webservice;
 
-public class Operation {
+public class WSDLOperation {
 
     private String name;
-    private Message input;
-    private Message output;
+    private WSDLMessage input;
+    private WSDLMessage output;
 
     public String getName() {
         return name;
@@ -14,19 +14,19 @@ public class Operation {
         this.name = name;
     }
 
-    public Message getInput() {
+    public WSDLMessage getInput() {
         return input;
     }
 
-    public void setInput(Message input) {
+    public void setInput(WSDLMessage input) {
         this.input = input;
     }
 
-    public Message getOutput() {
+    public WSDLMessage getOutput() {
         return output;
     }
 
-    public void setOutput(Message output) {
+    public void setOutput(WSDLMessage output) {
         this.output = output;
     }
 
