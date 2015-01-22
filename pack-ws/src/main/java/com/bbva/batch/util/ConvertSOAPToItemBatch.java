@@ -20,18 +20,26 @@ public class ConvertSOAPToItemBatch implements DOMFilter {
 
     private static final Logger LOGGER = Logger.getLogger(ConvertSOAPToItemBatch.class);
     private List<ItemBatch> items;
-    private Map<String, Map<String, String>> keys; 
+    private Map<String, String> keys;
+    private Map<String, Integer> root;
+    private String previousKey;
+    private ItemBatch previous;
     
-    private void setKeyElement(String prefix, WSDLElement wsdlElement, Map<String, WSDLElement> elements) {
+    private void setKeyElement(String prefix, String prefixContent, WSDLElement wsdlElement, Map<String, WSDLElement> elements) {
+        int typeObject; 
         if(wsdlElement != null) {
             WSDLElement attributeRef;
-            keys.put(prefix, new HashMap<String, String>());
+            keys.put(prefix, prefixContent + "root");
             for(WSDLElement attribute : wsdlElement.getAttributes()) {
-                if(CadenaUtil.match(attribute.getType(), SOAPClientSAAJ.wsdlDataTypes) == 1) {
-                    keys.get(prefix).put(prefix + attribute.getName() + "$", attribute.getName());
+                typeObject = CadenaUtil.match(attribute.getType(), SOAPClientSAAJ.wsdlDataTypes);
+                if(prefixContent.isEmpty()) {
+                    root.put(prefix + attribute.getName(), typeObject);
+                }
+                if(typeObject == 1) {
+                    keys.put(prefix + attribute.getName(), prefixContent + attribute.getName());
                 } else {
                     attributeRef = elements.get(attribute.getType());
-                    setKeyElement(prefix + attribute.getName() + "$", attributeRef, elements);
+                    setKeyElement(prefix + attribute.getName() + "$", prefixContent + attribute.getName() + ".", attributeRef, elements);
                 }
             }
         }
@@ -40,20 +48,45 @@ public class ConvertSOAPToItemBatch implements DOMFilter {
     public ConvertSOAPToItemBatch(WSDLMessage output, Map<String, WSDLElement> elements) {
         super();
         this.items = new ArrayList<ItemBatch>();
-        this.keys = new HashMap<String, Map<String, String>>();
-        setKeyElement("$S:Body$ns2:" + output.getName(), output.getElement(), elements);
+        this.keys = new HashMap<String, String>();
+        this.root = new HashMap<String, Integer>();
+        setKeyElement("$S:Body$ns2:" + output.getName() + "$", "", output.getElement(), elements);
     }
 
+    private ItemBatch createEntity(Element element, String path) {
+        ItemBatch o = new ItemBatch();
+        
+        if(root.get(path) == 1) {
+            o.setObject(keys.get(path), element.getTextContent());
+        }
+        
+        return o;
+    }
+    
+    private void createAttribute(ItemBatch item, Element element, String path) {
+        item.setObject(keys.get(path), element.getTextContent());
+    }
+    
     @Override
     public void read(Element element, String path, short nivel) throws DOMReaderException {
-
+        if(root.containsKey(path)) {
+            previous = createEntity(element, path);
+            items.add(previous);
+            LOGGER.info("ROOT:" + path);
+            System.out.println("ROOT:" + path);
+        } else if(keys.containsKey(path)){
+            createAttribute(previous, element, path); 
+            System.out.println("CreateObject:" + path);
+        } else {
+            System.out.println("NOT CreateObject:" + path);
+        }
     }
 
     public List<ItemBatch> getItems() {
         return items;
     }
 
-    public Map<String, Map<String, String>> getKeys() {
+    public Map<String, String> getKeys() {
         return keys;
     }
 }

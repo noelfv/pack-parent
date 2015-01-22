@@ -74,16 +74,16 @@ public class DOMReader implements DOMFilter {
     private void obtenerElementos(Node node, String path) throws DOMReaderException {
         Node item;
         short type;
+        String pathLocal;
         for (int j = 0; j < node.getChildNodes().getLength(); j++) {
             item = node.getChildNodes().item(j);
             type = (item.getChildNodes().getLength() > 0 ? DOMFilter.NODE : DOMFilter.ELEMENT);
-            
+            pathLocal = path + item.getNodeName();
             if (item.getNodeType() == Node.ELEMENT_NODE) {
-                LOGGER.info(path + item.getNodeName() + "$ --> %" + type);
-                System.out.println(path + item.getNodeName() + "$ --> %" + type);
-                read((Element) item, path + item.getNodeName(), type);            
+                LOGGER.info(pathLocal + " --> [Type: " + type + "]");
+                read((Element) item, pathLocal, type);            
                 if (type == DOMFilter.NODE) {
-                    obtenerElementos(item, path + item.getNodeName() + pathSeparator);
+                    obtenerElementos(item, pathLocal + pathSeparator);
                 }
             }
         }

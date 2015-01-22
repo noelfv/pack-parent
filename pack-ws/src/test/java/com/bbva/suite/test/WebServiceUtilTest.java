@@ -1,10 +1,19 @@
 package com.bbva.suite.test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.test.context.junit4.AbstractJUnit4Test;
 
+import com.bbva.batch.domain.ItemBatch;
 import com.bbva.batch.file.WSDLItemReader;
 import com.bbva.batch.util.ConvertSOAPToItemBatch;
+import com.everis.util.xml.DOMReader;
+import com.everis.webservice.SOAPClientSAAJ;
 import com.everis.webservice.WSDLResource;
 
 import flexjson.JSONDeserializer;
@@ -44,8 +53,23 @@ public class WebServiceUtilTest extends AbstractJUnit4Test {
             WSDLItemReader wsdlItemReader = new WSDLItemReader();
             wsdlItemReader.setOperation("listarOficinaTerritorioSuprarea");
             wsdlItemReader.setWsdlResource(wsdlResource);
+            // wsdlItemReader.open(new ExecutionContext());
             
+            SOAPClientSAAJ soap = new SOAPClientSAAJ(wsdlResource);
+            ByteArrayOutputStream bos = soap.executeOperation("listarOficinaTerritorioSuprarea");
+            ByteArrayInputStream bais = new ByteArrayInputStream(bos.toByteArray());
+            ConvertSOAPToItemBatch convertFilter = new ConvertSOAPToItemBatch(wsdlResource.getOperation("listarOficinaTerritorioSuprarea").getOutput(), wsdlResource.getElements());
+            LOGGER.info(convertFilter.getKeys());
+            
+            DOMReader reader = new DOMReader(bais, convertFilter);
+            reader.read();
+            List<ItemBatch> items = new ArrayList<ItemBatch>();
+            items.addAll(convertFilter.getItems());
+            LOGGER.info("Elements: " + items.size());
+            prettyPrinter(items);
         } catch (UnsupportedOperationException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
