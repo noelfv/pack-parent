@@ -1,13 +1,14 @@
 package com.everis.webservice;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Map;
+import java.io.IOException;
 
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
+import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
@@ -15,13 +16,16 @@ import javax.xml.soap.SOAPPart;
 
 import org.apache.log4j.Logger;
 
+import com.everis.util.CadenaUtil;
 import com.sun.xml.messaging.saaj.util.ByteOutputStream;
 
 public class SOAPClientSAAJ {
 
     private static final Logger LOGGER = Logger.getLogger(SOAPClientSAAJ.class);
-    private WSDLResource wsdlResource;
-    private String namespaceDeclaration;
+    private static final String prefix = "saaj";
+    private WSDLResource wsdlResource;    
+    
+    public static final String wsdlDataTypes = "(boolean|date|datetime|double|float|hexBinary|int|string|time)";
     
     public SOAPClientSAAJ() throws UnsupportedOperationException, SOAPException {
         super();
@@ -31,12 +35,8 @@ public class SOAPClientSAAJ {
         this();
         this.wsdlResource = wsdlResource;
     }
-
-    public void setNamespaceDeclaration(String targetNamespace) {
-        namespaceDeclaration = targetNamespace;
-    }
     
-    public ByteArrayOutputStream executeOperation(String operation, Map<String, String> values) {
+    public ByteArrayOutputStream executeOperation(String operation) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         WSDLOperation wsdlOperation = wsdlResource.getOperations().get(operation);
         try {
@@ -57,17 +57,29 @@ public class SOAPClientSAAJ {
     }
     
     private void setNamespaceDeclaration(SOAPEnvelope soapEnvelope) throws SOAPException {
-        soapEnvelope.addNamespaceDeclaration("saaj", namespaceDeclaration);
+        soapEnvelope.addNamespaceDeclaration(prefix, wsdlResource.getTargetNamespace());
         soapEnvelope.addNamespaceDeclaration("", "");
+    }
+    
+    private void setElement(SOAPElement soapElement, WSDLElement wsdlElement) throws SOAPException {
+        for(WSDLElement attribute : wsdlElement.getAttributes()) {
+            if(CadenaUtil.match(attribute.getType(), wsdlDataTypes) == 1) {
+                soapElement.addChildElement(attribute.getName()).addTextNode(attribute.getValue());
+            } else {
+                setElement(soapElement.addChildElement(attribute.getName(), prefix), wsdlElement);
+            }
+        }
     }
     
     private void setBody(WSDLOperation wsdlOperation, SOAPEnvelope soapEnvelope) throws SOAPException {
         SOAPBody soapBody = soapEnvelope.getBody();
         WSDLElement input = wsdlOperation.getInput().getElement();
+        SOAPElement soapElement = soapBody.addChildElement(input.getName(), prefix);
+        setElement(soapElement, input);
         LOGGER.info(input.getName());
     }
     
-    private SOAPMessage createSOAPRequest(WSDLOperation wsdlOperation) throws Exception {
+    private SOAPMessage createSOAPRequest(WSDLOperation wsdlOperation) throws SOAPException, IOException {
         String serverURI = wsdlResource.getTargetNamespace();
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
@@ -84,7 +96,7 @@ public class SOAPClientSAAJ {
         if(LOGGER.isInfoEnabled()) {
             ByteOutputStream bos = new ByteOutputStream();
             soapMessage.writeTo(bos);
-            LOGGER.info("Request SOAP Message:\n" + new String(bos.getBytes()));
+            LOGGER.info("Request SOAP Message:" + new String(bos.getBytes()).replaceAll("<", "\n\t<"));
         }
         
         return soapMessage;     

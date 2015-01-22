@@ -47,18 +47,23 @@ public class WebServiceUtilTest extends AbstractJUnit4Test {
 //                    .use("elements", WSDLElement.class)
 //                    .use("messages", WSDLMessage.class);
             WSDLResource t = jo.deserialize(o);
-            prettyPrinter(t.getElements());
-            prettyPrinter(t.getMessages());
-            prettyPrinter(t.getOperations());
+//            prettyPrinter(t.getElements());
+//            prettyPrinter(t.getMessages());
+//            prettyPrinter(t.getOperations());
             
             LOGGER.info("targeNamespace: " + wsdlResource.getTargetNamespace());
             LOGGER.info("Elements: " + wsdlResource.getElements().size());
             
             wsdlResource.getOperation("listarOficinaTerritorioSuprarea").getInput().getElement().setAttribute("term", "%");
-            prettyPrinter(wsdlResource.getOperation("listarOficinaTerritorioSuprarea").getInput().getElement());
+            // prettyPrinter(wsdlResource.getOperation("listarOficinaTerritorioSuprarea").getInput().getElement());
+            
+            prettyPrinter(wsdlResource.getOperation("listarOficinaTerritorioSuprarea").getOutput().getElement());
+            
+            o = new JSONSerializer().deepSerialize(wsdlResource);
+            LOGGER.info("\t" + o);
             
             SOAPClientSAAJ soap = new SOAPClientSAAJ(wsdlResource);
-            soap.executeOperation("listarOficinaTerritorioSuprarea", null);
+            soap.executeOperation("listarOficinaTerritorioSuprarea");
             
 //            LOGGER.info(CadenaUtil.match("$wsdl:portType$wsdl:operation", "(portType|operation)"));
 //            LOGGER.info(CadenaUtil.match("$wsdl:types$schema$complexType$sequence$element$", "(types|schema|complexType)"));
@@ -70,6 +75,7 @@ public class WebServiceUtilTest extends AbstractJUnit4Test {
 //                LOGGER.info("\t" + oq);
 //            }
 //            LOGGER.info(o.length);
+
             
         } catch (IOException e) {
             e.printStackTrace();

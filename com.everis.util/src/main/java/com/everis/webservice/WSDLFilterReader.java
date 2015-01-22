@@ -100,7 +100,6 @@ public class WSDLFilterReader implements DOMFilter {
                 }  
             }
         }
-        
     }
     
     public void proccessReadMessage(Element element, String path, short nivel, int partTags) {
@@ -108,7 +107,7 @@ public class WSDLFilterReader implements DOMFilter {
             previousMessage = createMessage(element, path);
             if(previousMessage != null) {
                 messages.put(previousMessage.getName(), previousMessage);
-                LOGGER.info("Message: " + previousMessage.getName());
+                LOGGER.debug("Message: " + previousMessage.getName());
             }
         } else if(nivel == DOMFilter.ELEMENT || partTags == 3) {
             if(previousMessage != null) {
@@ -124,7 +123,7 @@ public class WSDLFilterReader implements DOMFilter {
             if(o != null && !o.getName().isEmpty()) {
                 previousOperation = o; 
                 operations.put(previousOperation.getName(), previousOperation);
-                LOGGER.info("Operation: " + previousOperation.getName());
+                LOGGER.debug("Operation: " + previousOperation.getName());
             } else if(previousOperation != null) {
                 createOperationMessage(element, path, previousOperation);
             }
@@ -142,7 +141,7 @@ public class WSDLFilterReader implements DOMFilter {
             if(o != null && !o.getName().isEmpty()) {
                 previousElement = o;
                 elements.put(previousElement.getName(), previousElement);
-                LOGGER.info("Element: " + previousElement.getName());
+                LOGGER.debug("Element: " + previousElement.getName());
             }
         } else if(nivel == DOMFilter.ELEMENT) {
             createAttribute(element, previousElement);
@@ -152,7 +151,7 @@ public class WSDLFilterReader implements DOMFilter {
     private void proccessImport(Element element) {
         String schemaLocation = element.getAttribute("schemaLocation");
         if(!schemaLocation.isEmpty() && !imports.containsKey(schemaLocation)) {
-            LOGGER.info("Import: " + schemaLocation);
+            LOGGER.debug("Import: " + schemaLocation);
             try {
                 URL url = new URL(schemaLocation);
                 HttpURLConnection http = (HttpURLConnection) url.openConnection();

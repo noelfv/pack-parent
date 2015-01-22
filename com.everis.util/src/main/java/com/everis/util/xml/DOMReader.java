@@ -79,7 +79,8 @@ public class DOMReader implements DOMFilter {
             type = (item.getChildNodes().getLength() > 0 ? DOMFilter.NODE : DOMFilter.ELEMENT);
             
             if (item.getNodeType() == Node.ELEMENT_NODE) {
-                LOGGER.debug(path + item.getNodeName() + "$ --> %" + type);
+                LOGGER.info(path + item.getNodeName() + "$ --> %" + type);
+                System.out.println(path + item.getNodeName() + "$ --> %" + type);
                 read((Element) item, path + item.getNodeName(), type);            
                 if (type == DOMFilter.NODE) {
                     obtenerElementos(item, path + item.getNodeName() + pathSeparator);
