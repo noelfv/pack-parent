@@ -1,5 +1,10 @@
 package com.everis.webservice;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,11 +21,20 @@ public class WSDLFilterReader implements DOMFilter {
 
     private static final Logger LOGGER = Logger.getLogger(WSDLFilterReader.class);
     /** private String wsdlDataTypes = "(boolean|date|datetime|double|float|hexBinary|int|string|time)"; */
+    private String wsdlImport = "(types|schema|import)";
     private String wsdlMessage = "(message)";
     private String wsdlOperation = "(portType|operation)";
     private String[] wsdlInputOutput = new String[]{"(portType|operation|input)", "(portType|operation|output)"};
-    private String[] wsdlElement = new String[]{"(types|schema|complexType)", "(types|schema|element)", "(types|schema|element|complexType|sequence)", "(types|schema|complexType|sequence|element)"};
-    private int[] wsdlCountElement = new int[]{4, 4, 7, 6};
+    private String[] wsdlElement = new String[]{
+            "(types|schema|complexType)",
+            "(types|schema|element)",
+            "(types|schema|element|complexType|sequence)",
+            "(types|schema|complexType|sequence|element)",
+            "(element|complexType)",
+            "(complexType|sequence|element)",
+            "(element|complexType|sequence)"};
+    private int[] wsdlCountElement = new int[]{4, 4, 7, 6, 2, 4, 5};
+    private Map<String, String> imports = new HashMap<String, String>();
     private Map<String, WSDLElement> elements = new HashMap<String, WSDLElement>();
     private Map<String, WSDLMessage> messages = new HashMap<String, WSDLMessage>();
     private Map<String, WSDLOperation> operations = new HashMap<String, WSDLOperation>();
@@ -36,11 +50,12 @@ public class WSDLFilterReader implements DOMFilter {
         WSDLElement o = DOMUtil.createObject(WSDLElement.class, element, new String[][]{
             new String[]{"name", "name"},
             new String[]{"type", "type"}});
-        if(o != null) {
+        if(o != null && object != null) {
             String[] parts = o.getType().split(":");
             if(parts.length > 1) {
                 o.setType(parts[1]);
             }
+            
             object.getAttributes().add(o);
         }
     }
@@ -88,14 +103,14 @@ public class WSDLFilterReader implements DOMFilter {
         
     }
     
-    public void proccessReadMessage(Element element, String path, short nivel) {
-        if(nivel == DOMFilter.NODE) {
+    public void proccessReadMessage(Element element, String path, short nivel, int partTags) {
+        if(nivel == DOMFilter.NODE && partTags == 2) {
             previousMessage = createMessage(element, path);
             if(previousMessage != null) {
                 messages.put(previousMessage.getName(), previousMessage);
-                LOGGER.info("Operation: " + previousMessage.getName());
+                LOGGER.info("Message: " + previousMessage.getName());
             }
-        } else if(nivel == DOMFilter.ELEMENT) {
+        } else if(nivel == DOMFilter.ELEMENT || partTags == 3) {
             if(previousMessage != null) {
                 createMessagePart(element, path, previousMessage);
             }
@@ -110,6 +125,8 @@ public class WSDLFilterReader implements DOMFilter {
                 previousOperation = o; 
                 operations.put(previousOperation.getName(), previousOperation);
                 LOGGER.info("Operation: " + previousOperation.getName());
+            } else if(previousOperation != null) {
+                createOperationMessage(element, path, previousOperation);
             }
         } else if(nivel == DOMFilter.ELEMENT) {
             if(previousOperation != null) {
@@ -132,22 +149,41 @@ public class WSDLFilterReader implements DOMFilter {
         }
     }
     
+    private void proccessImport(Element element) {
+        String schemaLocation = element.getAttribute("schemaLocation");
+        if(!schemaLocation.isEmpty() && !imports.containsKey(schemaLocation)) {
+            LOGGER.info("Import: " + schemaLocation);
+            try {
+                URL url = new URL(schemaLocation);
+                HttpURLConnection http = (HttpURLConnection) url.openConnection();
+                InputStream input = http.getInputStream();
+                DOMReader reader = new DOMReader(input, this);
+                reader.read();
+            } catch (MalformedURLException e) {
+                LOGGER.error("No se pudo leer el schemaLocation:" + schemaLocation, e);
+            } catch (DOMReaderException e) {
+                LOGGER.error("No se pudo leer el schemaLocation:" + schemaLocation, e);
+            } catch (IOException e) {
+                LOGGER.error("No se pudo leer el schemaLocation:" + schemaLocation, e);
+            }
+        }
+    }
+    
     @Override
     public void read(Element element, String path, short nivel) throws DOMReaderException {
         String[] tags = path.split("\\" + DOMReader.getPathSeparator());
         int matches = 0;
         
-        if(CadenaUtil.match(path, wsdlOperation) == 2){
+        if(CadenaUtil.match(path, wsdlOperation) == 2 && (tags.length == 3 || tags.length == 4)){
             proccessReadOperation(element, path, nivel);
         } else if(CadenaUtil.match(path, wsdlMessage) == 1){
-            proccessReadMessage(element, path, nivel);
+            proccessReadMessage(element, path, nivel, tags.length);
+        } else if(CadenaUtil.match(path, wsdlImport) == 3 && tags.length == 4) {
+            proccessImport(element);
         } else {
             for(int i = 0; i < wsdlElement.length; i++) {
                 matches = CadenaUtil.match(path, wsdlElement[i]);
-                if(matches == 3 && tags.length == wsdlCountElement[i]) {
-                    proccessReadElement(element, path, nivel);
-                    break;
-                } else if((matches == 5 || matches == 6) && tags.length == wsdlCountElement[i]) {
+                if(matches == (wsdlCountElement[i] - 1) && tags.length == wsdlCountElement[i]) {
                     proccessReadElement(element, path, nivel);
                     break;
                 }

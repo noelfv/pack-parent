@@ -21,21 +21,24 @@ public class WSDLResource {
     private Map<String, WSDLMessage> messages;
     private Map<String, WSDLOperation> operations;
     private String targetNamespace;
+    private String url;
 
     public WSDLResource() {
     }
     
-    public WSDLResource(String url) {
+    public WSDLResource(File file) {
         try {
-            InputStream input = new FileInputStream(new File(url));
+            InputStream input = new FileInputStream(file);
             init(input);
         } catch (IOException e) {
             LOGGER.error("No se pudo obtener el InputStream desde el archivo", e);
         }
     }
     
-    public WSDLResource(URL url) {
+    public WSDLResource(String uri) {
         try {
+            this.url = uri;
+            URL url = new URL(uri);
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             InputStream input = http.getInputStream();
             init(input);
@@ -91,5 +94,17 @@ public class WSDLResource {
 
     public void setTargetNamespace(String targetNamespace) {
         this.targetNamespace = targetNamespace;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    
+    public WSDLOperation getOperation(String operationName) {
+        return operations.get(operationName);
     }
 }

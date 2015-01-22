@@ -5,10 +5,13 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.xml.soap.SOAPException;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.springframework.test.context.junit4.AbstractJUnit4Test;
 
+import com.everis.webservice.SOAPClientSAAJ;
 import com.everis.webservice.WSDLResource;
 
 import flexjson.JSONDeserializer;
@@ -31,7 +34,7 @@ public class WebServiceUtilTest extends AbstractJUnit4Test {
             http = (HttpURLConnection) url.openConnection();
             in = http.getInputStream();
                 
-            WSDLResource wsdlResource = new WSDLResource(new URL("http://192.168.247.1:8081/CentrosBBVAWS/CentrosBBVAWebService?wsdl"));
+            WSDLResource wsdlResource = new WSDLResource("http://192.168.247.1:8081/CentrosBBVAWS/CentrosBBVAWebService?wsdl");
             
 //            prettyPrinter(wsdlFilterReader.getElements());
 //            prettyPrinter(wsdlFilterReader.getMessages());
@@ -51,6 +54,11 @@ public class WebServiceUtilTest extends AbstractJUnit4Test {
             LOGGER.info("targeNamespace: " + wsdlResource.getTargetNamespace());
             LOGGER.info("Elements: " + wsdlResource.getElements().size());
             
+            wsdlResource.getOperation("listarOficinaTerritorioSuprarea").getInput().getElement().setAttribute("term", "%");
+            prettyPrinter(wsdlResource.getOperation("listarOficinaTerritorioSuprarea").getInput().getElement());
+            
+            SOAPClientSAAJ soap = new SOAPClientSAAJ(wsdlResource);
+            soap.executeOperation("listarOficinaTerritorioSuprarea", null);
             
 //            LOGGER.info(CadenaUtil.match("$wsdl:portType$wsdl:operation", "(portType|operation)"));
 //            LOGGER.info(CadenaUtil.match("$wsdl:types$schema$complexType$sequence$element$", "(types|schema|complexType)"));
@@ -64,6 +72,12 @@ public class WebServiceUtilTest extends AbstractJUnit4Test {
 //            LOGGER.info(o.length);
             
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (UnsupportedOperationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SOAPException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
