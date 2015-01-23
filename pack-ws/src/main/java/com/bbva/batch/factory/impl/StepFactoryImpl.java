@@ -27,11 +27,14 @@ import com.bbva.batch.domain.JobBatch;
 import com.bbva.batch.domain.StepBatch;
 import com.bbva.batch.enums.ItemReaderType;
 import com.bbva.batch.enums.ItemWriterType;
+import com.bbva.batch.enums.ParameterType;
 import com.bbva.batch.factory.ItemReaderFactory;
 import com.bbva.batch.factory.ItemWriterFactory;
 import com.bbva.batch.factory.StepFactory;
+import com.bbva.batch.tasklet.QueryTasklet;
 import com.bbva.batch.util.ItemBatchProcessor;
 import com.bbva.batch.util.ParamUtil;
+import com.everis.util.DBUtilSpring;
 
 @Component("stepFactory")
 public class StepFactoryImpl implements StepFactory {
@@ -50,18 +53,29 @@ public class StepFactoryImpl implements StepFactory {
     @Resource(name = "itemWriterFactory")
     private ItemWriterFactory itemWriterFactory;
 
-    private Tasklet createTasklet(ItemReaderType readerType, ItemWriterType writeType, ParamUtil params) throws Exception {
-        ItemReader<ItemBatch> itemReader = itemReaderFactory.create(readerType, params);
-        ItemWriter<ItemBatch> itemWriter = itemWriterFactory.create(writeType, params);
-        ItemProcessor<ItemBatch, ItemBatch> itemProcessor = new ItemBatchProcessor();
+    private Tasklet createTasklet(ItemReaderType readerType, ItemWriterType writeType, ParamUtil paramsReader, ParamUtil paramsWriter) throws Exception {
+        Tasklet tasklet = null;
+        
+        if(writeType.compareTo(ItemWriterType.WRITER_QUERY) != 0) {
+            ItemReader<ItemBatch> itemReader = itemReaderFactory.create(readerType, paramsReader);
+            ItemWriter<ItemBatch> itemWriter = itemWriterFactory.create(writeType, paramsWriter);
+            ItemProcessor<ItemBatch, ItemBatch> itemProcessor = new ItemBatchProcessor();
 
-        RepeatTemplate repeatTemplate = new TaskExecutorRepeatTemplate();
-        repeatTemplate.setCompletionPolicy(new SimpleCompletionPolicy(5));
+            RepeatTemplate repeatTemplate = new TaskExecutorRepeatTemplate();
+            repeatTemplate.setCompletionPolicy(new SimpleCompletionPolicy(100));
 
-        SimpleChunkProvider<ItemBatch> chunkProvider = new SimpleChunkProvider<ItemBatch>(itemReader, repeatTemplate);
-        SimpleChunkProcessor<ItemBatch, ItemBatch> chunkProcessor = new SimpleChunkProcessor<ItemBatch, ItemBatch>(itemProcessor, itemWriter);
+            SimpleChunkProvider<ItemBatch> chunkProvider = new SimpleChunkProvider<ItemBatch>(itemReader, repeatTemplate);
+            SimpleChunkProcessor<ItemBatch, ItemBatch> chunkProcessor = new SimpleChunkProcessor<ItemBatch, ItemBatch>(itemProcessor, itemWriter);
 
-        Tasklet tasklet = new ChunkOrientedTasklet<ItemBatch>(chunkProvider, chunkProcessor);
+            tasklet = new ChunkOrientedTasklet<ItemBatch>(chunkProvider, chunkProcessor);
+        } else if(writeType.compareTo(ItemWriterType.WRITER_QUERY) == 0){
+            QueryTasklet queryTasklet = new QueryTasklet();
+            queryTasklet.setQuery(paramsWriter.getParamAsString(ParameterType.PARAM_QUERY));
+            queryTasklet.setDatasource(DBUtilSpring.getInstance().getDataSource(paramsWriter.getParamAsString(ParameterType.PARAM_JNDI)));
+            tasklet = queryTasklet;
+        }
+        
+        
         return tasklet;
     }
 
@@ -69,13 +83,21 @@ public class StepFactoryImpl implements StepFactory {
         TaskletStep step = new TaskletStep(stepBatch.getName());
 
         try {
-            ItemReaderType readerType = ItemReaderType.valueOf(stepBatch.getReader());
+            ItemReaderType readerType = null;
+            if(stepBatch.getReader() != null && !stepBatch.getReader().isEmpty()) {
+                readerType = ItemReaderType.valueOf(stepBatch.getReader());
+            }
             ItemWriterType writeType = ItemWriterType.valueOf(stepBatch.getWriter());
-            ParamUtil params = new ParamUtil(stepBatch.getParameters());
+            ParamUtil paramsReader = new ParamUtil(stepBatch.getParameters(), true);
+            ParamUtil paramsWriter = new ParamUtil(stepBatch.getParameters(), false);
 
+            // RepeatTemplate repeatTemplate = new TaskExecutorRepeatTemplate();
+            // repeatTemplate.setCompletionPolicy(new SimpleCompletionPolicy(1));
+            
             step.setJobRepository(jobRepository);
             step.setTransactionManager(transactionManager);
-            step.setTasklet(createTasklet(readerType, writeType, params));
+            step.setTasklet(createTasklet(readerType, writeType, paramsReader, paramsWriter));
+            // TODO: step.setStepOperations(stepOperations); // Validar si es COMMIT
         } catch (Exception e) {
             LOG.error("Error al crear el paso: [" + stepBatch.getName() + "]", e);
             step = null;

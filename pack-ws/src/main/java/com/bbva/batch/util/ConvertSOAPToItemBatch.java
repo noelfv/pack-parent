@@ -72,13 +72,12 @@ public class ConvertSOAPToItemBatch implements DOMFilter {
         if(root.containsKey(path)) {
             previous = createEntity(element, path);
             items.add(previous);
-            LOGGER.info("ROOT:" + path);
-            System.out.println("ROOT:" + path);
+            LOGGER.debug("ROOT:" + path);
         } else if(keys.containsKey(path)){
             createAttribute(previous, element, path); 
-            System.out.println("CreateObject:" + path);
+            LOGGER.debug("CreateObject:" + path);
         } else {
-            System.out.println("NOT CreateObject:" + path);
+            LOGGER.debug("NOT CreateObject:" + path);
         }
     }
 

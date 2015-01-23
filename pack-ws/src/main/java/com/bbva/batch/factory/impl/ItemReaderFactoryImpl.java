@@ -23,10 +23,14 @@ import com.bbva.batch.domain.ItemBatch;
 import com.bbva.batch.enums.ItemReaderType;
 import com.bbva.batch.enums.ParameterType;
 import com.bbva.batch.factory.ItemReaderFactory;
+import com.bbva.batch.file.WSDLItemReader;
 import com.bbva.batch.util.ItemBatchFieldSetMapper;
 import com.bbva.batch.util.ItemBatchRowMapper;
 import com.bbva.batch.util.ParamUtil;
 import com.everis.util.DBUtilSpring;
+import com.everis.webservice.WSDLResource;
+
+import flexjson.JSONDeserializer;
 
 @Component("itemReaderFactory")
 public class ItemReaderFactoryImpl implements ItemReaderFactory {
@@ -118,6 +122,17 @@ public class ItemReaderFactoryImpl implements ItemReaderFactory {
         return reader;
     }
     
+    private WSDLItemReader createWSDLItemReader(ParamUtil params) throws Exception {
+        WSDLItemReader reader = new WSDLItemReader();
+        JSONDeserializer<WSDLResource> jsonDeserializer = new JSONDeserializer<WSDLResource>();
+        WSDLResource wsdlResource = jsonDeserializer.deserialize(params.getParamAsString(ParameterType.PARAM_WSDL));
+        
+        reader.setWsdlResource(wsdlResource);
+        reader.setOperation(params.getParamAsString(ParameterType.PARAM_WSDL_OPERATION));
+        reader.afterPropertiesSet();
+        return reader;
+    }
+    
     @Override
     public ItemReader<ItemBatch> create(ItemReaderType type, ParamUtil params) throws Exception {
         ItemReader<ItemBatch> reader = null;
@@ -129,7 +144,7 @@ public class ItemReaderFactoryImpl implements ItemReaderFactory {
         } else if (type.compareTo(ItemReaderType.READER_TEXT_POSITION) == 0) {
             reader = createFlatFileItemReader(params, false);
         } else if (type.compareTo(ItemReaderType.READER_XML) == 0) {
-            throw new UnsupportedOperationException();
+            reader = createWSDLItemReader(params);
         }
 
         return reader;

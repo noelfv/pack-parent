@@ -1,5 +1,6 @@
 package com.bbva.batch.util;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,8 @@ import org.apache.log4j.Logger;
 
 import com.bbva.batch.domain.ParameterBatch;
 import com.bbva.batch.enums.DataType;
+import com.bbva.batch.enums.ItemReaderType;
+import com.bbva.batch.enums.ItemWriterType;
 import com.bbva.batch.enums.ParameterType;
 
 public class ParamUtil {
@@ -16,17 +19,32 @@ public class ParamUtil {
     private static final Logger LOG = Logger.getLogger(ParamUtil.class);
     private Map<ParameterType, Object> params;
 
-    public ParamUtil(List<ParameterBatch> paramsBatch) {
+    public ParamUtil(List<ParameterBatch> paramsBatch, boolean isReader) {
         super();
-        this.params = convertParameterBatch(paramsBatch);
+        this.params = convertParameterBatch(paramsBatch, isReader);
         LOG.info(params);
     }
 
-    private Map<ParameterType, Object> convertParameterBatch(List<ParameterBatch> paramsBatch) {
+    private Map<ParameterType, Object> convertParameterBatch(List<ParameterBatch> paramsBatch, boolean isReader) {
         Map<ParameterType, Object> params = new HashMap<ParameterType, Object>();
         ParameterType type;
-
+        ItemReaderType readerType;
+        ItemWriterType writerType;
+        
         for (ParameterBatch p : paramsBatch) {
+            
+            try {
+                if(isReader) {
+                    readerType = ItemReaderType.valueOf(p.getName());
+                    LOG.info(readerType.getName());
+                } else {
+                    writerType = ItemWriterType.valueOf(p.getName());
+                    LOG.info(writerType.getName());
+                }
+            } catch(Exception e) {
+                continue;
+            }
+            
             type = ParameterType.valueOf("PARAM_" + p.getType());
             if (DataType.STRING.getName().equalsIgnoreCase(type.getDataType())) {
                 params.put(type, p.getStringVal());
@@ -36,6 +54,12 @@ public class ParamUtil {
                 params.put(type, p.getDoubleVal());
             } else if (DataType.DATE.getName().equalsIgnoreCase(type.getDataType())) {
                 params.put(type, p.getDateVal());
+            } else if (DataType.BYTE.getName().equalsIgnoreCase(type.getDataType())) {
+                try {
+                    params.put(type, new String(p.getByteVal(), "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    LOG.error("No se pudo decodificar", e);
+                }
             }
         }
 

@@ -17,7 +17,9 @@ public enum ParameterType {
     PARAM_CLASS_NAME("CLASS_NAME", String.class),
     PARAM_FORMAT_DATE("FORMAT_DATE", String.class),
     PARAM_RANGE("RANGE", String.class),
-    PARAM_QUERY("RANGE", String.class);
+    PARAM_QUERY("RANGE", String.class),
+    PARAM_WSDL("WSDL", Byte.class),
+    PARAM_WSDL_OPERATION("WSDL_OPERATION", String.class);
     
     private String nameParam;
     private Class<?> dataType;

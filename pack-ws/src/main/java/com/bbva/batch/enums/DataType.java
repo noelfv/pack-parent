@@ -7,7 +7,8 @@ public enum DataType {
     LONG("Long"),
     DATE("Date"),
     DOUBLE("Double"),
-    BIGDECIMAL("BigDecimal");
+    BIGDECIMAL("BigDecimal"),
+    BYTE("Byte");
 
     private String nameType;
 

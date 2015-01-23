@@ -13,6 +13,7 @@ public class ParameterBatch extends EntityBatch {
     private Long longVal;
     private Double doubleVal;
     private Date dateVal;
+    private byte[] byteVal;
     private StepBatch step;
 
     public ParameterBatch(String name, String type, Long order,
@@ -55,6 +56,16 @@ public class ParameterBatch extends EntityBatch {
         this.dateVal = dateVal;
     }
 
+    public ParameterBatch(String name, String type, Long order,
+            String typeValue, byte[] byteVal) {
+        super();
+        this.name = name;
+        this.type = type;
+        this.order = order;
+        this.typeValue = typeValue;
+        this.byteVal = byteVal;
+    }
+    
     public String getName() {
         return name;
     }
@@ -117,6 +128,14 @@ public class ParameterBatch extends EntityBatch {
 
     public void setDateVal(Date dateVal) {
         this.dateVal = dateVal;
+    }
+
+    public byte[] getByteVal() {
+        return byteVal;
+    }
+
+    public void setByteVal(byte[] byteVal) {
+        this.byteVal = byteVal;
     }
 
     public StepBatch getStep() {

@@ -107,7 +107,7 @@ public class WSDLFilterReader implements DOMFilter {
             previousMessage = createMessage(element, path);
             if(previousMessage != null) {
                 messages.put(previousMessage.getName(), previousMessage);
-                LOGGER.debug("Message: " + previousMessage.getName());
+                LOGGER.info("Message: " + previousMessage.getName());
             }
         } else if(nivel == DOMFilter.ELEMENT || partTags == 3) {
             if(previousMessage != null) {
@@ -123,7 +123,7 @@ public class WSDLFilterReader implements DOMFilter {
             if(o != null && !o.getName().isEmpty()) {
                 previousOperation = o; 
                 operations.put(previousOperation.getName(), previousOperation);
-                LOGGER.debug("Operation: " + previousOperation.getName());
+                LOGGER.info("Operation: " + previousOperation.getName());
             } else if(previousOperation != null) {
                 createOperationMessage(element, path, previousOperation);
             }
@@ -141,7 +141,7 @@ public class WSDLFilterReader implements DOMFilter {
             if(o != null && !o.getName().isEmpty()) {
                 previousElement = o;
                 elements.put(previousElement.getName(), previousElement);
-                LOGGER.debug("Element: " + previousElement.getName());
+                LOGGER.info("Element: " + previousElement.getName());
             }
         } else if(nivel == DOMFilter.ELEMENT) {
             createAttribute(element, previousElement);

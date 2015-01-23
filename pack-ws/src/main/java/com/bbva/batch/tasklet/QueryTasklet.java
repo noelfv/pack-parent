@@ -22,19 +22,32 @@ public class QueryTasklet implements Tasklet {
     
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-        RepeatStatus result = RepeatStatus.CONTINUABLE;
+        RepeatStatus result = RepeatStatus.FINISHED;
         StepExecution execution = chunkContext.getStepContext().getStepExecution();
         
         try {
             Connection connection = datasource.getConnection();
+            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.execute();            
+            statement.execute();
+            
+            try {
+                connection.commit();
+            } catch (SQLException e) {
+                LOG.error("NOT Commit : [" + query + "]");
+                connection.rollback();
+            }
+            
+            statement.close();
+            connection.close();
+            
             execution.setExitStatus(ExitStatus.COMPLETED);
             contribution.setExitStatus(ExitStatus.COMPLETED);
         } catch (SQLException e) {
             LOG.error("No se pudo ejecutar la consulta: [" + query + "]");
             execution.addFailureException(e);
             execution.setExitStatus(ExitStatus.FAILED);
+            contribution.setExitStatus(ExitStatus.FAILED);
         }
         
         return result;

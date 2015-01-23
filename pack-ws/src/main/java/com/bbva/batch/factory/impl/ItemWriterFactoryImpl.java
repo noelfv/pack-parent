@@ -41,7 +41,7 @@ public class ItemWriterFactoryImpl implements ItemWriterFactory {
         
         writer.setDataSource(DBUtilSpring.getInstance().getDataSource(params.getParamAsString(ParameterType.PARAM_JNDI)));
         writer.setSql(params.getParamAsString(ParameterType.PARAM_QUERY));
-        writer.setItemSqlParameterSourceProvider(itemBatchSqlParameterSourceProvider);        
+        writer.setItemSqlParameterSourceProvider(itemBatchSqlParameterSourceProvider);
         writer.afterPropertiesSet();
         return writer;
     }

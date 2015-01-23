@@ -80,7 +80,7 @@ public class DOMReader implements DOMFilter {
             type = (item.getChildNodes().getLength() > 0 ? DOMFilter.NODE : DOMFilter.ELEMENT);
             pathLocal = path + item.getNodeName();
             if (item.getNodeType() == Node.ELEMENT_NODE) {
-                LOGGER.info(pathLocal + " --> [Type: " + type + "]");
+                LOGGER.debug(pathLocal + " --> [Type: " + type + "]");
                 read((Element) item, pathLocal, type);            
                 if (type == DOMFilter.NODE) {
                     obtenerElementos(item, pathLocal + pathSeparator);

@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.everis</groupId>
@@ -24,6 +24,7 @@
         <cxf.version>2.7.8</cxf.version>
         <spring.batch.version>2.2.0.RELEASE</spring.batch.version>
         <quartz.version>1.8.6</quartz.version>
+        <drools.version>6.1.0.Final</drools.version>
         <cfg.use><![CDATA[<import resource="jaxwsContext.xml"/>]]></cfg.use>
         <webXmlPath>webXml/tomcat</webXmlPath>
         <jndi.env>APP_CONELE</jndi.env>
@@ -59,6 +60,17 @@
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
             <version>${quartz.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>${drools.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.oracle</groupId>
@@ -201,14 +213,10 @@
                                     </cssSourceFiles>
                                     <jsSourceDir>public</jsSourceDir>
                                     <jsSourceFiles>
-                                        <!--
-                                        <jsSourceFile>js/ui/jquery-1.9.1.js</jsSourceFile>
-                                        <jsSourceFile>js/ui/primeui-1.1.js</jsSourceFile>
-                                        <jsSourceFile>js/ui/jquery-ui-1.10.1.js</jsSourceFile>
-                                        <jsSourceFile>js/ui/jquery-ui-timepicker-addon.js</jsSourceFile>
-                                        <jsSourceFile>js/ui/jquery.handsontable.full.js</jsSourceFile>
-                                        <jsSourceFile>js/ui/jquery.jqGrid.src.js</jsSourceFile>
-                                        -->
+                                        <!-- <jsSourceFile>js/ui/jquery-1.9.1.js</jsSourceFile> 
+                                            <jsSourceFile>js/ui/primeui-1.1.js</jsSourceFile> <jsSourceFile>js/ui/jquery-ui-1.10.1.js</jsSourceFile> 
+                                            <jsSourceFile>js/ui/jquery-ui-timepicker-addon.js</jsSourceFile> <jsSourceFile>js/ui/jquery.handsontable.full.js</jsSourceFile> 
+                                            <jsSourceFile>js/ui/jquery.jqGrid.src.js</jsSourceFile> -->
                                         <jsSourceFile>js/ui/jquery-ui-autocomplete-extends.js</jsSourceFile>
                                         <jsSourceFile>js/ui/ui.multiselect.js</jsSourceFile>
                                         <jsSourceFile>js/ui/i18n/datepicker.locale-es.js</jsSourceFile>
@@ -223,15 +231,10 @@
                                         <jsSourceFile>js/common/application.js</jsSourceFile>
                                     </jsSourceFiles>
                                     <jsEngine>CLOSURE</jsEngine>
-                                    <!--
-                                    <closureCreateSourceMap>true</closureCreateSourceMap>
-                                    -->
+                                    <!-- <closureCreateSourceMap>true</closureCreateSourceMap> -->
                                     <closureCompilationLevel>WHITESPACE_ONLY</closureCompilationLevel>
-                                    <!--
-                                    <closureExterns>
-                                    <closureExtern>extern/external-lib.js</closureExtern>
-                                    </closureExterns>
-                                    -->
+                                    <!-- <closureExterns> <closureExtern>extern/external-lib.js</closureExtern> 
+                                        </closureExterns> -->
                                 </configuration>
                                 <goals>
                                     <goal>minify</goal>
