@@ -1,0 +1,33 @@
+package packws.cargaterritorio
+
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+
+import com.bbva.batch.domain.ItemBatch;
+
+rule "100 Valida Territorio"
+dialect "java" 
+salience 100
+no-loop true
+when
+    items: List() from collect(ItemBatch())
+then
+    // org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(ItemBatch.class);
+    
+    String key;
+    ItemBatch io;
+    Map<String, String> keys = new HashMap<String, String>();
+    
+	for(Object o : items){
+		io = (ItemBatch) o;
+		if(io.existsKey("listaOficina.territorio.id")) {
+		key = io.getString("listaOficina.territorio.id");
+		  if(!keys.containsKey(key)) {
+			  keys.put(key, key);
+			  io.setObject("__filter__", "1");
+			  // logger.info(io.getString("listaOficina.territorio.id") + " --> " + io.getString("__filter__"));
+           }
+		}
+	}
+end

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.InitializingBean;
 
 import com.bbva.batch.domain.ItemBatch;
 import com.bbva.batch.util.ConvertSOAPToItemBatch;
+import com.bbva.drools.DroolsRuleRunner;
 import com.everis.util.xml.DOMReader;
 import com.everis.webservice.SOAPClientSAAJ;
 import com.everis.webservice.WSDLResource;
@@ -22,6 +23,7 @@ public class WSDLItemReader extends AbstractItemCountingItemStreamItemReader<Ite
     private String operation;
     private List<ItemBatch> items;
     private boolean isOpen = false;
+    private byte[] rule;
 
     /***
     public static void main(String args[]) {
@@ -58,6 +60,11 @@ public class WSDLItemReader extends AbstractItemCountingItemStreamItemReader<Ite
             items.addAll(convertFilter.getItems());
             LOGGER.error("Elements: " + items.size());
             
+            if(rule != null && rule.length > 0) {
+                DroolsRuleRunner evaluator = new DroolsRuleRunner();
+                evaluator.runRules(new byte[][]{rule}, items.toArray());
+            }
+            
             isOpen = true;
         }
     }
@@ -80,6 +87,14 @@ public class WSDLItemReader extends AbstractItemCountingItemStreamItemReader<Ite
 
     public void setOperation(String operation) {
         this.operation = operation;
+    }
+
+    public byte[] getRule() {
+        return rule;
+    }
+
+    public void setRule(byte[] rule) {
+        this.rule = rule;
     }
 
     @Override

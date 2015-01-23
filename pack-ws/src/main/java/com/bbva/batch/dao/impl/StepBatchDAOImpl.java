@@ -18,7 +18,7 @@ public class StepBatchDAOImpl extends HibernateDAO<StepBatch> implements StepBat
     @Override
     public List<StepBatch> listar(Long idJobBatch, String name, boolean lazy) {
         Criteria criteria = super.getCriteria(StepBatch.class);
-        criteria.add(Restrictions.eq("job", idJobBatch));
+        criteria.add(Restrictions.eq("job.id", idJobBatch));
         if(name != null && !name.trim().isEmpty()) {
             criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE).ignoreCase());
         }

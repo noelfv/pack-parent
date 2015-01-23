@@ -1,6 +1,5 @@
 package com.bbva.batch.util;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -55,22 +54,26 @@ public class ParamUtil {
             } else if (DataType.DATE.getName().equalsIgnoreCase(type.getDataType())) {
                 params.put(type, p.getDateVal());
             } else if (DataType.BYTE.getName().equalsIgnoreCase(type.getDataType())) {
-                try {
-                    params.put(type, new String(p.getByteVal(), "UTF-8"));
-                } catch (UnsupportedEncodingException e) {
-                    LOG.error("No se pudo decodificar", e);
-                }
+                params.put(type, p.getByteVal());
             }
         }
 
         return params;
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T getParam(ParameterType type) {
+        return getParam(type, true);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public <T> T getParam(ParameterType type, boolean convertByte) {
         T param = null;
         Object o = params.get(type);
 
+        if(DataType.BYTE.getName().equalsIgnoreCase(type.getDataType()) && convertByte) {
+            o = new String((byte[]) o);
+        } 
+        
         if (o != null) {
             param = (T) o;
         }
@@ -95,6 +98,11 @@ public class ParamUtil {
 
     public Date getParamAsDate(ParameterType type) {
         Date param = getParam(type);
+        return param;
+    }
+
+    public byte[] getParamAsByte(ParameterType type) {
+        byte[] param = getParam(type, false);
         return param;
     }
 }

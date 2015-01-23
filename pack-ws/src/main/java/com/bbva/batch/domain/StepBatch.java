@@ -7,7 +7,7 @@ public class StepBatch extends EntityBatch {
     private static final long serialVersionUID = 1L;
     private String name;
     private String description;
-    private String order;
+    private Long order;
     private String type;
     private String reader;
     private String writer;
@@ -18,7 +18,7 @@ public class StepBatch extends EntityBatch {
         super();
     }
 
-    public StepBatch(String name, String order, String type, String reader, String writer, JobBatch job) {
+    public StepBatch(String name, Long order, String type, String reader, String writer, JobBatch job) {
         super();
         this.name = name;
         this.order = order;
@@ -44,11 +44,11 @@ public class StepBatch extends EntityBatch {
         this.description = description;
     }
 
-    public String getOrder() {
+    public Long getOrder() {
         return order;
     }
 
-    public void setOrder(String order) {
+    public void setOrder(Long order) {
         this.order = order;
     }
 

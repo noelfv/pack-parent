@@ -16,6 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.bbva.batch.domain.ApplicationBatch;
 import com.bbva.batch.domain.JobBatch;
 import com.bbva.batch.domain.StepBatch;
+import com.bbva.batch.enums.ItemReaderType;
+import com.bbva.batch.enums.ItemWriterType;
 import com.bbva.batch.service.ApplicationBatchService;
 import com.bbva.batch.service.JobBatchService;
 import com.bbva.batch.service.StepBatchService;
@@ -25,7 +27,7 @@ import com.bbva.batch.service.StepBatchService;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class StepBatchServiceImplTest extends AbstractJUnit4Test {
 
-    private String exclude[] = new String[] { "*.class", "jobs.application", "jobs.steps", "jobs.steps.job", "jobs.steps.parameters.step" };
+    private String exclude[] = new String[] { "*.class", "application" };
 
     @Resource(name = "applicationBatchService")
     private ApplicationBatchService applicationBatchService;
@@ -36,15 +38,15 @@ public class StepBatchServiceImplTest extends AbstractJUnit4Test {
     @Resource(name = "stepBatchService")
     private StepBatchService stepBatchService;
 
-    @Test
-    public void _00Eliminar() {
+    /*** @Test
+    public void _00ListClasspath() {
         LOGGER.info(System.getProperty("java.class.path"));
-    }
+    } ***/
     
     @Test
-    public void _01Eliminar() {
+    public void _01EliminarStepJobSimulacion() {
         ApplicationBatch application = applicationBatchService.obtener("packBBVA");
-        JobBatch o = jobBatchService.obtener(application.getId(), "jobSimulacion");
+        JobBatch o = jobBatchService.obtener(application.getId(), "jobSimulacion", true);
         List<StepBatch> steps;
         
         if (o != null) {
@@ -56,22 +58,55 @@ public class StepBatchServiceImplTest extends AbstractJUnit4Test {
     }
 
     @Test
-    public void _02Insertar() {
+    public void _02EliminarStepJobCargaTerrirorioOficina() {
+        ApplicationBatch application = applicationBatchService.obtener("packBBVA");
+        JobBatch o = jobBatchService.obtener(application.getId(), "jobTerritorioOficina", true);
+        List<StepBatch> steps;
+        
+        if (o != null) {
+            steps = stepBatchService.listar(o.getId());
+            stepBatchService.eliminar(steps);
+            steps = stepBatchService.listar(o.getId());
+            Assert.assertTrue("Not delete", steps.size() == 0);
+        }
+    }
+    
+    @Test
+    public void _03InsertarStepJobSimulacion() {
         //applicationBatchService.insertar(new ApplicationBatch("packBBVA", "jdbc/APP_CONELE"));
     }
-
+    
     @Test
-    public void _03Actualizar() {
-        //applicationBatchService.insertar(new ApplicationBatch("gescar", "jdbc/APP_GESCAR"));
+    public void _03InsertarStepJobCargaTerrirorioOficina() {
+        ApplicationBatch application = applicationBatchService.obtener("packBBVA");
+        JobBatch o = jobBatchService.obtener(application.getId(), "jobTerritorioOficina");
+        StepBatch step;
+        
+        step = new StepBatch();
+        step.setJob(o);
+        step.setName("desactivarTerritorios");
+        step.setOrder(1L);
+        step.setDescription("Desactiva los territorios");
+        step.setReader(null);
+        step.setWriter(ItemWriterType.WRITER_QUERY.getName());
+        stepBatchService.insertar(step);
+        
+        step = new StepBatch();
+        step.setJob(o);
+        step.setName("cargandoTerritorio");
+        step.setOrder(2L);
+        step.setDescription("Inserta o actualiza la lista de territorios");
+        step.setReader(ItemReaderType.READER_XML.getName());
+        step.setWriter(ItemWriterType.WRITER_TABLE.getName());
+        stepBatchService.insertar(step);
     }
-
+    
     @Test
     public void _04listarLazy() {
         ApplicationBatch application = applicationBatchService.obtener("packBBVA");
-        JobBatch o = jobBatchService.obtener(application.getId(), "jobSimulacion");
-        List<StepBatch> steps = stepBatchService.listar(o.getId(), true);
-        printer(steps, exclude);
-        Assert.assertTrue(steps.size() == 2);
+        List<JobBatch> o = jobBatchService.listar(application.getId(), true);
+        printer(o, exclude);
+        Assert.assertTrue(o.size() == 2);
     }
 
 }

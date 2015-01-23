@@ -34,7 +34,6 @@ public class JobBatchServiceImplTest extends AbstractJUnit4Test {
     @Test
     public void _01Eliminar() {
         ApplicationBatch application = applicationBatchService.obtener("packBBVA");
-        JobBatch o = new JobBatch();
         List<JobBatch> jobs;
         
         jobs = jobBatchService.listar(application.getId(), true);
@@ -43,20 +42,13 @@ public class JobBatchServiceImplTest extends AbstractJUnit4Test {
             jobs = jobBatchService.listar(application.getId(), true);
             Assert.assertTrue("Not delete", jobs.size() == 0);
         }
-
-        application = applicationBatchService.obtener("gescar");
-        o = jobBatchService.obtener(application.getId(), "jobOficina");
-        if (o != null) {
-            jobBatchService.eliminar(o);
-            o = jobBatchService.obtener(o.getId());
-            Assert.assertNull("Not delete", o);
-        }
     }
 
     @Test
-    public void _02Insertar() {
+    public void _02InsertarJobSimulacion() {
         JobBatch jobBatch = new JobBatch();
         jobBatch.setName("jobSimulacion");
+        jobBatch.setDescription("Genera un archivo plano ");
         jobBatch.setCronExpression("0 0 1 ? * * *");
         jobBatch.setApplication(applicationBatchService.obtener("packBBVA"));
         
@@ -65,13 +57,14 @@ public class JobBatchServiceImplTest extends AbstractJUnit4Test {
     }
 
     @Test
-    public void _03Actualizar() {
+    public void _03InsertarJobCargaTerrirorioOficina() {
         JobBatch jobBatch = new JobBatch();
-        jobBatch.setName("jobOficina");
+        jobBatch.setName("jobTerritorioOficina");
+        jobBatch.setDescription("Realizar la actualización de los territorios y oficinas leyendo el servico de CentroWebServiceBBVA (GESCAR)");
         jobBatch.setCronExpression("0 0 0/1 1/1 * ? *");
-        jobBatch.setApplication(applicationBatchService.obtener("gescar"));
+        jobBatch.setApplication(applicationBatchService.obtener("packBBVA"));
         
-        jobBatchService.actualizar(jobBatch);
+        jobBatchService.insertar(jobBatch);
         Assert.assertNotNull("No inserto actualizo", jobBatch.getId());
     }
 
@@ -79,6 +72,6 @@ public class JobBatchServiceImplTest extends AbstractJUnit4Test {
     public void _04listarLazy() {
         List<JobBatch> jobs = jobBatchService.listar(applicationBatchService.obtener("packBBVA").getId(), true);
         printer(jobs, exclude);
-        Assert.assertTrue(jobs.size() == 1);
+        Assert.assertTrue(jobs.size() == 2);
     }
 }

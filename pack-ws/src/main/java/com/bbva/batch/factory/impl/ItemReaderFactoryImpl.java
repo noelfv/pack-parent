@@ -129,6 +129,7 @@ public class ItemReaderFactoryImpl implements ItemReaderFactory {
         
         reader.setWsdlResource(wsdlResource);
         reader.setOperation(params.getParamAsString(ParameterType.PARAM_WSDL_OPERATION));
+        reader.setRule(params.getParamAsByte(ParameterType.PARAM_RULE));
         reader.afterPropertiesSet();
         return reader;
     }

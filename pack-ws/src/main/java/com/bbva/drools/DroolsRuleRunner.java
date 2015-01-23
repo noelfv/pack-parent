@@ -1,46 +1,53 @@
 package com.bbva.drools;
 
-import java.io.StringReader;
-
-import org.kie.api.KieServices;
-import org.kie.api.builder.KieBuilder;
-import org.kie.api.builder.KieFileSystem;
-import org.kie.api.builder.KieRepository;
-import org.kie.api.builder.Message.Level;
-import org.kie.api.io.KieResources;
-import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
+import org.apache.log4j.Logger;
+import org.drools.KnowledgeBase;
+import org.drools.KnowledgeBaseFactory;
+import org.drools.builder.KnowledgeBuilder;
+import org.drools.builder.KnowledgeBuilderConfiguration;
+import org.drools.builder.KnowledgeBuilderError;
+import org.drools.builder.KnowledgeBuilderErrors;
+import org.drools.builder.KnowledgeBuilderFactory;
+import org.drools.builder.ResourceType;
+import org.drools.builder.conf.PropertySpecificOption;
+import org.drools.io.ResourceFactory;
+import org.drools.runtime.StatefulKnowledgeSession;
 
 public class DroolsRuleRunner {
+    
+    private static final Logger LOGGER = Logger.getLogger(DroolsRuleRunner.class);
     
     public DroolsRuleRunner() {
     }
 
-    public void runRules(String[] rules, Object[] facts) {
-
-        KieServices kieServices = KieServices.Factory.get();
-        KieResources kieResources = kieServices.getResources();
-        KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-        KieRepository kieRepository = kieServices.getRepository();
-
-        for (String ruleFile : rules) {
-            kieFileSystem.write(kieResources.newReaderResource(new StringReader(ruleFile)));
+    public void runRules(byte[][] rules, Object[] facts) {
+        KnowledgeBuilderConfiguration kbuilderConf;
+        KnowledgeBuilder kbuilder;
+        
+        kbuilderConf = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration();
+        kbuilderConf.setOption(PropertySpecificOption.ALWAYS);
+        kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(kbuilderConf);   
+        
+        for(byte[] rule : rules) {
+            kbuilder.add(ResourceFactory.newByteArrayResource(rule), ResourceType.DRL);
         }
-
-        KieBuilder kb = kieServices.newKieBuilder(kieFileSystem);
-        kb.buildAll();
-
-        if (kb.getResults().hasMessages(Level.ERROR)) {
-            throw new RuntimeException("Build Errors:\n" + kb.getResults().toString());
+        KnowledgeBuilderErrors errors = kbuilder.getErrors();
+        if (errors.size() > 0) {
+            for (KnowledgeBuilderError error : errors) {
+                LOGGER.info(error);
+                
+            }
+            throw new IllegalArgumentException("Could not parse knowledge.");
         }
-
-        KieContainer kContainer = kieServices.newKieContainer(kieRepository.getDefaultReleaseId());
-        KieSession kSession = kContainer.newKieSession();
-
-        for (Object fact : facts) {
-            kSession.insert(fact);
+        
+        KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+        kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());                       
+        StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
+        
+        for (Object data : facts) {  
+            ksession.insert(data);
         }
-
-        kSession.fireAllRules();
+        
+        ksession.fireAllRules();
     }
 }

@@ -47,15 +47,11 @@ public class ApplicationBatchServiceImplTest extends AbstractJUnit4Test {
     @Test
     public void _02Insertar() {
         applicationBatchService.insertar(new ApplicationBatch("packBBVA", "jdbc/APP_CONELE"));
-    }
-
-    @Test
-    public void _03Actualizar() {
         applicationBatchService.insertar(new ApplicationBatch("gescar", "jdbc/APP_GESCAR"));
     }
 
     @Test
-    public void _04listarLazy() {
+    public void _03listarLazy() {
         List<ApplicationBatch> applicationBatchs = applicationBatchService.listar(true);
         printer(applicationBatchs, exclude);
         Assert.assertTrue(applicationBatchs.size() == 2);

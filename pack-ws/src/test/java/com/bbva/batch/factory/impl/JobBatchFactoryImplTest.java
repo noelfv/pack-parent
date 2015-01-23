@@ -1,6 +1,9 @@
 package com.bbva.batch.factory.impl;
 
-import java.io.UnsupportedEncodingException;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -142,24 +146,45 @@ public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
         steps.add(step);
         
         parameters = new ArrayList<ParameterBatch>();
-        try {
-            parameters.add(new ParameterBatch("READER_XML", "WSDL", 1L, "Byte", wsdlResource.getBytes("UTF-8")));
-        } catch (UnsupportedEncodingException e1) {
-            LOGGER.error("No se pudo codificar.");
-        }
+        parameters.add(new ParameterBatch("READER_XML", "WSDL", 1L, "Byte", wsdlResource.getBytes()));
         parameters.add(new ParameterBatch("READER_XML", "WSDL_OPERATION", 2L, "String", "listarOficinaTerritorioSuprarea"));
         
-//        parameters.add(new ParameterBatch("WRITER_TABLE", "QUERY", 1L, "String", "/mnt/compartido/conele/out/packDEMO.txt"));
-//        parameters.add(new ParameterBatch("WRITER_TABLE", "JNDI", 2L, "String", "jdbc/APP_CONELE"));
-        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "RESOURCE", 1L, "String", "/mnt/compartido/conele/out/packDEMOi.txt"));
-        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "FIELDS", 2L, "String", "listaOficina.id"));
-        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "FORMAT", 2L, "String", "%-10s"));
+        try {
+            File ruleFile = new File("C:\\jquedena\\Proyectos\\workspace-pack-conele\\pack-parent\\pack-ws\\src\\main\\resources\\EvalCargaTerritorio.drl");
+            InputStream input = new FileInputStream(ruleFile);
+            ByteArrayOutputStream output = new ByteArrayOutputStream(); 
+            IOUtils.copy(input, output);
+            parameters.add(new ParameterBatch("READER_XML", "RULE", 3L, "Byte", output.toByteArray()));     
+        } catch (Exception e) {
+            LOGGER.error("No se pudo obtener la regla");
+        }
         
+        String query = "MERGE INTO CONELE.TBL_CE_IBM_TERRITORIO A "
+                + "USING ( "
+                + "  SELECT :listaOficina.territorio.id ID, :listaOficina.territorio.nombreTerritorio NOMBRE "
+                + "  FROM DUAL) B "
+                + "ON (A.CODIGO = B.ID) "
+                + "WHEN MATCHED THEN "
+                + "  UPDATE SET A.DESCRIPCION = B.NOMBRE, "
+                + "         A.UBICACION = B.NOMBRE, "
+                + "         A.FLAG_ACTIVO = 1 "
+                + "WHEN NOT MATCHED THEN "
+                + "  INSERT (ID, CODIGO, DESCRIPCION, UBICACION, FLAG_PROV, FLAG_ACTIVO) "
+                + "  VALUES (CONELE.SEQ_CE_IBM_TERRITORIO.NEXTVAL, B.ID, B.NOMBRE, B.NOMBRE, 0, 1) ";
+        
+        parameters.add(new ParameterBatch("WRITER_TABLE", "QUERY", 1L, "String", query));
+        parameters.add(new ParameterBatch("WRITER_TABLE", "JNDI", 2L, "String", "jdbc/APP_CONELE"));
+        /*
+        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "RESOURCE", 1L, "String", "/mnt/compartido/conele/out/packDEMOi.txt"));
+        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "FIELDS", 2L, "String", "listaOficina.territorio.id"));
+        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "FORMAT", 2L, "String", "%-10s"));
+        //*/
         step = new StepBatch();
         step.setId(2L);
         step.setName("cargandoTerritorio");
         step.setReader(ItemReaderType.READER_XML.getName());
-        step.setWriter(ItemWriterType.WRITER_TEXT_POSITION.getName());
+        step.setWriter(ItemWriterType.WRITER_TABLE.getName());
+        // step.setWriter(ItemWriterType.WRITER_TEXT_POSITION.getName());
         step.setParameters(parameters);
         steps.add(step);
 
