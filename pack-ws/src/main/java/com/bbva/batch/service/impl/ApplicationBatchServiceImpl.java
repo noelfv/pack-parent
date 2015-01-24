@@ -40,7 +40,7 @@ public class ApplicationBatchServiceImpl extends DataManipulationService<Applica
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public List<ApplicationBatch> listar(boolean lazy) {
-        return listar("", false);
+        return listar("", lazy);
     }
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)

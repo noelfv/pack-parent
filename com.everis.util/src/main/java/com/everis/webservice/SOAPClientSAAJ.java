@@ -17,7 +17,6 @@ import javax.xml.soap.SOAPPart;
 import org.apache.log4j.Logger;
 
 import com.everis.util.CadenaUtil;
-import com.sun.xml.messaging.saaj.util.ByteOutputStream;
 
 public class SOAPClientSAAJ {
 
@@ -94,9 +93,9 @@ public class SOAPClientSAAJ {
         soapMessage.saveChanges();
         
         if(LOGGER.isInfoEnabled()) {
-            ByteOutputStream bos = new ByteOutputStream();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
             soapMessage.writeTo(bos);
-            LOGGER.info("Request SOAP Message:" + new String(bos.getBytes()).replaceAll("<", "\n\t<"));
+            LOGGER.info("Request SOAP Message:" + new String(bos.toByteArray()).replaceAll("<", "\n\t<"));
         }
         
         return soapMessage;     

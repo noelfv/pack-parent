@@ -111,9 +111,11 @@ public class StepFactoryImpl implements StepFactory {
         Step step = null;
 
         for (StepBatch s : jobBatch.getSteps()) {
-            step = createStep(s);
-            if (step != null) {
-                steps.add(step);
+            if(s != null) {
+                step = createStep(s);
+                if (step != null) {
+                    steps.add(step);
+                }
             }
         }
 

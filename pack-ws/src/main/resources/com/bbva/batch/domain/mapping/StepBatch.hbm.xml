@@ -20,9 +20,6 @@
         <property name="order" type="long">
             <column name="ORDEN"/>
         </property>
-        <property name="type" type="string" length="30">
-            <column name="TIPO"/>
-        </property>
         <property name="reader" type="string" length="30">
             <column name="LECTOR"/>
         </property>

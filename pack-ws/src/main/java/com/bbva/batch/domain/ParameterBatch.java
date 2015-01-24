@@ -16,6 +16,10 @@ public class ParameterBatch extends EntityBatch {
     private byte[] byteVal;
     private StepBatch step;
 
+    public ParameterBatch(){
+        super();
+    }
+    
     public ParameterBatch(String name, String type, Long order,
                           String typeValue, String stringVal) {
         super();

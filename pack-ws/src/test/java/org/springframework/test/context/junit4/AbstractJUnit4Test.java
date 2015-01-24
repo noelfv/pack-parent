@@ -34,8 +34,8 @@ public class AbstractJUnit4Test {
         prop.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
         prop.setProperty("log4j.appender.stdout.layout.ConversionPattern", "[%d{HH:mm:ss}]%p - %C{1}.%M(%L)  %m%n");
         prop.setProperty("log4j.logger.org.hibernate.SQL", "DEBUG");
-        prop.setProperty("log4j.logger.org.hibernate.type", "TRACE");
-        prop.setProperty("log4j.logger.org.hibernate", "INFO,LOGFILE");
+        // prop.setProperty("log4j.logger.org.hibernate.type", "TRACE");
+        // prop.setProperty("log4j.logger.org.hibernate", "INFO,LOGFILE");
         // prop.setProperty("log4j.logger.com.bbva", "INFO,LOGFILE,stdout");
         
         

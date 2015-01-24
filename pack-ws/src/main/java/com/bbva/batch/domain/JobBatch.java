@@ -8,6 +8,7 @@ public class JobBatch extends EntityBatch {
     private String name;
     private String description;
     private String cronExpression;
+    private String type;
     private ApplicationBatch application;
     private List<StepBatch> steps;
 
@@ -46,6 +47,14 @@ public class JobBatch extends EntityBatch {
         this.cronExpression = cronExpression;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
     public ApplicationBatch getApplication() {
         return application;
     }

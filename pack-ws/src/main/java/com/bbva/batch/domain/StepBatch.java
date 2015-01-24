@@ -8,7 +8,6 @@ public class StepBatch extends EntityBatch {
     private String name;
     private String description;
     private Long order;
-    private String type;
     private String reader;
     private String writer;
     private JobBatch job;
@@ -18,11 +17,10 @@ public class StepBatch extends EntityBatch {
         super();
     }
 
-    public StepBatch(String name, Long order, String type, String reader, String writer, JobBatch job) {
+    public StepBatch(String name, Long order, String reader, String writer, JobBatch job) {
         super();
         this.name = name;
         this.order = order;
-        this.type = type;
         this.reader = reader;
         this.writer = writer;
         this.job = job;
@@ -50,14 +48,6 @@ public class StepBatch extends EntityBatch {
 
     public void setOrder(Long order) {
         this.order = order;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getReader() {

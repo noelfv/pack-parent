@@ -86,6 +86,13 @@
             <artifactId>droolsjbpm-ide-common</artifactId>
             <version>${drools.version}</version>
         </dependency>
+        <!-- 
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+        -->
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc6</artifactId>

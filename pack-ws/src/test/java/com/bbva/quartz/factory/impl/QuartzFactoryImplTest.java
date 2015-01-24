@@ -29,6 +29,7 @@ public class QuartzFactoryImplTest extends AbstractJUnit4Test {
         try {
             quartzFactory.createJobs(app.getJobs());
         } catch (Exception e) {
+            LOGGER.error("", e);
             Assert.fail("Error");
         }
         /** try {

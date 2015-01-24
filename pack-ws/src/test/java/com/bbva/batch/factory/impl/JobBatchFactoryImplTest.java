@@ -36,6 +36,8 @@ import com.bbva.batch.domain.StepBatch;
 import com.bbva.batch.enums.ItemReaderType;
 import com.bbva.batch.enums.ItemWriterType;
 import com.bbva.batch.factory.JobBatchFactory;
+import com.bbva.batch.service.ApplicationBatchService;
+import com.bbva.batch.service.JobBatchService;
 import com.everis.util.DBUtilSpring;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -45,12 +47,18 @@ public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
     @Resource(name = "dataSource")
     private DataSource dataSource;
 
+    @Resource(name = "applicationBatchService")
+    private ApplicationBatchService applicationBatchService;
+    
     @Resource(name = "jobBatchFactory")
     private JobBatchFactory jobBatchFactory;
 
     @Resource(name = "jobLauncher")
     private JobLauncher jobLauncher;
 
+    @Resource(name = "jobBatchService")
+    private JobBatchService jobBatchService;
+    
     @Before
     public void setUp() {
         super.setUp();
@@ -217,6 +225,40 @@ public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
             LOGGER.error("", e);
             Assert.fail("JobInstanceAlreadyCompleteException");
         } catch (JobParametersInvalidException e) {
+            LOGGER.error("", e);
+            Assert.fail("JobParametersInvalidException");
+        }
+    }
+ 
+    @Test
+    public void _03createReaderJobCargaOficina() {
+        ApplicationBatch application = applicationBatchService.obtener("packBBVA");
+        JobBatch jobBatch = jobBatchService.obtener(application.getId(), "jobTerritorioOficina", true);
+
+        try {
+            SimpleJob job = jobBatchFactory.createJob(jobBatch);
+            JobParameters param = new JobParametersBuilder().addDate("date", new Date()).toJobParameters();
+
+            JobExecution execution = jobLauncher.run(job, param);
+            Long outId = execution.getId();
+            LOGGER.error("Id Proceso: [" + outId + "]");
+            LOGGER.error("Estado del Proceso: " + execution.getStatus());
+            if (!execution.getAllFailureExceptions().isEmpty()) {
+                LOGGER.error("Estado del Proceso: " + execution.getAllFailureExceptions());
+            }
+        } catch (JobExecutionAlreadyRunningException e) {
+            LOGGER.error("", e);
+            Assert.fail("JobExecutionAlreadyRunningException");
+        } catch (JobRestartException e) {
+            LOGGER.error("", e);
+            Assert.fail("JobRestartException");
+        } catch (JobInstanceAlreadyCompleteException e) {
+            LOGGER.error("", e);
+            Assert.fail("JobInstanceAlreadyCompleteException");
+        } catch (JobParametersInvalidException e) {
+            LOGGER.error("", e);
+            Assert.fail("JobParametersInvalidException");
+        } catch (Exception e) {
             LOGGER.error("", e);
             Assert.fail("JobParametersInvalidException");
         }
