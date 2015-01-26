@@ -12,22 +12,20 @@ salience 100
 no-loop true
 when
     items: List() from collect(ItemBatch())
-then
-    // org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(ItemBatch.class);
-    
+then   
     String key;
     ItemBatch io;
     Map<String, String> keys = new HashMap<String, String>();
     
 	for(Object o : items){
 		io = (ItemBatch) o;
+        io.setObject("__filter__", "0");
 		if(io.existsKey("listaOficina.territorio.id")) {
 		key = io.getString("listaOficina.territorio.id");
 		  if(!keys.containsKey(key)) {
 			  keys.put(key, key);
 			  io.setObject("__filter__", "1");
-			  // logger.info(io.getString("listaOficina.territorio.id") + " --> " + io.getString("__filter__"));
-           }
+          }
 		}
 	}
 end
