@@ -16,6 +16,7 @@ import com.bbva.batch.domain.JobBatch;
 import com.bbva.batch.service.ApplicationBatchService;
 import com.bbva.batch.service.JobBatchService;
 import com.bbva.packws.model.JobModel;
+import com.bbva.packws.service.SchedulerService;
 import com.everis.enums.Resultado;
 import com.everis.web.controller.impl.AbstractSpringControllerImpl;
 
@@ -30,6 +31,9 @@ public class JobController extends AbstractSpringControllerImpl {
     @Resource(name = "jobBatchService")
     private JobBatchService jobBatchService;
 
+    @Resource(name = "schedulerService")
+    private SchedulerService schedulerService;
+    
     @Resource(name = "applicationBatchService")
     private ApplicationBatchService applicationBatchService;
     
@@ -94,6 +98,8 @@ public class JobController extends AbstractSpringControllerImpl {
                     model.setTipoResultado(Resultado.EXITO);
                     job.setApplication(applicationBatchService.obtener(job.getApplication().getId()));
                     jobBatchService.actualizar(job);
+                    schedulerService.rescheduler(job);
+                    
                     model.setMensaje("Registro actualizado correctamente");
                 } else {
                     model.setTipoResultado(Resultado.ADVERTENCIA);
@@ -119,6 +125,7 @@ public class JobController extends AbstractSpringControllerImpl {
                 JobBatch job = jobModel.getJob();
                 job = jobBatchService.obtener(job.getId());
                 jobBatchService.eliminar(job);
+                schedulerService.rescheduler(job);
                 
                 model.setTipoResultado(Resultado.EXITO);
                 model.setMensaje("Registro eliminado");

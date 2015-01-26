@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.batch.core.JobExecution;
 
-import com.bbva.packws.batch.job.GenerarArchivoHandler;
 import com.bbva.quartz.domain.Trigger;
 import com.everis.web.model.BaseModel;
 
@@ -13,7 +12,6 @@ public class SchedulerModel extends BaseModel {
 
     private List<JobExecution> runningJobInstances;
     private List<Trigger> triggerInstances;
-    private GenerarArchivoHandler handler;
     private String cronTrigger;
     private String time;
 
@@ -34,14 +32,6 @@ public class SchedulerModel extends BaseModel {
 
     public void setTriggerInstances(List<Trigger> triggerInstances) {
         this.triggerInstances = triggerInstances;
-    }
-
-    public GenerarArchivoHandler getHandler() {
-        return handler;
-    }
-
-    public void setHandler(GenerarArchivoHandler handler) {
-        this.handler = handler;
     }
 
     public String getCronTrigger() {

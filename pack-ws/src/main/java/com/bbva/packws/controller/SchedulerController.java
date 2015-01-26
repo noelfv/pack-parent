@@ -6,8 +6,6 @@ import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -55,30 +53,4 @@ public class SchedulerController extends AbstractSpringControllerImpl {
         return result;
     }
 
-    @RequestMapping(value = "reschedule", method = RequestMethod.POST)
-    public @ResponseBody String reschedule(@ModelAttribute("schedulerModel") SchedulerModel schedulerModel, BindingResult bindingResult) {
-        String result = "";
-        try {
-            LOG.info("Cron: [" + schedulerModel.getTime() + "]");
-
-            SchedulerModel schedulerModelResult = new SchedulerModel();
-            if (!bindingResult.hasErrors()) {
-                schedulerModelResult.setTipoResultado(Resultado.EXITO);
-
-                if (schedulerModel.getCronTrigger().equalsIgnoreCase("cronTriggerGenerarArchivo")) {
-                    schedulerService.reschedulerTriggerGenerarArchivo(schedulerModel.getTime());
-                } else if (schedulerModel.getCronTrigger().equalsIgnoreCase("cronTriggerDepurarArchivo")) {
-                    schedulerService.reschedulerTriggerDepurarArchivo(schedulerModel.getTime());
-                }
-
-                schedulerModelResult.setTriggerInstances(triggerService.listar());
-                result = this.renderModelJson(schedulerModelResult);
-            } else {
-                result = this.renderErrorSistema(bindingResult.getAllErrors());
-            }
-        } catch (Exception e) {
-            result = this.renderErrorSistema(e);
-        }
-        return result;
-    }
 }
