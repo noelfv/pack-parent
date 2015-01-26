@@ -14,13 +14,15 @@ public enum ParameterType {
     PARAM_FIELDS("FIELDS", String.class),
     PARAM_DELIMITER("DELIMITER", String.class),
     PARAM_QUOTE_CHARACTER("QUOTE_CHARACTER", String.class),
+    PARAM_APPEND("APPEND", String.class),
     PARAM_CLASS_NAME("CLASS_NAME", String.class),
     PARAM_FORMAT_DATE("FORMAT_DATE", String.class),
     PARAM_RANGE("RANGE", String.class),
-    PARAM_QUERY("RANGE", String.class),
+    PARAM_QUERY("QUERY", String.class),
     PARAM_WSDL("WSDL", Byte.class),
     PARAM_WSDL_OPERATION("WSDL_OPERATION", String.class),
-    PARAM_RULE("RULE", Byte.class);
+    PARAM_RULE("RULE", Byte.class),
+    PARAM_DECISOR_PARAM("DECISOR_PARAM", Byte.class);
     
     private String nameParam;
     private Class<?> dataType;
