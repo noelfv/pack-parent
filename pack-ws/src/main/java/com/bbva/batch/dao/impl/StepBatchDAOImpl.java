@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,7 @@ public class StepBatchDAOImpl extends HibernateDAO<StepBatch> implements StepBat
         if(name != null && !name.trim().isEmpty()) {
             criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE).ignoreCase());
         }
+        criteria.addOrder(Order.asc("order"));
         return (List<StepBatch>) criteria.list();
     }
 

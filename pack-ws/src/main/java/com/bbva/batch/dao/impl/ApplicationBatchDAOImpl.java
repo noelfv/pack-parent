@@ -22,7 +22,7 @@ public class ApplicationBatchDAOImpl extends HibernateDAO<ApplicationBatch> impl
         if(name != null && !name.trim().isEmpty()) {
             criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE).ignoreCase());
         }
-        criteria.addOrder(Order.asc("id"));
+        criteria.addOrder(Order.asc("name"));
         return (List<ApplicationBatch>) criteria.list();
     }
 

@@ -11,16 +11,16 @@
         <version name="version" type="long">
             <column name="VERSION"/>
         </version>
-        <property name="name" type="string" length="30">
+        <property name="name" type="string" length="30" not-null="true">
             <column name="NOMBRE"/>
         </property>
         <property name="description" type="string" length="2000">
             <column name="DESCRIPCION"/>
         </property>
-        <property name="cronExpression" type="string" length="30">
+        <property name="cronExpression" type="string" length="30" not-null="true">
             <column name="CRON"/>
         </property>
-        <property name="type" type="string" length="30">
+        <property name="type" type="string" length="30" not-null="true">
             <column name="TIPO"/>
         </property>
         <many-to-one name="application" class="com.bbva.batch.domain.ApplicationBatch"

@@ -3,6 +3,7 @@ package com.bbva.batch.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +18,11 @@ public class ParameterBatchDAOImpl extends HibernateDAO<ParameterBatch> implemen
     @Override
     public List<ParameterBatch> listar(Long idStepBatch, boolean lazy) {
         Criteria criteria = super.getCriteria(ParameterBatch.class);
-        criteria.add(Restrictions.eq("step", idStepBatch));
+        criteria.add(Restrictions.eq("step.id", idStepBatch));
+        if(lazy) {
+            criteria.addOrder(Order.asc("step.order"));
+        }
+        criteria.addOrder(Order.asc("order"));
         return (List<ParameterBatch>) criteria.list();
     }
 

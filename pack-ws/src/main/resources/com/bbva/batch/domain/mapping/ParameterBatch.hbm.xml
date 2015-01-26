@@ -11,16 +11,16 @@
         <version name="version" type="long">
             <column name="VERSION"/>
         </version>
-        <property name="name" type="string">
+        <property name="name" type="string" not-null="true">
             <column name="NOMBRE"/>
         </property>
-        <property name="order" type="long">
+        <property name="order" type="long" not-null="true">
             <column name="ORDEN"/>
         </property>
-        <property name="type" type="string" length="30">
+        <property name="type" type="string" length="30" not-null="true">
             <column name="TIPO"/>
         </property>
-        <property name="typeValue" type="string" length="30">
+        <property name="typeValue" type="string" length="30" not-null="true">
             <column name="TIPO_ATRIBUTO"/>
         </property>
         <property name="stringVal" type="string" length="2000">

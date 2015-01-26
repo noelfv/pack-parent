@@ -23,7 +23,7 @@ public class JobBatchDAOImpl extends HibernateDAO<JobBatch> implements JobBatchD
         if(name != null && !name.trim().isEmpty()) {
             criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE).ignoreCase());
         }
-        criteria.addOrder(Order.asc("id"));
+        criteria.addOrder(Order.asc("name"));
         return (List<JobBatch>) criteria.list();
     }
 

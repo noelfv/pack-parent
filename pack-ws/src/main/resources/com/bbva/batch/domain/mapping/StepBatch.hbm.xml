@@ -11,13 +11,13 @@
         <version name="version" type="long">
             <column name="VERSION"/>
         </version>
-        <property name="name" type="string">
+        <property name="name" type="string" not-null="true">
             <column name="NOMBRE"/>
         </property>
         <property name="description" type="string" length="2000">
             <column name="DESCRIPCION"/>
         </property>
-        <property name="order" type="long">
+        <property name="order" type="long" not-null="true">
             <column name="ORDEN"/>
         </property>
         <property name="reader" type="string" length="30">
@@ -25,6 +25,9 @@
         </property>
         <property name="writer" type="string" length="30">
             <column name="ESCRITOR"/>
+        </property>
+        <property name="nextStep" type="string" length="30">
+            <column name="SIG_PASO"/>
         </property>
         <many-to-one name="job" class="com.bbva.batch.domain.JobBatch"
                      fetch="select">

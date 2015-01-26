@@ -10,6 +10,7 @@ public class StepBatch extends EntityBatch {
     private Long order;
     private String reader;
     private String writer;
+    private String nextStep;
     private JobBatch job;
     private List<ParameterBatch> parameters;
 
@@ -64,6 +65,14 @@ public class StepBatch extends EntityBatch {
 
     public void setWriter(String writer) {
         this.writer = writer;
+    }
+
+    public String getNextStep() {
+        return nextStep;
+    }
+
+    public void setNextStep(String nextStep) {
+        this.nextStep = nextStep;
     }
 
     public JobBatch getJob() {
