@@ -7,6 +7,7 @@
 		<div class="ui-accordion ui-widget ui-helper-reset" style="padding-bottom: 10px;">
 			<label class="ui-accordion-header ui-accordion-header-active ui-corner-top ui-widget-header">Estado de las tareas programadas</label>
 			<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
+				<!-- 
 				<table style="width: 100%; padding-bottom: 5px;">
 					<tr>
 						<td align="right">
@@ -14,9 +15,11 @@
 						</td>
 					</tr>
 				</table>
+				-->
 				<div id="pnlTrigger"></div>
 			</div>
 		</div>
+		<!-- 
 		<div id="dialogReprogramar">
 			<table style="margin: auto; width: 100%">
 				<tr>
@@ -34,5 +37,6 @@
 				</tr>
 			</table>
 		</div>
+		 -->
 	</tiles:putAttribute>
 </tiles:insertDefinition>

@@ -71,12 +71,12 @@ listar = function() {
 };
 
 $(document).ready(function() {
+    /***
     $("#btnReprogramar").button({
         icons : {
             primary : "ui-icon-clock"
         }
     }).on("click", function() {
-        // var ids = $("#tbl_pnlTrigger").jqGrid('getGridParam','selarrrow');
         var id = $("#tbl_pnlTrigger").jqGrid('getGridParam', 'selrow')
         if (id != null) {
             var row = $("#tbl_pnlTrigger").jqGrid('getRowData', id);
@@ -84,9 +84,7 @@ $(document).ready(function() {
             $("#txtTimer").attr("data-triggerName", row.triggerName);
             $("#dialogReprogramar").dialog("open");
         } else {
-            openJqWarn({
-                content : "Debe seleccionar al un disparador"
-            });
+            openJqWarn({ content : "Debe seleccionar al un disparador" });
         }
     });
 
@@ -103,6 +101,7 @@ $(document).ready(function() {
     $('.ui-text-time').timepicker({
         timeFormat : 'HH:mm'
     });
+    ***/
 
     listar();
 });
