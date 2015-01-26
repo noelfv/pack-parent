@@ -109,7 +109,7 @@ public class FechaUtil {
                 result = format.parse(fecha);
             }
         } catch (Exception e) {
-            LOG.error("FechaUtil.parseFecha", e);
+            LOG.debug("FechaUtil.parseFecha", e);
         }
 
         return result;

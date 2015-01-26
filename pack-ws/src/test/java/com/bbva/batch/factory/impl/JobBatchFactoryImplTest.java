@@ -15,8 +15,10 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
@@ -48,6 +50,7 @@ import flexjson.JSONSerializer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContextTest.xml"})
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
 
     private static final Logger LOGGER = Logger.getLogger(JobBatchFactoryImplTest.class);
@@ -73,6 +76,78 @@ public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
         DBUtilSpring.getInstance().setDataSource("jdbc/APP_CONELE", dataSource);
     }
 
+    @Test
+    public void _00createJobDepurarArchivo() {
+        ApplicationBatch application = new ApplicationBatch();
+        application.setName("packBBVA");
+        application.setJndi("jdbc/APP_CONELE");
+
+        List<ParameterBatch> parameters;
+        List<StepBatch> steps = new ArrayList<StepBatch>();
+        
+        List<DeciderParam> deciderParams = new ArrayList<DeciderParam>();
+        deciderParams.add(new DeciderParam("PB_RUTA_ARCHIVO", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_RUTA_ARCHIVO'"));
+        deciderParams.add(new DeciderParam("PB_NOMBRE_ARCHIVO", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_NOMBRE_ARCHIVO'"));
+        deciderParams.add(new DeciderParam("PB_FORMATO_FECHA_SUFIJO", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_FORMATO_FECHA_SUFIJO'"));
+        deciderParams.add(new DeciderParam("PB_DIAS_ESPERA", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_DIAS_ESPERA'"));
+        
+        String decisorParam = new JSONSerializer().deepSerialize(deciderParams); 
+        parameters = new ArrayList<ParameterBatch>();
+        parameters.add(new ParameterBatch("WRITER_DROOLS", "JNDI", 1L, "String", "jdbc/APP_CONELE"));
+        parameters.add(new ParameterBatch("WRITER_DROOLS", "DECISOR_PARAM", 2L, "Byte", decisorParam.getBytes()));
+        try {
+            File ruleFile = new File("C:\\jquedena\\Proyectos\\workspace-pack-conele\\pack-parent\\pack-ws\\src\\main\\resources\\DepurarArchivo.drl");
+            InputStream input = new FileInputStream(ruleFile);
+            ByteArrayOutputStream output = new ByteArrayOutputStream(); 
+            IOUtils.copy(input, output);
+            parameters.add(new ParameterBatch("WRITER_DROOLS", "RULE", 3L, "Byte", output.toByteArray()));     
+        } catch (Exception e) {
+            LOGGER.error("No se pudo obtener la regla");
+        }
+        
+        StepBatch step = new StepBatch();
+        step.setName("depurarArchivo");
+        step.setOrder(1L);
+        step.setDescription("Elimina los archivos mas antiguos");
+        step.setWriter(ItemWriterType.WRITER_DROOLS.getName());
+        step.setParameters(parameters);
+        steps.add(step);
+        
+        JobBatch jobBatch = new JobBatch();
+        jobBatch.setName("jobDepurarArchivo");
+        jobBatch.setDescription("Elimina los archivos mas antiguos");
+        jobBatch.setType(JobBatchFactory.SIMPLE);
+        jobBatch.setCronExpression("0 0 1 ? * * *");
+        jobBatch.setApplication(application);
+        jobBatch.setSteps(steps);
+
+        Job job = jobBatchFactory.createJob(jobBatch);
+        JobParameters param = new JobParametersBuilder().addDate("date", new Date()).toJobParameters();
+
+        JobExecution execution;
+        try {
+            execution = jobLauncher.run(job, param);
+            Long outId = execution.getId();
+            LOGGER.error("Id Proceso: [" + outId + "]");
+            LOGGER.error("Estado del Proceso: " + execution.getStatus());
+            if (!execution.getAllFailureExceptions().isEmpty()) {
+                LOGGER.error("Estado del Proceso: " + execution.getAllFailureExceptions());
+            }
+        } catch (JobExecutionAlreadyRunningException e) {
+            LOGGER.error("", e);
+            Assert.fail("JobExecutionAlreadyRunningException");
+        } catch (JobRestartException e) {
+            LOGGER.error("", e);
+            Assert.fail("JobRestartException");
+        } catch (JobInstanceAlreadyCompleteException e) {
+            LOGGER.error("", e);
+            Assert.fail("JobInstanceAlreadyCompleteException");
+        } catch (JobParametersInvalidException e) {
+            LOGGER.error("", e);
+            Assert.fail("JobParametersInvalidException");
+        }
+    }
+    
     @Test
     public void _01createJobSolicitudCONELE() {
         ApplicationBatch application = new ApplicationBatch();

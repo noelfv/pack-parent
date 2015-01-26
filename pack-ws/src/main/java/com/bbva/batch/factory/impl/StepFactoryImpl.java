@@ -31,10 +31,14 @@ import com.bbva.batch.enums.ParameterType;
 import com.bbva.batch.factory.ItemReaderFactory;
 import com.bbva.batch.factory.ItemWriterFactory;
 import com.bbva.batch.factory.StepFactory;
+import com.bbva.batch.tasklet.DroolsTasklet;
 import com.bbva.batch.tasklet.QueryTasklet;
+import com.bbva.batch.util.DeciderParam;
 import com.bbva.batch.util.ItemBatchProcessor;
 import com.bbva.batch.util.ParamUtil;
 import com.everis.core.exception.BussinesException;
+
+import flexjson.JSONDeserializer;
 
 @Component("stepFactory")
 public class StepFactoryImpl implements StepFactory {
@@ -53,11 +57,24 @@ public class StepFactoryImpl implements StepFactory {
     @Resource(name = "itemWriterFactory")
     private ItemWriterFactory itemWriterFactory;
 
+    @SuppressWarnings("unchecked")
     private Tasklet createTasklet(ItemReaderType readerType, ItemWriterType writeType, ParamUtil paramsReader, ParamUtil paramsWriter) throws BussinesException {
         Tasklet tasklet = null;
         
         try {
-            if(writeType.compareTo(ItemWriterType.WRITER_QUERY) != 0) {
+            if(ItemWriterType.WRITER_QUERY.compareTo(writeType) == 0) {
+                QueryTasklet queryTasklet = new QueryTasklet();
+                queryTasklet.setQuery(paramsWriter.getParamAsString(ParameterType.PARAM_QUERY));
+                queryTasklet.setDataSourceName(paramsWriter.getParamAsString(ParameterType.PARAM_JNDI));
+                tasklet = queryTasklet;
+            } else if(ItemWriterType.WRITER_DROOLS.compareTo(writeType) == 0){
+                JSONDeserializer<DeciderParam> deserializerDecider = new JSONDeserializer<DeciderParam>();
+                DroolsTasklet droolsTasklet = new DroolsTasklet();
+                droolsTasklet.setRule(paramsWriter.getParamAsByte(ParameterType.PARAM_RULE));
+                droolsTasklet.setParams((List<DeciderParam>) deserializerDecider.deserialize(paramsWriter.getParamAsString(ParameterType.PARAM_DECISOR_PARAM)));
+                droolsTasklet.setDataSourceName(paramsWriter.getParamAsString(ParameterType.PARAM_JNDI));
+                tasklet = droolsTasklet;
+            } else {
                 ItemReader<ItemBatch> itemReader = itemReaderFactory.create(readerType, paramsReader);
                 ItemWriter<ItemBatch> itemWriter = itemWriterFactory.create(writeType, paramsWriter);
                 ItemProcessor<ItemBatch, ItemBatch> itemProcessor = new ItemBatchProcessor();
@@ -69,11 +86,6 @@ public class StepFactoryImpl implements StepFactory {
                 SimpleChunkProcessor<ItemBatch, ItemBatch> chunkProcessor = new SimpleChunkProcessor<ItemBatch, ItemBatch>(itemProcessor, itemWriter);
     
                 tasklet = new ChunkOrientedTasklet<ItemBatch>(chunkProvider, chunkProcessor);
-            } else if(writeType.compareTo(ItemWriterType.WRITER_QUERY) == 0){
-                QueryTasklet queryTasklet = new QueryTasklet();
-                queryTasklet.setQuery(paramsWriter.getParamAsString(ParameterType.PARAM_QUERY));
-                queryTasklet.setDataSourceName(paramsWriter.getParamAsString(ParameterType.PARAM_JNDI));
-                tasklet = queryTasklet;
             }
         } catch(Exception e) {
             throw new BussinesException("No se pudo crear el tasklet", e);

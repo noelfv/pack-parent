@@ -15,6 +15,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.springframework.batch.core.job.flow.FlowExecutionStatus;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4Test;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -30,6 +31,9 @@ import com.bbva.batch.service.ApplicationBatchService;
 import com.bbva.batch.service.JobBatchService;
 import com.bbva.batch.service.ParameterBatchService;
 import com.bbva.batch.service.StepBatchService;
+import com.bbva.batch.util.DeciderBatch;
+
+import flexjson.JSONSerializer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContextTest.xml" })
@@ -149,7 +153,55 @@ public class ApplicationBatchServiceImplTest extends AbstractJUnit4Test {
     
     @Test
     public void _10InsertarStepJobSimulacion() {
-        //applicationBatchService.insertar(new ApplicationBatch("packBBVA", "jdbc/APP_CONELE"));
+        ApplicationBatch application = applicationBatchService.obtener("packBBVA");
+        JobBatch o = jobBatchService.obtener(application.getId(), "jobSimulacion", true);
+
+        List<StepBatch> steps = new ArrayList<StepBatch>();
+        StepBatch step;
+
+        step = stepBatchService.obtener(o.getId(), "generarSolicitudCONELE");
+        if(step == null) {
+            step = new StepBatch();
+        }
+        step.setName("generarSolicitudCONELE");
+        step.setOrder(1L);
+        step.setDescription("A partir de los datos de la tabla V_SOLICITUD generar un archivo de las solicitudes del sistema PLD unificado");
+        step.setReader(ItemReaderType.READER_TABLE.getName());
+        step.setWriter(ItemWriterType.WRITER_TEXT_POSITION.getName());
+        step.setNextStep("decisionSolicitudIICE");
+        step.setJob(o);
+        steps.add(step);
+               
+        List<DeciderBatch> flowDecider = new ArrayList<DeciderBatch>();
+        flowDecider.add(new DeciderBatch(FlowExecutionStatus.COMPLETED.getName(), "generarSolicitudIICE"));
+        flowDecider.add(new DeciderBatch(FlowExecutionStatus.FAILED.getName(), "endFail"));        
+        
+        step = stepBatchService.obtener(o.getId(), "decisionSolicitudIICE");
+        if(step == null) {
+            step = new StepBatch();
+        }
+        step.setName("decisionSolicitudIICE");
+        step.setOrder(2L);
+        step.setDescription("Evalua si usa el esquema IICE para la generación del archivo");
+        step.setWriter(ItemWriterType.WRITER_DECISOR.getName());
+        step.setNextStep(new JSONSerializer().deepSerialize(flowDecider));
+        step.setJob(o);
+        steps.add(step);
+
+        step = stepBatchService.obtener(o.getId(), "generarSolicitudIICE");
+        if(step == null) {
+            step = new StepBatch();
+        }
+        step.setName("generarSolicitudIICE");
+        step.setOrder(3L);
+        step.setDescription("A partir de los datos de la tabla V_SOLICITUD generar un archivo de las solicitudes del sistema PLD unificado");
+        step.setReader(ItemReaderType.READER_TABLE.getName());
+        step.setWriter(ItemWriterType.WRITER_TEXT_POSITION.getName());
+        step.setNextStep("end");
+        step.setJob(o);
+        steps.add(step);
+        
+        stepBatchService.actualizar(steps);
     }
     
     @Test

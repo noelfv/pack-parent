@@ -75,16 +75,12 @@ public class DBUtilSpring {
     public List<Map<String, Object>> executeQuery(String jndi, String query) throws BussinesException {
         List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
         Map<String, Object> row;
-        long i1 = System.currentTimeMillis();
-        int i = 0;
         int j;
         Connection connection = null;
         Statement statement = null;
         ResultSet resultset = null;
         ResultSetMetaData metadata = null;
         String[] colNames;
-        
-        LOG.info("Iniciando el proceso");
         
         try {
             connection = getDataSource(jndi).getConnection();
@@ -104,7 +100,6 @@ public class DBUtilSpring {
                     row.put(colNames[j], resultset.getObject(colNames[j]));
                 }
                 result.add(row);
-                i++;
             }
         } catch(SQLException e) {
             throw new BussinesException("No se pudo ejecutar la consulta: [" + query + "]", e);
@@ -133,27 +128,18 @@ public class DBUtilSpring {
                 }
             }
         }
-
-        long i2 = System.currentTimeMillis();
-        LOG.info("Proceso Terminado");
-        LOG.info("Lineas leidas:" + i);
-        LOG.info("Demoro:" + ((i2 - i1) / 1000) + " segundos");
         
         return result;
     }
     
     public String executeQueryUniqueResult(String jndi, String query) throws BussinesException {
         String result = null;
-        long i1 = System.currentTimeMillis();
-        int i = 0;
         int j = 0;
         Connection connection = null;
         Statement statement = null;
         ResultSet resultset = null;
         ResultSetMetaData metadata = null;
         String[] colNames;
-        
-        LOG.info("Iniciando el proceso");
         
         try {
             connection = getDataSource(jndi).getConnection();
@@ -170,9 +156,8 @@ public class DBUtilSpring {
                 colNames[j - 1] = metadata.getColumnName(j);
             }
             
-            while(resultset.next()) {
+            if(resultset.next()) {
                 result = resultset.getString(colNames[0]);
-                i++;
             }
         } catch(SQLException e) {
             throw new BussinesException("No se pudo ejecutar la consulta: [" + query + "]", e);
@@ -203,11 +188,6 @@ public class DBUtilSpring {
                 }
             }
         }
-
-        long i2 = System.currentTimeMillis();
-        LOG.info("Proceso Terminado");
-        LOG.info("Lineas leidas:" + i);
-        LOG.info("Demoro:" + ((i2 - i1) / 1000) + " segundos");
         
         return result;
     }

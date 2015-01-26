@@ -31,14 +31,17 @@ public class DroolsTasklet implements Tasklet {
         ExitStatus exitStatus = ExitStatus.COMPLETED;
         DroolsRuleRunner evaluator = new DroolsRuleRunner();
         Map<String, Object> globals = new HashMap<String, Object>();
-        Map<String, String> status = new HashMap<String, String>();
+        Map<String, Object> status = new HashMap<String, Object>();
+        Map<String, String> paramsValue = new HashMap<String, String>();
         
         status.put("status", "COMPLETED");
+        status.put("execution", execution);
         globals.put("status", status);
         
         for(DeciderParam param : params) {
             try {
                 param.setValue(DBUtilSpring.getInstance().executeQueryUniqueResult(dataSourceName, param.getQuery()));
+                paramsValue.put(param.getName(), param.getValue());
                 LOG.info("{name: " + param.getName() + ", value: " + param.getValue() +  "}");
             } catch (BussinesException e) {
                 status.put("status", "FAILED");
@@ -49,8 +52,8 @@ public class DroolsTasklet implements Tasklet {
         }        
                 
         if(ExitStatus.COMPLETED.compareTo(exitStatus) == 0) {
-            evaluator.runRules(new byte[][]{rule}, params.toArray(), globals);
-            exitStatus = new ExitStatus(status.get("status"));
+            evaluator.runRules(new byte[][]{rule}, new Object[]{paramsValue}, globals);
+            exitStatus = new ExitStatus(status.get("status").toString());
         }
         
         execution.setExitStatus(exitStatus);

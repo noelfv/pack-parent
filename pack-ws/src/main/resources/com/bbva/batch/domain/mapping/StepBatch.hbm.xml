@@ -26,7 +26,7 @@
         <property name="writer" type="string" length="30">
             <column name="ESCRITOR"/>
         </property>
-        <property name="nextStep" type="string" length="30">
+        <property name="nextStep" type="string" length="2000">
             <column name="SIG_PASO"/>
         </property>
         <many-to-one name="job" class="com.bbva.batch.domain.JobBatch"

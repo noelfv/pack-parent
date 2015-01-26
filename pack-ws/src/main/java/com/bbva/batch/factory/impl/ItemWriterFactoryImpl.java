@@ -51,13 +51,13 @@ public class ItemWriterFactoryImpl implements ItemWriterFactory {
     public ItemWriter<ItemBatch> create(ItemWriterType type, ParamUtil params) throws Exception {
         ItemWriter<ItemBatch> writer = null;
 
-        if (type.compareTo(ItemWriterType.WRITER_TABLE) == 0) {
+        if (ItemWriterType.WRITER_TABLE.compareTo(type) == 0) {
             writer = createJdbcBatchItemWriter(params);
-        } else if (type.compareTo(ItemWriterType.WRITER_TEXT_DELIMIT) == 0) {
+        } else if (ItemWriterType.WRITER_TEXT_DELIMIT.compareTo(type) == 0) {
             throw new UnsupportedOperationException();
-        } else if (type.compareTo(ItemWriterType.WRITER_TEXT_POSITION) == 0) {
+        } else if (ItemWriterType.WRITER_TEXT_POSITION.compareTo(type) == 0) {
             writer = createFlatFileItemWriter(params);
-        } else if (type.compareTo(ItemWriterType.WRITER_XML) == 0) {
+        } else if (ItemWriterType.WRITER_XML.compareTo(type) == 0) {
             throw new UnsupportedOperationException();
         }
 

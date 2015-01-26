@@ -138,13 +138,13 @@ public class ItemReaderFactoryImpl implements ItemReaderFactory {
     public ItemReader<ItemBatch> create(ItemReaderType type, ParamUtil params) throws Exception {
         ItemReader<ItemBatch> reader = null;
 
-        if (type.compareTo(ItemReaderType.READER_TABLE) == 0) {
+        if (ItemReaderType.READER_TABLE.compareTo(type) == 0) {
             reader = createJdbcPagingItemReader(params);
-        } else if (type.compareTo(ItemReaderType.READER_TEXT_DELIMIT) == 0) {
+        } else if (ItemReaderType.READER_TEXT_DELIMIT.compareTo(type) == 0) {
             reader = createFlatFileItemReader(params, true);
-        } else if (type.compareTo(ItemReaderType.READER_TEXT_POSITION) == 0) {
+        } else if (ItemReaderType.READER_TEXT_POSITION.compareTo(type) == 0) {
             reader = createFlatFileItemReader(params, false);
-        } else if (type.compareTo(ItemReaderType.READER_XML) == 0) {
+        } else if (ItemReaderType.READER_XML.compareTo(type) == 0) {
             reader = createWSDLItemReader(params);
         }
 

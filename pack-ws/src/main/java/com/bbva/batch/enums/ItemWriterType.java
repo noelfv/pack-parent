@@ -7,7 +7,8 @@ public enum ItemWriterType {
     WRITER_XML("WRITER_XML"),
     WRITER_TABLE("WRITER_TABLE"),
     WRITER_QUERY("WRITER_QUERY"),
-    WRITER_DECISOR("WRITER_DECISOR");
+    WRITER_DECISOR("WRITER_DECISOR"),
+    WRITER_DROOLS("WRITER_DROOLS");
 
     private String nameWriter;
 
