@@ -14,51 +14,42 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 
+import com.everis.core.exception.BussinesException;
+import com.everis.util.DBUtilSpring;
+
 public class QueryTasklet implements Tasklet {
 
     private static final Logger LOG = Logger.getLogger(QueryTasklet.class);
-    private DataSource datasource;
+    private String dataSourceName;
     private String query;
     
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
         RepeatStatus result = RepeatStatus.FINISHED;
         StepExecution execution = chunkContext.getStepContext().getStepExecution();
+        ExitStatus exitStatus = ExitStatus.FAILED;
         
         try {
-            Connection connection = datasource.getConnection();
-            connection.setAutoCommit(false);
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.execute();
-            
-            try {
-                connection.commit();
-            } catch (SQLException e) {
-                LOG.error("NOT Commit : [" + query + "]");
-                connection.rollback();
+            if(DBUtilSpring.getInstance().execute(dataSourceName, query)) {
+                exitStatus = ExitStatus.COMPLETED;
             }
-            
-            statement.close();
-            connection.close();
-            
-            execution.setExitStatus(ExitStatus.COMPLETED);
-            contribution.setExitStatus(ExitStatus.COMPLETED);
-        } catch (SQLException e) {
+        } catch (BussinesException e) {
             LOG.error("No se pudo ejecutar la consulta: [" + query + "]");
             execution.addFailureException(e);
-            execution.setExitStatus(ExitStatus.FAILED);
-            contribution.setExitStatus(ExitStatus.FAILED);
         }
+        
+        execution.setExitStatus(exitStatus);
+        contribution.setExitStatus(exitStatus);
         
         return result;
     }
 
-    public DataSource getDatasource() {
-        return datasource;
+    public String getDataSourceName() {
+        return dataSourceName;
     }
 
-    public void setDatasource(DataSource datasource) {
-        this.datasource = datasource;
+    public void setDataSourceName(String dataSourceName) {
+        this.dataSourceName = dataSourceName;
     }
 
     public String getQuery() {

@@ -62,7 +62,7 @@ public class WSDLItemReader extends AbstractItemCountingItemStreamItemReader<Ite
             
             if(rule != null && rule.length > 0) {
                 DroolsRuleRunner evaluator = new DroolsRuleRunner();
-                evaluator.runRules(new byte[][]{rule}, items.toArray());
+                evaluator.runRules(new byte[][]{rule}, items.toArray(), null);
             }
             
             isOpen = true;

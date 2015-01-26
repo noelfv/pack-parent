@@ -29,7 +29,8 @@ public class ItemWriterFactoryImpl implements ItemWriterFactory {
 
         FlatFileItemWriter<ItemBatch> writer = new FlatFileItemWriter<ItemBatch>();
         writer.setResource(new FileSystemResource(params.getParamAsString(ParameterType.PARAM_RESOURCE)));
-        writer.setAppendAllowed(true); // TODO: Change Parametrizar
+        writer.setAppendAllowed(Boolean.parseBoolean(params.getParamAsString(ParameterType.PARAM_APPEND)));
+        writer.setShouldDeleteIfExists(true);
         writer.setLineAggregator(lineAggregator);
         writer.afterPropertiesSet();
         return writer;

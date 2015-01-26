@@ -1,5 +1,8 @@
 package com.bbva.drools;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
@@ -20,7 +23,7 @@ public class DroolsRuleRunner {
     public DroolsRuleRunner() {
     }
 
-    public void runRules(byte[][] rules, Object[] facts) {
+    public void runRules(byte[][] rules, Object[] facts, Map<String, Object> globals) {
         KnowledgeBuilderConfiguration kbuilderConf;
         KnowledgeBuilder kbuilder;
         
@@ -43,6 +46,15 @@ public class DroolsRuleRunner {
         KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
         kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());                       
         StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
+        
+        if(globals != null) {
+            Iterator<String> keys = globals.keySet().iterator();
+            String key;
+            while(keys.hasNext()) {
+                key = keys.next();
+                ksession.setGlobal(key, globals.get(key));
+            }
+        }
         
         for (Object data : facts) {  
             ksession.insert(data);
