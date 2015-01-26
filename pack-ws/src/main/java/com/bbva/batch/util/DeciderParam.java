@@ -27,7 +27,7 @@ public class DeciderParam implements Serializable {
         this.name = name;
     }
 
-    public String getQueryp() {
+    public String getQuery() {
         return query;
     }
 
@@ -41,9 +41,5 @@ public class DeciderParam implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public String getQuery() {
-        return query;
     }
 }
