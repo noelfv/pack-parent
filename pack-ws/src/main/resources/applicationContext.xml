@@ -22,20 +22,12 @@
     <aop:aspectj-autoproxy/>
     <bean id="fetchProfileInterceptor" class="com.bbva.batch.aop.FetchProfileInterceptor"/>
 
-    <!--
     <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName" value="jdbc/${jndi.env}"/>
         <property name="resourceRef" value="true"/>
         <property name="lookupOnStartup" value="false"/>
         <property name="cache" value="true"/>
         <property name="proxyInterface" value="javax.sql.DataSource"/>
-    </bean>
-    -->
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-        <property name="url" value="jdbc:oracle:thin:@192.168.247.1:1521:XE"/>
-        <property name="username" value="CONELE"/>
-        <property name="password" value="CONELE"/>
     </bean>
 
     <bean id="sessionFactory"
@@ -78,24 +70,6 @@
         </property>
     </bean>
     <!-- End: Scheduler -->
-
-    <!-- Begin: Task Scheduler -->
-    <bean id="jobGenerarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="com.bbva.packws.batch.job.GenerarArchivoJob"/>
-    </bean>
-    <bean id="cronTriggerGenerarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="jobGenerarArchivo"/>
-        <property name="cronExpression" value="0 0 1 ? * * *"/>
-    </bean>
-
-    <bean id="jobDepurarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="com.bbva.packws.batch.job.DepurarArchivoJob"/>
-    </bean>
-    <bean id="cronTriggerDepurarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="jobDepurarArchivo"/>
-        <property name="cronExpression" value="0 0 1 ? * * *"/>
-    </bean>
-    <!-- End: Task Scheduler -->
 
     <!-- Begin: Batch Context -->
     <bean id="jobRepository"

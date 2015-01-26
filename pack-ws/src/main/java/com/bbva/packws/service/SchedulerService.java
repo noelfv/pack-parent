@@ -1,16 +1,13 @@
 package com.bbva.packws.service;
 
-import org.springframework.batch.core.JobParametersInvalidException;
-import org.springframework.batch.core.launch.NoSuchJobException;
-import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
-import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
-import org.springframework.batch.core.repository.JobRestartException;
+import org.quartz.SchedulerException;
+
+import com.bbva.batch.domain.JobBatch;
+
 
 public interface SchedulerService {
 
-    boolean reschedulerTriggerGenerarArchivo(String time);
-
-    boolean reschedulerTriggerDepurarArchivo(String time);
-
-    void executeJob(Long outId) throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException, NoSuchJobException;
+    void deleteAll();
+    void delete(JobBatch jobBatch) throws SchedulerException;
+    void rescheduler(JobBatch jobBatch) throws SchedulerException;
 }

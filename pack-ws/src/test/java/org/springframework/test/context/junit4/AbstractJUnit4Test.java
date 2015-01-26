@@ -22,21 +22,20 @@ public class AbstractJUnit4Test {
 
         Properties prop = new Properties();
         prop.setProperty("log4j.rootCategory", "INFO,LOGFILE,stdout");
-        // prop.setProperty("log4j.rootCategory", "INFO");
         prop.setProperty("log4j.appender.LOGFILE", "org.apache.log4j.RollingFileAppender");
         prop.setProperty("log4j.appender.LOGFILE.file", "/pr/pack-ws/online/pe/web/log/log_pack-ws-test.log");
         prop.setProperty("log4j.appender.LOGFILE.MaxFileSize", "1024kb");
         prop.setProperty("log4j.appender.LOGFILE.MaxBackupIndex", "10");
         prop.setProperty("log4j.appender.LOGFILE.append", "true");
         prop.setProperty("log4j.appender.LOGFILE.layout", "org.apache.log4j.PatternLayout");
-        prop.setProperty("log4j.appender.LOGFILE.layout.ConversionPattern", "[%d{yyyy-MM-dd HH:mm:ss}] - [%5p] (%C{1}.%M:%L) - %m%n");
+        prop.setProperty("log4j.appender.LOGFILE.layout.ConversionPattern", "[%d{yyyy-MM-dd HH:mm:ss:SSS}] - [%5p] (%C{1}.%M:%L) - %m%n");
         prop.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
         prop.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
-        prop.setProperty("log4j.appender.stdout.layout.ConversionPattern", "[%d{HH:mm:ss}]%p - %C{1}.%M(%L)  %m%n");
+        prop.setProperty("log4j.appender.stdout.layout.ConversionPattern", "[%d{yyyy-MM-dd HH:mm:ss:SSS}] - [%5p] (%C{1}.%M:%L) - %m%n");
         prop.setProperty("log4j.logger.org.hibernate.SQL", "DEBUG");
+        // prop.setProperty("log4j.appender.stdout.layout.ConversionPattern", "[%d{HH:mm:ss}]%p - %C{1}.%M(%L)  %m%n");
         // prop.setProperty("log4j.logger.org.hibernate.type", "TRACE");
         // prop.setProperty("log4j.logger.org.hibernate", "INFO,LOGFILE");
-        // prop.setProperty("log4j.logger.com.bbva", "INFO,LOGFILE,stdout");
         
         
         PropertyConfigurator.configure(prop);
@@ -75,15 +74,17 @@ public class AbstractJUnit4Test {
     }
     
     public void printer(Collection<?> o, String[] exclude) {
-        JSONSerializer serializer = new JSONSerializer().exclude(exclude);
-        StringBuilder sb = new StringBuilder();
-        try {
-            for (Object iO : o) {
-                sb.append("\n\t" + serializer.deepSerialize(iO));
+        if(o != null) {
+            JSONSerializer serializer = new JSONSerializer().exclude(exclude);
+            StringBuilder sb = new StringBuilder();
+            try {
+                for (Object iO : o) {
+                    sb.append("\n\t" + serializer.deepSerialize(iO));
+                }
+                LOGGER.info(sb.toString());
+            } catch (Exception e) {
+                LOGGER.error("", e);
             }
-            LOGGER.info(sb.toString());
-        } catch (Exception e) {
-            LOGGER.error("", e);
         }
     }
 }

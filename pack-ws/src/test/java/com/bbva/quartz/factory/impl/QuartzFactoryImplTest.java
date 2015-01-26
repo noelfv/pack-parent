@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bbva.batch.domain.ApplicationBatch;
 import com.bbva.batch.service.ApplicationBatchService;
+import com.bbva.packws.service.SchedulerService;
 import com.bbva.quartz.factory.QuartzFactory;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -23,8 +24,16 @@ public class QuartzFactoryImplTest extends AbstractJUnit4Test {
     @Resource(name = "applicationBatchService")
     private ApplicationBatchService applicationBatchService;
 
+    @Resource(name = "schedulerService")
+    private SchedulerService schedulerService;
+
+//    @Test
+//    public void _01deleteAllJobs() {
+//        schedulerService.deleteAll();
+//    }
+    
     @Test
-    public void createJob() {
+    public void _02createJob() {
         ApplicationBatch app = applicationBatchService.obtener("packBBVA", true);
         try {
             quartzFactory.createJobs(app.getJobs());

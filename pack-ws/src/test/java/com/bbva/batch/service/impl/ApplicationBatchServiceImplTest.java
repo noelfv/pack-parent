@@ -25,6 +25,7 @@ import com.bbva.batch.domain.ParameterBatch;
 import com.bbva.batch.domain.StepBatch;
 import com.bbva.batch.enums.ItemReaderType;
 import com.bbva.batch.enums.ItemWriterType;
+import com.bbva.batch.factory.JobBatchFactory;
 import com.bbva.batch.service.ApplicationBatchService;
 import com.bbva.batch.service.JobBatchService;
 import com.bbva.batch.service.ParameterBatchService;
@@ -75,11 +76,13 @@ public class ApplicationBatchServiceImplTest extends AbstractJUnit4Test {
         ApplicationBatch application = applicationBatchService.obtener("packBBVA");
         List<JobBatch> jobs;
         
-        jobs = jobBatchService.listar(application.getId(), true);
-        if (jobs != null) {
-            jobBatchService.eliminar(jobs);
+        if(application != null) {
             jobs = jobBatchService.listar(application.getId(), true);
-            Assert.assertTrue("Not delete", jobs.size() == 0);
+            if (jobs != null) {
+                jobBatchService.eliminar(jobs);
+                jobs = jobBatchService.listar(application.getId(), true);
+                Assert.assertTrue("Not delete", jobs.size() == 0);
+            }
         }
     }
 
@@ -88,6 +91,7 @@ public class ApplicationBatchServiceImplTest extends AbstractJUnit4Test {
         JobBatch jobBatch = new JobBatch();
         jobBatch.setName("jobSimulacion");
         jobBatch.setDescription("Genera un archivo plano ");
+        jobBatch.setType(JobBatchFactory.FLOW);
         jobBatch.setCronExpression("0 0 1 ? * * *");
         jobBatch.setApplication(applicationBatchService.obtener("packBBVA"));
         
@@ -100,6 +104,7 @@ public class ApplicationBatchServiceImplTest extends AbstractJUnit4Test {
         JobBatch jobBatch = new JobBatch();
         jobBatch.setName("jobTerritorioOficina");
         jobBatch.setDescription("Realizar la actualización de los territorios y oficinas leyendo el servico de CentroWebServiceBBVA (GESCAR)");
+        jobBatch.setType(JobBatchFactory.SIMPLE);
         jobBatch.setCronExpression("0 0 0/1 1/1 * ? *");
         jobBatch.setApplication(applicationBatchService.obtener("packBBVA"));
         
@@ -175,9 +180,11 @@ public class ApplicationBatchServiceImplTest extends AbstractJUnit4Test {
     @Test
     public void _12listarStepsLazy() {
         ApplicationBatch application = applicationBatchService.obtener("packBBVA");
-        List<JobBatch> o = jobBatchService.listar(application.getId(), true);
-        printer(o, exclude);
-        Assert.assertTrue(o.size() == 2);
+        if(application != null) {
+            List<JobBatch> o = jobBatchService.listar(application.getId(), true);
+            printer(o, exclude);
+            Assert.assertTrue(o.size() == 2);
+        }
     }
     
     @Test

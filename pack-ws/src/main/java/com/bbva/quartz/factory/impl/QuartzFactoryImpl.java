@@ -2,7 +2,6 @@ package com.bbva.quartz.factory.impl;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -12,9 +11,7 @@ import org.quartz.Scheduler;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 import org.springframework.stereotype.Component;
 
-import com.bbva.batch.domain.ApplicationBatch;
 import com.bbva.batch.domain.JobBatch;
-import com.bbva.batch.service.ApplicationBatchService;
 import com.bbva.quartz.ExecuteJob;
 import com.bbva.quartz.factory.QuartzFactory;
 
@@ -25,23 +22,6 @@ public class QuartzFactoryImpl implements QuartzFactory {
 
     @Resource(name = "quartzScheduler")
     private Scheduler scheduler;
-
-    @Resource(name = "applicationBatchService")
-    private ApplicationBatchService applicationBatchService;
-    
-    @PostConstruct
-    public void init() {
-        List<ApplicationBatch> apps = applicationBatchService.listar(true);
-            for(ApplicationBatch app : apps) {
-                if(app != null && app.getJobs() != null) {
-                    try {
-                        createJobs(app.getJobs());
-                    } catch (Exception e) {
-                        throw new UnsupportedOperationException("Not create quartzBean: [" + app.getName() + "]", e);
-                    }
-                }
-            }
-    }
     
     @Override
     public void createJob(JobBatch jobBatch) {
@@ -57,7 +37,6 @@ public class QuartzFactoryImpl implements QuartzFactory {
         jobDetail.setName(jobBatch.getName());
 
         try {
-            scheduler.deleteJob(jobDetail.getName(), jobDetail.getGroup());
             CronTriggerBean cronTrigger = new CronTriggerBean();
             cronTrigger.setGroup(jobBatch.getApplication().getName().toUpperCase());
             cronTrigger.setName(name);

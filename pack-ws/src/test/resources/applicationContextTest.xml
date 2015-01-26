@@ -61,32 +61,8 @@
                 </prop>
             </props>
         </property>
-        <property name="triggers">
-            <list>
-                <ref bean="cronTriggerGenerarArchivo"/>
-                <ref bean="cronTriggerDepurarArchivo"/>
-            </list>
-        </property>
     </bean>
     <!-- End: Scheduler -->
-
-    <!-- Begin: Task Scheduler -->
-    <bean id="jobGenerarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="com.bbva.packws.batch.job.GenerarArchivoJob"/>
-    </bean>
-    <bean id="cronTriggerGenerarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="jobGenerarArchivo"/>
-        <property name="cronExpression" value="0 0 1 ? * * *"/>
-    </bean>
-
-    <bean id="jobDepurarArchivo" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="com.bbva.packws.batch.job.DepurarArchivoJob"/>
-    </bean>
-    <bean id="cronTriggerDepurarArchivo" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="jobDepurarArchivo"/>
-        <property name="cronExpression" value="0 0 1 ? * * *"/>
-    </bean>
-    <!-- End: Task Scheduler -->
 
     <!-- Begin: Batch Context -->
     <bean id="jobRepository"
