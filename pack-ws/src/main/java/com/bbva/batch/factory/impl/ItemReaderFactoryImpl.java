@@ -27,13 +27,14 @@ import com.bbva.batch.file.WSDLItemReader;
 import com.bbva.batch.util.ItemBatchFieldSetMapper;
 import com.bbva.batch.util.ItemBatchRowMapper;
 import com.bbva.batch.util.ParamUtil;
+import com.bbva.drools.DroolsRuleRunner;
 import com.everis.util.DBUtilSpring;
 import com.everis.webservice.WSDLResource;
 
 import flexjson.JSONDeserializer;
 
 @Component("itemReaderFactory")
-public class ItemReaderFactoryImpl implements ItemReaderFactory {
+public class ItemReaderFactoryImpl extends AbstractItemFactoryImpl implements ItemReaderFactory {
 
     private JdbcPagingItemReader<ItemBatch> createJdbcPagingItemReader(ParamUtil params) throws Exception {
         DataSource dataSource = DBUtilSpring.getInstance().getDataSource(params.getParamAsString(ParameterType.PARAM_JNDI));
@@ -138,6 +139,8 @@ public class ItemReaderFactoryImpl implements ItemReaderFactory {
     public ItemReader<ItemBatch> create(ItemReaderType type, ParamUtil params) throws Exception {
         ItemReader<ItemBatch> reader = null;
 
+        afterConfigureParam(params);
+        
         if (ItemReaderType.READER_TABLE.compareTo(type) == 0) {
             reader = createJdbcPagingItemReader(params);
         } else if (ItemReaderType.READER_TEXT_DELIMIT.compareTo(type) == 0) {

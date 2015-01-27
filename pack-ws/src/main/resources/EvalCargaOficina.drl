@@ -19,6 +19,7 @@ then
     
 	for(Object o : items){
 		io = (ItemBatch) o;
+		io.setObject("__filter__", "0");
 		if(io.existsKey("listaOficina.id")) {
 		key = io.getString("listaOficina.id");
 		  if(!keys.containsKey(key)) {

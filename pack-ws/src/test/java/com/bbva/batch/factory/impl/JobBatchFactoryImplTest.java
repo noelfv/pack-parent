@@ -54,6 +54,7 @@ import flexjson.JSONSerializer;
 public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
 
     private static final Logger LOGGER = Logger.getLogger(JobBatchFactoryImplTest.class);
+    private static final String path = "C:\\jquedena\\Proyectos\\workspace-pack-conele\\pack-parent\\pack-ws\\src\\main\\resources\\";
     
     @Resource(name = "dataSource")
     private DataSource dataSource;
@@ -92,18 +93,12 @@ public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
         deciderParams.add(new DeciderParam("PB_DIAS_ESPERA", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_DIAS_ESPERA'"));
         
         String decisorParam = new JSONSerializer().deepSerialize(deciderParams); 
+        LOGGER.error(decisorParam);
+        
         parameters = new ArrayList<ParameterBatch>();
         parameters.add(new ParameterBatch("WRITER_DROOLS", "JNDI", 1L, "String", "jdbc/APP_CONELE"));
         parameters.add(new ParameterBatch("WRITER_DROOLS", "DECISOR_PARAM", 2L, "Byte", decisorParam.getBytes()));
-        try {
-            File ruleFile = new File("C:\\jquedena\\Proyectos\\workspace-pack-conele\\pack-parent\\pack-ws\\src\\main\\resources\\DepurarArchivo.drl");
-            InputStream input = new FileInputStream(ruleFile);
-            ByteArrayOutputStream output = new ByteArrayOutputStream(); 
-            IOUtils.copy(input, output);
-            parameters.add(new ParameterBatch("WRITER_DROOLS", "RULE", 3L, "Byte", output.toByteArray()));     
-        } catch (Exception e) {
-            LOGGER.error("No se pudo obtener la regla");
-        }
+        parameters.add(new ParameterBatch("WRITER_DROOLS", "RULE", 3L, "Byte", obtenerBytes(path + "DepurarArchivo.drl")));     
         
         StepBatch step = new StepBatch();
         step.setName("depurarArchivo");
@@ -147,6 +142,7 @@ public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
             Assert.fail("JobParametersInvalidException");
         }
     }
+
     
     @Test
     public void _01createJobSolicitudCONELE() {
@@ -156,17 +152,33 @@ public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
 
         List<ParameterBatch> parameters;
         parameters = new ArrayList<ParameterBatch>();
+        List<DeciderParam> deciderParams = new ArrayList<DeciderParam>();
+        deciderParams.add(new DeciderParam("PB_RUTA_ARCHIVO", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_RUTA_ARCHIVO'"));
+        deciderParams.add(new DeciderParam("PB_NOMBRE_ARCHIVO", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_NOMBRE_ARCHIVO'"));
+        deciderParams.add(new DeciderParam("PB_FORMATO_FECHA_SUFIJO", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_FORMATO_FECHA_SUFIJO'"));
+        deciderParams.add(new DeciderParam("PB_MESES_ANTERIORES", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_MESES_ANTERIORES'"));
+        String decisorParam = new JSONSerializer().deepSerialize(deciderParams);
+        
+        LOGGER.error(decisorParam);
+        
+        parameters.add(new ParameterBatch("READER_TABLE", "RULE_PARAM", 1L, "String", obtenerBytes(path + "ParamsCustom.drl")));
+        parameters.add(new ParameterBatch("READER_TABLE", "RULE_JNDI", 2L, "String", "jdbc/APP_CONELE"));
+        parameters.add(new ParameterBatch("READER_TABLE", "RULE_DECISOR_PARAM", 3L, "String", decisorParam.getBytes()));
         parameters.add(new ParameterBatch("READER_TABLE", "JNDI", 1L, "String", "jdbc/APP_CONELE"));
         parameters.add(new ParameterBatch("READER_TABLE", "SELECT", 2L, "String", "select SOLICITUD ,PRODUCTO_PACK ,SUBPRODUCTO_PACK ,ESTADO_PACK ,TO_CHAR(FECHA_ALTA, 'YYYYMMDD') FECHA_ALTA ,TRUNC(ROUND(IMPORTE, 2) * 100, 0) IMPORTE ,DIVISA ,TIPODOCUMENTO_PACK ,NUM_DOI ,CODIGO_CLIENTE ,CONTRATO ,PLAZO ,OFICINA ,EJECUTIVO ,TRUNC(ROUND(TASA, 2) * 100, 0) TASA"));
         parameters.add(new ParameterBatch("READER_TABLE", "FROM", 3L, "String", "from CONELE.V_SOLICITUD"));
-        parameters.add(new ParameterBatch("READER_TABLE", "WHERE", 4L, "String", "where trunc(fecha_alta) >= trunc(add_months(sysdate, -32))"));
+        parameters.add(new ParameterBatch("READER_TABLE", "WHERE", 4L, "String", "where trunc(fecha_alta) >= trunc(add_months(sysdate, ${mesesAnteriores}))"));
         parameters.add(new ParameterBatch("READER_TABLE", "SORT", 5L, "String", "fecha_alta"));
         parameters.add(new ParameterBatch("READER_TABLE", "PAGE_SIZE", 6L, "Long", 100L));
         
-        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "RESOURCE", 1L, "String", "/mnt/compartido/conele/out/packDEMO.txt"));
-        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "FIELDS", 2L, "String", "SOLICITUD,PRODUCTO_PACK,SUBPRODUCTO_PACK,ESTADO_PACK,FECHA_ALTA,IMPORTE,DIVISA,TIPODOCUMENTO_PACK,NUM_DOI,CODIGO_CLIENTE,CONTRATO,PLAZO,OFICINA,EJECUTIVO,TASA"));
-        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "FORMAT", 3L, "String", "%-10s%-2s%-4s%-1s%-10s%-15s%-3s%-1s%-11s%-8s%-23s%-3s%-4s%-8s%-5s"));
-        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "APPEND", 4L, "String", "False"));
+
+        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "RULE_PARAM", 1L, "String", obtenerBytes(path + "ParamsCustom.drl")));
+        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "RULE_JNDI", 2L, "String", "jdbc/APP_CONELE"));
+        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "RULE_DECISOR_PARAM", 3L, "String", decisorParam.getBytes()));
+        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "RESOURCE", 41L, "String", "/mnt/compartido/conele/out/packDEMO.txt"));
+        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "FIELDS", 5L, "String", "SOLICITUD,PRODUCTO_PACK,SUBPRODUCTO_PACK,ESTADO_PACK,FECHA_ALTA,IMPORTE,DIVISA,TIPODOCUMENTO_PACK,NUM_DOI,CODIGO_CLIENTE,CONTRATO,PLAZO,OFICINA,EJECUTIVO,TASA"));
+        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "FORMAT", 6L, "String", "%-10s%-2s%-4s%-1s%-10s%-15s%-3s%-1s%-11s%-8s%-23s%-3s%-4s%-8s%-5s"));
+        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "APPEND", 7L, "String", "False"));
         
         List<StepBatch> steps = new ArrayList<StepBatch>();
         StepBatch step;
@@ -180,22 +192,15 @@ public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
         step.setParameters(parameters);
         steps.add(step);
         
-        List<DeciderParam> deciderParams = new ArrayList<DeciderParam>();
+        deciderParams = new ArrayList<DeciderParam>();
         deciderParams.add(new DeciderParam("flagIICE", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_APAGAR_APLICACION_PLD'"));
+        decisorParam = new JSONSerializer().deepSerialize(deciderParams); 
+        LOGGER.error(decisorParam);
         
-        String decisorParam = new JSONSerializer().deepSerialize(deciderParams); 
         parameters = new ArrayList<ParameterBatch>();
         parameters.add(new ParameterBatch("WRITER_DECISOR", "JNDI", 1L, "String", "jdbc/APP_CONELE"));
         parameters.add(new ParameterBatch("WRITER_DECISOR", "DECISOR_PARAM", 2L, "Byte", decisorParam.getBytes()));
-        try {
-            File ruleFile = new File("C:\\jquedena\\Proyectos\\workspace-pack-conele\\pack-parent\\pack-ws\\src\\main\\resources\\Decisor.drl");
-            InputStream input = new FileInputStream(ruleFile);
-            ByteArrayOutputStream output = new ByteArrayOutputStream(); 
-            IOUtils.copy(input, output);
-            parameters.add(new ParameterBatch("WRITER_DECISOR", "RULE", 3L, "Byte", output.toByteArray()));     
-        } catch (Exception e) {
-            LOGGER.error("No se pudo obtener la regla");
-        }
+        parameters.add(new ParameterBatch("WRITER_DECISOR", "RULE", 3L, "Byte", obtenerBytes(path + "Decisor.drl"))); 
         
         List<DeciderBatch> flowDecider = new ArrayList<DeciderBatch>();
         flowDecider.add(new DeciderBatch(FlowExecutionStatus.COMPLETED.getName(), "generarSolicitudIICE"));
@@ -211,13 +216,28 @@ public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
         
         
         parameters = new ArrayList<ParameterBatch>();
+        deciderParams = new ArrayList<DeciderParam>();
+        deciderParams.add(new DeciderParam("PB_RUTA_ARCHIVO", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_RUTA_ARCHIVO'"));
+        deciderParams.add(new DeciderParam("PB_NOMBRE_ARCHIVO", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_NOMBRE_ARCHIVO'"));
+        deciderParams.add(new DeciderParam("PB_FORMATO_FECHA_SUFIJO", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_FORMATO_FECHA_SUFIJO'"));
+        deciderParams.add(new DeciderParam("PB_MESES_ANTERIORES", "SELECT VALOR_VARIABLE FROM CONELE.TBL_CE_IBM_PARAMETROS_CONF WHERE CODIGO_APLICATIVO=1000 AND NOMBRE_VARIABLE='PB_MESES_ANTERIORES'"));
+        decisorParam = new JSONSerializer().deepSerialize(deciderParams);
+
+        LOGGER.error(decisorParam);
+        
+        parameters.add(new ParameterBatch("READER_TABLE", "RULE_PARAM", 1L, "String", obtenerBytes(path + "ParamsCustom.drl")));
+        parameters.add(new ParameterBatch("READER_TABLE", "RULE_JNDI", 1L, "String", "jdbc/APP_CONELE"));
+        parameters.add(new ParameterBatch("READER_TABLE", "RULE_DECISOR_PARAM", 1L, "String", decisorParam.getBytes()));
         parameters.add(new ParameterBatch("READER_TABLE", "JNDI", 1L, "String", "jdbc/APP_CONELE"));
         parameters.add(new ParameterBatch("READER_TABLE", "SELECT", 2L, "String", "select SOLICITUD ,PRODUCTO_PACK ,SUBPRODUCTO_PACK ,ESTADO_PACK ,TO_CHAR(FECHA_ALTA, 'YYYYMMDD') FECHA_ALTA ,TRUNC(ROUND(IMPORTE, 2) * 100, 0) IMPORTE ,DIVISA ,TIPODOCUMENTO_PACK ,NUM_DOI ,CODIGO_CLIENTE ,CONTRATO ,PLAZO ,OFICINA ,EJECUTIVO ,TRUNC(ROUND(TASA, 2) * 100, 0) TASA"));
         parameters.add(new ParameterBatch("READER_TABLE", "FROM", 3L, "String", "from CONELE.V_SOLICITUD_IICE"));
-        parameters.add(new ParameterBatch("READER_TABLE", "WHERE", 4L, "String", "where trunc(fecha_alta) >= trunc(add_months(sysdate, -32))"));
+        parameters.add(new ParameterBatch("READER_TABLE", "WHERE", 4L, "String", "where trunc(fecha_alta) >= trunc(add_months(sysdate, ${mesesAnteriores}))"));
         parameters.add(new ParameterBatch("READER_TABLE", "SORT", 5L, "String", "fecha_alta"));
         parameters.add(new ParameterBatch("READER_TABLE", "PAGE_SIZE", 6L, "Long", 100L));
         
+        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "RULE_PARAM", 1L, "String", obtenerBytes(path + "ParamsCustom.drl")));
+        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "RULE_JNDI", 1L, "String", "jdbc/APP_CONELE"));
+        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "RULE_DECISOR_PARAM", 1L, "String", decisorParam.getBytes()));
         parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "RESOURCE", 1L, "String", "/mnt/compartido/conele/out/packDEMO.txt"));
         parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "FIELDS", 2L, "String", "SOLICITUD,PRODUCTO_PACK,SUBPRODUCTO_PACK,ESTADO_PACK,FECHA_ALTA,IMPORTE,DIVISA,TIPODOCUMENTO_PACK,NUM_DOI,CODIGO_CLIENTE,CONTRATO,PLAZO,OFICINA,EJECUTIVO,TASA"));
         parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "FORMAT", 3L, "String", "%-10s%-2s%-4s%-1s%-10s%-15s%-3s%-1s%-11s%-8s%-23s%-3s%-4s%-8s%-5s"));
@@ -320,17 +340,12 @@ public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
         
         parameters.add(new ParameterBatch("WRITER_TABLE", "QUERY", 1L, "String", query));
         parameters.add(new ParameterBatch("WRITER_TABLE", "JNDI", 2L, "String", "jdbc/APP_CONELE"));
-        /*
-        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "RESOURCE", 1L, "String", "/mnt/compartido/conele/out/packDEMOi.txt"));
-        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "FIELDS", 2L, "String", "listaOficina.territorio.id"));
-        parameters.add(new ParameterBatch("WRITER_TEXT_POSITION", "FORMAT", 2L, "String", "%-10s"));
-        //*/
+        
         step = new StepBatch();
         step.setId(2L);
         step.setName("cargandoTerritorio");
         step.setReader(ItemReaderType.READER_XML.getName());
         step.setWriter(ItemWriterType.WRITER_TABLE.getName());
-        // step.setWriter(ItemWriterType.WRITER_TEXT_POSITION.getName());
         step.setParameters(parameters);
         steps.add(step);
 
@@ -373,6 +388,40 @@ public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
     public void _03createReaderJobCargaOficina() {
         ApplicationBatch application = applicationBatchService.obtener("packBBVA");
         JobBatch jobBatch = jobBatchService.obtener(application.getId(), "jobTerritorioOficina", true);
+
+        try {
+            Job job = jobBatchFactory.createJob(jobBatch);
+            JobParameters param = new JobParametersBuilder().addDate("date", new Date()).toJobParameters();
+
+            JobExecution execution = jobLauncher.run(job, param);
+            Long outId = execution.getId();
+            LOGGER.error("Id Proceso: [" + outId + "]");
+            LOGGER.error("Estado del Proceso: " + execution.getStatus());
+            if (!execution.getAllFailureExceptions().isEmpty()) {
+                LOGGER.error("Estado del Proceso: " + execution.getAllFailureExceptions());
+            }
+        } catch (JobExecutionAlreadyRunningException e) {
+            LOGGER.error("", e);
+            Assert.fail("JobExecutionAlreadyRunningException");
+        } catch (JobRestartException e) {
+            LOGGER.error("", e);
+            Assert.fail("JobRestartException");
+        } catch (JobInstanceAlreadyCompleteException e) {
+            LOGGER.error("", e);
+            Assert.fail("JobInstanceAlreadyCompleteException");
+        } catch (JobParametersInvalidException e) {
+            LOGGER.error("", e);
+            Assert.fail("JobParametersInvalidException");
+        } catch (Exception e) {
+            LOGGER.error("", e);
+            Assert.fail("JobParametersInvalidException");
+        }
+    }
+    
+    @Test
+    public void _04createReaderJobSimulacion() {
+        ApplicationBatch application = applicationBatchService.obtener("packBBVA");
+        JobBatch jobBatch = jobBatchService.obtener(application.getId(), "jobSimulacion", true);
 
         try {
             Job job = jobBatchFactory.createJob(jobBatch);

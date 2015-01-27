@@ -1,21 +1,52 @@
 package packws.cargaterritorio
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
+import java.io.File;
+
+import org.springframework.batch.core.StepExecution;
+
+import com.everis.util.FechaUtil;
+import com.bbva.batch.util.ParamUtil;
+
+import com.bbva.batch.enums.ParameterType;
 import com.bbva.batch.util.DeciderParam;
 
-global java.util.Map status
-
-rule "101 No Generar IICE"
+rule "101 Configurar nombre archivo"
 dialect "java" 
 salience 101
 no-loop true
 when
-    param: DeciderParam(name == 'flagIICE', value == 'SI')
+    paramUtil: ParamUtil()
+    params: Map()
 then
     org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(DeciderParam.class);
-    logger.info("FAILED");
-    status.put("status", "FAILED");
+
+    String rutaArchivo = params.get("PB_RUTA_ARCHIVO").toString();
+    String nombreArchivo = params.get("PB_NOMBRE_ARCHIVO").toString();
+    String formatoFechaSufijo = params.get("PB_FORMATO_FECHA_SUFIJO").toString();
+    String nroMesAnteriores = params.get("PB_MESES_ANTERIORES").toString();
+
+	if (!rutaArchivo.endsWith("/")) {
+	    rutaArchivo += "/";
+	}
+	
+	StringBuilder sb = new StringBuilder();
+	sb.append(rutaArchivo);
+	sb.append(nombreArchivo);
+	sb.append(FechaUtil.formatFecha(new Date(), formatoFechaSufijo));
+	sb.append(".txt");
+	
+	String filename = sb.toString();
+
+    logger.info("filename" + filename);
+
+    paramUtil.setObject(ParameterType.PARAM_RESOURCE, filename);
+    
+    if(paramUtil.exists(ParameterType.PARAM_WHERE)) {
+        paramUtil.setObject(ParameterType.PARAM_WHERE, paramUtil.getParamAsString(ParameterType.PARAM_WHERE).replace("${mesesAnteriores}", nroMesAnteriores));
+    }
 end

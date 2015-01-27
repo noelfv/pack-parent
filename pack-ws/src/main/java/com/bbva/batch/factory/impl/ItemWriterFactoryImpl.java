@@ -17,7 +17,7 @@ import com.bbva.batch.util.ParamUtil;
 import com.everis.util.DBUtilSpring;
 
 @Component("itemWriterFactory")
-public class ItemWriterFactoryImpl implements ItemWriterFactory {
+public class ItemWriterFactoryImpl extends AbstractItemFactoryImpl implements ItemWriterFactory {
 
     private FlatFileItemWriter<ItemBatch> createFlatFileItemWriter(ParamUtil params) throws Exception {
         ItemBatchFieldExtractor fieldExtractor = new ItemBatchFieldExtractor();
@@ -50,7 +50,9 @@ public class ItemWriterFactoryImpl implements ItemWriterFactory {
     @Override
     public ItemWriter<ItemBatch> create(ItemWriterType type, ParamUtil params) throws Exception {
         ItemWriter<ItemBatch> writer = null;
-
+        
+        afterConfigureParam(params);
+        
         if (ItemWriterType.WRITER_TABLE.compareTo(type) == 0) {
             writer = createJdbcBatchItemWriter(params);
         } else if (ItemWriterType.WRITER_TEXT_DELIMIT.compareTo(type) == 0) {

@@ -175,6 +175,7 @@
                         <filtering>true</filtering>
                         <excludes>
                             <exclude>jaxwsContext.xml</exclude>
+                            <exclude>*.drl</exclude>
                         </excludes>
                     </resource>
                 </resources>
@@ -194,6 +195,7 @@
                         <filtering>true</filtering>
                         <excludes>
                             <exclude>jaxwsContext.xml</exclude>
+                            <exclude>*.drl</exclude>
                         </excludes>
                     </resource>
                 </resources>

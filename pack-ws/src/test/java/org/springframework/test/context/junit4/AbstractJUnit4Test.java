@@ -1,13 +1,19 @@
 package org.springframework.test.context.junit4;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import com.bbva.batch.domain.ParameterBatch;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -21,7 +27,7 @@ public class AbstractJUnit4Test {
     public void setUp() {
 
         Properties prop = new Properties();
-        prop.setProperty("log4j.rootCategory", "INFO,LOGFILE,stdout");
+        prop.setProperty("log4j.rootCategory", "ERROR,LOGFILE,stdout");
         prop.setProperty("log4j.appender.LOGFILE", "org.apache.log4j.RollingFileAppender");
         prop.setProperty("log4j.appender.LOGFILE.file", "/pr/pack-ws/online/pe/web/log/log_pack-ws-test.log");
         prop.setProperty("log4j.appender.LOGFILE.MaxFileSize", "1024kb");
@@ -34,7 +40,7 @@ public class AbstractJUnit4Test {
         prop.setProperty("log4j.appender.stdout.layout.ConversionPattern", "[%d{yyyy-MM-dd HH:mm:ss:SSS}] - [%5p] (%C{1}.%M:%L) - %m%n");
         prop.setProperty("log4j.logger.org.hibernate.SQL", "DEBUG");
         // prop.setProperty("log4j.appender.stdout.layout.ConversionPattern", "[%d{HH:mm:ss}]%p - %C{1}.%M(%L)  %m%n");
-        // prop.setProperty("log4j.logger.org.hibernate.type", "TRACE");
+        prop.setProperty("log4j.logger.org.hibernate.type", "TRACE");
         // prop.setProperty("log4j.logger.org.hibernate", "INFO,LOGFILE");
         
         
@@ -86,5 +92,21 @@ public class AbstractJUnit4Test {
                 LOGGER.error("", e);
             }
         }
+    }
+    
+    public byte[] obtenerBytes(String file) {
+        byte[] result = null;
+        try {
+            File ruleFile = new File(file);
+            InputStream input = new FileInputStream(ruleFile);
+            ByteArrayOutputStream output = new ByteArrayOutputStream(); 
+            IOUtils.copy(input, output);    
+            
+            result = output.toByteArray();
+        } catch (Exception e) {
+            LOGGER.error("No se pudo obtener la regla");
+        }
+        
+        return result;
     }
 }

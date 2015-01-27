@@ -62,12 +62,6 @@
                 </prop>
             </props>
         </property>
-        <property name="triggers">
-            <list>
-                <ref bean="cronTriggerGenerarArchivo"/>
-                <ref bean="cronTriggerDepurarArchivo"/>
-            </list>
-        </property>
     </bean>
     <!-- End: Scheduler -->
 

@@ -73,9 +73,9 @@ public class JobBatch extends EntityBatch {
 
     public int getCountSteps() {
         int size = 0;
-        if(this.steps != null) {
+        /* if(this.steps != null) {
             size = this.steps.size();
-        }
+        } */
         
         return size;
     }

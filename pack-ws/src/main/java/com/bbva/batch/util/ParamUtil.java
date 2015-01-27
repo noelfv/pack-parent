@@ -105,4 +105,12 @@ public class ParamUtil {
         byte[] param = getParam(type, false);
         return param;
     }
+    
+    public void setObject(ParameterType type, Object o) {
+        params.put(type, o);
+    }
+    
+    public boolean exists(ParameterType type) {
+        return params.containsKey(type);
+    }
 }

@@ -27,10 +27,10 @@ public class QuartzFactoryImplTest extends AbstractJUnit4Test {
     @Resource(name = "schedulerService")
     private SchedulerService schedulerService;
 
-//    @Test
-//    public void _01deleteAllJobs() {
-//        schedulerService.deleteAll();
-//    }
+    @Test
+    public void _01deleteAllJobs() {
+        schedulerService.deleteAll();
+    }
     
     @Test
     public void _02createJob() {

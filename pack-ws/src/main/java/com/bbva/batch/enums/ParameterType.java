@@ -22,7 +22,10 @@ public enum ParameterType {
     PARAM_WSDL("WSDL", Byte.class),
     PARAM_WSDL_OPERATION("WSDL_OPERATION", String.class),
     PARAM_RULE("RULE", Byte.class),
-    PARAM_DECISOR_PARAM("DECISOR_PARAM", Byte.class);
+    PARAM_DECISOR_PARAM("DECISOR_PARAM", Byte.class),
+    PARAM_RULE_PARAM("RULE_PARAM", Byte.class),
+    PARAM_RULE_JNDI("RULE_JNDI", String.class),
+    PARAM_RULE_DECISOR_PARAM("RULE_DECISOR_PARAM", Byte.class);
     
     private String nameParam;
     private Class<?> dataType;

@@ -95,6 +95,8 @@ public class JobController extends AbstractSpringControllerImpl {
                     tmp = jobBatchService.obtener(job.getApplication().getId(), job.getName());
                 }
                 if(tmp == null) {
+                    tmp = jobBatchService.obtener(job.getId());
+                    job.setType(tmp.getType());
                     model.setTipoResultado(Resultado.EXITO);
                     job.setApplication(applicationBatchService.obtener(job.getApplication().getId()));
                     jobBatchService.actualizar(job);
