@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.batch.item.support.AbstractItemCountingItemStreamItemReader;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.jmx.access.InvocationFailureException;
 
 import com.bbva.batch.domain.ItemBatch;
 import com.bbva.batch.util.ConvertSOAPToItemBatch;
@@ -24,21 +25,6 @@ public class WSDLItemReader extends AbstractItemCountingItemStreamItemReader<Ite
     private List<ItemBatch> items;
     private boolean isOpen = false;
     private byte[] rule;
-
-    /***
-    public static void main(String args[]) {
-        WSDLItemReader item = new WSDLItemReader();
-        try {
-            WSDLResource wsdlResource = new WSDLResource("http://192.168.247.1:8081/CentrosBBVAWS/CentrosBBVAWebService?wsdl");
-            wsdlResource.getOperation("listarOficinaTerritorioSuprarea").getInput().getElement().setAttribute("term", "%");
-            item.setWsdlResource(wsdlResource);
-            item.setOperation("listarOficinaTerritorioSuprarea");
-            item.doOpen();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }*/
 
     @Override
     protected ItemBatch doRead() throws Exception {
@@ -59,6 +45,10 @@ public class WSDLItemReader extends AbstractItemCountingItemStreamItemReader<Ite
             items = new ArrayList<ItemBatch>();
             items.addAll(convertFilter.getItems());
             LOGGER.error("Elements: " + items.size());
+            
+            if(items.size() == 0) {
+                throw new InvocationFailureException("Ocurrio un error al leer la respues del servicio web [" + wsdlResource.getUrl() + "]");
+            }
             
             if(rule != null && rule.length > 0) {
                 DroolsRuleRunner evaluator = new DroolsRuleRunner();

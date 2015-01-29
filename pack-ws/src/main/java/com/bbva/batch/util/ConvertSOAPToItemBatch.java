@@ -22,7 +22,6 @@ public class ConvertSOAPToItemBatch implements DOMFilter {
     private List<ItemBatch> items;
     private Map<String, String> keys;
     private Map<String, Integer> root;
-    private String previousKey;
     private ItemBatch previous;
     
     private void setKeyElement(String prefix, String prefixContent, WSDLElement wsdlElement, Map<String, WSDLElement> elements) {
@@ -50,7 +49,7 @@ public class ConvertSOAPToItemBatch implements DOMFilter {
         this.items = new ArrayList<ItemBatch>();
         this.keys = new HashMap<String, String>();
         this.root = new HashMap<String, Integer>();
-        setKeyElement("$S:Body$ns2:" + output.getName() + "$", "", output.getElement(), elements);
+        setKeyElement("$" + output.getName() + "$", "", output.getElement(), elements);
     }
 
     private ItemBatch createEntity(Element element, String path) {
@@ -69,6 +68,8 @@ public class ConvertSOAPToItemBatch implements DOMFilter {
     
     @Override
     public void read(Element element, String path, short nivel) throws DOMReaderException {
+        String[] pathTemp = path.split(":");
+        path = "$" + pathTemp[pathTemp.length - 1];
         if(root.containsKey(path)) {
             previous = createEntity(element, path);
             items.add(previous);

@@ -33,7 +33,7 @@ public class Log4jServlet extends HttpServlet {
     private String log4jServiceName = "log4jService";
     private String app = "core";
 
-    private void reloadLog4J() {
+    private void reloadLog4J(String modo) {
         String rootCategory = "INFO,stdout,LOGFILE";
         String fileName = "/pr/" + app.toLowerCase() + "/online/pe/web/log/log_" + app.toLowerCase() + ".log";
         String maxFileSize = "1024kb";
@@ -84,8 +84,11 @@ public class Log4jServlet extends HttpServlet {
         prop.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
         prop.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
         prop.setProperty("log4j.appender.stdout.layout.ConversionPattern", "[%d{HH:mm:ss}]%p - %C{1}.%M(%L)  %m%n");
-        prop.setProperty("log4j.logger.org.hibernate.SQL", "DEBUG");
-        prop.setProperty("log4j.logger.org.hibernate.TYPE", "TRACE");
+        
+        if(modo != null && modo.equalsIgnoreCase("debugSQL")) {
+            prop.setProperty("log4j.logger.org.hibernate.SQL", "DEBUG");
+            prop.setProperty("log4j.logger.org.hibernate.TYPE", "TRACE");
+        }
 
         PropertyConfigurator.configure(prop);
         LOG.error("Logger -> Init");
@@ -98,7 +101,7 @@ public class Log4jServlet extends HttpServlet {
         log4jServiceName = config.getInitParameter("log4jService");
         app = config.getInitParameter("app") == null ? "everis" : config.getInitParameter("app");
 
-        reloadLog4J();
+        reloadLog4J("");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -115,7 +118,7 @@ public class Log4jServlet extends HttpServlet {
                 log4jService.test(out);
             }
         } else if (METHOD_RELOAD.equalsIgnoreCase(method)) {
-            reloadLog4J();
+            reloadLog4J(request.getParameter("modo"));
             out.write("Actualizado");
         } else if (METHOD_DOWNLOAD.equalsIgnoreCase(method)) {
             try {

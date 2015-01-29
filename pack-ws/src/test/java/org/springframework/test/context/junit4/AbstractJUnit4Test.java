@@ -26,7 +26,7 @@ public class AbstractJUnit4Test {
     public void setUp() {
 
         Properties prop = new Properties();
-        prop.setProperty("log4j.rootCategory", "ERROR,LOGFILE,stdout");
+        prop.setProperty("log4j.rootCategory", "INFO,LOGFILE,stdout");
         prop.setProperty("log4j.appender.LOGFILE", "org.apache.log4j.RollingFileAppender");
         prop.setProperty("log4j.appender.LOGFILE.file", "/pr/pack-ws/online/pe/web/log/log_pack-ws-test.log");
         prop.setProperty("log4j.appender.LOGFILE.MaxFileSize", "1024kb");
@@ -37,7 +37,7 @@ public class AbstractJUnit4Test {
         prop.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
         prop.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
         prop.setProperty("log4j.appender.stdout.layout.ConversionPattern", "[%d{yyyy-MM-dd HH:mm:ss:SSS}] - [%5p] (%C{1}.%M:%L) - %m%n");
-        prop.setProperty("log4j.logger.org.hibernate.SQL", "DEBUG");
+        // prop.setProperty("log4j.logger.org.hibernate.SQL", "DEBUG");
         // prop.setProperty("log4j.logger.org.hibernate.type", "TRACE");
         // prop.setProperty("log4j.logger.org.hibernate", "INFO,LOGFILE");
         // prop.setProperty("log4j.appender.stdout.layout.ConversionPattern", "[%d{HH:mm:ss}]%p - %C{1}.%M(%L)  %m%n");

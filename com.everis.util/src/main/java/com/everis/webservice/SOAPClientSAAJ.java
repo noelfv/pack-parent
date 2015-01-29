@@ -45,6 +45,9 @@ public class SOAPClientSAAJ {
             soapResponse.writeTo(bos);
             soapConnection.close();
             
+            if(LOGGER.isInfoEnabled()) {
+                LOGGER.info(new String(bos.toByteArray()));
+            }
             LOGGER.info("Request byte size: " + bos.size());
         } catch(SOAPException e) {
             LOGGER.error("Error al generar la peticion SOAP", e);

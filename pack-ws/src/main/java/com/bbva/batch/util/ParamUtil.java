@@ -35,10 +35,10 @@ public class ParamUtil {
             try {
                 if(isReader) {
                     readerType = ItemReaderType.valueOf(p.getName());
-                    LOG.info(readerType.getName());
+                    LOG.debug(readerType.getName() + p.getType());
                 } else {
                     writerType = ItemWriterType.valueOf(p.getName());
-                    LOG.info(writerType.getName());
+                    LOG.debug(writerType.getName() + p.getType());
                 }
             } catch(Exception e) {
                 continue;
