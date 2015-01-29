@@ -17,9 +17,10 @@ public class JobInstanceDAOImpl extends HibernateDAO<JobInstance> implements Job
 
     @SuppressWarnings("unchecked")
     @Override
-    public Long obtenerUltimaInstancia() {
-        SQLQuery query = getSession().createSQLQuery("SELECT MAX(JOB_INSTANCE_ID) JOB_INSTANCE_ID FROM CONELE.BATCH_JOB_INSTANCE");
+    public Long obtenerUltimaInstancia(String name) {
+        SQLQuery query = getSession().createSQLQuery("SELECT MAX(JOB_INSTANCE_ID) JOB_INSTANCE_ID FROM CONELE.BATCH_JOB_INSTANCE WHERE JOB_NAME = :name");
         query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+        query.setString("name", name);
         Map<String, Object> o = (HashMap<String, Object>) query.uniqueResult();
         BigDecimal jobInstanceID = o.get("JOB_INSTANCE_ID") == null ? null : (BigDecimal) o.get("JOB_INSTANCE_ID");
         Long lJobInstanceID = null;
@@ -29,5 +30,4 @@ public class JobInstanceDAOImpl extends HibernateDAO<JobInstance> implements Job
 
         return lJobInstanceID;
     }
-
 }

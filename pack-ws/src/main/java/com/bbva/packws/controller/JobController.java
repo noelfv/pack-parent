@@ -2,6 +2,7 @@ package com.bbva.packws.controller;
 
 import javax.annotation.Resource;
 
+import org.quartz.CronExpression;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -91,23 +92,33 @@ public class JobController extends AbstractSpringControllerImpl {
             if (!bindingResult.hasErrors()) {
                 JobBatch tmp = null;
                 JobBatch job = jobModel.getJob();
-                if(job.getId() == null) {
-                    tmp = jobBatchService.obtener(job.getApplication().getId(), job.getName());
-                }
-                if(tmp == null) {
-                    tmp = jobBatchService.obtener(job.getId());
-                    job.setType(tmp.getType());
-                    model.setTipoResultado(Resultado.EXITO);
-                    job.setApplication(applicationBatchService.obtener(job.getApplication().getId()));
-                    jobBatchService.actualizar(job);
-                    schedulerService.rescheduler(job);
-                    
-                    model.setMensaje("Registro actualizado correctamente");
-                } else {
+                if(!CronExpression.isValidExpression(job.getCronExpression())) {
                     model.setTipoResultado(Resultado.ADVERTENCIA);
-                    model.setMensaje("El nombre del trabajo ya esta registrado");
-                }                
-                model.setJobs(jobBatchService.listar(job.getApplication().getId(), true));
+                    model.setMensaje("No es una expresi\u00F3n cron valida");
+                } else {
+                    if(job.getId() == null) {
+                        tmp = jobBatchService.obtener(null, job.getName());
+                    }
+                    if(tmp == null) {
+                        model.setTipoResultado(Resultado.EXITO);
+                        job.setApplication(applicationBatchService.obtener(job.getApplication().getId()));
+                        jobBatchService.actualizar(job);
+                        
+                        if(!job.getName().equalsIgnoreCase(jobModel.getNameOld())) {
+                            tmp = new JobBatch();
+                            tmp.setName(jobModel.getNameOld());
+                            tmp.setApplication(job.getApplication());
+                            schedulerService.delete(tmp);
+                        }
+                        schedulerService.rescheduler(job);
+                        
+                        model.setMensaje("Registro actualizado correctamente");
+                    } else {
+                        model.setTipoResultado(Resultado.ADVERTENCIA);
+                        model.setMensaje("El nombre del trabajo ya esta registrado");
+                    }                
+                    model.setJobs(jobBatchService.listar(job.getApplication().getId(), true));
+                }
                 result = this.renderModelJsonDeepExclude(model, EXCLUDE_JOB);
             } else {
                 result = this.renderErrorSistema(bindingResult.getAllErrors());

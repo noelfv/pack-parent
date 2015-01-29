@@ -5,10 +5,15 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
-import org.springframework.scheduling.quartz.CronTriggerBean;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
 import org.springframework.stereotype.Component;
 
 import com.bbva.batch.domain.JobBatch;
@@ -30,19 +35,23 @@ public class QuartzFactoryImpl implements QuartzFactory {
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.putAsString("jobBatch", jobBatch.getId());
 
-        JobDetail jobDetail = new JobDetail();
-        jobDetail.setGroup(jobBatch.getApplication().getName().toUpperCase());
-        jobDetail.setJobClass(ExecuteJob.class);
-        jobDetail.setJobDataMap(jobDataMap);
-        jobDetail.setName(jobBatch.getName());
+        JobKey jobKey = new JobKey(jobBatch.getName(), jobBatch.getApplication().getName().toUpperCase());
+        JobDetail jobDetail = JobBuilder
+                .newJob(ExecuteJob.class)
+                .setJobData(jobDataMap)
+                .withIdentity(jobKey)
+                .build();
 
+        TriggerKey triggerKey = TriggerKey.triggerKey(name, jobBatch.getApplication().getName().toUpperCase());
+        Trigger cronTrigger = TriggerBuilder
+                .newTrigger()
+                .withIdentity(triggerKey)
+                .startNow()
+                .withSchedule(CronScheduleBuilder.cronSchedule(jobBatch.getCronExpression()))
+                .build();
+        
         try {
-            CronTriggerBean cronTrigger = new CronTriggerBean();
-            cronTrigger.setGroup(jobBatch.getApplication().getName().toUpperCase());
-            cronTrigger.setName(name);
-            cronTrigger.setJobDetail(jobDetail);
-            cronTrigger.setCronExpression(jobBatch.getCronExpression());
-            cronTrigger.afterPropertiesSet();
+            scheduler.deleteJob(jobKey);
             scheduler.scheduleJob(jobDetail, cronTrigger);
         } catch (Exception e) {
             LOG.error("No se pudo programar la tarea", e);

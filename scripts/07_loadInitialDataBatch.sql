@@ -4,7 +4,7 @@ spool 7_loadInitialDataBatch.log
 -- MNTR_APLICACION
 --=====================================================================================================================================================================--
 insert into CONELE.MNTR_APLICACION (ID, VERSION, NOMBRE, JNDI, DESCRIPCION)
-values (1, 0, 'packBBVA', 'jdbc/APP_CONELE', '');
+values (1, 0, 'packBBVA', 'jdbc/BBVA', '');
 commit;
 
 --=====================================================================================================================================================================--
@@ -42,7 +42,7 @@ insert into CONELE.MNTR_PASO (ID, VERSION, NOMBRE, ORDEN, LECTOR, ESCRITOR, ID_T
 values (6, 0, 'cargandoOficina', 3, 'READER_XML', 'WRITER_TABLE', 2, 'Inserta o actualiza la lista de oficina', '');
 
 insert into CONELE.MNTR_PASO (ID, VERSION, NOMBRE, ORDEN, LECTOR, ESCRITOR, ID_TRABAJO, DESCRIPCION, SIG_PASO)
-values (7, 0, 'depurarArchivo', 1, '', 'WRITER_DROOLS', 2, 'Elimina los archivos mas antiguos', '');
+values (7, 0, 'depurarArchivo', 1, '', 'WRITER_DROOLS', 3, 'Elimina los archivos mas antiguos', '');
 commit;
 
 --=====================================================================================================================================================================--
@@ -55,7 +55,7 @@ insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBU
 values (16, 0, 'READER_TABLE', 1, 'RULE_PARAM', 'Byte', '', null, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (17, 0, 'READER_TABLE', 1, 'RULE_JNDI', 'String', 'jdbc/APP_CONELE', null, null, '', 1, NULL);
+values (17, 0, 'READER_TABLE', 1, 'RULE_JNDI', 'String', 'jdbc/BBVA', null, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (21, 0, 'READER_TABLE', 3, 'FROM', 'String', 'from CONELE.V_SOLICITUD', null, null, '', 1, NULL);
@@ -70,7 +70,7 @@ insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBU
 values (22, 0, 'READER_TABLE', 4, 'WHERE', 'String', 'where trunc(fecha_alta) >= trunc(add_months(sysdate, ${mesesAnteriores}))', null, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (19, 0, 'READER_TABLE', 1, 'JNDI', 'String', 'jdbc/APP_CONELE', null, null, '', 1, NULL);
+values (19, 0, 'READER_TABLE', 1, 'JNDI', 'String', 'jdbc/BBVA', null, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (18, 0, 'READER_TABLE', 1, 'RULE_DECISOR_PARAM', 'Byte', '', null, null, '', 1, NULL);
@@ -94,10 +94,10 @@ insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBU
 values (34, 0, 'READER_TABLE', 1, 'RULE_DECISOR_PARAM', 'Byte', '', null, null, '', 3, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (33, 0, 'READER_TABLE', 1, 'RULE_JNDI', 'String', 'jdbc/APP_CONELE', null, null, '', 3, NULL);
+values (33, 0, 'READER_TABLE', 1, 'RULE_JNDI', 'String', 'jdbc/BBVA', null, null, '', 3, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (35, 0, 'READER_TABLE', 1, 'JNDI', 'String', 'jdbc/APP_CONELE', null, null, '', 3, NULL);
+values (35, 0, 'READER_TABLE', 1, 'JNDI', 'String', 'jdbc/BBVA', null, null, '', 3, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (36, 0, 'READER_TABLE', 2, 'SELECT', 'String', 'select SOLICITUD ,PRODUCTO_PACK ,SUBPRODUCTO_PACK ,ESTADO_PACK ,TO_CHAR(FECHA_ALTA, ''YYYYMMDD'') FECHA_ALTA ,TRUNC(ROUND(IMPORTE, 2) * 100, 0) IMPORTE ,DIVISA ,TIPODOCUMENTO_PACK ,NUM_DOI ,CODIGO_CLIENTE ,CONTRATO ,PLAZO ,OFICINA ,EJECUTIVO ,TRUNC(ROUND(TASA, 2) * 100, 0) TASA', null, null, '', 3, NULL);
@@ -124,13 +124,13 @@ insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBU
 values (14, 1, 'WRITER_DECISOR', 2, 'DECISOR_PARAM', 'Byte', '', null, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (13, 1, 'WRITER_DECISOR', 1, 'JNDI', 'String', 'jdbc/APP_CONELE', null, null, '', 1, NULL);
+values (13, 1, 'WRITER_DECISOR', 1, 'JNDI', 'String', 'jdbc/BBVA', null, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (15, 1, 'WRITER_DECISOR', 3, 'RULE', 'Byte', '', null, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (2, 0, 'WRITER_QUERY', 2, 'JNDI', 'String', 'jdbc/APP_CONELE', null, null, '', 4, NULL);
+values (2, 0, 'WRITER_QUERY', 2, 'JNDI', 'String', 'jdbc/BBVA', null, null, '', 4, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (1, 0, 'WRITER_QUERY', 1, 'QUERY', 'String', 'UPDATE CONELE.TBL_CE_IBM_TERRITORIO SET FLAG_ACTIVO=0', null, null, '', 4, NULL);
@@ -139,13 +139,13 @@ insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBU
 values (6, 0, 'WRITER_TABLE', 1, 'QUERY', 'String', 'MERGE INTO CONELE.TBL_CE_IBM_TERRITORIO A USING (   SELECT :listaOficina.territorio.id ID, :listaOficina.territorio.nombreTerritorio NOMBRE   FROM DUAL) B ON (A.CODIGO = B.ID) WHEN MATCHED THEN   UPDATE SET A.DESCRIPCION = B.NOMBRE,          A.UBICACION = B.NOMBRE,          A.FLAG_ACTIVO = 1 WHEN NOT MATCHED THEN   INSERT (ID, CODIGO, DESCRIPCION, UBICACION, FLAG_PROV, FLAG_ACTIVO)   VALUES (CONELE.SEQ_CE_IBM_TERRITORIO.NEXTVAL, B.ID, B.NOMBRE, B.NOMBRE, 0, 1) ', null, null, '', 5, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (7, 0, 'WRITER_TABLE', 2, 'JNDI', 'String', 'jdbc/APP_CONELE', null, null, '', 5, NULL);
+values (7, 0, 'WRITER_TABLE', 2, 'JNDI', 'String', 'jdbc/BBVA', null, null, '', 5, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (11, 0, 'WRITER_TABLE', 1, 'QUERY', 'String', 'MERGE INTO CONELE.TBL_CE_IBM_OFICINA A USING (   SELECT (SELECT ID FROM CONELE.TBL_CE_IBM_TERRITORIO WHERE CODIGO = :listaOficina.territorio.id) ID_TERRITORIO    , :listaOficina.id ID   , :listaOficina.nombreOficina NOMBRE_OFICINA   FROM DUAL) B ON (A.CODIGO = B.ID) WHEN MATCHED THEN   UPDATE SET A.DESCRIPCION = B.NOMBRE_OFICINA,          A.ID_TERRITORIO_FK = B.ID_TERRITORIO,          A.FLAG_ACTIVO = 1 WHEN NOT MATCHED THEN   INSERT (ID, CODIGO, DESCRIPCION, ID_TERRITORIO_FK, ID_OFICINA_PRINCIPAL_FK, FLAG_ACTIVO)   VALUES (CONELE.SEQ_CE_IBM_OFICINA.NEXTVAL, B.ID, B.NOMBRE_OFICINA, B.ID_TERRITORIO, NULL, 1)', null, null, '', 6, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (12, 0, 'WRITER_TABLE', 2, 'JNDI', 'String', 'jdbc/APP_CONELE', null, null, '', 6, NULL);
+values (12, 0, 'WRITER_TABLE', 2, 'JNDI', 'String', 'jdbc/BBVA', null, null, '', 6, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (30, 0, 'WRITER_TEXT_POSITION', 3, 'FORMAT', 'String', '%-10s%-2s%-4s%-1s%-10s%-15s%-3s%-1s%-11s%-8s%-23s%-3s%-4s%-8s%-5s', null, null, '', 1, NULL);
@@ -160,7 +160,7 @@ insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBU
 values (29, 0, 'WRITER_TEXT_POSITION', 2, 'FIELDS', 'String', 'SOLICITUD,PRODUCTO_PACK,SUBPRODUCTO_PACK,ESTADO_PACK,FECHA_ALTA,IMPORTE,DIVISA,TIPODOCUMENTO_PACK,NUM_DOI,CODIGO_CLIENTE,CONTRATO,PLAZO,OFICINA,EJECUTIVO,TASA', null, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (26, 0, 'WRITER_TEXT_POSITION', 1, 'RULE_JNDI', 'String', 'jdbc/APP_CONELE', null, null, '', 1, NULL);
+values (26, 0, 'WRITER_TEXT_POSITION', 1, 'RULE_JNDI', 'String', 'jdbc/BBVA', null, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (28, 0, 'WRITER_TEXT_POSITION', 1, 'RESOURCE', 'String', '/mnt/compartido/conele/out/packDEMO.txt', null, null, '', 1, NULL);
@@ -169,7 +169,7 @@ insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBU
 values (27, 0, 'WRITER_TEXT_POSITION', 1, 'RULE_DECISOR_PARAM', 'Byte', '', null, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (42, 0, 'WRITER_TEXT_POSITION', 1, 'RULE_JNDI', 'String', 'jdbc/APP_CONELE', null, null, '', 3, NULL);
+values (42, 0, 'WRITER_TEXT_POSITION', 1, 'RULE_JNDI', 'String', 'jdbc/BBVA', null, null, '', 3, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (43, 0, 'WRITER_TEXT_POSITION', 1, 'RULE_DECISOR_PARAM', 'Byte', '', null, null, '', 3, NULL);
@@ -190,7 +190,7 @@ insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBU
 values (45, 0, 'WRITER_TEXT_POSITION', 2, 'FIELDS', 'String', 'SOLICITUD,PRODUCTO_PACK,SUBPRODUCTO_PACK,ESTADO_PACK,FECHA_ALTA,IMPORTE,DIVISA,TIPODOCUMENTO_PACK,NUM_DOI,CODIGO_CLIENTE,CONTRATO,PLAZO,OFICINA,EJECUTIVO,TASA', null, null, '', 3, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (48, 0, 'WRITER_DROOLS', 1, 'JNDI', 'String', 'jdbc/APP_CONELE', null, null, '', 7, NULL);
+values (48, 0, 'WRITER_DROOLS', 1, 'JNDI', 'String', 'jdbc/BBVA', null, null, '', 7, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (49, 0, 'WRITER_DROOLS', 2, 'DECISOR_PARAM', 'Byte', '', null, null, '', 7, NULL);

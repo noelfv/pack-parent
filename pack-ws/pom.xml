@@ -23,7 +23,7 @@
         <xmlschema-core.version>2.0.2</xmlschema-core.version>
         <cxf.version>2.7.8</cxf.version>
         <spring.batch.version>2.2.0.RELEASE</spring.batch.version>
-        <quartz.version>1.8.6</quartz.version>
+        <quartz.version>2.2.1</quartz.version>
         <drools.version>5.4.0.Final</drools.version>
         <cfg.use><![CDATA[<import resource="jaxwsContext.xml"/>]]></cfg.use>
         <webXmlPath>webXml/tomcat</webXmlPath>
@@ -85,6 +85,16 @@
             <groupId>org.drools</groupId>
             <artifactId>droolsjbpm-ide-common</artifactId>
             <version>${drools.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bcmail-jdk14</artifactId>
+                    <groupId>bouncycastle</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>bcprov-jdk14</artifactId>
+                    <groupId>bouncycastle</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- 
         <dependency>
@@ -206,9 +216,10 @@
                         <configuration>
                             <warSourceDirectory>webapp</warSourceDirectory>
                             <webXml>${webXmlPath}/web.xml</webXml>
-                            <warSourceExcludes>public/css/,public/theme/bbva/jquery-ui-1.10.1.css,public/js/</warSourceExcludes>
+                            <!-- <warSourceExcludes>public/css/,public/theme/bbva/jquery-ui-1.10.1.css,public/js/</warSourceExcludes> -->
                         </configuration>
                     </plugin>
+                    <!--
                     <plugin>
                         <groupId>com.samaxes.maven</groupId>
                         <artifactId>minify-maven-plugin</artifactId>
@@ -236,10 +247,6 @@
                                     </cssSourceFiles>
                                     <jsSourceDir>public</jsSourceDir>
                                     <jsSourceFiles>
-                                        <!-- <jsSourceFile>js/ui/jquery-1.9.1.js</jsSourceFile> 
-                                            <jsSourceFile>js/ui/primeui-1.1.js</jsSourceFile> <jsSourceFile>js/ui/jquery-ui-1.10.1.js</jsSourceFile> 
-                                            <jsSourceFile>js/ui/jquery-ui-timepicker-addon.js</jsSourceFile> <jsSourceFile>js/ui/jquery.handsontable.full.js</jsSourceFile> 
-                                            <jsSourceFile>js/ui/jquery.jqGrid.src.js</jsSourceFile> -->
                                         <jsSourceFile>js/ui/jquery-ui-autocomplete-extends.js</jsSourceFile>
                                         <jsSourceFile>js/ui/ui.multiselect.js</jsSourceFile>
                                         <jsSourceFile>js/ui/i18n/datepicker.locale-es.js</jsSourceFile>
@@ -254,10 +261,7 @@
                                         <jsSourceFile>js/common/application.js</jsSourceFile>
                                     </jsSourceFiles>
                                     <jsEngine>CLOSURE</jsEngine>
-                                    <!-- <closureCreateSourceMap>true</closureCreateSourceMap> -->
                                     <closureCompilationLevel>WHITESPACE_ONLY</closureCompilationLevel>
-                                    <!-- <closureExterns> <closureExtern>extern/external-lib.js</closureExtern> 
-                                        </closureExterns> -->
                                 </configuration>
                                 <goals>
                                     <goal>minify</goal>
@@ -265,6 +269,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    -->
                 </plugins>
             </build>
         </profile>

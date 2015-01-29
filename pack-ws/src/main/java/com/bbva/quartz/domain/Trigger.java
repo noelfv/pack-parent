@@ -14,7 +14,8 @@ public class Trigger implements Serializable {
     private String triggerType;
     private Long startTime;
     private Long endTime;
-
+    private String exitCode;
+    
     public String getTriggerName() {
         return triggerName;
     }
@@ -85,6 +86,14 @@ public class Trigger implements Serializable {
 
     public void setEndTime(Long endTime) {
         this.endTime = endTime;
+    }
+
+    public String getExitCode() {
+        return exitCode;
+    }
+
+    public void setExitCode(String exitCode) {
+        this.exitCode = exitCode;
     }
 
 }

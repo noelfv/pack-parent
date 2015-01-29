@@ -37,7 +37,6 @@
 							</td>
 							<td align="right">
 								<button id="btnBuscar">Buscar</button>&nbsp;<button id="btnLimpiar">Limpiar</button>&nbsp;<button id="btnNuevo">Nuevo</button>
-								<!-- &nbsp;<button id="btnEliminar">Eliminar</button> -->
 							</td>
 						</tr>
 					</table>
@@ -45,60 +44,6 @@
 				</div>
 			</div>
 		</div>
-
-<div id="tabs">  
-    <ul>  
-        <li><a href="#tab1">Minuto</a></li>
-        <li><a href="#tab2">Hora</a></li>
-        <li><a href="#tab3">Diario</a></li>
-        <li><a href="#tab4">Mensual</a></li>
-        <li><a href="#tab5">Anual</a></li>
-    </ul>  
-    <div>  
-        <div id="tab1" style="height: 150px;">
-            Cada <input id="spnMin" type="text" style="width: 30px;"/> minuto(s)
-        </div>  
-        <div id="tab2" style="height: 150px;">
-            Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream. In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy, killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows.  
-        </div>  
-        <div id="tab3" style="height: 150px;">
-            After a break of more than 15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.  
-        </div>
-        <div id="tab4" style="height: 150px;">
-        	ss
-        </div>
-        <div id="tab5" style="height: 150px;">
-        	ss
-        </div>
-    </div>  
-</div> 
-<br><br>
-
-
-<!-- 
-
-<div id="update">  
-    <select name="source"></select>  
-    <select name="target"></select>  
-</div>
-
-<div class="pui-dropdown-container">
-<select id="filter" name="filter" style="width: 250px;">  
-    <option value="0">Select a City</option>  
-    <option value="1">Barcelona</option>  
-    <option value="2">Berlin</option>  
-    <option value="3">Istanbul</option>  
-    <option value="4">London</option>  
-    <option value="5">New York</option>  
-    <option value="6">Paris</option>  
-    <option value="7">Rome</option>  
-</select>
-</div>
-
-<br><br>
--->
-
-<input id="default" type="text" /><br><br>
 
 		<div id="dialogTrabajo">
 			<input id="job.version" type="hidden"/>
@@ -111,27 +56,17 @@
 				<tr>
 					<td>Nombre</td>
 					<td><b>:</b></td>
-					<td><input id="job.name" type="text" style="width: 85%"/></td>
+					<td><input id="job.name" type="text" style="width: 85%"/><input id="job.nameOld" type="hidden" /></td>
 				</tr>
+				<tr>
+                    <td>Tipo</td>
+                    <td><b>:</b></td>
+                    <td><input id="job.type" type="text" style="width: 85%"/></td>
+                </tr>
 				<tr>
 					<td>Cron</td>
 					<td><b>:</b></td>
-					<td><input id="job.cronExpression" type="text" style="width: 85%" /><br>
-
-<div id="pnlCronExpression"> 
-    <table>
-    	<tr>
-	        <td></td>
-	    </tr><tr>
-	        <td><input type="radio" name="cronType"/></td><td>Cada <input type="text" style="width: 30px;"/> hora(s)</td>
-	    </tr><tr>
-	        <td><input type="radio" name="cronType"/></td><td>A las <input type="text" style="width: 60px"/></td>
-	    </tr><tr>
-	    	<td><input type="checkbox" /></td>
-        <tr>
-    </table>  
-</div>
-
+					<td><input id="job.cronExpression" type="text" style="width: 85%" />
 					</td>
 				</tr>
 				<tr>

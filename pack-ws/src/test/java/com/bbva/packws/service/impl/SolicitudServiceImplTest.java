@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bbva.packws.domain.Solicitud;
 import com.bbva.packws.service.SolicitudService;
+import com.bbva.quartz.service.TriggerService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContextTest.xml"})
@@ -21,6 +22,14 @@ public class SolicitudServiceImplTest extends AbstractJUnit4Test {
     @Resource(name = "solicitudService")
     private SolicitudService solicitudService;
 
+    @Resource(name = "triggerService")
+    private TriggerService triggerService;
+    
+    @Test
+    public void listarTrigger() {
+        prettyPrinter(triggerService.listar());
+    }
+    
     @Test
     public void consultarSolicitudesUnificadoSinProductosinEstado1() {
         Solicitud ultimoRegistro = null;

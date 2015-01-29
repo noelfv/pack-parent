@@ -17,7 +17,7 @@
 							</tr></table>
 						</td>
 						<td align="right">
-							<button id="btnBuscar">Buscar</button>&nbsp;<button id="btnLimpiar">Limpiar</button>&nbsp;<button id="btnNuevo">Nuevo</button>
+							<button id="btnBuscar">Buscar</button>&nbsp;<button id="btnLimpiar">Limpiar</button><!-- &nbsp;<button id="btnNuevo">Nuevo</button> -->
 							<!-- &nbsp;<button id="btnEliminar">Eliminar</button> -->
 						</td>
 					</tr>
@@ -37,7 +37,7 @@
 				<tr>
 					<td>Nombre</td>
 					<td><b>:</b></td>
-					<td><input id="application.name" type="text" style="width: 85%"/></td>
+					<td><div id="application.id" class="ui-label" style="width: 85%"></div><!-- <input id="application.name" type="text" style="width: 85%"/> --></td>
 				</tr>
 				<tr>
 					<td>JNDI</td>

@@ -28,7 +28,7 @@ public class ExecuteJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext arg) throws JobExecutionException {
-        LOG.info("ExecuteJob:executeInternal: [Group:" + arg.getJobDetail().getGroup() + "][Name:" + arg.getJobDetail().getName() + "]");
+        LOG.info("ExecuteJob:executeInternal: [Group:" + arg.getJobDetail().getKey().getGroup() + "][Name:" + arg.getJobDetail().getKey().getName() + "]");
         
         JobLauncher jobLauncher = WebServletContextListener.getBean("jobLauncher");
         JobBatchService jobBatchService = WebServletContextListener.getBean("jobBatchService");

@@ -1,9 +1,12 @@
 var
 
 fmtVerDetalle = function(cellvalue, options, rowObject) {
-	return "<a title='Ver detalle' href='javascript:void(0);' onclick='verDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-ver-detalle'></span></a>" +
+	/** return "<a title='Ver detalle' href='javascript:void(0);' onclick='verDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-ver-detalle'></span></a>" +
 		"<a title='Editar' href='javascript:void(0);' onclick='editarDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-editar'></span></a>" +
-		"<a title='Eliminar' href='javascript:void(0);' onclick='elimniarDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-eliminar'></span></a>";
+		"<a title='Eliminar' href='javascript:void(0);' onclick='eliminarDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-eliminar'></span></a>";
+	**/
+	return "<a title='Editar' href='javascript:void(0);' onclick='editarDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-editar'></span></a>" +
+		"<a title='Eliminar' href='javascript:void(0);' onclick='eliminarDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-eliminar'></span></a>";
 },
 
 listar = function() {
@@ -29,13 +32,13 @@ configurarTrabajo = function(jobs) {
 		colNames : [
 			  'Trabajo'
 			, 'Cron'
-			, 'Nro. Pasos'
+			, 'Tipo'
 			, ''   
 		],
 	   	colModel : [
 	   		  {name: 'name'          , index: 'name'          , width: 300}
 	   		, {name: 'cronExpression', index: 'cronExpression', width: 120}
-	   		, {name: 'countSteps'    , index: 'countSteps'    , width: 90}
+	   		, {name: 'type'          , index: 'type      '    , width: 90, align: "center"}
 	   		, {name: 'id'            , index: 'id'            , width: 70, align: "center", formatter: fmtVerDetalle, sortable: false}
 	   	]
 	});
@@ -55,13 +58,14 @@ editarDetalle = function(rowid) {
 			"job.id": rowid
 		},
 		onSuccess: function(request) {
+		    $("#job\\.nameOld").val($("#job\\.name").val());
 			$("#job\\.description").jqteVal(request.job.description);
 			$("#dialogTrabajo").dialog("open");
 		}
 	});
 },
 
-elimniarDetalle = function(rowid) {
+eliminarDetalle = function(rowid) {
 	AjaxUtil({
 		action: 'delete',
 		url: obtenerContexto("job/delete.html"),
@@ -84,8 +88,10 @@ guardarDetalle = function() {
 			"job.id": $("#job\\.id").text(),
 			"job.version": $("#job\\.version").val(),
 			"job.name": $("#job\\.name").val(),
+			"job.type": $("#job\\.type").val(),
 			"job.cronExpression": $("#job\\.cronExpression").val(),
-			"job.description": StringUtil.escape($("#job\\.description").val())
+			"job.description": StringUtil.escape($("#job\\.description").val()),
+			"nameOld" : $("#job\\.nameOld").val()
 		},
 		onSuccess: function(request) {
 			configurarTrabajo(request.jobs);
@@ -134,7 +140,7 @@ $(document).ready(function() {
 		$("#job\\.version").val("");
 		$("#job\\.name").val("");
 		$("#job\\.cronExpression").val("");
-		$("#job\\.description").val("");
+		$("#job\\.description").jqteVal("");
 		$("#dialogTrabajo").dialog("open");
 	});
 	
@@ -168,39 +174,6 @@ $(document).ready(function() {
 			, "Cancelar": function(){ $("#dialogTrabajo").dialog("close"); }
 		}
 	});
-
-	$(':radio').puiradiobutton();
-	$(':checkbox').puicheckbox();
-	$('#spnMin').puispinner();
-	$("#tabs").puitabview();
-
-	/*
-	$('#filter').puidropdown({  
-        filter: true  
-    });
-
-	$('#update').puipicklist({
-		sourceData: [
-			{value: '1', label: 'Volkswagen'},  
-            {value: '2', label: 'Ford'},  
-            {value: '3', label: 'Mercedes'},  
-            {value: '4', label: 'Audi'},  
-            {value: '5', label: 'BMW'},  
-            {value: '6', label: 'Honda'},  
-            {value: '7', label: 'Porsche'},  
-            {value: '8', label: 'Chevrolet'},  
-            {value: '9', label: 'Jaguar'}  
-        ],
-		showSourceControls: true,  
-		showTargetControls: true,  
-		sourceCaption: 'Disponibles',  
-		targetCaption: 'Seleccionados' //,  
-		//filter: true,
-		//content: function(option) {  
-		//	return '<img src="resources/demo/images/themes/' + option + '.png" alt="" /><span style="float:right;font-size:14px">' + option + '</span>';  
-		//}
-	});
-	*/
 
 	listar();
 });

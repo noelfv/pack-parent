@@ -20,8 +20,8 @@ public class JobInstanceServiceImpl implements Serializable, JobInstanceService 
 
     @Transactional(readOnly = true)
     @Override
-    public Long obtenerUltimaInstancia() {
-        return jobInstanceDAO.obtenerUltimaInstancia();
+    public Long obtenerUltimaInstancia(String name) {
+        return jobInstanceDAO.obtenerUltimaInstancia(name);
     }
 
 }

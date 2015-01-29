@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,6 @@ public class SchedulerServiceImpl implements SchedulerService {
     
     @PostConstruct
     public void init() {
-        deleteAll();
         List<ApplicationBatch> apps = applicationBatchService.listar(true);
             for(ApplicationBatch app : apps) {
                 if(app != null && app.getJobs() != null) {
@@ -55,7 +55,8 @@ public class SchedulerServiceImpl implements SchedulerService {
         List<Trigger> triggers = triggerService.listar();
         for(Trigger t : triggers) {
             try {
-                scheduler.deleteJob(t.getJobName(), t.getJobGroup());
+                JobKey jobKey = JobKey.jobKey(t.getJobName(), t.getJobGroup());
+                scheduler.deleteJob(jobKey);
             } catch (SchedulerException e) {
                 LOG.error("No se pudo eliminar el Job: [" + t.getJobName() + "]", e);
             }
@@ -64,7 +65,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     @Override
     public void delete(JobBatch jobBatch) throws SchedulerException {
-        scheduler.deleteJob(jobBatch.getName(), jobBatch.getApplication().getName().toUpperCase());
+        JobKey jobKey = JobKey.jobKey(jobBatch.getName(), jobBatch.getApplication().getName().toUpperCase());
+        scheduler.deleteJob(jobKey);
     }
 
     @Override

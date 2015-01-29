@@ -2,8 +2,8 @@ var
 
 fmtVerDetalle = function(cellvalue, options, rowObject) {
 	return "<a title='Ver detalle' href='javascript:void(0);' onclick='verDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-ver-detalle'></span></a>" +
-		"<a title='Editar' href='javascript:void(0);' onclick='editarDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-editar'></span></a>" +
-		"<a title='Eliminar' href='javascript:void(0);' onclick='elimniarDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-eliminar'></span></a>";
+		"<a title='Editar' href='javascript:void(0);' onclick='editarDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-editar'></span></a>";
+		// "<a title='Eliminar' href='javascript:void(0);' onclick='eliminarDetalle(" + cellvalue + ")'><span class='ui-icon u-icon-eliminar'></span></a>"
 },
 
 listar = function() {
@@ -29,13 +29,13 @@ configurarAplicacion = function(applications) {
 		colNames : [
 			  'Aplicaci\u00F3n'
 			, 'JNDI'
-			, 'Nro. Trab.'
+			// , 'Nro. Trab.'
 			, ''   
 		],
 	   	colModel : [
 	   		  {name: 'name'     , index: 'name'     , width: 250}
 	   		, {name: 'jndi'     , index: 'jndi'     , width: 160}
-	   		, {name: 'sizeJobs' , index: 'sizeJobs' , width: 90}
+	   		// , {name: 'sizeJobs' , index: 'sizeJobs' , width: 90}
 	   		, {name: 'id'       , index: 'id'       , width: 70, align: "center", formatter: fmtVerDetalle, sortable: false}	
 	   	]
 	});
@@ -60,7 +60,7 @@ editarDetalle = function(rowid) {
 	});
 },
 
-elimniarDetalle = function(rowid) {
+eliminarDetalle = function(rowid) {
 	AjaxUtil({
 		action: 'delete',
 		url: obtenerContexto("application/delete.html"),
@@ -143,7 +143,7 @@ $(document).ready(function() {
 		$("#application\\.version").val("");
 		$("#application\\.name").val("");
 		$("#application\\.jndi").val("");
-		$("#application\\.description").val("");
+		$("#application\\.description").jqteVal("");
 		$("#dialogAplicacion").dialog("open");
 	});
 	

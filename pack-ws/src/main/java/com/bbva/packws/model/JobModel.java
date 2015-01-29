@@ -9,6 +9,7 @@ public class JobModel extends BaseModel {
 
     private List<JobBatch> jobs;
     private JobBatch job;
+    private String nameOld;
 
     public List<JobBatch> getJobs() {
         return jobs;
@@ -24,6 +25,14 @@ public class JobModel extends BaseModel {
 
     public void setJob(JobBatch job) {
         this.job = job;
+    }
+
+    public String getNameOld() {
+        return nameOld;
+    }
+
+    public void setNameOld(String nameOld) {
+        this.nameOld = nameOld;
     }
 
 }

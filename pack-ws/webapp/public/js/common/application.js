@@ -199,12 +199,7 @@ openJqError = function(options) {
 			},
 			"Aceptar": function() { closeDialog($(this).attr("id")); }
 		};
-		/*
-		options.content = "Error del sistema, comuniquese con su Administrador de Sistema.<br/>" +
-			"<div style='padding-top: 10px; padding-bottom: 10px;'><button id=\"btnVerDetalle\">Ver Detalle</button></div>" +
-			"<div id=\"error\" class=\"hide\" style=\"overflow: auto; width: 440px; height: 150px;\">" + options.content + "</div>" +
-			"<script type=\"text/javascript\">$('#btnVerDetalle').button().bind('click', function(){ $('#error').toggleClass('hide'); })</script>";
-		*/
+
 		options.content = "Error del sistema, comuniquese con su Administrador de Sistema.<br/>" +
 			"<div id=\"error\" class=\"hide\" style=\"overflow: auto; width: 440px; height: 150px; padding-top: 15px;\">" + options.content + "</div>";
 		openDialogContent(options);
@@ -554,18 +549,6 @@ textFocus = function() {
  */
 textBlur = function() {
 	$(this).toggleClass("ui-text-highlight");
-	/*
-	val = $.trim($(this).val());
-	if(val.length == 0) {
-		if(!$(this).hasClass("ui-text-highlight-warning")) {
-			$(this).addClass("ui-text-highlight-warning");
-		}		
-	} else {
-		if($(this).hasClass("ui-text-highlight-warning")) {
-			$(this).removeClass("ui-text-highlight-warning");
-		}
-	}
-	*/
 },
 
 /**
@@ -664,8 +647,7 @@ DateUtil = {
 			val += (hh < 10 ? '0' : '') + hh + ":";
 			val += (nn < 10 ? '0' : '') + nn + ":";
 			val += (ss < 10 ? '0' : '') + ss;
-		}		
-		// getMilliseconds() 	Returns the milliseconds (from 0-999)
+		}
 		
 		return val;
 	},

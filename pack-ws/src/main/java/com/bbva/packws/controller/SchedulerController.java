@@ -2,14 +2,17 @@ package com.bbva.packws.controller;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.Logger;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bbva.batch.service.JobInstanceService;
 import com.bbva.packws.model.SchedulerModel;
 import com.bbva.packws.service.SchedulerService;
 import com.bbva.quartz.service.TriggerService;
@@ -22,7 +25,6 @@ import com.everis.web.controller.impl.AbstractSpringControllerImpl;
 public class SchedulerController extends AbstractSpringControllerImpl {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(SchedulerController.class);
 
     @Resource(name = "schedulerService")
     private SchedulerService schedulerService;
@@ -30,6 +32,12 @@ public class SchedulerController extends AbstractSpringControllerImpl {
     @Resource(name = "triggerService")
     private TriggerService triggerService;
 
+    @Resource(name = "jobInstanceService")
+    private JobInstanceService jobInstanceService;
+
+    @Resource(name = "jobExplorer")
+    private JobExplorer jobExplorer;
+    
     @RequestMapping(value = "index")
     public String index(ModelMap model) {
         model.addAttribute("schedulerClass", "ui-state-active-bbva");
@@ -53,4 +61,27 @@ public class SchedulerController extends AbstractSpringControllerImpl {
         return result;
     }
 
+    @RequestMapping(value = "detail/{jobName}", method = RequestMethod.POST)
+    public @ResponseBody String detail(ModelMap model, @PathVariable("jobName") String jobName) {
+        String result; 
+        
+        try {
+            SchedulerModel schedulerModel = new SchedulerModel();
+            Long id = jobInstanceService.obtenerUltimaInstancia(jobName);
+            JobInstance jobInstance = jobExplorer.getJobInstance(id);
+        
+            schedulerModel.setTipoResultado(Resultado.EXITO);
+            if(id != null) {
+                schedulerModel.setRunningJobInstances(jobExplorer.getJobExecutions(jobInstance));
+            }
+            schedulerModel.setTriggerInstances(triggerService.listar());
+            result = this.renderModelJson(schedulerModel);
+        } catch(Exception e) {
+            result = this.renderErrorSistema(e);
+        }
+        
+        return result;
+    }
+
+    
 }
