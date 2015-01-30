@@ -13,8 +13,9 @@ public class FetchProfileInterceptor {
     private static final Logger LOG = Logger.getLogger(FetchProfileInterceptor.class);
     private static final String FETCH_PROFILE = "fetchProfile";
 
+    /***
     private void infoInvoke(ProceedingJoinPoint joinPoint, boolean lazy) {
-        if (LOG.isInfoEnabled()) {
+        if (LOG.isDebugEnabled()) {
             StringBuilder sb = new StringBuilder();
             sb.append("\n\tClass: ");
             sb.append(joinPoint.getTarget().getClass().getName());
@@ -28,12 +29,12 @@ public class FetchProfileInterceptor {
             sb.append((lazy ? "Use fetchProfile" : "No use fetchProfile"));
             LOG.info(sb.toString());
         }
-    }
+    } ***/
 
     @Around("execution(* com.bbva.*.dao.impl.*.* (..)) && args(.., lazy)")
     public Object invoke(ProceedingJoinPoint joinPoint, boolean lazy) throws Exception {
         Object o = null;
-        infoInvoke(joinPoint, lazy);
+        /*** infoInvoke(joinPoint, lazy); ***/
 
         HibernateDAO<?> dao = (HibernateDAO<?>) joinPoint.getTarget();
         if (lazy && !dao.getCurrentSession().isFetchProfileEnabled(FETCH_PROFILE)) {

@@ -722,7 +722,7 @@ AjaxUtil = function(options) {
 		xhr.success(function(request) {
 			if(request.tipoResultado == 'EXITO') {
 				if(request.mensaje != null) {
-					openJqInfo({content: request.mensaje});
+					openJqInfo({content: StringUtil.escape(request.mensaje)});
 				}
 				if($.isFunction(callback)) {
 		   			callback(request);	
@@ -731,9 +731,9 @@ AjaxUtil = function(options) {
 		   			options.onSuccess(request);	
 		   		}
 			} else if(request.tipoResultado == 'ERROR_SISTEMA') {
-				openJqError({type: "SYS", content: request.mensaje});
+				openJqError({type: "SYS", content: StringUtil.escape(request.mensaje)});
 			} else if(request.tipoResultado == 'ADVERTENCIA') {
-				openJqWarn({type: "SYS", content: request.mensaje});
+				openJqWarn({type: "SYS", content: StringUtil.escape(request.mensaje)});
 			}
 		});	
 	}
@@ -741,7 +741,7 @@ AjaxUtil = function(options) {
 	if(options.action === 'save') {
 		var save = function() {
 	   		openJqConfirm({
-				content: options.content || "\u00BF Desea guardar los cambios hechos \u003F",
+				content: StringUtil.escape(options.content || "\u00BF Desea guardar los cambios hechos \u003F"),
 				buttons: {
 					"Aceptar": function() {
 					  	closeDialog($(this).attr("id"));
@@ -765,7 +765,7 @@ AjaxUtil = function(options) {
 		}
 	} else if(options.action === 'delete') {
 		openJqConfirm({
-			content: options.content || "\u00BF Desea eliminar el registro \u003F",
+			content: StringUtil.escape(options.content || "\u00BF Desea eliminar el registro \u003F"),
 			buttons: {
 				"Aceptar": function() {
 					$("#jqConfirm").dialog("close");

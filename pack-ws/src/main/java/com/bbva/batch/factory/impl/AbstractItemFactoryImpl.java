@@ -33,6 +33,7 @@ public abstract class AbstractItemFactoryImpl {
                     ruleParams.put(param.getName(), param.getValue());
                     LOG.info("{name: " + param.getName() + ", value: " + param.getValue() +  "}");
                 } catch (BussinesException e) {
+                	LOG.error("{name: " + param.getName() + "}", e);
                     break;
                 }
             }

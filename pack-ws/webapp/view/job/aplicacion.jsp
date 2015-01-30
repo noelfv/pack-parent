@@ -37,7 +37,7 @@
 				<tr>
 					<td>Nombre</td>
 					<td><b>:</b></td>
-					<td><div id="application.id" class="ui-label" style="width: 85%"></div><!-- <input id="application.name" type="text" style="width: 85%"/> --></td>
+					<td><div id="application.name" class="ui-label" style="width: 85%"></div><!-- <input id="application.name" type="text" style="width: 85%"/> --></td>
 				</tr>
 				<tr>
 					<td>JNDI</td>

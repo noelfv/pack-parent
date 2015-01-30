@@ -73,6 +73,17 @@ public class HibernateDAO<T> extends HibernateDaoSupport implements IHibernateDA
     /*
      * (non-Javadoc)
      * 
+     * @see com.everis.core.dao.impl.IHibernateDAO#merge(T)
+     */
+    @Override
+    public void merge(T t) {
+        super.getHibernateTemplate().merge(t);
+        super.getHibernateTemplate().flush();
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.everis.core.dao.impl.IHibernateDAO#delete(T)
      */
     @Override

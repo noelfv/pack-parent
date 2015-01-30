@@ -121,13 +121,13 @@ insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBU
 values (10, 0, 'READER_XML', 3, 'RULE', 'Byte', '', null, null, '', 6, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (14, 1, 'WRITER_DECISOR', 2, 'DECISOR_PARAM', 'Byte', '', null, null, '', 1, NULL);
+values (14, 1, 'WRITER_DECISOR', 2, 'DECISOR_PARAM', 'Byte', '', null, null, '', 2, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (13, 1, 'WRITER_DECISOR', 1, 'JNDI', 'String', 'jdbc/BBVA', null, null, '', 1, NULL);
+values (13, 1, 'WRITER_DECISOR', 1, 'JNDI', 'String', 'jdbc/BBVA', null, null, '', 2, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (15, 1, 'WRITER_DECISOR', 3, 'RULE', 'Byte', '', null, null, '', 1, NULL);
+values (15, 1, 'WRITER_DECISOR', 3, 'RULE', 'Byte', '', null, null, '', 2, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (2, 0, 'WRITER_QUERY', 2, 'JNDI', 'String', 'jdbc/BBVA', null, null, '', 4, NULL);

@@ -81,7 +81,7 @@ guardarDetalle = function() {
 		data: {
 			"application.id": $("#application\\.id").text(),
 			"application.version": $("#application\\.version").val(),
-			"application.name": $("#application\\.name").val(),
+			"application.name": $("#application\\.name").text(),
 			"application.jndi": $("#application\\.jndi").val(),
 			"application.description": StringUtil.escape($("#application\\.description").val()),
 		},

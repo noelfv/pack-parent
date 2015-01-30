@@ -42,7 +42,7 @@ then
 	        for(File f : directorio.listFiles()) {
 	            filenameSufix = f.getName().replaceAll(nombreArchivo, "");
 	            date = FechaUtil.parseFecha(filenameSufix, formatoFechaSufijo);
-	            if(date != null && FechaUtil.diff(date, hoy) <= diasEspera) {
+	            if(date != null && FechaUtil.diff(date, hoy) >= diasEspera) {
 	                if(!f.delete()) {
 	                    logger.error("El archivo " + f.getName() + " no se pudo eliminar");
 	                }

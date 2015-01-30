@@ -75,6 +75,7 @@ public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
     public void setUp() {
         super.setUp();
         DBUtilSpring.getInstance().setDataSource("jdbc/APP_CONELE", dataSource);
+        DBUtilSpring.getInstance().setDataSource("jdbc/BBVA", dataSource);
     }
 
     @Test
@@ -419,9 +420,9 @@ public class JobBatchFactoryImplTest extends AbstractJUnit4Test {
     }
     
     @Test
-    public void _04createReaderJobSimulacion() {
+    public void _04createReaderJobGenerarSolicitudes() {
         ApplicationBatch application = applicationBatchService.obtener("packBBVA");
-        JobBatch jobBatch = jobBatchService.obtener(application.getId(), "jobSimulacion", true);
+        JobBatch jobBatch = jobBatchService.obtener(application.getId(), "jobGenerarSolicitudes", true);
 
         try {
             Job job = jobBatchFactory.createJob(jobBatch);

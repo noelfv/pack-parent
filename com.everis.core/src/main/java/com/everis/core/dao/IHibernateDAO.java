@@ -42,6 +42,13 @@ public interface IHibernateDAO<T> {
     void update(T t);
 
     /**
+     * Actualiza un objeto
+     *
+     * @param t
+     */
+    void merge(T t);
+    
+    /**
      * Elimina un objeto
      *
      * @param t
