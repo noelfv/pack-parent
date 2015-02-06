@@ -1,4 +1,10 @@
-spool 7_loadInitialDataBatch.log
+spool 07_loadInitialDataBatch.log
+
+delete from CONELE.MNTR_PARAMETRO;
+delete from CONELE.MNTR_PASO;
+delete from CONELE.MNTR_TRABAJO;
+delete from CONELE.MNTR_APLICACION;
+commit;
 
 --=====================================================================================================================================================================--
 -- MNTR_APLICACION
@@ -49,7 +55,7 @@ commit;
 -- MNTR_PARAMETRO
 --=====================================================================================================================================================================--
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (20, 0, 'READER_TABLE', 2, 'SELECT', 'String', 'select SOLICITUD ,PRODUCTO_PACK ,SUBPRODUCTO_PACK ,ESTADO_PACK ,TO_CHAR(FECHA_ALTA, ''YYYYMMDD'') FECHA_ALTA ,TRUNC(ROUND(IMPORTE, 2) * 100, 0) IMPORTE ,DIVISA ,TIPODOCUMENTO_PACK ,NUM_DOI ,CODIGO_CLIENTE ,CONTRATO ,PLAZO ,OFICINA ,EJECUTIVO ,TRUNC(ROUND(TASA, 2) * 100, 0) TASA', null, null, '', 1, NULL);
+values (20, 0, 'READER_TABLE', 2, 'SELECT', 'String', 'select lpad(trim(SOLICITUD), 10, ''0'') ,PRODUCTO_PACK ,SUBPRODUCTO_PACK ,ESTADO_PACK ,TO_CHAR(FECHA_ALTA, ''YYYY-MM-DD'') FECHA_ALTA ,lpad(trim(TRUNC(ROUND(IMPORTE, 2) * 100, 0)), 15, ''0'') IMPORTE ,lpad(trim(DIVISA), 3, ''0'') ,TIPODOCUMENTO_PACK ,NUM_DOI ,CODIGO_CLIENTE ,CONTRATO ,lpad(trim(PLAZO), 3, ''0'') ,OFICINA ,EJECUTIVO ,lpad(trim(TRUNC(ROUND(TASA, 2) * 100, 0)), 5, ''0'') TASA', null, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (16, 0, 'READER_TABLE', 1, 'RULE_PARAM', 'Byte', '', null, null, '', 1, NULL);
@@ -67,7 +73,7 @@ insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBU
 values (24, 0, 'READER_TABLE', 6, 'PAGE_SIZE', 'Long', '', 100, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (22, 0, 'READER_TABLE', 4, 'WHERE', 'String', 'where trunc(fecha_alta) >= trunc(add_months(sysdate, ${mesesAnteriores}))', null, null, '', 1, NULL);
+values (22, 0, 'READER_TABLE', 4, 'WHERE', 'String', 'where CONTRATO is not null and trunc(fecha_alta) >= trunc(add_months(sysdate, ${mesesAnteriores}))', null, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (19, 0, 'READER_TABLE', 1, 'JNDI', 'String', 'jdbc/BBVA', null, null, '', 1, NULL);
@@ -76,7 +82,7 @@ insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBU
 values (18, 0, 'READER_TABLE', 1, 'RULE_DECISOR_PARAM', 'Byte', '', null, null, '', 1, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (38, 0, 'READER_TABLE', 4, 'WHERE', 'String', 'where trunc(fecha_alta) >= trunc(add_months(sysdate, ${mesesAnteriores}))', null, null, '', 3, NULL);
+values (38, 0, 'READER_TABLE', 4, 'WHERE', 'String', 'where CONTRATO is not null and trunc(fecha_alta) >= trunc(add_months(sysdate, ${mesesAnteriores}))', null, null, '', 3, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (37, 0, 'READER_TABLE', 3, 'FROM', 'String', 'from CONELE.V_SOLICITUD_IICE', null, null, '', 3, NULL);
@@ -100,7 +106,7 @@ insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBU
 values (35, 0, 'READER_TABLE', 1, 'JNDI', 'String', 'jdbc/BBVA', null, null, '', 3, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
-values (36, 0, 'READER_TABLE', 2, 'SELECT', 'String', 'select SOLICITUD ,PRODUCTO_PACK ,SUBPRODUCTO_PACK ,ESTADO_PACK ,TO_CHAR(FECHA_ALTA, ''YYYYMMDD'') FECHA_ALTA ,TRUNC(ROUND(IMPORTE, 2) * 100, 0) IMPORTE ,DIVISA ,TIPODOCUMENTO_PACK ,NUM_DOI ,CODIGO_CLIENTE ,CONTRATO ,PLAZO ,OFICINA ,EJECUTIVO ,TRUNC(ROUND(TASA, 2) * 100, 0) TASA', null, null, '', 3, NULL);
+values (36, 0, 'READER_TABLE', 2, 'SELECT', 'String', 'select lpad(trim(SOLICITUD), 10, ''0'') ,PRODUCTO_PACK ,SUBPRODUCTO_PACK ,ESTADO_PACK ,TO_CHAR(FECHA_ALTA, ''YYYY-MM-DD'') FECHA_ALTA ,lpad(trim(TRUNC(ROUND(IMPORTE, 2) * 100, 0)), 15, ''0'') IMPORTE ,lpad(trim(DIVISA), 3, ''0'') ,TIPODOCUMENTO_PACK ,NUM_DOI ,CODIGO_CLIENTE ,CONTRATO ,lpad(trim(PLAZO), 3, ''0'') ,OFICINA ,EJECUTIVO ,lpad(trim(TRUNC(ROUND(TASA, 2) * 100, 0)), 5, ''0'') TASA', null, null, '', 3, NULL);
 
 insert into CONELE.MNTR_PARAMETRO (ID, VERSION, NOMBRE, ORDEN, TIPO, TIPO_ATRIBUTO, CADENA, ENTERO, FLOTANTE, FECHA, ID_PASO, BINARIO)
 values (5, 0, 'READER_XML', 3, 'RULE', 'Byte', '', null, null, '', 5, NULL);

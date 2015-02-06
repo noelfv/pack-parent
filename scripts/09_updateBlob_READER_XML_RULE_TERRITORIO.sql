@@ -1,3 +1,5 @@
+spool 09_updateBlob_READER_XML_RULE_TERRITORIO.log
+
 DECLARE
   TMP_BLOB BLOB := EMPTY_BLOB();
   SRC_CHUNK_01 RAW(32767);
@@ -44,3 +46,6 @@ end');
 
   COMMIT;
 END;
+/
+
+spool off

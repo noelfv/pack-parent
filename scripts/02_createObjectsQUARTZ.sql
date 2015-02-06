@@ -1,4 +1,4 @@
-spool 2_createObjectsQUARTZ.log
+spool 02_createObjectsQUARTZ.log
 
 CREATE TABLE CONELE.QRTZ_JOB_DETAILS
   (

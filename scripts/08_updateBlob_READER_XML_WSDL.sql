@@ -1,3 +1,5 @@
+spool 08_updateBlob_READER_XML_WSDL.log
+
 DECLARE
   TMP_BLOB BLOB := EMPTY_BLOB();
   SRC_CHUNK_01 RAW(32767);
@@ -92,3 +94,6 @@ BEGIN
   
   COMMIT;
 END;
+/
+
+spool off

@@ -1,4 +1,4 @@
-spool 5_createTable.log
+spool 05_createTable.log
 
 CREATE TABLE CONELE.TBL_CE_IBM_MULTITABLA (
   ID NUMBER(10,0) NOT NULL ENABLE, 
