@@ -1,4 +1,6 @@
-﻿DECLARE
+spool 15_updateBlob_DepurarArchivo.log
+
+DECLARE
   TMP_BLOB BLOB := EMPTY_BLOB();
   SRC_CHUNK_01 RAW(32767);
 BEGIN
@@ -10,8 +12,7 @@ BEGIN
   DBMS_LOB.WRITEAPPEND(TMP_BLOB, UTL_RAW.LENGTH(SRC_CHUNK_01), SRC_CHUNK_01);
   COMMIT;
 
-  SRC_CHUNK_01 := UTL_RAW.CAST_TO_RAW('​
-​package packws.cargaterritorio
+  SRC_CHUNK_01 := UTL_RAW.CAST_TO_RAW('package packws.cargaterritorio
 
 import java.util.Date;
 import java.util.List;
@@ -57,7 +58,7 @@ then
                 if(date != null) {
                     logger.info("==>" + f.getName() + " -> Diff: [" + FechaUtil.diff(date, hoy) + "]");
                 }
-                if(date != null && FechaUtil.diff(date, hoy) >= diasEspera) {
+                if(date != null ' || chr(38) || chr(38) || ' FechaUtil.diff(date, hoy) >= diasEspera) {
                     logger.info("Archivo eliminado: " + f.getName() + " -> Diff: [" + FechaUtil.diff(date, hoy) + "]");
                     if(!f.delete()) {
                         logger.error("El archivo " + f.getName() + " no se pudo eliminar");
@@ -81,3 +82,5 @@ end');
   COMMIT;
 END;
 /
+
+spool off

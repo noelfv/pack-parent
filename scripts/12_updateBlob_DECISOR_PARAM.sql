@@ -1,3 +1,5 @@
+spool 12_updateBlob_DECISOR_PARAM.log
+
 DECLARE
   TMP_BLOB BLOB := EMPTY_BLOB();
   SRC_CHUNK_01 RAW(32767);
@@ -15,3 +17,5 @@ BEGIN
   COMMIT;
 END;
 /
+
+spool off
