@@ -1,3 +1,4 @@
+@04_createView.sql
 @07_loadInitialDataBatch.sql
 @08_updateBlob_READER_XML_WSDL.sql
 @09_updateBlob_READER_XML_RULE_TERRITORIO.sql

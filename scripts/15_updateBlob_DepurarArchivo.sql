@@ -56,7 +56,7 @@ then
                 filenameSufix = f.getName().replaceAll(nombreArchivo, "");
                 date = FechaUtil.parseFecha(filenameSufix, formatoFechaSufijo);
                 if(date != null) {
-                    logger.info("==>" + f.getName() + " -> Diff: [" + FechaUtil.diff(date, hoy) + "]");
+                    logger.info("==>" + f.getName() + " -> Diff: [" + FechaUtil.diff(date, hoy) + "]::[" + diasEspera + "]");
                 }
                 if(date != null ' || chr(38) || chr(38) || ' FechaUtil.diff(date, hoy) >= diasEspera) {
                     logger.info("Archivo eliminado: " + f.getName() + " -> Diff: [" + FechaUtil.diff(date, hoy) + "]");
