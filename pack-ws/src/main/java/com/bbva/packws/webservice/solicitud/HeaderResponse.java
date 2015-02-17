@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="codigoRetorno" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="ultimoRegistro" type="{http://www.bbva.com.pe/pack-ws/}Solicitud"/>
+ *         &lt;element name="ultimoRegistro" type="{http://www.bbva.com.pe/pack-ws/}Solicitud" minOccurs="0"/>
  *         &lt;element name="errores" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -42,7 +42,6 @@ public class HeaderResponse {
 
     @XmlElement(required = true)
     private String codigoRetorno;
-    @XmlElement(required = true)
     private Solicitud ultimoRegistro;
     private List<String> errores;
 

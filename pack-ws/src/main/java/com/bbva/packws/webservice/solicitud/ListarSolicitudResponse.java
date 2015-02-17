@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="header" type="{http://www.bbva.com.pe/pack-ws/}HeaderResponse"/>
- *         &lt;element name="body" type="{http://www.bbva.com.pe/pack-ws/}ListarSolicitudBodyResponse"/>
+ *         &lt;element name="body" type="{http://www.bbva.com.pe/pack-ws/}ListarSolicitudBodyResponse" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,7 +36,6 @@ public class ListarSolicitudResponse {
 
     @XmlElement(required = true)
     private HeaderResponse header;
-    @XmlElement(required = true)
     private ListarSolicitudBodyResponse body;
 
     /**

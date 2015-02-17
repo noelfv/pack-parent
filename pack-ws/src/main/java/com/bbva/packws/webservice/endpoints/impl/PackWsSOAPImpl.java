@@ -1,11 +1,10 @@
 package com.bbva.packws.webservice.endpoints.impl;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
 
 import com.bbva.packws.domain.ParametroConfiguracion;
 import com.bbva.packws.domain.Solicitud;
@@ -21,8 +20,9 @@ import com.bbva.packws.webservice.solicitud.ListarSolicitudBodyRequest;
 import com.bbva.packws.webservice.solicitud.ListarSolicitudBodyResponse;
 import com.bbva.packws.webservice.solicitud.ListarSolicitudRequest;
 import com.bbva.packws.webservice.solicitud.ListarSolicitudResponse;
+import com.everis.enums.FormatoFecha;
+import com.everis.util.FechaUtil;
 import com.everis.web.listener.WebServletContextListener;
-import org.apache.log4j.Logger;
 
 @javax.jws.WebService(endpointInterface = "com.bbva.packws.webservice.endpoints.PackWs", targetNamespace = "http://www.bbva.com.pe/pack-ws/", serviceName = "pack-ws", portName = "pack-wsSOAP")
 public class PackWsSOAPImpl implements PackWs {
@@ -39,7 +39,7 @@ public class PackWsSOAPImpl implements PackWs {
             s.setSubProductoPack(sws.getCodigoSubProducto());
             s.setEstadoPack(sws.getEstado());
             if (sws.getFechaAlta() != null) {
-                s.setFechaAlta(sws.getFechaAlta().toGregorianCalendar().getTime());
+                s.setFechaAlta(FechaUtil.parseFecha(sws.getFechaAlta(), FormatoFecha.DDMMYYYY_WITH_SEPARATOR));
             }
             s.setImporte(sws.getImporte());
             s.setDivisa(sws.getDivisa());
@@ -57,22 +57,13 @@ public class PackWsSOAPImpl implements PackWs {
     }
 
     private com.bbva.packws.webservice.solicitud.Solicitud crearSolicitudWS(Solicitud s) {
-        GregorianCalendar calendar;
         com.bbva.packws.webservice.solicitud.Solicitud sws = new com.bbva.packws.webservice.solicitud.Solicitud();
 
         sws.setSolicitud(s.getSolicitud());
         sws.setCodigoProducto(s.getProductoPack());
         sws.setCodigoSubProducto(s.getSubProductoPack());
         sws.setEstado(s.getEstadoPack());
-        try {
-            if (s.getFechaAlta() != null) {
-                calendar = new GregorianCalendar();
-                calendar.setTime(s.getFechaAlta());
-                sws.setFechaAlta(DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar));
-            }
-        } catch (DatatypeConfigurationException e) {
-            LOG.error("DatatypeConfigurationException", e);
-        }
+        sws.setFechaAlta(FechaUtil.formatFecha(s.getFechaAlta(), FormatoFecha.DDMMYYYY_WITH_SEPARATOR));
         sws.setImporte(s.getImporte());
         sws.setDivisa(s.getDivisa());
         sws.setTipoDOI(s.getTipoDocumentoPack());

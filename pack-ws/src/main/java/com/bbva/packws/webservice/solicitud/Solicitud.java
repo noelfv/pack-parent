@@ -7,10 +7,7 @@ package com.bbva.packws.webservice.solicitud;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -23,19 +20,19 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="solicitud" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="codigoProducto" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="solicitud" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="codigoProducto" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="codigoSubProducto" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="estado" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="fechaAlta" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/>
+ *         &lt;element name="fechaAlta" type="{http://www.w3.org/2001/XMLSchema}String  " minOccurs="0"/>
  *         &lt;element name="importe" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
  *         &lt;element name="divisa" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="tipoDOI" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="numDOI" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="codigoCliente" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="contrato" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="tipoDOI" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="numDOI" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="codigoCliente" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="contrato" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="plazo" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
- *         &lt;element name="oficina" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="oficina" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="ejecutivo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="tasa" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
  *       &lt;/sequence>
@@ -64,26 +61,18 @@ import javax.xml.datatype.XMLGregorianCalendar;
 })
 public class Solicitud {
 
-    @XmlElement(required = true)
     private String solicitud;
-    @XmlElement(required = true)
     private String codigoProducto;
     private String codigoSubProducto;
     private String estado;
-    @XmlSchemaType(name = "date")
-    private XMLGregorianCalendar fechaAlta;
+    private String fechaAlta;
     private Double importe;
     private String divisa;
-    @XmlElement(required = true)
     private String tipoDOI;
-    @XmlElement(required = true)
     private String numDOI;
-    @XmlElement(required = true)
     private String codigoCliente;
-    @XmlElement(required = true)
     private String contrato;
     private Long plazo;
-    @XmlElement(required = true)
     private String oficina;
     private String ejecutivo;
     private Double tasa;
@@ -172,9 +161,9 @@ public class Solicitud {
      * Gets the value of the fechaAlta property.
      *
      * @return possible object is
-     * {@link XMLGregorianCalendar }
+     * {@link String }
      */
-    public XMLGregorianCalendar getFechaAlta() {
+    public String getFechaAlta() {
         return fechaAlta;
     }
 
@@ -182,9 +171,9 @@ public class Solicitud {
      * Sets the value of the fechaAlta property.
      *
      * @param value allowed object is
-     *              {@link XMLGregorianCalendar }
+     *              {@link String }
      */
-    public void setFechaAlta(XMLGregorianCalendar value) {
+    public void setFechaAlta(String value) {
         this.fechaAlta = value;
     }
 

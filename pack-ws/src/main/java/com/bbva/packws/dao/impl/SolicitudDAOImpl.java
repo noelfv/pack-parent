@@ -20,7 +20,7 @@ public class SolicitudDAOImpl extends HibernateDAO<Solicitud> implements Solicit
     private Criteria builderCriteria(Class<?> clazz, String tipoDOI, String numDOI, String[] codigoProducto, String[] estado, Solicitud ultimoRegistro, int nroRegistro) {
         Criteria criterioSolicitud = super.getCriteria(clazz);
 
-        if (ultimoRegistro != null && ultimoRegistro.getSolicitud() != null) {
+        if (ultimoRegistro != null && ultimoRegistro.getSolicitud() != null && ultimoRegistro.getSolicitud().trim().length() > 0) {
             String idsSolicitudTemp[] = ultimoRegistro.getSolicitud().split("-");
             String idSolicitud = "";
 

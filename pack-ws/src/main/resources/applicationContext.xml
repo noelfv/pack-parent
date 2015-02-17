@@ -71,6 +71,7 @@
         <property name="transactionManager" ref="transactionManagerBatch"/>
         <property name="dataSource" ref="dataSource"/>
         <property name="databaseType" value="oracle"/>
+        <property name="tablePrefix" value="CONELE.BATCH_"/>
     </bean>
 
     <bean id="transactionManagerBatch"
@@ -81,8 +82,7 @@
         <property name="jobRepository" ref="jobRepository"/>
     </bean>
 
-    <bean
-            class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+    <bean class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
         <property name="jobRegistry" ref="jobRegistry"/>
     </bean>
 
@@ -93,6 +93,7 @@
           class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="lobHandler" ref="lobHandler"/>
+        <property name="tablePrefix" value="CONELE.BATCH_"/>
     </bean>
 
     <bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"/>
